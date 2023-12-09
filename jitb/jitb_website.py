@@ -35,9 +35,6 @@ def answer_thriplash(web_driver: selenium.webdriver.chrome.webdriver.WebDriver) 
     input_fields = []   # List of web elements for the three input fields
     buttons = []        # List of button web elements
     clicked_it = False  # Keep track of whether this prompt was answered or not
-    answer1 = ''        # Thriplash prompt answer 1
-    answer2 = ''        # Thriplash prompt answer 2
-    answer3 = ''        # Thriplash prompt answer 3
 
     # INPUT VALIDATION
     if not _is_thrip_prompt_page(web_driver):
@@ -47,17 +44,17 @@ def answer_thriplash(web_driver: selenium.webdriver.chrome.webdriver.WebDriver) 
     try:
         prompt_text = _get_prompt(web_driver=web_driver)
         print(f'THRIPLASH PROMPT: {prompt_text}')  # DEBUGGING
-        input_fields = driver.find_elements(By.ID, 'input-text-textarea')
+        input_fields = web_driver.find_elements(By.ID, 'input-text-textarea')
         print(f'FOUND {len(input_fields)} INPUT FIELDS')  # DEBUGGING
-        for input_field in input_fields:
-            print(f'INPUT FIELD: {input_field.text}')  # DEBUGGING
-        answer1 = str(random.random())  # PLACEHOLDER
-        answer2 = str(random.random())  # PLACEHOLDER
-        answer3 = str(random.random())  # PLACEHOLDER
+        # for input_field in input_fields:
+        #     print(f'INPUT FIELD: {input_field.text}')  # DEBUGGING
     except Exception as err:
         print(repr(err))
 
     # SUBMIT IT
+    for input_field in input_fields:
+        print(f'INPUT FIELD: {input_field.text}')  # DEBUGGING
+        input_field.send_keys(str(random.random()))
     buttons = web_driver.find_elements(By.XPATH, '//button')
     print(f'FOUND {len(buttons)} THRIPLASH ANSWER BUTTONS')  # DEBUGGING
     for button in buttons:
@@ -70,7 +67,7 @@ def answer_thriplash(web_driver: selenium.webdriver.chrome.webdriver.WebDriver) 
     # DONE
     if not clicked_it:
         raise RuntimeError('Did not answer the Thriplash prompt')
-    print(f'ANSWERED {prompt_text} with 1. {answer1}, 2. {answer2} and 3. {answer3}!')  # DEBUGGING
+    print(f'ANSWERED {prompt_text} with random input!')  # DEBUGGING
 
 
 def join_room(room_code: str, username: str) -> selenium.webdriver.chrome.webdriver.WebDriver:
