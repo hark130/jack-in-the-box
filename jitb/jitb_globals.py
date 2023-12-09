@@ -14,11 +14,11 @@ JBG_QUIP3_CHAR_NAMES: Final[List] = ['Purple', 'Blue', 'Teal', 'Green', 'Yellow'
                                      'Cactus', 'Moon', 'Tear', 'Poop']
 
 
-class JBG_QUIP3_INT_PAGES(Enum):
+class JbgQuip3IntPages(Enum):
+    """Defines a set of Jackbox Games Quiplash 3 interactive pages."""
     UNKNOWN = 0       # Who knows... transition page maybe?
     LOGIN = 1         # Login
     AVATAR = 2        # Select an avatar
     ANSWER = 3        # Answer the prompt in Round 1/2
     VOTE = 4          # Vote in Round 1/2
     THRIP_ANSWER = 5  # Answer the Thriplash
-    # THRIP_VOTE = 6    # Vote for the Thriplash

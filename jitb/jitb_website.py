@@ -7,11 +7,9 @@ import time
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.wait import WebDriverWait
 import selenium
 # Local
-from jitb.jitb_globals import JBG_QUIP3_CHAR_NAMES, JBG_QUIP3_INT_PAGES
+from jitb.jitb_globals import JBG_QUIP3_CHAR_NAMES, JbgQuip3IntPages
 
 
 # List of observed errors reported by Jackbox Games html
@@ -41,15 +39,12 @@ def answer_thriplash(web_driver: selenium.webdriver.chrome.webdriver.WebDriver) 
         raise RuntimeError('This is not the Thriplash prompt page')
 
     # ANSWER IT
-    try:
-        prompt_text = _get_prompt(web_driver=web_driver)
-        # print(f'THRIPLASH PROMPT: {prompt_text}')  # DEBUGGING
-        input_fields = web_driver.find_elements(By.ID, 'input-text-textarea')
-        # print(f'FOUND {len(input_fields)} INPUT FIELDS')  # DEBUGGING
-        # for input_field in input_fields:
-        #     print(f'INPUT FIELD: {input_field.text}')  # DEBUGGING
-    except Exception as err:
-        print(repr(err))
+    prompt_text = _get_prompt(web_driver=web_driver)
+    # print(f'THRIPLASH PROMPT: {prompt_text}')  # DEBUGGING
+    input_fields = web_driver.find_elements(By.ID, 'input-text-textarea')
+    # print(f'FOUND {len(input_fields)} INPUT FIELDS')  # DEBUGGING
+    # for input_field in input_fields:
+    #     print(f'INPUT FIELD: {input_field.text}')  # DEBUGGING
 
     # SUBMIT IT
     for input_field in input_fields:
@@ -105,25 +100,23 @@ def play_the_game(room_code: str, username: str) -> None:
     """Dynamically respond to the flow of the game."""
     # LOCAL VARIABLES
     web_driver = join_room(room_code=room_code, username=username)  # Webdriver for Jackbox Games
-    last_page = JBG_QUIP3_INT_PAGES.UNKNOWN                         # The previous JBG page
-    curr_page = JBG_QUIP3_INT_PAGES.UNKNOWN                         # Current JBG page
+    last_page = JbgQuip3IntPages.UNKNOWN                         # The previous JBG page
+    curr_page = JbgQuip3IntPages.UNKNOWN                         # Current JBG page
 
     # PLAY IT
     try:
         while True:
             curr_page = _what_page_is_this(web_driver)
-            if curr_page == JBG_QUIP3_INT_PAGES.LOGIN:
+            if curr_page == JbgQuip3IntPages.LOGIN:
                 pass  # Wait for the page to change because we already logged in
-            elif curr_page == JBG_QUIP3_INT_PAGES.AVATAR and curr_page != last_page:
+            elif curr_page == JbgQuip3IntPages.AVATAR and curr_page != last_page:
                 select_character(web_driver=web_driver)  # Just select once
-            elif curr_page == JBG_QUIP3_INT_PAGES.ANSWER and curr_page != last_page:
+            elif curr_page == JbgQuip3IntPages.ANSWER and curr_page != last_page:
                 answer_prompts(web_driver=web_driver)
-            elif curr_page == JBG_QUIP3_INT_PAGES.VOTE and curr_page != last_page:
+            elif curr_page == JbgQuip3IntPages.VOTE and curr_page != last_page:
                 vote_answers(web_driver=web_driver)
-            elif curr_page == JBG_QUIP3_INT_PAGES.THRIP_ANSWER and curr_page != last_page:
+            elif curr_page == JbgQuip3IntPages.THRIP_ANSWER and curr_page != last_page:
                 answer_thriplash(web_driver=web_driver)
-            # elif curr_page == JBG_QUIP3_INT_PAGES.THRIP_VOTE and curr_page != last_page:
-            #     vote_thriplash(web_driver=web_driver)
             else:
                 time.sleep(1)  # Zzzzz...
             last_page = curr_page
@@ -162,7 +155,6 @@ def vote_answers(web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> N
     """Vote all the other answers."""
     # LOCAL VARIABLES
     prompt_text = ''  # The prompt text
-    choice_list = []  # Available choices
 
     # INPUT VALIDATION
     if not _is_vote_page(web_driver):
@@ -175,11 +167,6 @@ def vote_answers(web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> N
             break
         if not _is_vote_page(web_driver):
             break
-
-
-def vote_thriplash(web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> None:
-    """Vote for the Thiplash (Round 3) answer."""
-    print('TO DO: DO NOT DO NOW... IMPLEMENT vote_thriplash()')
 
 
 def _answer_prompt(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
@@ -197,12 +184,12 @@ def _answer_prompt(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
         RuntimeError: The prompt wasn't answered.
     """
     # LOCAL VARIABLES
-    prompt_text = ''      # Input prompt
-    answer = ''           # Answer to the prompt
-    prompt_input = None   # Web element for the prompt input field
-    submit_button = None  # Web element for the submit button
-    clicked_it = False    # Keep track of whether this prompt was answered or not
-    num_loops = 5         # Number of attempts to make for a new prompt
+    prompt_text = ''     # Input prompt
+    answer = ''          # Answer to the prompt
+    prompt_input = None  # Web element for the prompt input field
+    buttons = []         # Web element for the submit button
+    clicked_it = False   # Keep track of whether this prompt was answered or not
+    num_loops = 5        # Number of attempts to make for a new prompt
 
     # INPUT VALIDATION
     if not _is_prompt_page(web_driver):
@@ -213,17 +200,15 @@ def _answer_prompt(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
         prompt_text = _get_prompt(web_driver)[1]
         if prompt_text and prompt_text != last_prompt:
             break
-        else:
-            time.sleep(1)
+        time.sleep(1)
 
     # ANSWER IT
     # TO DO: DON'T DO NOW... GET ANSWER FROM THE OPENAI API... 45 max characters
     answer = str(random.random())  # PLACEHOLDER
     prompt_input = web_driver.find_element(By.ID, 'input-text-textarea')
     prompt_input.send_keys(answer)
-    submit_buttons = web_driver.find_elements(By.XPATH, '//button')
-    # print(f'FOUND {len(submit_buttons)}')  # DEBUGGING
-    for button in submit_buttons:
+    buttons = web_driver.find_elements(By.XPATH, '//button')
+    for button in buttons:
         # print(f'DIR: {dir(button)}')  # DEBUGGING
         if button.text.lower() == 'SUBMIT'.lower() and button.is_enabled():
             # print(f'TEXT: {button.text}')  # DEBUGGING
@@ -309,8 +294,7 @@ def _is_char_selection_page(web_driver: selenium.webdriver.chrome.webdriver.WebD
         prompt = web_driver.find_element(By.ID, 'charactersPrompt')
         if 'Select your character'.lower() in prompt.text.lower():
             char_selection = True
-    except (NoSuchElementException, TypeError, ValueError) as err:
-        # print(repr(err))  # DEBUGGING
+    except (NoSuchElementException, TypeError, ValueError):
         pass  # Not the character selection page
 
     # DONE
@@ -325,15 +309,13 @@ def _is_login_page(web_driver: selenium.webdriver.chrome.webdriver.WebDriver) ->
     """
     # LOCAL VARIABLES
     login_page = False  # Prove this true
-    temp_we = None      # Web Element for the characters prompt
 
     # IS IT?
     try:
-        temp_we = web_driver.find_element(By.ID, 'roomcode')
-        temp_we = web_driver.find_element(By.ID, 'username')
-        temp_we = web_driver.find_element(By.ID, 'button-join')
-    except (NoSuchElementException, TypeError, ValueError) as err:
-        # print(repr(err))  # DEBUGGING
+        web_driver.find_element(By.ID, 'roomcode')
+        web_driver.find_element(By.ID, 'username')
+        web_driver.find_element(By.ID, 'button-join')
+    except (NoSuchElementException, TypeError, ValueError):
         pass  # Not the character selection page
     else:
         login_page = True  # If we made it here, it's the login page
@@ -355,12 +337,12 @@ def _is_prompt_page(web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -
 
     # IS IT?
     try:
-        element = web_driver.find_element(By.ID, 'prompt')
-    except (NoSuchElementException, TypeError, ValueError) as err:
+        temp_we = web_driver.find_element(By.ID, 'prompt')
+    except (NoSuchElementException, TypeError, ValueError):
         pass  # Not a prompt page
     else:
         for prompt in prompts:
-            if element.text.startswith(prompt):
+            if temp_we.text.startswith(prompt):
                 prompt_page = True  # If we made it here, it's a prompt page
                 break
 
@@ -382,7 +364,7 @@ def _is_thrip_prompt_page(web_driver: selenium.webdriver.chrome.webdriver.WebDri
     # IS IT?
     try:
         temp_we = web_driver.find_element(By.ID, 'prompt')
-    except (NoSuchElementException, TypeError, ValueError) as err:
+    except (NoSuchElementException, TypeError, ValueError):
         pass  # Not a Thriplash prompt page
     else:
         # print(f'THRIPT PROMPT TEXT: {temp_we.text}')  # DEBUGGING
@@ -391,30 +373,6 @@ def _is_thrip_prompt_page(web_driver: selenium.webdriver.chrome.webdriver.WebDri
 
     # DONE
     return prompt_page
-
-
-# def _is_thrip_vote_page(web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> bool:
-#     """Determine if this is this the Thriplash (Round 3) vote page.
-
-#     Returns:
-#         True if this is the Thriplash (Round 3) vote page, False otherwise.
-#     """
-#     # LOCAL VARIABLES
-#     vote_page = False                  # Prove this true
-#     # temp_we = None                     # Temporary web element variable
-#     # prompt = 'Vote for your favorite'  # Prompt needles
-
-#     # # IS IT?
-#     # try:
-#     #     element = web_driver.find_element(By.ID, 'prompt')
-#     # except (NoSuchElementException, TypeError, ValueError) as err:
-#     #     pass  # Not a vote page
-#     # else:
-#     #     if prompt.lower() in element.text.lower():
-#     #         vote_page = True  # If we made it here, it's a vote page
-
-#     # DONE
-#     return vote_page
 
 
 def _is_vote_page(web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> bool:
@@ -430,11 +388,11 @@ def _is_vote_page(web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> 
 
     # IS IT?
     try:
-        element = web_driver.find_element(By.ID, 'prompt')
-    except (NoSuchElementException, TypeError, ValueError) as err:
+        temp_we = web_driver.find_element(By.ID, 'prompt')
+    except (NoSuchElementException, TypeError, ValueError):
         pass  # Not a vote page
     else:
-        if prompt.lower() in element.text.lower():
+        if prompt.lower() in temp_we.text.lower():
             vote_page = True  # If we made it here, it's a vote page
 
     # DONE
@@ -481,13 +439,11 @@ def _vote_answer(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
         RuntimeError: The prompt wasn't answered.
     """
     # LOCAL VARIABLES
-    prompt_text = ''      # Input prompt
-    answer = ''           # Answer to the prompt
-    prompt_input = None   # Web element for the prompt input field
-    buttons = []          # List of web elements for the buttons
-    button = None         # The web element of the button to click
-    clicked_it = False    # Keep track of whether this prompt was answered or not
-    num_loops = 5         # Number of attempts to make for a new prompt
+    prompt_text = ''    # Input prompt
+    buttons = []        # List of web elements for the buttons
+    button = None       # The web element of the button to click
+    clicked_it = False  # Keep track of whether this prompt was answered or not
+    num_loops = 5       # Number of attempts to make for a new prompt
 
     # WAIT FOR IT
     for _ in range(num_loops):
@@ -498,30 +454,16 @@ def _vote_answer(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
             # print(f'LAST PROMPT: {last_prompt}')  # DEBUGGING
             if prompt_text and prompt_text != last_prompt:
                 break
-            elif not _is_vote_page(web_driver):
+            if not _is_vote_page(web_driver):
                 prompt_text = ''
                 break
-            else:
-                time.sleep(1)
+            time.sleep(1)
         except NoSuchElementException:
             prompt_text = ''  # Must have been the last prompt to vote
 
     # ANSWER IT
     if prompt_text and prompt_text != last_prompt:
-        # TO DO: DON'T DO NOW... GET ANSWER FROM THE OPENAI API... 45 max characters
-        # answer = str(random.random())  # PLACEHOLDER
-        # prompt_input = web_driver.find_element(By.ID, 'input-text-textarea')
-        # prompt_input.send_keys(answer)
         buttons = web_driver.find_elements(By.XPATH, '//button')
-        # print(f'FOUND {len(submit_buttons)}')  # DEBUGGING
-        # for button in buttons:
-        #     print(f'BUTTON TEXT: {button.text}')  # DEBUGGING
-        #     print(f'DIR: {dir(button)}')  # DEBUGGING
-        #     if button.text.lower() == 'SUBMIT'.lower() and button.is_enabled():
-        #         print(f'TEXT: {button.text}')  # DEBUGGING
-        #         button.click()
-        #         clicked_it = True
-        #         break
         button = random.choice(buttons)  # TO DO: DON'T DO NOW... GET ANSWER FROM THE OPENAI API...
         if button and button.is_enabled():
             button.click()
@@ -539,27 +481,27 @@ def _vote_answer(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
 
 
 def _what_page_is_this(
-        web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> JBG_QUIP3_INT_PAGES:
+        web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> JbgQuip3IntPages:
     """Deterine what page is currently being seen."""
     # LOCAL VARIABLES
-    current_page = JBG_QUIP3_INT_PAGES.UNKNOWN  # What type of page is this?
+    current_page = JbgQuip3IntPages.UNKNOWN  # What type of page is this?
 
     # INPUT VALIDATION
     _check_for_error(web_driver)
 
     # DETERMINE PAGE
     if _is_login_page(web_driver):
-        current_page = JBG_QUIP3_INT_PAGES.LOGIN
+        current_page = JbgQuip3IntPages.LOGIN
     elif _is_char_selection_page(web_driver):
-        current_page = JBG_QUIP3_INT_PAGES.AVATAR
+        current_page = JbgQuip3IntPages.AVATAR
     elif _is_prompt_page(web_driver):
-        current_page = JBG_QUIP3_INT_PAGES.ANSWER
+        current_page = JbgQuip3IntPages.ANSWER
     elif _is_vote_page(web_driver):
-        current_page = JBG_QUIP3_INT_PAGES.VOTE
+        current_page = JbgQuip3IntPages.VOTE
     elif _is_thrip_prompt_page(web_driver):
-        current_page = JBG_QUIP3_INT_PAGES.THRIP_ANSWER
+        current_page = JbgQuip3IntPages.THRIP_ANSWER
     # elif _is_thrip_vote_page(web_driver):
-    #     current_page = JBG_QUIP3_INT_PAGES.THRIP_VOTE
+    #     current_page = JbgQuip3IntPages.THRIP_VOTE
 
     # DONE
     print(f'THIS IS THE {current_page} PAGE')  # DEBUGGING
