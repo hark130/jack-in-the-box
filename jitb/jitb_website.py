@@ -43,9 +43,9 @@ def answer_thriplash(web_driver: selenium.webdriver.chrome.webdriver.WebDriver) 
     # ANSWER IT
     try:
         prompt_text = _get_prompt(web_driver=web_driver)
-        print(f'THRIPLASH PROMPT: {prompt_text}')  # DEBUGGING
+        # print(f'THRIPLASH PROMPT: {prompt_text}')  # DEBUGGING
         input_fields = web_driver.find_elements(By.ID, 'input-text-textarea')
-        print(f'FOUND {len(input_fields)} INPUT FIELDS')  # DEBUGGING
+        # print(f'FOUND {len(input_fields)} INPUT FIELDS')  # DEBUGGING
         # for input_field in input_fields:
         #     print(f'INPUT FIELD: {input_field.text}')  # DEBUGGING
     except Exception as err:
@@ -53,13 +53,13 @@ def answer_thriplash(web_driver: selenium.webdriver.chrome.webdriver.WebDriver) 
 
     # SUBMIT IT
     for input_field in input_fields:
-        print(f'INPUT FIELD: {input_field.text}')  # DEBUGGING
+        # print(f'INPUT FIELD: {input_field.text}')  # DEBUGGING
         input_field.send_keys(str(random.random()))
     buttons = web_driver.find_elements(By.XPATH, '//button')
-    print(f'FOUND {len(buttons)} THRIPLASH ANSWER BUTTONS')  # DEBUGGING
+    # print(f'FOUND {len(buttons)} THRIPLASH ANSWER BUTTONS')  # DEBUGGING
     for button in buttons:
         if button.text.lower() == 'SUBMIT'.lower() and button.is_enabled():
-            print(f'TEXT: {button.text}')  # DEBUGGING
+            # print(f'TEXT: {button.text}')  # DEBUGGING
             button.click()
             clicked_it = True
             break
@@ -227,7 +227,7 @@ def _answer_prompt(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
     for button in submit_buttons:
         # print(f'DIR: {dir(button)}')  # DEBUGGING
         if button.text.lower() == 'SUBMIT'.lower() and button.is_enabled():
-            print(f'TEXT: {button.text}')  # DEBUGGING
+            # print(f'TEXT: {button.text}')  # DEBUGGING
             button.click()
             clicked_it = True
             break
@@ -386,7 +386,7 @@ def _is_thrip_prompt_page(web_driver: selenium.webdriver.chrome.webdriver.WebDri
     except (NoSuchElementException, TypeError, ValueError) as err:
         pass  # Not a Thriplash prompt page
     else:
-        print(f'THRIPT PROMPT TEXT: {temp_we.text}')  # DEBUGGING
+        # print(f'THRIPT PROMPT TEXT: {temp_we.text}')  # DEBUGGING
         if temp_we.text.lower().startswith(prompt.lower()):
             prompt_page = True  # If we made it here, it's a prompt page
 
@@ -493,10 +493,10 @@ def _vote_answer(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
     # WAIT FOR IT
     for _ in range(num_loops):
         try:
-            print(f'VOTE PROMPTS: {_get_prompt(web_driver)}')  # DEBUGGING
+            # print(f'VOTE PROMPTS: {_get_prompt(web_driver)}')  # DEBUGGING
             prompt_text = _get_prompt(web_driver)[0]
-            print(f'PROMPT TEXT: {prompt_text}')  # DEBUGGING
-            print(f'LAST PROMPT: {last_prompt}')  # DEBUGGING
+            # print(f'PROMPT TEXT: {prompt_text}')  # DEBUGGING
+            # print(f'LAST PROMPT: {last_prompt}')  # DEBUGGING
             if prompt_text and prompt_text != last_prompt:
                 break
             elif not _is_vote_page(web_driver):
@@ -516,7 +516,7 @@ def _vote_answer(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
         buttons = web_driver.find_elements(By.XPATH, '//button')
         # print(f'FOUND {len(submit_buttons)}')  # DEBUGGING
         for button in buttons:
-            print(f'BUTTON TEXT: {button.text}')  # DEBUGGING
+            # print(f'BUTTON TEXT: {button.text}')  # DEBUGGING
             # print(f'DIR: {dir(button)}')  # DEBUGGING
             # if button.text.lower() == 'SUBMIT'.lower() and button.is_enabled():
             #     print(f'TEXT: {button.text}')  # DEBUGGING
@@ -528,7 +528,7 @@ def _vote_answer(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
         # print(f'BUTTON: {button_entry.accessible_name} enabled: {button_entry.is_enabled()}')  # DEBUGGING
         if button and button.is_enabled():
             button.click()
-            print(f'JUST CLICKED {button.text}')  # DEBUGGING
+            # print(f'JUST CLICKED {button.text}')  # DEBUGGING
             clicked_it = True
     else:
         prompt_text = ''  # Nothing got answered
