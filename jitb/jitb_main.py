@@ -6,7 +6,7 @@ from selenium.common.exceptions import NoSuchElementException, TimeoutException
 import selenium
 # Local
 from jitb.jitb_args import parse_args
-from jitb.jitb_website import answer_prompts, join_room, play_the_game, select_character, vote_answers
+from jitb.jitb_website import play_the_game
 
 
 def main() -> int:

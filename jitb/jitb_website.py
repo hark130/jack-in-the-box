@@ -153,7 +153,6 @@ def select_character(web_driver: selenium.webdriver.chrome.webdriver.WebDriver) 
     button_list = web_driver.find_elements(By.XPATH, '//button')
     for _ in range(max_loops):
         button_entry = random.choice(button_list)
-        # print(f'BUTTON: {button_entry.accessible_name} enabled: {button_entry.is_enabled()}')  # DEBUGGING
         if button_entry.accessible_name in JBG_QUIP3_CHAR_NAMES and button_entry.is_enabled():
             button_entry.click()
             break
@@ -515,17 +514,15 @@ def _vote_answer(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
         # prompt_input.send_keys(answer)
         buttons = web_driver.find_elements(By.XPATH, '//button')
         # print(f'FOUND {len(submit_buttons)}')  # DEBUGGING
-        for button in buttons:
-            # print(f'BUTTON TEXT: {button.text}')  # DEBUGGING
-            # print(f'DIR: {dir(button)}')  # DEBUGGING
-            # if button.text.lower() == 'SUBMIT'.lower() and button.is_enabled():
-            #     print(f'TEXT: {button.text}')  # DEBUGGING
-            #     button.click()
-            #     clicked_it = True
-            #     break
-        # TO DO: DON'T DO NOW... GET ANSWER FROM THE OPENAI API...
-        button = random.choice(buttons)
-        # print(f'BUTTON: {button_entry.accessible_name} enabled: {button_entry.is_enabled()}')  # DEBUGGING
+        # for button in buttons:
+        #     print(f'BUTTON TEXT: {button.text}')  # DEBUGGING
+        #     print(f'DIR: {dir(button)}')  # DEBUGGING
+        #     if button.text.lower() == 'SUBMIT'.lower() and button.is_enabled():
+        #         print(f'TEXT: {button.text}')  # DEBUGGING
+        #         button.click()
+        #         clicked_it = True
+        #         break
+        button = random.choice(buttons)  # TO DO: DON'T DO NOW... GET ANSWER FROM THE OPENAI API...
         if button and button.is_enabled():
             button.click()
             # print(f'JUST CLICKED {button.text}')  # DEBUGGING
@@ -542,7 +539,7 @@ def _vote_answer(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
 
 
 def _what_page_is_this(
-    web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> JBG_QUIP3_INT_PAGES:
+        web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> JBG_QUIP3_INT_PAGES:
     """Deterine what page is currently being seen."""
     # LOCAL VARIABLES
     current_page = JBG_QUIP3_INT_PAGES.UNKNOWN  # What type of page is this?
