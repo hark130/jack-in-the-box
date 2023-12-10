@@ -90,7 +90,7 @@ class JitbAi:
         answer = self._create_content(messages=messages)
         answer = re.sub(r'^"|"$', '', answer)  # Strip leading and trailing quotes
         if len(answer) > length_limit:
-            print(f'The OpenAI {answer} was longer than {length_limit} so it got truncated')  # DEBUGGING
+            print(f'The {answer} was longer than {length_limit} so it got truncated')  # DEBUGGING
             answer = answer[:length_limit]
 
         # DONE
