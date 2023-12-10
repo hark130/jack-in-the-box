@@ -76,7 +76,7 @@ class JitbAi:
         messages = self._base_messages  # Local copy of messages to update with actual query
         # Base prompt to prompt OpenAI to generate a single answer to a prompt
         content = f'Give me a funny answer, limited to {length_limit} characters, ' \
-                  + f'for the Quiplash 3 prompt "{prompt}".'
+                  + f'for the Quiplash 3 prompt "{prompt}" without using any previous context.'
 
         # CLASS VALIDATION
         self.setup()
@@ -117,6 +117,10 @@ class JitbAi:
         self.setup()
 
         # GENERATE IT
+        if '____' in prompt:
+            content = content + '  The prompt has some fill-in-the-blank placeholders so ensure ' \
+                      + 'your answers make sense grammatically.  Do not restate any part of ' \
+                      + 'the orignal prompt in your answer.'
         print(f'THRIPLASH PROMPT: {prompt}')  # DEBUGGING
         print(f'CONTENT: {content}')  # DEBUGGING
         messages.append({'role': 'user', 'content': content})
@@ -124,6 +128,7 @@ class JitbAi:
         answers = [re.sub(r'^"|"$', '', answer) for answer in raw_answer.split('\n') if answer
                    and len(answer) <= length_limit]
         if not answers:
+            print(f'RAW ANSWERS: {raw_answer}')  # DEBUGGING
             raise RuntimeError(f'OpenAI did *not* generate content for {prompt}')
         if len(answers) < 3:
             for _ in range(3 - len(answers)):
@@ -187,6 +192,7 @@ class JitbAi:
         """
         completion = self._client.chat.completions.create(model=self._model, messages=messages,
                                                           temperature=self._base_temp)
+        print(f'DIR(COMPLETION): {dir(completion)}')  # DEBUGGING
         answer = completion.choices[0].message.content
         print(f"OPENAI'S ANSWER WAS {answer}")  # DEBUGGING
         return answer
