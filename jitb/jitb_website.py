@@ -47,7 +47,7 @@ def answer_thriplash(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
     # print('AI QUESTION\nGive me three funny answers for the following Quiplash 3 '
     #       f'Thriplash prompt {prompt_text}')  # DEBUGGING
     # print(f'THRIPLASH PROMPT: {prompt_text}')  # DEBUGGING
-    answers = ai_obj.generate_thriplash(prompt_text)[::-1]  # Reverse it so they can be pop()d
+    answers = ai_obj.generate_thriplash(prompt_text[-1])[::-1]  # Reverse it so they can be pop()d
     input_fields = web_driver.find_elements(By.ID, 'input-text-textarea')
     # print(f'FOUND {len(input_fields)} INPUT FIELDS')  # DEBUGGING
     # for input_field in input_fields:
