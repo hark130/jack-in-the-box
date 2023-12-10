@@ -456,6 +456,8 @@ def _vote_answer(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
     num_loops = 5       # Number of attempts to make for a new prompt
     choice_list = []    # List of possible answers
     favorite = ''       # OpenAI's favorite answer
+    button_dict = {}    # Sanitized text are the keys and actual button text are the values
+    temp_text = ''      # Temp sanitized button text
 
     # WAIT FOR IT
     for _ in range(num_loops):
@@ -481,11 +483,13 @@ def _vote_answer(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
         # Form the selection list
         for button in buttons:
             if button.text:
-                choice_list.append(button.text)
+                temp_text = button.text.strip('\n')
+                button_dict[temp_text] = button.text
+                choice_list.append(temp_text)
         # print(f'AI QUESTION\n{prompt_text}: {",".join(choice_list)}')  # DEBUGGING
         favorite = ai_obj.vote_favorite(prompt=prompt_text, answers=choice_list)
         for button in buttons:
-            if button and button.text == favorite and button.is_enabled():
+            if button and button.text == button_dict[favorite] and button.is_enabled():
                 button.click()
                 # print(f'JUST CLICKED {button.text}')  # DEBUGGING
                 clicked_it = True
