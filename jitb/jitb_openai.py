@@ -96,6 +96,45 @@ class JitbAi:
         # DONE
         return answer
 
+    def generate_thriplash(self, prompt: str, length_limit: int = 30) -> list:
+        """Prompt OpenAI to generate three separate answers for the given Thriplash prompt.
+
+        Returns:
+            A tuple of length 3 which contains three strings.  One or more of the three strings
+            may be empty.
+        """
+        # LOCAL VARIABLES
+        raw_answer = ''                 # Answer to the provided prompt
+        answers = []                    # Parse the raw answer into a list of length 3
+        messages = self._base_messages  # Local copy of messages to update with actual query
+        # Base prompt to prompt OpenAI to generate a single answer to a prompt
+        content = 'Give me three funny answers, separated by newline characters, for the ' \
+                  + f'following Quiplash 3 Thriplash prompt: "{prompt}".  ' \
+                  + f'Each individual funny answer should be less than {length_limit} ' \
+                  + 'characters.'
+
+        # CLASS VALIDATION
+        self.setup()
+
+        # GENERATE IT
+        print(f'THRIPLASH PROMPT: {prompt}')  # DEBUGGING
+        print(f'CONTENT: {content}')  # DEBUGGING
+        messages.append({'role': 'user', 'content': content})
+        raw_answer = self._create_content(messages=messages)
+        answers = [re.sub(r'^"|"$', '', answer) for answer in raw_answer.split('\n') if answer
+                   and len(answer) <= length_limit]
+        if not answers:
+            raise RuntimeError(f'OpenAI did *not* generate content for {prompt}')
+        if len(answers) < 3:
+            for _ in range(3 - len(answers)):
+                answers.append('')
+        elif len(answers) > 3:
+            print(f'OpenAI generated more than just three lines here {answers}')  # DEBUGGING
+            answers = answers[len(answers) - 3:]
+
+        # DONE
+        return answers
+
     def vote_favorite(self, prompt: str, answers: list) -> str:
         """Prompt OpenAI to choose a favorite answer for the prompt from a list of options.
 
@@ -114,7 +153,7 @@ class JitbAi:
         # Base prompt to prompt OpenAI to generate a single answer to a prompt
         content = f'I am going to give you some answers for the Quiplash 3 prompt "{prompt}".  ' \
                   + 'Pick the funniest answer from the choice list I give you.  ' \
-                  + f'Your comma-separated choice list is: {choices}.  ' \
+                  + 'Your comma-separated choice list is: {}.  ' \
                   + 'Choose an answer from the choice list but only give me the letter.  ' \
                   + 'Do not create new content.  Do not create any additional answers.  ' \
                   + 'Do not create any new choices.  ' \
@@ -127,6 +166,7 @@ class JitbAi:
         for answer in answers:
             choice_dict[chr(answers.index(answer) + 65)] = answer
         choices = ', '.join([key + '. ' + val for (key, val) in choice_dict.items()])
+        content = content.format(choices)
 
         # VOTE IT
         print(f'PROMPT: {prompt}')   # DEBUGGING
