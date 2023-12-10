@@ -75,7 +75,7 @@ class JitbAi:
         answer = ''                     # Answer to the provided prompt
         messages = self._base_messages  # Local copy of messages to update with actual query
         # Base prompt to prompt OpenAI to generate a single answer to a prompt
-        content = f'Give me a funny answer, limited to {length_limit} characters, for' \
+        content = f'Give me a funny answer, limited to {length_limit} characters, ' \
                   + f'for the Quiplash 3 prompt "{prompt}".'
 
         # CLASS VALIDATION
@@ -89,6 +89,9 @@ class JitbAi:
         messages.append({'role': 'user', 'content': content})
         answer = self._create_content(messages=messages)
         answer = re.sub(r'^"|"$', '', answer)  # Strip leading and trailing quotes
+        if len(answer) > length_limit:
+            print(f'The OpenAI {answer} was longer than {length_limit} so it got truncated')  # DEBUGGING
+            answer = answer[:length_limit]
 
         # DONE
         return answer
