@@ -105,8 +105,8 @@ def play_the_game(room_code: str, username: str, ai_obj: JitbAi) -> None:
     """Dynamically respond to the flow of the game."""
     # LOCAL VARIABLES
     web_driver = join_room(room_code=room_code, username=username)  # Webdriver for Jackbox Games
-    last_page = JbgQuip3IntPages.UNKNOWN                         # The previous JBG page
-    curr_page = JbgQuip3IntPages.UNKNOWN                         # Current JBG page
+    last_page = JbgQuip3IntPages.UNKNOWN                            # The previous JBG page
+    curr_page = JbgQuip3IntPages.UNKNOWN                            # Current JBG page
 
     # PLAY IT
     try:
@@ -167,7 +167,7 @@ def vote_answers(web_driver: selenium.webdriver.chrome.webdriver.WebDriver, ai_o
 
     # VOTE IT
     while True:
-        prompt_text = _vote_answer(web_driver, last_prompt=prompt_text)
+        prompt_text = _vote_answer(web_driver, last_prompt=prompt_text, ai_obj=ai_obj)
         if not prompt_text:
             break
         if not _is_vote_page(web_driver):
@@ -433,7 +433,7 @@ def _verify_room_code(web_driver: selenium.webdriver.chrome.webdriver.WebDriver)
 
 
 def _vote_answer(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
-                 last_prompt: str) -> str:
+                 last_prompt: str, ai_obj: JitbAi) -> str:
     """Generate votes for other players prompts.
 
     Args:
@@ -453,6 +453,7 @@ def _vote_answer(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
     clicked_it = False  # Keep track of whether this prompt was answered or not
     num_loops = 5       # Number of attempts to make for a new prompt
     choice_list = []    # List of possible answers
+    favorite = ''       # OpenAI's favorite answer
 
     # WAIT FOR IT
     for _ in range(num_loops):
@@ -473,17 +474,19 @@ def _vote_answer(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
     # ANSWER IT
     if prompt_text and prompt_text != last_prompt:
         buttons = web_driver.find_elements(By.XPATH, '//button')
-        print(f'Ask the AI ')
-        button = random.choice(buttons)  # TO DO: DON'T DO NOW... GET ANSWER FROM THE OPENAI API...
+        # print(f'Ask the AI ')
+        # button = random.choice(buttons)  # TO DO: DON'T DO NOW... GET ANSWER FROM THE OPENAI API...
         # Form the selection list
         for button in buttons:
             if button.text:
                 choice_list.append(button.text)
-        print(f'AI QUESTION\n{prompt_text}: {",".join(choice_list)}')  # DEBUGGING
-        if button and button.is_enabled():
-            button.click()
-            # print(f'JUST CLICKED {button.text}')  # DEBUGGING
-            clicked_it = True
+        # print(f'AI QUESTION\n{prompt_text}: {",".join(choice_list)}')  # DEBUGGING
+        favorite = ai_obj.vote_favorite(prompt=prompt_text, answers=choice_list)
+        for button in buttons:
+            if button and button.text == favorite and button.is_enabled():
+                button.click()
+                # print(f'JUST CLICKED {button.text}')  # DEBUGGING
+                clicked_it = True
     else:
         prompt_text = ''  # Nothing got answered
 
