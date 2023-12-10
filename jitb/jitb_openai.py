@@ -192,7 +192,6 @@ class JitbAi:
         """
         completion = self._client.chat.completions.create(model=self._model, messages=messages,
                                                           temperature=self._base_temp)
-        print(f'DIR(COMPLETION): {dir(completion)}')  # DEBUGGING
         answer = completion.choices[0].message.content
         print(f"OPENAI'S ANSWER WAS {answer}")  # DEBUGGING
         return answer
