@@ -5,6 +5,8 @@ from typing import Final, List
 # Third Party
 # Local
 
+# Environment variable to get the OpenAI API key from.
+OPENAI_KEY_ENV_VAR: Final[str] = 'OPENAI_API_KEY'
 
 # List of Character accessible names for the Jackbox Games Quiplash 3 avatars
 # buttons = test.find_elements(By.XPATH, '//button')
