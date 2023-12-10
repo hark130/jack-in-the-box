@@ -76,12 +76,16 @@ class JitbAi:
         messages = self._base_messages  # Local copy of messages to update with actual query
         # Base prompt to prompt OpenAI to generate a single answer to a prompt
         content = f'Give me a funny answer, limited to {length_limit} characters, for' \
-                  + f'for the Quiplash 3 prompt "{prompt}"'
+                  + f'for the Quiplash 3 prompt "{prompt}".'
 
         # CLASS VALIDATION
         self.setup()
 
         # GENERATE IT
+        if '____' in prompt:
+            content = content + '  The prompt has a fill-in-the-blank placeholder so ensure ' \
+                      + 'your answer makes sense grammatically.  Do not restate any part of ' \
+                      + 'the orignal prompt in your answer.'
         messages.append({'role': 'user', 'content': content})
         answer = self._create_content(messages=messages)
         answer = re.sub(r'^"|"$', '', answer)  # Strip leading and trailing quotes
