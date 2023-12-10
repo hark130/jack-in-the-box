@@ -36,6 +36,7 @@ def answer_thriplash(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
     input_fields = []   # List of web elements for the three input fields
     buttons = []        # List of button web elements
     clicked_it = False  # Keep track of whether this prompt was answered or not
+    answers = []        # List of answers returned by ai_obj.generate_thriplash()
 
     # INPUT VALIDATION
     if not _is_thrip_prompt_page(web_driver):
@@ -43,9 +44,10 @@ def answer_thriplash(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
 
     # ANSWER IT
     prompt_text = _get_prompt(web_driver=web_driver)
-    print('AI QUESTION\nGive me three funny answers for the following Quiplash 3 '
-          f'Thriplash prompt {prompt_text}')  # DEBUGGING
+    # print('AI QUESTION\nGive me three funny answers for the following Quiplash 3 '
+    #       f'Thriplash prompt {prompt_text}')  # DEBUGGING
     # print(f'THRIPLASH PROMPT: {prompt_text}')  # DEBUGGING
+    answers = ai_obj.generate_thriplash(prompt_text)[::-1]  # Reverse it so they can be pop()d
     input_fields = web_driver.find_elements(By.ID, 'input-text-textarea')
     # print(f'FOUND {len(input_fields)} INPUT FIELDS')  # DEBUGGING
     # for input_field in input_fields:
@@ -54,7 +56,7 @@ def answer_thriplash(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
     # SUBMIT IT
     for input_field in input_fields:
         # print(f'INPUT FIELD: {input_field.text}')  # DEBUGGING
-        input_field.send_keys(str(random.random()))
+        input_field.send_keys(answers.pop())
     buttons = web_driver.find_elements(By.XPATH, '//button')
     # print(f'FOUND {len(buttons)} THRIPLASH ANSWER BUTTONS')  # DEBUGGING
     for button in buttons:
