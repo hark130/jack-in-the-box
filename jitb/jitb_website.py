@@ -10,23 +10,26 @@ from selenium.webdriver.common.by import By
 import selenium
 # Local
 from jitb.jitb_globals import JBG_QUIP3_CHAR_NAMES, JbgQuip3IntPages
+from jitb.jitb_openai import JitbAi
 
 
 # List of observed errors reported by Jackbox Games html
 ERROR_LIST: Final[List] = ['Room not found']
 
 
-def answer_prompts(web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> None:
+def answer_prompts(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
+                   ai_obj: JitbAi) -> None:
     """Generating answers for prompts."""
     # LOCAL VARIABLES
     prompt_text = ''      # Input prompt
 
     # ANSWER THE PROMPTS
     for _ in range(2):
-        prompt_text = _answer_prompt(web_driver, last_prompt=prompt_text)
+        prompt_text = _answer_prompt(web_driver, last_prompt=prompt_text, ai_obj=ai_obj)
 
 
-def answer_thriplash(web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> None:
+def answer_thriplash(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
+                     ai_obj: JitbAi) -> None:
     """Generate answers for the Thriplash (Round 3) prompt."""
     # LOCAL VARIABLES
     prompt_text = ''    # Input prompt
@@ -40,6 +43,8 @@ def answer_thriplash(web_driver: selenium.webdriver.chrome.webdriver.WebDriver) 
 
     # ANSWER IT
     prompt_text = _get_prompt(web_driver=web_driver)
+    print('AI QUESTION\nGive me three funny answers for the following Quiplash 3 '
+          f'Thriplash prompt {prompt_text}')  # DEBUGGING
     # print(f'THRIPLASH PROMPT: {prompt_text}')  # DEBUGGING
     input_fields = web_driver.find_elements(By.ID, 'input-text-textarea')
     # print(f'FOUND {len(input_fields)} INPUT FIELDS')  # DEBUGGING
@@ -96,7 +101,7 @@ def join_room(room_code: str, username: str) -> selenium.webdriver.chrome.webdri
     return driver
 
 
-def play_the_game(room_code: str, username: str) -> None:
+def play_the_game(room_code: str, username: str, ai_obj: JitbAi) -> None:
     """Dynamically respond to the flow of the game."""
     # LOCAL VARIABLES
     web_driver = join_room(room_code=room_code, username=username)  # Webdriver for Jackbox Games
@@ -112,11 +117,11 @@ def play_the_game(room_code: str, username: str) -> None:
             elif curr_page == JbgQuip3IntPages.AVATAR and curr_page != last_page:
                 select_character(web_driver=web_driver)  # Just select once
             elif curr_page == JbgQuip3IntPages.ANSWER and curr_page != last_page:
-                answer_prompts(web_driver=web_driver)
+                answer_prompts(web_driver=web_driver, ai_obj=ai_obj)
             elif curr_page == JbgQuip3IntPages.VOTE and curr_page != last_page:
-                vote_answers(web_driver=web_driver)
+                vote_answers(web_driver=web_driver, ai_obj=ai_obj)
             elif curr_page == JbgQuip3IntPages.THRIP_ANSWER and curr_page != last_page:
-                answer_thriplash(web_driver=web_driver)
+                answer_thriplash(web_driver=web_driver, ai_obj=ai_obj)
             else:
                 time.sleep(1)  # Zzzzz...
             last_page = curr_page
@@ -151,7 +156,7 @@ def select_character(web_driver: selenium.webdriver.chrome.webdriver.WebDriver) 
             break
 
 
-def vote_answers(web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> None:
+def vote_answers(web_driver: selenium.webdriver.chrome.webdriver.WebDriver, ai_obj: JitbAi) -> None:
     """Vote all the other answers."""
     # LOCAL VARIABLES
     prompt_text = ''  # The prompt text
@@ -170,12 +175,13 @@ def vote_answers(web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> N
 
 
 def _answer_prompt(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
-                   last_prompt: str) -> str:
+                   last_prompt: str, ai_obj: JitbAi) -> str:
     """Generating answers for prompts.
 
     Args:
         last_prompt: The last prompt that was answered.  Helps this function avoid trying to
             answer the same prompt twice.
+        ai_obj: Query object to get AI-generated answers.
 
     Returns:
         The prompt that was answered as a string.
@@ -204,7 +210,9 @@ def _answer_prompt(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
 
     # ANSWER IT
     # TO DO: DON'T DO NOW... GET ANSWER FROM THE OPENAI API... 45 max characters
-    answer = str(random.random())  # PLACEHOLDER
+    # print(f'AI QUESTION\nGive me a funny answer for the Quiplash 3 prompt {prompt_text}')  # DEBUGGING
+    # answer = str(random.random())  # PLACEHOLDER
+    answer = ai_obj.generate_answer(prompt=prompt_text)
     prompt_input = web_driver.find_element(By.ID, 'input-text-textarea')
     prompt_input.send_keys(answer)
     buttons = web_driver.find_elements(By.XPATH, '//button')
@@ -444,6 +452,7 @@ def _vote_answer(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
     button = None       # The web element of the button to click
     clicked_it = False  # Keep track of whether this prompt was answered or not
     num_loops = 5       # Number of attempts to make for a new prompt
+    choice_list = []    # List of possible answers
 
     # WAIT FOR IT
     for _ in range(num_loops):
@@ -464,7 +473,13 @@ def _vote_answer(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
     # ANSWER IT
     if prompt_text and prompt_text != last_prompt:
         buttons = web_driver.find_elements(By.XPATH, '//button')
+        print(f'Ask the AI ')
         button = random.choice(buttons)  # TO DO: DON'T DO NOW... GET ANSWER FROM THE OPENAI API...
+        # Form the selection list
+        for button in buttons:
+            if button.text:
+                choice_list.append(button.text)
+        print(f'AI QUESTION\n{prompt_text}: {",".join(choice_list)}')  # DEBUGGING
         if button and button.is_enabled():
             button.click()
             # print(f'JUST CLICKED {button.text}')  # DEBUGGING
