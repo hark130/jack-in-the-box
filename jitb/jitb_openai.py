@@ -18,7 +18,6 @@ test.setup()
 '''
 
 
-
 class JitbAi:
     """Implements the interface to the OpenAI API."""
 
@@ -38,9 +37,9 @@ class JitbAi:
         ]
         # Content message indications the OpenAI did not answer a query
         self._failure_content = [
-            "As an AI language model, I am committed to maintaining a respectful and " \
-            + "inclusive environment. I cannot endorse or participate in generating content " \
-            + "that is offensive, explicit, or inappropriate. If you have any other prompt or " \
+            "As an AI language model, I am committed to maintaining a respectful and "
+            + "inclusive environment. I cannot endorse or participate in generating content "
+            + "that is offensive, explicit, or inappropriate. If you have any other prompt or "
             + "topic you'd like me to help with, I'd be more than happy to assist you.",
             "I can't comply with this request.",
             "I'm unable to assist with that request.",
@@ -259,7 +258,6 @@ class JitbAi:
 
         # DONE
         return favorite
-
 
     def _failed_request(self, content: str) -> bool:
         """Check OpenAI's response content for evidence of failure.
