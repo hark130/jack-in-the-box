@@ -109,10 +109,13 @@ class JitbAi:
         answers = []                    # Parse the raw answer into a list of length 3
         messages = self._base_messages  # Local copy of messages to update with actual query
         # Base prompt to prompt OpenAI to generate a single answer to a prompt
-        content = 'Give me three funny answers, separated by newline characters, for the ' \
-                  + f'following Quiplash 3 Thriplash prompt: "{prompt}".  ' \
+        # content = 'Give me three funny answers, separated by newline characters, for the ' \
+        #           + f'following Quiplash 3 Thriplash prompt: "{prompt}".  ' \
+        #           + f'Each individual funny answer should be less than {length_limit} ' \
+        #           + 'characters.'
+        content = f'Answer the following Quiplash 3 Thriplash prompt: "{prompt}".  ' \
                   + f'Each individual funny answer should be less than {length_limit} ' \
-                  + 'characters.'
+                  + 'characters and should be on its own line.'
 
         # CLASS VALIDATION
         self.setup()
@@ -127,8 +130,7 @@ class JitbAi:
         print(f'\nCONTENT: {content}')  # DEBUGGING
         messages.append({'role': 'user', 'content': content})
         raw_answer = self._create_content(messages=messages)
-        answers = [answer for answer in raw_answer.split('\n') if answer
-                   and len(answer) <= length_limit]
+        answers = [answer for answer in raw_answer.split('\n') if answer]
         # Validate results
         print(f'\nRAW ANSWERS: {raw_answer}')  # DEBUGGING
         print(f'\nANSWERS: {answers}')  # DEBUGGING
@@ -146,6 +148,9 @@ class JitbAi:
                 # Do it twice because OpenAI be tricksey sometimes
                 answers[index] = re.sub(r'^"|"$', '', answers[index])  # Remove quotes
                 answers[index] = re.sub(r'^\d+\.\s+', '', answers[index])  # Strip numbering
+            # Final length check (because the completions endpoint keeps adding quotes and numbers)
+            if len(answers[index]) > length_limit:
+                answers[index] = answers[index][:length_limit]  # Truncate it
 
         # DONE
         return answers
@@ -211,6 +216,7 @@ class JitbAi:
         #       on January 4th, 2024.
         completion = self._client.completions.create(model='gpt-3.5-turbo-instruct',
                                                      prompt=messages[-1]['content'],
+                                                     max_tokens=50,
                                                      temperature=self._base_temp)
         # Strip all leading and trailing newlines
         answer = re.sub(r'^\n+|\n+$', '', completion.choices[0].text)
