@@ -46,25 +46,16 @@ def answer_thriplash(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
 
     # ANSWER IT
     prompt_text = _get_prompt(web_driver=web_driver)[-1]
-    # print('AI QUESTION\nGive me three funny answers for the following Quiplash 3 '
-    #       f'Thriplash prompt {prompt_text}')  # DEBUGGING
-    # print(f'THRIPLASH PROMPT: {prompt_text}')  # DEBUGGING
     gen_answers = ai_obj.generate_thriplash(prompt_text)
     temp_answers = gen_answers[::-1]  # Reverse it so they can be pop()d
     input_fields = web_driver.find_elements(By.ID, 'input-text-textarea')
-    # print(f'FOUND {len(input_fields)} INPUT FIELDS')  # DEBUGGING
-    # for input_field in input_fields:
-    #     print(f'INPUT FIELD: {input_field.text}')  # DEBUGGING
 
     # SUBMIT IT
     for input_field in input_fields:
-        # print(f'INPUT FIELD: {input_field.text}')  # DEBUGGING
         input_field.send_keys(temp_answers.pop())
     buttons = web_driver.find_elements(By.XPATH, '//button')
-    # print(f'FOUND {len(buttons)} THRIPLASH ANSWER BUTTONS')  # DEBUGGING
     for button in buttons:
         if button.text.lower() == 'SUBMIT'.lower() and button.is_enabled():
-            # print(f'TEXT: {button.text}')  # DEBUGGING
             button.click()
             clicked_it = True
             break
@@ -214,17 +205,12 @@ def _answer_prompt(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
         time.sleep(1)
 
     # ANSWER IT
-    # TO DO: DON'T DO NOW... GET ANSWER FROM THE OPENAI API... 45 max characters
-    # print(f'AI QUESTION\nGive me a funny answer for the Quiplash 3 prompt {prompt_text}')  # DEBUGGING
-    # answer = str(random.random())  # PLACEHOLDER
     answer = ai_obj.generate_answer(prompt=prompt_text)
     prompt_input = web_driver.find_element(By.ID, 'input-text-textarea')
     prompt_input.send_keys(answer)
     buttons = web_driver.find_elements(By.XPATH, '//button')
     for button in buttons:
-        # print(f'DIR: {dir(button)}')  # DEBUGGING
         if button.text.lower() == 'SUBMIT'.lower() and button.is_enabled():
-            # print(f'TEXT: {button.text}')  # DEBUGGING
             button.click()
             clicked_it = True
             break
@@ -246,18 +232,14 @@ def _check_for_error(web_driver: selenium.webdriver.chrome.webdriver.WebDriver) 
     temp_we = None  # Temp web element object
 
     # CHECK IT
-    # <span data-v-47cae0dc="" class="status">Room not found</span>
     if web_driver:
         # Check for errors
         for error in ERROR_LIST:
-            # print(f'PAGE SOURCE;\n{web_driver.page_source}')  # DEBUGGING
             if error in web_driver.page_source:
-                # print(f'ERROR: {error}')  # DEBUGGING
                 raise RuntimeError(error)
         # Verify not disconnected
         try:
             temp_we = web_driver.find_element(By.ID, 'swal2-title')
-            # print(f'TEMP WE: {temp_we.text}')  # DEBUGGING
         except NoSuchElementException:
             pass  # It's good that we didn't find it
         else:
@@ -274,16 +256,8 @@ def _get_prompt(web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> li
     # LOCAL VARIABLES
     prompt_text = []  # The prompt's text split by newline
 
-    # INPUT VALIDATION
-    # if not _is_prompt_page(web_driver):
-    #     raise RuntimeError('This is not a prompt page')
-
     # WAIT FOR IT
-    # wait = WebDriverWait(web_driver, 120)
-    # element = wait.until(EC.presence_of_element_located((By.ID, 'prompt')))
-    # print(element.text.split('\n'))
     element = web_driver.find_element(By.ID, 'prompt')
-    # print(f'PROMPT TEXT {element.text}')  # DEBUGGING
     prompt_text = element.text.split('\n')
 
     # DONE
@@ -376,7 +350,6 @@ def _is_thrip_prompt_page(web_driver: selenium.webdriver.chrome.webdriver.WebDri
     # IS IT?
     try:
         temp_we = web_driver.find_element(By.ID, 'prompt')
-        # print(f'THRIPT PROMPT TEXT: {temp_we.text}')  # DEBUGGING
         if temp_we.text.lower().startswith(prompt.lower()):
             prompt_page = True  # If we made it here, it's a prompt page
     except (NoSuchElementException, StaleElementReferenceException, TypeError, ValueError):
@@ -427,7 +400,6 @@ def _verify_room_code(web_driver: selenium.webdriver.chrome.webdriver.WebDriver)
     if web_driver:
         app_elem = web_driver.find_element(By.CLASS_NAME, 'app')
     # 3. Read the status element
-    # print(f'APP ELEM: {app_elem.text}')  # DEBUGGING
     if app_elem.text:
         for error in ERROR_LIST:
             if error.lower() in app_elem.text.lower():
@@ -462,10 +434,7 @@ def _vote_answer(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
     # WAIT FOR IT
     for _ in range(num_loops):
         try:
-            # print(f'VOTE PROMPTS: {_get_prompt(web_driver)}')  # DEBUGGING
             prompt_text = _get_prompt(web_driver)[0]
-            # print(f'PROMPT TEXT: {prompt_text}')  # DEBUGGING
-            # print(f'LAST PROMPT: {last_prompt}')  # DEBUGGING
             if prompt_text and prompt_text != last_prompt:
                 break
             if not _is_vote_page(web_driver):
@@ -478,20 +447,17 @@ def _vote_answer(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
     # ANSWER IT
     if prompt_text and prompt_text != last_prompt:
         buttons = web_driver.find_elements(By.XPATH, '//button')
-        # print(f'Ask the AI ')
-        # button = random.choice(buttons)  # TO DO: DON'T DO NOW... GET ANSWER FROM THE OPENAI API...
         # Form the selection list
         for button in buttons:
             if button.text:
                 temp_text = button.text.strip('\n')
                 button_dict[temp_text] = button.text
                 choice_list.append(temp_text)
-        # print(f'AI QUESTION\n{prompt_text}: {",".join(choice_list)}')  # DEBUGGING
+        # Ask the AI
         favorite = ai_obj.vote_favorite(prompt=prompt_text, answers=choice_list)
         for button in buttons:
             if button and button.text == button_dict[favorite] and button.is_enabled():
                 button.click()
-                # print(f'JUST CLICKED {button.text}')  # DEBUGGING
                 clicked_it = True
                 break
     else:
@@ -525,8 +491,6 @@ def _what_page_is_this(
         current_page = JbgQuip3IntPages.VOTE
     elif _is_thrip_prompt_page(web_driver):
         current_page = JbgQuip3IntPages.THRIP_ANSWER
-    # elif _is_thrip_vote_page(web_driver):
-    #     current_page = JbgQuip3IntPages.THRIP_VOTE
 
     # DONE
     # print(f'THIS IS THE {current_page} PAGE')  # DEBUGGING
