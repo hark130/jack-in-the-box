@@ -45,6 +45,7 @@ class JitbAi:
             "I can't comply with this request.",
             "I'm unable to assist with that request.",
             "I'm sorry, I can't assist with that.",
+            "Sorry, but I can't generate that story for you.",
         ]
 
     def setup(self) -> None:
