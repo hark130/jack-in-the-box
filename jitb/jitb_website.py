@@ -493,6 +493,7 @@ def _vote_answer(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
                 button.click()
                 # print(f'JUST CLICKED {button.text}')  # DEBUGGING
                 clicked_it = True
+                break
     else:
         prompt_text = ''  # Nothing got answered
 
@@ -500,7 +501,7 @@ def _vote_answer(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
     if prompt_text and prompt_text != last_prompt and not clicked_it:
         raise RuntimeError('Did not vote an answer')
     if button:
-        print(f'VOTED {button.text} for {prompt_text}!')  # DEBUGGING
+        print(f'VOTED {favorite} for {prompt_text}!')  # DEBUGGING
     return prompt_text
 
 
