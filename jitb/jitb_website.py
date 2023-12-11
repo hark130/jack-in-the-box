@@ -45,11 +45,11 @@ def answer_thriplash(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
         raise RuntimeError('This is not the Thriplash prompt page')
 
     # ANSWER IT
-    prompt_text = _get_prompt(web_driver=web_driver)
+    prompt_text = _get_prompt(web_driver=web_driver)[-1]
     # print('AI QUESTION\nGive me three funny answers for the following Quiplash 3 '
     #       f'Thriplash prompt {prompt_text}')  # DEBUGGING
     # print(f'THRIPLASH PROMPT: {prompt_text}')  # DEBUGGING
-    gen_answers = ai_obj.generate_thriplash(prompt_text[-1])
+    gen_answers = ai_obj.generate_thriplash(prompt_text)
     temp_answers = gen_answers[::-1]  # Reverse it so they can be pop()d
     input_fields = web_driver.find_elements(By.ID, 'input-text-textarea')
     # print(f'FOUND {len(input_fields)} INPUT FIELDS')  # DEBUGGING
