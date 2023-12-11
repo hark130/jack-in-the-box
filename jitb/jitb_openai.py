@@ -177,13 +177,13 @@ class JitbAi:
         # SETUP
         for answer in answers:
             choice_dict[chr(answers.index(answer) + 65)] = answer
-        choices = ', '.join([key + '. ' + val for (key, val) in choice_dict.items()])
+        choices = ', '.join([key + '. ' + val.strip('\n') for (key, val) in choice_dict.items()])
         content = content.format(choices)
 
         # VOTE IT
-        print(f'PROMPT: {prompt}')   # DEBUGGING
-        print(f'CHOICES: {choices}')  # DEBUGGING
-        print(f'CONTENT: {content}')  # DEBUGGING
+        print(f'\nPROMPT: {prompt}')   # DEBUGGING
+        print(f'\nCHOICES: {choices}')  # DEBUGGING
+        print(f'\nCONTENT: {content}')  # DEBUGGING
         messages.append({'role': 'user', 'content': content})
         answer = self._create_content(messages=messages)
         favorite = self._extract_favorite(answer, choice_dict)
@@ -197,9 +197,20 @@ class JitbAi:
         Returns:
             The message content from the first choice.
         """
-        completion = self._client.chat.completions.create(model=self._model, messages=messages,
-                                                          temperature=self._base_temp)
-        answer = completion.choices[0].message.content
+        # chat.completion endpoint
+        #   GOOD NEWS: Maintained support
+        # completion = self._client.chat.completions.create(model=self._model, messages=messages,
+        #                                                   temperature=self._base_temp)
+        # answer = completion.choices[0].message.content
+
+        # completion endpoint
+        #   BAD NEWS: Most models that support the legacy Completions endpoint will be shut off
+        #       on January 4th, 2024.
+        completion = self._client.completions.create(model='gpt-3.5-turbo-instruct',
+                                                     prompt=messages[-1]['content'],
+                                                     temperature=self._base_temp)
+        answer = completion.choices[0].text
+        # print(f'COMPLETION: {completion}')  # DEBUGGING
         print(f"OPENAI'S ANSWER WAS {answer}")  # DEBUGGING
         return answer
 
