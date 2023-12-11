@@ -123,15 +123,16 @@ class JitbAi:
             content = content + '  The prompt has some fill-in-the-blank placeholders so ensure ' \
                       + 'your answers make sense grammatically.  Do not restate any part of ' \
                       + 'the orignal prompt in your answer.'
-        print(f'THRIPLASH PROMPT: {prompt}')  # DEBUGGING
-        print(f'CONTENT: {content}')  # DEBUGGING
+        print(f'\nTHRIPLASH PROMPT: {prompt}')  # DEBUGGING
+        print(f'\nCONTENT: {content}')  # DEBUGGING
         messages.append({'role': 'user', 'content': content})
         raw_answer = self._create_content(messages=messages)
         answers = [answer for answer in raw_answer.split('\n') if answer
                    and len(answer) <= length_limit]
         # Validate results
+        print(f'\nRAW ANSWERS: {raw_answer}')  # DEBUGGING
+        print(f'\nANSWERS: {answers}')  # DEBUGGING
         if not answers:
-            print(f'RAW ANSWERS: {raw_answer}')  # DEBUGGING
             raise RuntimeError(f'OpenAI did *not* generate content for {prompt}')
         if len(answers) < 3:
             for _ in range(3 - len(answers)):
@@ -141,8 +142,10 @@ class JitbAi:
             answers = answers[len(answers) - 3:]
         # Polish the format
         for index in range(0, len(answers)):
-            answers[index] = re.sub(r'^"|"$', '', answers[index])  # Remove quotes
-            answers[index] = re.sub(r'^\d+\.\s+', '', answers[index])  # Strip numbering
+            for _ in range(2):
+                # Do it twice because OpenAI be tricksey sometimes
+                answers[index] = re.sub(r'^"|"$', '', answers[index])  # Remove quotes
+                answers[index] = re.sub(r'^\d+\.\s+', '', answers[index])  # Strip numbering
 
         # DONE
         return answers
@@ -209,7 +212,8 @@ class JitbAi:
         completion = self._client.completions.create(model='gpt-3.5-turbo-instruct',
                                                      prompt=messages[-1]['content'],
                                                      temperature=self._base_temp)
-        answer = completion.choices[0].text
+        # Strip all leading and trailing newlines
+        answer = re.sub(r'^\n+|\n+$', '', completion.choices[0].text)
         # print(f'COMPLETION: {completion}')  # DEBUGGING
         print(f"OPENAI'S ANSWER WAS {answer}")  # DEBUGGING
         return answer
@@ -224,6 +228,9 @@ class JitbAi:
             answer: Content created by OpenAI.
             choices: A dictionary of available choices.  The keys represent shorthand
                 identification
+
+        Returns:
+            One of the values from the choices dictionary.
         """
         # LOCAL VARIABLES
         favorite = ''  # The favorite chosen from among the choices values
