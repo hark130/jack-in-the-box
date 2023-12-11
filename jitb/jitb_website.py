@@ -5,7 +5,7 @@ import random
 import time
 # Third Party
 from selenium import webdriver
-from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException
 from selenium.webdriver.common.by import By
 import selenium
 # Local
@@ -304,7 +304,7 @@ def _is_char_selection_page(web_driver: selenium.webdriver.chrome.webdriver.WebD
         prompt = web_driver.find_element(By.ID, 'charactersPrompt')
         if 'Select your character'.lower() in prompt.text.lower():
             char_selection = True
-    except (NoSuchElementException, TypeError, ValueError):
+    except (NoSuchElementException, StaleElementReferenceException, TypeError, ValueError):
         pass  # Not the character selection page
 
     # DONE
@@ -325,7 +325,7 @@ def _is_login_page(web_driver: selenium.webdriver.chrome.webdriver.WebDriver) ->
         web_driver.find_element(By.ID, 'roomcode')
         web_driver.find_element(By.ID, 'username')
         web_driver.find_element(By.ID, 'button-join')
-    except (NoSuchElementException, TypeError, ValueError):
+    except (NoSuchElementException, StaleElementReferenceException, TypeError, ValueError):
         pass  # Not the character selection page
     else:
         login_page = True  # If we made it here, it's the login page
@@ -348,13 +348,12 @@ def _is_prompt_page(web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -
     # IS IT?
     try:
         temp_we = web_driver.find_element(By.ID, 'prompt')
-    except (NoSuchElementException, TypeError, ValueError):
-        pass  # Not a prompt page
-    else:
         for prompt in prompts:
             if temp_we.text.startswith(prompt):
                 prompt_page = True  # If we made it here, it's a prompt page
                 break
+    except (NoSuchElementException, StaleElementReferenceException, TypeError, ValueError):
+        pass  # Not a prompt page
 
     # DONE
     return prompt_page
@@ -374,12 +373,12 @@ def _is_thrip_prompt_page(web_driver: selenium.webdriver.chrome.webdriver.WebDri
     # IS IT?
     try:
         temp_we = web_driver.find_element(By.ID, 'prompt')
-    except (NoSuchElementException, TypeError, ValueError):
-        pass  # Not a Thriplash prompt page
-    else:
         # print(f'THRIPT PROMPT TEXT: {temp_we.text}')  # DEBUGGING
         if temp_we.text.lower().startswith(prompt.lower()):
             prompt_page = True  # If we made it here, it's a prompt page
+    except (NoSuchElementException, StaleElementReferenceException, TypeError, ValueError):
+        pass  # Not a Thriplash prompt page
+    else:
 
     # DONE
     return prompt_page
@@ -399,11 +398,10 @@ def _is_vote_page(web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> 
     # IS IT?
     try:
         temp_we = web_driver.find_element(By.ID, 'prompt')
-    except (NoSuchElementException, TypeError, ValueError):
-        pass  # Not a vote page
-    else:
         if prompt.lower() in temp_we.text.lower():
             vote_page = True  # If we made it here, it's a vote page
+    except (NoSuchElementException, StaleElementReferenceException, TypeError, ValueError):
+        pass  # Not a vote page
 
     # DONE
     return vote_page
