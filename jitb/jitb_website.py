@@ -72,7 +72,7 @@ def answer_thriplash(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
     # DONE
     if not clicked_it:
         raise RuntimeError('Did not answer the Thriplash prompt')
-    print(f'ANSWERED {prompt_text} with: {', '.join(gen_answers)}!')  # DEBUGGING
+    print(f'ANSWERED {prompt_text} with: {", ".join(gen_answers)}!')  # DEBUGGING
 
 
 def join_room(room_code: str, username: str) -> selenium.webdriver.chrome.webdriver.WebDriver:
