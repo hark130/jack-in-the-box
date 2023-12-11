@@ -378,7 +378,6 @@ def _is_thrip_prompt_page(web_driver: selenium.webdriver.chrome.webdriver.WebDri
             prompt_page = True  # If we made it here, it's a prompt page
     except (NoSuchElementException, StaleElementReferenceException, TypeError, ValueError):
         pass  # Not a Thriplash prompt page
-    else:
 
     # DONE
     return prompt_page
