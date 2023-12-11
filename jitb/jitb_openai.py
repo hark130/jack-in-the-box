@@ -118,6 +118,7 @@ class JitbAi:
         self.setup()
 
         # GENERATE IT
+        # Generate
         if '____' in prompt:
             content = content + '  The prompt has some fill-in-the-blank placeholders so ensure ' \
                       + 'your answers make sense grammatically.  Do not restate any part of ' \
@@ -126,8 +127,9 @@ class JitbAi:
         print(f'CONTENT: {content}')  # DEBUGGING
         messages.append({'role': 'user', 'content': content})
         raw_answer = self._create_content(messages=messages)
-        answers = [re.sub(r'^"|"$', '', answer) for answer in raw_answer.split('\n') if answer
+        answers = [answer for answer in raw_answer.split('\n') if answer
                    and len(answer) <= length_limit]
+        # Validate results
         if not answers:
             print(f'RAW ANSWERS: {raw_answer}')  # DEBUGGING
             raise RuntimeError(f'OpenAI did *not* generate content for {prompt}')
@@ -137,6 +139,10 @@ class JitbAi:
         elif len(answers) > 3:
             print(f'OpenAI generated more than just three lines here {answers}')  # DEBUGGING
             answers = answers[len(answers) - 3:]
+        # Polish the format
+        for index in range(0, len(answers)):
+            answers[index] = re.sub(r'^"|"$', '', answers[index])  # Remove quotes
+            answers[index] = re.sub(r'^\d+\.\s+', '', answers[index])  # Strip numbering
 
         # DONE
         return answers
