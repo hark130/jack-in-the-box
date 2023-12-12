@@ -5,6 +5,8 @@ from typing import Final, List
 # Third Party
 # Local
 
+JITB_POLL_RATE: Final[float] = 0.5  # Rate, in seconds, JITB will parse page content
+
 # Environment variable to get the OpenAI API key from.
 OPENAI_KEY_ENV_VAR: Final[str] = 'OPENAI_API_KEY'
 
