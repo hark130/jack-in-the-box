@@ -5,6 +5,7 @@ import os
 import re
 import random
 import string
+import sys
 # Third Party
 from openai import OpenAI
 # Local
@@ -133,16 +134,9 @@ class JitbAi:
                 answers.append('')
         elif len(answers) > 3:
             print(f'OpenAI generated more than just three lines here {answers}')  # DEBUGGING
-            answers = answers[len(answers) - 3:]
+            answers = self._extract_thriplash_answer(answers=answers, length_limit=length_limit)
         # Polish the format
-        for index, _ in enumerate(answers):
-            for _ in range(2):
-                # Do it twice because OpenAI be tricksey sometimes
-                answers[index] = re.sub(r'^"|"$', '', answers[index])  # Remove quotes
-                answers[index] = re.sub(r'^\d+\.\s+', '', answers[index])  # Strip numbering
-            # Final length check (because the completions endpoint keeps adding quotes and numbers)
-            if len(answers[index]) > length_limit:
-                answers[index] = answers[index][:length_limit]  # Truncate it
+        answers = self._polish_thriplash_answers(answers=answers, length_limit=length_limit)
 
         # DONE
         return answers
@@ -252,6 +246,39 @@ class JitbAi:
         # DONE
         return favorite
 
+    def _extract_thriplash_answer(self, answers: list, length_limit: int) -> list:
+        """Extract just three meaningful thriplash answers when the AI got the assignmnet wrong.
+
+        Some Thriplash prompts result in the AI providing three (or more) numbered lists of three
+        answers.
+
+        Args:
+            answers: List of AI-generated Thriplash responses, as non-empty strings, that were
+                split by newline.
+            length_limit: The maximum length for each string in the return value list.
+
+        Returns:
+            A list of three strings.
+        """
+        # LOCAL VARIABLES
+        new_answers = []   # New answers generated from provided answers
+        temp_answers = []  # Holding variable while we polish up answers some
+
+        # EXTRACT IT
+        # Polish what we have
+        # A. truncate to 3 so we don't anger _p_t_a(), B. ignore length limits since the first
+        # list index probably holds all three of our answers.
+        temp_answers = self._polish_thriplash_answers(answers=answers[:3], length_limit=sys.maxsize)
+        # Find a candidate
+        for temp_answer in temp_answers:
+            if temp_answer and len(temp_answer.split(',')) == 3:
+                new_answers = self._polish_thriplash_answers(answers=temp_answer.split(','),
+                                                             length_limit=length_limit)
+                break  # We're taking the first able-bodied candidate. Stop looking further.
+
+        # DONE
+        return new_answers
+
     def _failed_request(self, content: str) -> bool:
         """Check OpenAI's response content for evidence of failure.
 
@@ -273,6 +300,60 @@ class JitbAi:
         # DONE
         return failed
 
+    def _polish_thriplash_answers(self, answers: list, length_limit: int) -> list:
+        """Polish the Thriplash answers in the list.
+
+        Quotes, numbering, and bulleting will be removed.  The list length will be padded with
+        empty strings if the length is less than three.
+
+        Args:
+            answers: List of one (minimum) to three (maximum) strings to polish.  Strings can be
+                empty.
+            length_limit: The maximum length for each string in the return value list.
+
+        Returns:
+            A list of three strings.
+        """
+        # LOCAL VARIABLES
+        old_answer = ''        # Temp string to keep track of what an answer used to look like
+        new_answers = answers  # Shiny, newly polished strings
+
+        # INPUT VALIDATION
+        if not isinstance(answers, list):
+            raise TypeError('answers is not a list')
+        if len(answers) > 3 or not answers:
+            raise ValueError('answers list is the wrong size')
+        for answer in answers:
+            if not isinstance(answer, str):
+                raise TypeError('Found a non-string inside answers list')
+
+        # POLISH IT
+        # Polish the format
+        for index, _ in enumerate(new_answers):
+            # Chew on this index until it comes out clean
+            while True:
+                old_answer = new_answers[index]
+                # print(f'1. ANSWERS[{index}] is {new_answers[index]}')  # DEBUGGING
+                new_answers[index] = re.sub(r'^"|"$', '', new_answers[index])  # Remove quotes
+                # print(f'2. ANSWERS[{index}] is {new_answers[index]}')  # DEBUGGING
+                new_answers[index] = re.sub(r'^\d+\.\s+', '', new_answers[index])  # Strip numbering
+                # print(f'3. ANSWERS[{index}] is {new_answers[index]}')  # DEBUGGING
+                new_answers[index] = re.sub(r'^-', '', new_answers[index])  # Remove bulleting
+                # print(f'4. ANSWERS[{index}] is {new_answers[index]}')  # DEBUGGING
+                new_answers[index] = re.sub(r'^\s+', '', new_answers[index])  # Remove leading whitespace
+                # print(f'5. ANSWERS[{index}] is {new_answers[index]}')  # DEBUGGING
+                if new_answers[index] == old_answer:
+                    break  # No change. We're done.
+            # Final length check (because the completions endpoint keeps adding quotes and numbers)
+            if len(new_answers[index]) > length_limit:
+                new_answers[index] = new_answers[index][:length_limit]  # Truncate it
+
+        # PAD IT
+        while len(new_answers) < 3:
+            new_answers.append('')
+
+        # DONE
+        return new_answers
 
 def _match_phrase(needle: str, haystack: str, threshold: float = 0.75) -> bool:
     """Loosely match a needle and a haystack to an established threshold.
