@@ -1,6 +1,5 @@
 """Defines the entry-point function for this package."""
 # Standard
-import os
 import sys
 # Third Party
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
