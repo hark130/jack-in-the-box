@@ -81,7 +81,6 @@ def join_room(room_code: str, username: str) -> selenium.webdriver.chrome.webdri
     # JOIN IT
     driver.implicitly_wait(2)
     driver.get('https://jackbox.tv/')
-    # print(driver.page_source)  # DEBUGGING
     room_code_box = driver.find_element(By.ID, 'roomcode')
     room_code_box.send_keys(room_code)
     _verify_room_code(driver)
@@ -492,5 +491,4 @@ def _what_page_is_this(
         current_page = JbgQuip3IntPages.THRIP_ANSWER
 
     # DONE
-    # print(f'THIS IS THE {current_page} PAGE')  # DEBUGGING
     return current_page

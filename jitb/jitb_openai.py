@@ -84,7 +84,6 @@ class JitbAi:
         answer = self._create_content(messages=messages)
         answer = re.sub(r'^"|"$', '', answer)  # Strip leading and trailing quotes
         if len(answer) > length_limit:
-            print(f'The {answer} was longer than {length_limit} so it got truncated')  # DEBUGGING
             answer = answer[:length_limit]
 
         # DONE
@@ -119,14 +118,10 @@ class JitbAi:
             content = content + '  The prompt has some fill-in-the-blank placeholders so ensure ' \
                       + 'your answers make sense grammatically.  Do not restate any part of ' \
                       + 'the orignal prompt in your answer.'
-        # print(f'\nTHRIPLASH PROMPT: {prompt}')  # DEBUGGING
-        # print(f'\nCONTENT: {content}')  # DEBUGGING
         messages.append({'role': 'user', 'content': content})
         raw_answer = self._create_content(messages=messages)
         answers = [answer for answer in raw_answer.split('\n') if answer]
         # Validate results
-        # print(f'\nRAW ANSWERS: {raw_answer}')  # DEBUGGING
-        # print(f'\nANSWERS: {answers}')  # DEBUGGING
         if not answers:
             raise RuntimeError(f'OpenAI did *not* generate content for {prompt}')
         if len(answers) < 3:
@@ -175,9 +170,6 @@ class JitbAi:
         content = content.format(choices)
 
         # VOTE IT
-        print(f'\nPROMPT: {prompt}')   # DEBUGGING
-        print(f'\nCHOICES: {choices}')  # DEBUGGING
-        print(f'\nCONTENT: {content}')  # DEBUGGING
         messages.append({'role': 'user', 'content': content})
         answer = self._create_content(messages=messages)
         favorite = self._extract_favorite(answer, choice_dict)
@@ -206,8 +198,8 @@ class JitbAi:
                                                      temperature=self._base_temp)
         # Strip all leading and trailing newlines
         answer = re.sub(r'^\n+|\n+$', '', completion.choices[0].text)
-        # print(f'COMPLETION: {completion}')  # DEBUGGING
-        # print(f"OPENAI'S ANSWER WAS {answer}")  # DEBUGGING
+
+        # DONE
         return answer
 
     def _extract_favorite(self, answer: str, choices: dict) -> str:
