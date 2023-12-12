@@ -9,7 +9,7 @@ from selenium.common.exceptions import NoSuchElementException, StaleElementRefer
 from selenium.webdriver.common.by import By
 import selenium
 # Local
-from jitb.jitb_globals import JBG_QUIP3_CHAR_NAMES, JbgQuip3IntPages
+from jitb.jitb_globals import JBG_QUIP3_CHAR_NAMES, JbgQuip3IntPages, JITB_POLL_RATE
 from jitb.jitb_openai import JitbAi
 
 
@@ -117,7 +117,7 @@ def play_the_game(room_code: str, username: str, ai_obj: JitbAi) -> None:
             elif curr_page == JbgQuip3IntPages.THRIP_ANSWER and curr_page != last_page:
                 answer_thriplash(web_driver=web_driver, ai_obj=ai_obj)
             else:
-                time.sleep(1)  # Zzzzz...
+                time.sleep(JITB_POLL_RATE)  # Zzzzz...
             last_page = curr_page
     finally:
         if web_driver:
@@ -137,7 +137,6 @@ def select_character(web_driver: selenium.webdriver.chrome.webdriver.WebDriver) 
     max_loops = 20       # Maximum number of infinite loops
 
     # INPUT VALIDATION
-    time.sleep(1)  # TO DO: DON'T DO NOW... REPLACE THIS TASTEFUL SLEEP WITH REAL CODE
     if not _is_char_selection_page(web_driver):
         raise RuntimeError('This is not the character selection page.')
 
@@ -200,7 +199,7 @@ def _answer_prompt(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
         prompt_text = _get_prompt(web_driver)[1]
         if prompt_text and prompt_text != last_prompt:
             break
-        time.sleep(1)
+        time.sleep(JITB_POLL_RATE)  # Give the prompt a chance to update from the last one
 
     # ANSWER IT
     answer = ai_obj.generate_answer(prompt=prompt_text)
@@ -438,7 +437,7 @@ def _vote_answer(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
             if not _is_vote_page(web_driver):
                 prompt_text = ''
                 break
-            time.sleep(1)
+            time.sleep(JITB_POLL_RATE)
         except NoSuchElementException:
             prompt_text = ''  # Must have been the last prompt to vote
 
