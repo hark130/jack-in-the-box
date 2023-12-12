@@ -11,13 +11,6 @@ from openai import OpenAI
 from jitb.jitb_globals import OPENAI_KEY_ENV_VAR
 
 
-'''
-from jitb.jitb_openai import JitbAi
-test = JitbAi()
-test.setup()
-'''
-
-
 class JitbAi:
     """Implements the interface to the OpenAI API."""
 
@@ -125,14 +118,14 @@ class JitbAi:
             content = content + '  The prompt has some fill-in-the-blank placeholders so ensure ' \
                       + 'your answers make sense grammatically.  Do not restate any part of ' \
                       + 'the orignal prompt in your answer.'
-        print(f'\nTHRIPLASH PROMPT: {prompt}')  # DEBUGGING
-        print(f'\nCONTENT: {content}')  # DEBUGGING
+        # print(f'\nTHRIPLASH PROMPT: {prompt}')  # DEBUGGING
+        # print(f'\nCONTENT: {content}')  # DEBUGGING
         messages.append({'role': 'user', 'content': content})
         raw_answer = self._create_content(messages=messages)
         answers = [answer for answer in raw_answer.split('\n') if answer]
         # Validate results
-        print(f'\nRAW ANSWERS: {raw_answer}')  # DEBUGGING
-        print(f'\nANSWERS: {answers}')  # DEBUGGING
+        # print(f'\nRAW ANSWERS: {raw_answer}')  # DEBUGGING
+        # print(f'\nANSWERS: {answers}')  # DEBUGGING
         if not answers:
             raise RuntimeError(f'OpenAI did *not* generate content for {prompt}')
         if len(answers) < 3:
@@ -142,7 +135,7 @@ class JitbAi:
             print(f'OpenAI generated more than just three lines here {answers}')  # DEBUGGING
             answers = answers[len(answers) - 3:]
         # Polish the format
-        for index in range(0, len(answers)):
+        for index, _ in enumerate(answers):
             for _ in range(2):
                 # Do it twice because OpenAI be tricksey sometimes
                 answers[index] = re.sub(r'^"|"$', '', answers[index])  # Remove quotes
@@ -220,7 +213,7 @@ class JitbAi:
         # Strip all leading and trailing newlines
         answer = re.sub(r'^\n+|\n+$', '', completion.choices[0].text)
         # print(f'COMPLETION: {completion}')  # DEBUGGING
-        print(f"OPENAI'S ANSWER WAS {answer}")  # DEBUGGING
+        # print(f"OPENAI'S ANSWER WAS {answer}")  # DEBUGGING
         return answer
 
     def _extract_favorite(self, answer: str, choices: dict) -> str:
