@@ -333,15 +333,10 @@ class JitbAi:
             # Chew on this index until it comes out clean
             while True:
                 old_answer = new_answers[index]
-                # print(f'1. ANSWERS[{index}] is {new_answers[index]}')  # DEBUGGING
-                new_answers[index] = re.sub(r'^"|"$', '', new_answers[index])  # Remove quotes
-                # print(f'2. ANSWERS[{index}] is {new_answers[index]}')  # DEBUGGING
-                new_answers[index] = re.sub(r'^\d+\.\s+', '', new_answers[index])  # Strip numbering
-                # print(f'3. ANSWERS[{index}] is {new_answers[index]}')  # DEBUGGING
-                new_answers[index] = re.sub(r'^-', '', new_answers[index])  # Remove bulleting
-                # print(f'4. ANSWERS[{index}] is {new_answers[index]}')  # DEBUGGING
-                new_answers[index] = re.sub(r'^\s+', '', new_answers[index])  # Remove leading whitespace
-                # print(f'5. ANSWERS[{index}] is {new_answers[index]}')  # DEBUGGING
+                new_answers[index] = re.sub(r'^"|"$', '', new_answers[index])  # Quotes
+                new_answers[index] = re.sub(r'^\d+\.\s+', '', new_answers[index])  # Numbering
+                new_answers[index] = re.sub(r'^-', '', new_answers[index])  # Bulleting
+                new_answers[index] = re.sub(r'^\s+', '', new_answers[index])  # Leading whitespace
                 if new_answers[index] == old_answer:
                     break  # No change. We're done.
             # Final length check (because the completions endpoint keeps adding quotes and numbers)
@@ -354,6 +349,7 @@ class JitbAi:
 
         # DONE
         return new_answers
+
 
 def _match_phrase(needle: str, haystack: str, threshold: float = 0.75) -> bool:
     """Loosely match a needle and a haystack to an established threshold.
