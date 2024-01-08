@@ -5,6 +5,7 @@ import sys
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
 # Local
 from jitb.jitb_args import parse_args
+from jitb.jitb_logger import Logger
 from jitb.jitb_openai import JitbAi
 from jitb.jitb_website import play_the_game
 
@@ -39,4 +40,4 @@ def main() -> int:
 
 def _print_exception(error: Exception) -> None:
     """Print an exception message to stderr."""
-    print(repr(error), file=sys.stderr)
+    Logger.error(repr(error))
