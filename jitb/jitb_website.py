@@ -10,6 +10,7 @@ from selenium.webdriver.common.by import By
 import selenium
 # Local
 from jitb.jitb_globals import JBG_QUIP3_CHAR_NAMES, JbgQuip3IntPages, JITB_POLL_RATE
+from jitb.jitb_logger import Logger
 from jitb.jitb_openai import JitbAi
 
 
@@ -62,7 +63,7 @@ def answer_thriplash(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
     # DONE
     if not clicked_it:
         raise RuntimeError('Did not answer the Thriplash prompt')
-    print(f'ANSWERED {prompt_text} with: {", ".join(gen_answers)}!')  # DEBUGGING
+    Logger.debug(f'ANSWERED {prompt_text} with: {", ".join(gen_answers)}!')
 
 
 def join_room(room_code: str, username: str) -> selenium.webdriver.chrome.webdriver.WebDriver:
@@ -215,7 +216,7 @@ def _answer_prompt(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
     # DONE
     if not clicked_it:
         raise RuntimeError('Did not answer the prompt')
-    print(f'ANSWERED {prompt_text} with {answer}!')  # DEBUGGING
+    Logger.debug(f'ANSWERED {prompt_text} with {answer}!')
     return prompt_text
 
 
@@ -464,7 +465,7 @@ def _vote_answer(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
     if prompt_text and prompt_text != last_prompt and not clicked_it:
         raise RuntimeError('Did not vote an answer')
     if button:
-        print(f'VOTED {favorite} for {prompt_text}!')  # DEBUGGING
+        Logger.debug(f'VOTED {favorite} for {prompt_text}!')
     return prompt_text
 
 

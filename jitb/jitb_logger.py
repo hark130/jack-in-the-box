@@ -72,8 +72,6 @@ class Logger():
         # SETUP
         logging.addLevelName(LogLevel.JITB, 'DEBUGGING')
         Logger._filename = _create_filename()
-        # print(f'FILENAME: {Logger._filename}')  # DEBUGGING
-        # print(f'DEBUG: {debugging}')  # DEBUGGING
 
         if debugging:
             normal = logging.FileHandler(Logger._filename)
@@ -111,8 +109,6 @@ class Logger():
             logger: Logger name if needed. Defaults to pt_logger
         """
         Logger._check_logger()
-        # print(dir(logging.getLogger(logger)))  # DEBUGGING
-        # logging.getLogger(logger).debug(message)
         Logger.log(level=LogLevel.JITB, message=message, logger=logger)
 
     def error(message: str, logger: str = __name__) -> None:
