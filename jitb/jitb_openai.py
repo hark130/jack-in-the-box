@@ -10,6 +10,7 @@ import sys
 from openai import OpenAI
 # Local
 from jitb.jitb_globals import OPENAI_KEY_ENV_VAR
+from jitb.jitb_logger import Logger
 
 
 class JitbAi:
@@ -128,7 +129,7 @@ class JitbAi:
             for _ in range(3 - len(answers)):
                 answers.append('')
         elif len(answers) > 3:
-            print(f'OpenAI generated more than just three lines here {answers}')  # DEBUGGING
+            Logger.debug(f'OpenAI generated more than just three lines here {answers}')
             answers = self._extract_thriplash_answer(answers=answers, length_limit=length_limit)
         # Polish the format
         answers = self._polish_thriplash_answers(answers=answers, length_limit=length_limit)
@@ -222,18 +223,18 @@ class JitbAi:
         # INPUT VALIDATION
         if self._failed_request(answer):
             favorite = _randomize_choice(choices=choices)
-            print(f'OpenAI failed with {answer} so {favorite} was chosen randomly')  # DEBUGGING
+            Logger.debug(f'OpenAI failed with {answer} so {favorite} was chosen randomly')
         # EXTRACT IT
         elif answer in choices.keys():
             favorite = choices[answer]  # Sometimes OpenAI follows instructions
-            print(f'OpenAI followed instructions and {favorite} was chosen')  # DEBUGGING
+            Logger.debug(f'OpenAI followed instructions and {favorite} was chosen')
         elif len(answer) != len(list(choices.keys())[0]) and answer[0] in choices.keys():
             favorite = choices[answer[0]]  # Sometimes OpenAI likes to add words
-            print(f'OpenAI added words but we extracted {favorite} from {answer}')  # DEBUGGING
+            Logger.debug(f'OpenAI added words but we extracted {favorite} from {answer}')
         else:
             # Did OpenAI give a response that wasn't a choice without failing the request?!
             favorite = _randomize_choice(choices=choices)
-            print(f'OpenAI went crazy with {answer} so {favorite} was chosen randomly')  # DEBUGGING
+            Logger.debug(f'OpenAI went crazy with {answer} so {favorite} was chosen randomly')
 
         # DONE
         return favorite
