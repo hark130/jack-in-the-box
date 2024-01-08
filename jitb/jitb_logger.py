@@ -1,4 +1,10 @@
-"""Standardize logging on behalf of the package."""
+"""Standardize logging on behalf of the package.
+
+Using the --debug command line argument will duplicate any log output, and add debug messages,
+to /tmp/jitb_YYYYMMDD_HHMMSS.log.
+
+clear; tail -f `ls /tmp/jitb_* | tail -n 1`
+"""
 # Standard
 from datetime import datetime
 from enum import IntEnum
@@ -9,9 +15,7 @@ import sys
 # Local
 
 
-# clear; tail -f `ls /tmp/jitb_* | tail -n 1`
-
-
+# pylint: disable=too-few-public-methods, no-self-argument
 class LogLevel(IntEnum):
     """Defines logging levels."""
     DEBUG = logging.DEBUG     # Debug messages
@@ -143,6 +147,7 @@ class Logger():
         """
         logging.getLogger(logger).log(level, message)
 
+    # pylint: disable=no-method-argument
     def _check_logger() -> None:
         """Verify the logger was initialized."""
         if Logger._initialized is False:
