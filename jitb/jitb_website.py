@@ -9,7 +9,8 @@ from selenium.common.exceptions import NoSuchElementException, StaleElementRefer
 from selenium.webdriver.common.by import By
 import selenium
 # Local
-from jitb.jitb_globals import JBG_QUIP3_CHAR_NAMES, JbgQuip3IntPages, JITB_POLL_RATE
+from jitb.jitb_globals import (JBG_QUIP3_CHAR_NAMES, JbgQuip3IntPages, JITB_POLL_RATE,
+                               JITB_SUPPORTED_GAMES)
 from jitb.jitb_logger import Logger
 from jitb.jitb_openai import JitbAi
 
@@ -78,13 +79,16 @@ def join_room(room_code: str, username: str) -> selenium.webdriver.chrome.webdri
     """
     # LOCAL VARIABLES
     driver = webdriver.Chrome()  # Webdriver object
+    game = ''                    # Status text of the roomcode
 
     # JOIN IT
     driver.implicitly_wait(2)
     driver.get('https://jackbox.tv/')
     room_code_box = driver.find_element(By.ID, 'roomcode')
     room_code_box.send_keys(room_code)
-    _verify_room_code(driver)
+    game = _verify_room_code(driver)
+    if game not in JITB_SUPPORTED_GAMES:
+        raise RuntimeError(f'JITB does not yet support {game}')
     username_box = driver.find_element(By.ID, 'username')
     username_box.send_keys(username)
     _check_for_error(driver)
@@ -380,15 +384,18 @@ def _is_vote_page(web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> 
     return vote_page
 
 
-def _verify_room_code(web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> None:
-    """Verify the room was found.
+def _verify_room_code(web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> str:
+    """Verify the room was found and return the status.
+
+    Returns:
+        The status text (e.g., 'Quiplash 3').
 
     Raises:
-        RuntimeError: An error message was found in the HTML
+        RuntimeError: An error message was found in the HTML or the status wasn't found.
     """
     # LOCAL VARIABLES
     app_elem = None     # The app class element
-    # status_elem = None  # The status class WebElement
+    status_text = None  # The status class text
 
     # VERIFY IT
     time.sleep(1)  # TO DO: DON'T DO NOW... REPLACE THIS TASTEFUL SLEEP WITH REAL CODE
@@ -397,11 +404,17 @@ def _verify_room_code(web_driver: selenium.webdriver.chrome.webdriver.WebDriver)
     # 2. Find the status element
     if web_driver:
         app_elem = web_driver.find_element(By.CLASS_NAME, 'app')
-    # 3. Read the status element
+    # 3. Look for errors
     if app_elem.text:
         for error in ERROR_LIST:
             if error.lower() in app_elem.text.lower():
                 raise RuntimeError(error)
+    # 4. Read the status text
+    status_text = web_driver.find_element(By.CLASS_NAME, 'status').text
+    Logger.debug(f'This room code is a {status_text} game')
+
+    # DONE
+    return status_text
 
 
 def _vote_answer(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
