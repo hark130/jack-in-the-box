@@ -6,6 +6,8 @@ from typing import Final, List
 # Local
 
 JITB_POLL_RATE: Final[float] = 0.5  # Rate, in seconds, JITB will parse page content
+# List of Jackbox Games that JITB supports
+JITB_SUPPORTED_GAMES: Final[List[str]] = ['Quiplash 3']
 
 # Environment variable to get the OpenAI API key from.
 OPENAI_KEY_ENV_VAR: Final[str] = 'OPENAI_API_KEY'
