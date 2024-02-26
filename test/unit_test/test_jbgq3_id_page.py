@@ -138,10 +138,10 @@ class TestJbgQ3IdPage(TediousUnitTest):
             None
 
         Returns:
-            Return value of JbgQ3IdPage
+            Return value of JbgQ3.id_page()
 
         Raises:
-            Exceptions raised by JbgQ3IdPage are bubbled up and handled by TediousUnitTest
+            Exceptions raised by JbgQ3.id_page() are bubbled up and handled by TediousUnitTest
         """
         ai_obj = MockedJitbAi()
         jbg_q3_obj = JbgQ3(ai_obj=ai_obj, username=self.username)
@@ -167,7 +167,7 @@ class TestJbgQ3IdPage(TediousUnitTest):
             self.set_test_input(self.web_driver)
 
     def validate_return_value(self, return_value: Any) -> None:
-        """Validate JbgQ3IdPage return value.
+        """Validate JbgQ3.id_page() return value.
 
         Overrides the parent method.  Defines how the test framework validates the return value
         of a completed call.  Calls self._validate_return_value() method under the hood.
