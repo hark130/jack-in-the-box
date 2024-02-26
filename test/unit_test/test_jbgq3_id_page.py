@@ -38,46 +38,11 @@ from tediousstart.tediousunittest import TediousUnitTest
 from jitb.jbgames.jbg_page_ids import JbgPageIds
 from jitb.jbgames.jbg_q3 import JbgQ3
 from jitb.jitb_openai import JitbAi
+from test.mocked_jitb_ai import MockedJitbAi
+from test.unit_test.test_jackbox_games import TestJackboxGames
 
 
-class MockedJitbAi(JitbAi):
-    """Mock the interfaces for the actual JitbAi for the purposes of testing."""
-
-    def __init__(self, *args, **kwargs) -> None:
-        """Class ctor.
-
-        Args:
-            model: Optional; OpenAI model to use.  See: https://platform.openai.com/docs/models
-        """
-        super().__init__(*args, **kwargs)
-
-    def setup(self) -> None:
-        """Do nothing."""
-
-    def tear_down(self) -> None:
-        """Do nothing."""
-
-    def generate_answer(self, prompt: str, length_limit: int = 45) -> str:
-        """Randomize from a generic list of answers."""
-        generic_answers = ['42', 'the meaning of life', 'nothing', 'no one remembers',
-                           'bubble gum', 'Maybe', 'Not sure', "It's possible", 'Could be.',
-                           'Let me check', "Can't say", 'Likely', 'I doubt it',
-                           "I'll think about it", 'Perhaps not', 'banana flavoring']
-        return random.choice(generic_answers)
-
-    # pylint: disable = no-value-for-parameter
-    def generate_thriplash(self, prompt: str, length_limit: int = 30) -> list:
-        """Get three response from generate_answer()."""
-        answer_list = []
-        for _ in range(3):
-            answer_list.append(self.generate_answer()[:length_limit])
-
-    def vote_favorite(self, prompt: str, answers: list) -> str:
-        """Randomly choose an answer."""
-        return random.choice(answers)
-
-
-class TestJbgQ3IdPage(TediousUnitTest):
+class TestJbgQ3IdPage(TestJackboxGames):
     """JbgQ3.id_page() unit test class.
 
     This class provides base functionality to run NEBS unit tests for JbgQ3.id_page().
@@ -87,48 +52,6 @@ class TestJbgQ3IdPage(TediousUnitTest):
 
     # CORE CLASS METHODS
     # Methods listed in call order
-    def __init__(self, *args, **kwargs) -> None:
-        """TestJbgQ3IdPage ctor.
-
-        TestJbgQ3IdPage constructor.  Initializes attributes after constructing the parent
-        object.
-
-        Args:
-            args: Arguments to pass to the parent class ctor
-            kwargs: Keyword arguments to pass to the parent class ctor
-
-        Returns:
-            None
-
-        Raises:
-            None
-        """
-        super().__init__(*args, **kwargs)
-        self.web_driver = None
-
-    def setUp(self) -> None:
-        """Prepares Test Case.
-
-        Automate any preparation necessary before each Test Case executes.
-
-        Args:
-            None
-
-        Returns:
-            None
-
-        Raises:
-            None
-        """
-        super().setUp()
-        warnings.filterwarnings(action="ignore", message="unclosed", category=ResourceWarning)
-
-    def tearDown(self) -> None:
-        """Close the web driver."""
-        super().tearDown()
-        if self.web_driver:
-            self.web_driver.close()
-
     def call_callable(self) -> Any:
         """Calls JbgQ3.id_page().
 
@@ -146,44 +69,6 @@ class TestJbgQ3IdPage(TediousUnitTest):
         ai_obj = MockedJitbAi()
         jbg_q3_obj = JbgQ3(ai_obj=ai_obj, username=self.username)
         return jbg_q3_obj.id_page(*self._args, **self._kwargs)
-
-    def create_test_input(self, filename: Path, use_kwarg: bool = False) -> None:
-        """Translates file-based test input into a Selenium web driver."""
-        # LOCAL VARIABLES
-        input_html = Path() / 'test' / 'test_input' / filename   # File-based test input
-        options = Options()                                      # Options for the web driver
-        self.web_driver = None                                   # Web driver to load the input html
-
-        # SETUP
-        options.add_argument('--headless')
-        self.web_driver = webdriver.Chrome(options=options)
-
-        # CREATE IT
-        self.web_driver.minimize_window()
-        self.web_driver.get(input_html.absolute().as_uri())
-        if use_kwarg:
-            self.set_test_input(web_driver=self.web_driver)
-        else:
-            self.set_test_input(self.web_driver)
-
-    def validate_return_value(self, return_value: Any) -> None:
-        """Validate JbgQ3.id_page() return value.
-
-        Overrides the parent method.  Defines how the test framework validates the return value
-        of a completed call.  Calls self._validate_return_value() method under the hood.
-
-        Args:
-            return_value: The data to check against what the test author defined as the expected
-                return value.  The intended practice is to use the return value of the
-                call_callable() method.
-
-        Returns:
-            None
-
-        Raises:
-            None
-        """
-        self._validate_return_value(return_value=return_value)
 
 
 class NormalTestJbgQ3IdPage(TestJbgQ3IdPage):
