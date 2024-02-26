@@ -122,19 +122,20 @@ class JbgAbc(ABC):
         temp_we = None  # Temp web element object
 
         # CHECK IT
-        if web_driver:
-            # Check for errors
-            for error in ERROR_LIST:
-                if error in web_driver.page_source:
-                    raise RuntimeError(error)
-            # Verify not disconnected
-            try:
-                temp_we = web_driver.find_element(By.ID, 'swal2-title')
-            except NoSuchElementException:
-                pass  # It's good that we didn't find it
-            else:
-                if temp_we.text.lower().startswith('Disconnected'.lower()):
-                    raise RuntimeError('The room was disconnected')
+        if not isinstance(web_driver, selenium.webdriver.chrome.webdriver.WebDriver):
+            raise TypeError(f'Invalid data type of {type(web_driver)} for the web_driver')
+        # Check for errors
+        for error in ERROR_LIST:
+            if error in web_driver.page_source:
+                raise RuntimeError(error)
+        # Verify not disconnected
+        try:
+            temp_we = web_driver.find_element(By.ID, 'swal2-title')
+        except NoSuchElementException:
+            pass  # It's good that we didn't find it
+        else:
+            if temp_we.text.lower().startswith('Disconnected'.lower()):
+                raise RuntimeError('The room was disconnected')
 
     def _is_login_page(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> bool:
         """Determine if this is this the login page.
