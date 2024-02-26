@@ -267,7 +267,7 @@ class SpecialTestJbgQ3IdPage(TestJbgQ3IdPage):
         self.create_test_input(filename='JackboxTV-login_start.html', use_kwarg=True)
         self.expect_return(JbgPageIds.LOGIN)
         self.run_test()
-        
+
 
 if __name__ == '__main__':
     execute_test_cases()

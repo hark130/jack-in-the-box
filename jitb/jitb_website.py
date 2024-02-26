@@ -60,7 +60,7 @@ def play_the_game(room_code: str, username: str, ai_obj: JitbAi) -> None:
     jbg_obj = None     # The jitb.jbgames object to handle this game
 
     # LOGIN
-    game, web_driver = join_room(room_code=room_code, username=username)  
+    game, web_driver = join_room(room_code=room_code, username=username)
 
     # SETUP
     _validate_game(game=game)
