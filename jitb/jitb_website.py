@@ -1,11 +1,9 @@
 """Defines web-based functionality for the package."""
 # Standard
-from typing import Dict, Final, List, Tuple
-import random
+from typing import Dict, Final, Tuple
 import time
 # Third Party
 from selenium import webdriver
-from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException
 from selenium.webdriver.common.by import By
 import selenium
 # Local

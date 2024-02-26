@@ -6,13 +6,10 @@
 """
 
 # Standard Imports
-import os
 import sys
 # Third Party Imports
 # Local Imports
 from test.loader import load_and_run
-# from test.unit_test.lima_unit_test import REPO_DIR
-# sys.path.insert(0, os.path.join(REPO_DIR, 'lima'))
 
 if __name__ == '__main__':
     # Run all test cases discovered in this package

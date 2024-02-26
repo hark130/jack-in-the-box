@@ -1,6 +1,5 @@
 """Defines global constants for the package."""
 # Standard
-from enum import Enum
 from typing import Final, List
 # Third Party
 # Local

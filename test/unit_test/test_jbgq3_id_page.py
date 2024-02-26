@@ -28,7 +28,6 @@ These unit tests will use source-controlled file-based input to create test inpu
 from pathlib import Path
 from typing import Any
 import random
-import sys
 import warnings
 # Third Party Imports
 from selenium import webdriver
@@ -44,13 +43,13 @@ from jitb.jitb_openai import JitbAi
 class MockedJitbAi(JitbAi):
     """Mock the interfaces for the actual JitbAi for the purposes of testing."""
 
-    def __init__(self, model: str = 'gpt-3.5-turbo') -> None:
+    def __init__(self, *args, **kwargs) -> None:
         """Class ctor.
 
         Args:
             model: Optional; OpenAI model to use.  See: https://platform.openai.com/docs/models
         """
-        self._model = model  # OpenAI model
+        super().__init__(*args, **kwargs)
 
     def setup(self) -> None:
         """Do nothing."""
@@ -66,6 +65,7 @@ class MockedJitbAi(JitbAi):
                            "I'll think about it", 'Perhaps not', 'banana flavoring']
         return random.choice(generic_answers)
 
+    # pylint: disable = no-value-for-parameter
     def generate_thriplash(self, prompt: str, length_limit: int = 30) -> list:
         """Get three response from generate_answer()."""
         answer_list = []
@@ -151,8 +151,12 @@ class TestJbgQ3IdPage(TediousUnitTest):
         """Translates file-based test input into a Selenium web driver."""
         # LOCAL VARIABLES
         input_html = Path() / 'test' / 'test_input' / filename   # File-based test input
-        options = Options().add_argument('--headless')           # Options for the web driver
-        self.web_driver = webdriver.Chrome(options=options)      # Web driver to load the input html
+        options = Options()                                      # Options for the web driver
+        self.web_driver = None                                   # Web driver to load the input html
+
+        # SETUP
+        options.add_argument('--headless')
+        self.web_driver = webdriver.Chrome(options=options)
 
         # CREATE IT
         self.web_driver.minimize_window()
