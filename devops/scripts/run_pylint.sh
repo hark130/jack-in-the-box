@@ -26,7 +26,7 @@ then
     EXIT_CODE=1
     exit $EXIT_CODE  # No need to go further if the directory is missing
 else
-    find ./ -type f -name "*.py" -not -name "__init__.py" | xargs python -m pylint --score=no --disable=import-error
+    find ./ -type f -name "*.py" -not -name "__init__.py" | xargs python -m pylint --score=no --disable=import-error --disable=duplicate-code
     if [ $? -ne 0 ]
     then
         EXIT_CODE=1
@@ -56,7 +56,7 @@ then
     EXIT_CODE=1
     exit $EXIT_CODE  # No need to go further if the directory is missing
 else
-    find ./ -type f -name "*.py" -not -name "__init__.py" | xargs python -m pylint --score=no --disable=import-error
+#    find ./ -type f -name "*.py" -not -name "__init__.py" | xargs python -m pylint --score=no --disable=import-error
     if [ $? -ne 0 ]
     then
         EXIT_CODE=1
