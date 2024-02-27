@@ -207,6 +207,15 @@ class SpecialTestJbgQ2IdPage(TestJbgQ2IdPage):
         self.expect_exception(RuntimeError, 'The room was disconnected')
         self.run_test()
 
+    def test_s10_jitb_logic_flaw(self):
+        """Live functional testing highlighted this logic flaw.
+
+        Of course this isn't a prompt page... but how did it get there in the first place?
+        """
+        self.create_test_input('JackboxTv-Q2-Round_1-Vote_1-get_prompt-error.html')
+        self.expect_return(JbgPageIds.VOTE)
+        self.run_test()
+
 
 if __name__ == '__main__':
     execute_test_cases()

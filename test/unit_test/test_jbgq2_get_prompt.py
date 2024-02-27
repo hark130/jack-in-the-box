@@ -66,7 +66,7 @@ class NormalTestJbgQ2GetPrompt(TestJbgQ2GetPrompt):
         """Quiplash 2 Round 1 Prompt 1 page."""
         self.create_web_input('JackboxTv-Q2-Round_1-Prompt_1.html')
         self.expect_return(['You know you’re staying at a dirty hotel when they offer '
-                           'a free continental ________', '  SEND SAFETY QUIP', '(HALF POINTS)'])
+                            'a free continental ________', '  SEND SAFETY QUIP', '(HALF POINTS)'])
         self.run_test()
 
     def test_n02_round_2_prompt_1(self):
@@ -107,6 +107,16 @@ class ErrorTestJbgQ2GetPrompt(TestJbgQ2GetPrompt):
         """Error input that's expected to fail."""
         self.set_test_input(Path() / 'test' / 'test_input' / 'JackboxTV-login_start.html')
         self.expect_exception(TypeError, 'Invalid web_driver data type of ')
+        self.run_test()
+
+    def test_e03_jitb_logic_flaw(self):
+        """Error input that's expected to fail.
+
+        This BUG cropped up during live functional testing.  Technically, get_prompt() worked
+        perfectly.  The logic that sent this page to get_prompt(), however, was flawed.
+        """
+        self.create_web_input('JackboxTv-Q2-Round_1-Vote_1-get_prompt-error.html')
+        self.expect_exception(RuntimeError, 'This is not a prompt page')
         self.run_test()
 
 
