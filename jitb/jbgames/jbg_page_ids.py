@@ -16,4 +16,5 @@ class JbgPageIds(Enum):
     AVATAR = auto()    # Standard jackbox.tv 'select an avatar' page
     ANSWER = auto()    # Answer a prompt
     VOTE = auto()      # Vote other answers to a prompt
-    Q3_THRIP = auto()  # Quiplash3 Thriplash prompt
+    Q2_LAST = auto()   # Quiplash 2 Last Lash prompt
+    Q3_THRIP = auto()  # Quiplash 3 Thriplash prompt
