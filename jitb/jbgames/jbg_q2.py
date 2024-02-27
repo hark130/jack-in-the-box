@@ -2,7 +2,6 @@
 
 # Standard
 from typing import Final
-import random
 import time
 # Third Party
 from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException
@@ -174,7 +173,7 @@ def get_prompt(web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> lis
         element = web_driver.find_element(By.ID, needle)
         prompt_text = element.text.split('\n')
     except (NoSuchElementException, StaleElementReferenceException) as err:
-        raise RuntimeError(f'Could not find the prompt web element: {needle}')
+        raise RuntimeError(f'Could not find the prompt web element: {needle}') from err
 
     # DONE
     if not prompt_text:
@@ -247,8 +246,7 @@ def _is_last_lash_page(web_driver: selenium.webdriver.chrome.webdriver.WebDriver
         True if this is a regular prompt screen, False otherwise.
     """
     # LOCAL VARIABLES
-    last_lash_page = False  # Prove this 
-    prompt = []             # The prompt from web_driver
+    last_lash_page = False  # Prove this true if you can
 
     # IS IT?
     if _is_prompt_page(web_driver=web_driver, verify_regular=False) \
