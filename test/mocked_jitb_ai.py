@@ -6,6 +6,7 @@ JitbAi methods, and even saves the sole constructor argument as an attribute.
 """
 
 # Standard Imports
+import random
 # Third Party Imports
 # Local Imports
 from jitb.jitb_openai import JitbAi

@@ -62,6 +62,19 @@ class TestJackboxGames(TediousUnitTest):
         if self.web_driver:
             self.web_driver.close()
 
+    def call_callable(self) -> Any:
+        """Child class defines test case callable.
+
+        This method must be overridden by the child class.
+
+        Raises:
+            NotImplementedError: The child class hasn't overridden this method.
+        """
+        # Example Usage:
+        # return jbgames_obj.the_method_you_are_testing(*self._args, **self._kwargs)
+        raise NotImplementedError(
+            self._test_error.format('The child class must override the call_callable method'))
+
     def create_web_driver(self, filename: str) -> selenium.webdriver.chrome.webdriver.WebDriver:
         """Translates file-based test input into a Selenium web driver for the self.web_driver."""
         # LOCAL VARIABLES

@@ -66,7 +66,6 @@ class JbgAbc(ABC):
             TypeError: An internal attribute is the wrong data type.
             ValueError: An internal attribute contains an invalid value.
         """
-        pass
 
     @abstractmethod
     def select_character(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> None:
@@ -79,7 +78,6 @@ class JbgAbc(ABC):
             RuntimeError: An error message was found in the HTML, this isn't the character
                 selection page, or a character selection failed.
         """
-        pass
 
     @abstractmethod
     def answer_prompts(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> None:
@@ -88,7 +86,6 @@ class JbgAbc(ABC):
         Args:
             web_driver: The webdriver object to interact with.
         """
-        pass
 
     @abstractmethod
     def vote_answers(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> None:
@@ -97,7 +94,6 @@ class JbgAbc(ABC):
         Args:
             web_driver: The webdriver object to interact with.
         """
-        pass
 
     @abstractmethod
     def id_page(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> JbgPageIds:
@@ -109,7 +105,6 @@ class JbgAbc(ABC):
         Args:
             web_driver: The webdriver object to interact with.
         """
-        pass
 
     # Private methods in alphabetical order.
     def _check_web_driver(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> None:
