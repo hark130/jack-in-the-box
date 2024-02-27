@@ -8,6 +8,7 @@ import warnings
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from tediousstart.tediousunittest import TediousUnitTest
+import selenium
 # Local Imports
 
 
@@ -36,7 +37,7 @@ class TestJackboxGames(TediousUnitTest):
             None
         """
         super().__init__(*args, **kwargs)
-        self.web_driver = None
+        self.web_driver = None  # Selenium based Chrome web driver
 
     def setUp(self) -> None:
         """Prepares Test Case.
@@ -61,19 +62,37 @@ class TestJackboxGames(TediousUnitTest):
         if self.web_driver:
             self.web_driver.close()
 
-    def create_test_input(self, filename: Path, use_kwarg: bool = False) -> None:
-        """Translates file-based test input into a Selenium web driver."""
+    def create_web_driver(self, filename: str) -> selenium.webdriver.chrome.webdriver.WebDriver:
+        """Translates file-based test input into a Selenium web driver for the self.web_driver."""
         # LOCAL VARIABLES
         input_html = Path() / 'test' / 'test_input' / filename   # File-based test input
         options = Options()                                      # Options for the web driver
-        self.web_driver = None                                   # Web driver to load the input html
+
+        # VALIDATION
+        if not input_html.is_file():
+            self.fail_test_case(f'Filename {input_html.absolute()} is not actually a file.')
 
         # SETUP
         options.add_argument('--headless')
         self.web_driver = webdriver.Chrome(options=options)
-
-        # CREATE IT
         self.web_driver.minimize_window()
+        self.web_driver.get(input_html.absolute().as_uri())
+
+    def create_test_input(self, filename: str, use_kwarg: bool = False) -> None:
+        """Translates file-based test input into a Selenium web driver for test case input.
+
+        Calls self.create_web_driver() to create the web driver.  Then passes that web driver
+        to self.set_test_input().
+        """
+        # LOCAL VARIABLES
+        input_html = Path() / 'test' / 'test_input' / filename   # File-based test input
+
+        # CREATE WEB DRIVER
+        self.create_web_driver(filename=filename)
+        if not self.web_driver:
+            self.fail_test_case('Failed to create a web driver')
+
+        # CREATE TEST INPUT
         self.web_driver.get(input_html.absolute().as_uri())
         if use_kwarg:
             self.set_test_input(web_driver=self.web_driver)
