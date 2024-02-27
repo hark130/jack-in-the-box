@@ -1,27 +1,10 @@
 """Unit test module for JbgQ3.id_page().
 
-These unit tests will use source-controlled file-based input to create test input.
-
-    Usage:
-    1. Copy this file and rename it to `test_CALLABLE.py`
-    2. Rename the internal 'CALLABLE' placeholders accordingly
-    3. Source-control discretely named file-based test input (if applicable)
-    4. Define numbered Test Cases within the NEBS classes whose name begins with `test_<NEBS>`
-    5. `python3 -m test.unit_tests.test_CALLABLE` to run your test cases
-
-    Troubleshooting:
-    Q1. Why didn't my test cases run when I executed `python3 -m unittest`?
-    A1a. Ensure your test case module's filename start with `test_`?
-    A1b. Is there at least one method name that starts with `test_`?
-    Q2. Why didn't my test cases execute with `python3 -m test.unit_tests.test_CALLABLE`?
-    A2. Consider the following:
-        - Did you replace the command's 'test_CALLABLE' with the actual name of your module?
-        - Did you remove or comment out `execute_test_cases()` or the code block that executes
-            `execute_test_cases()`?
-        - Did you remove, comment, or modify `execute_test_cases()`'s behavior?
-        - Is there at least one Test Case whose name starts with `test_`?
-        - Try `python3 -m unittest -k CALLABLE` but replace CALLABLE with a substring related
-            to your test cases and/or module
+Typical Usage:
+    python -m test                                      # Run *all* the test cases
+    python -m test.unit_test                            # Run *all* the unit test cases
+    python -m test.unit_test.test_jbgq3_id_page         # Run just these unit tests
+    python -m test.unit_test.test_jbgq3_id_page -k n01  # Run just this normal 1 unit test
 """
 
 # Standard Imports
@@ -107,13 +90,13 @@ class NormalTestJbgQ3IdPage(TestJbgQ3IdPage):
         self.expect_return(JbgPageIds.UNKNOWN)
         self.run_test()
 
-    def test_n05_round_1_prompt_1(self):
+    def test_n06_round_1_prompt_1(self):
         """Quiplash 3 Round 1 Prompt 1 page."""
         self.create_test_input('JackboxTv-Q3-Round_1-Prompt_1.html')
         self.expect_return(JbgPageIds.ANSWER)
         self.run_test()
 
-    def test_n05_round_1_vote_1(self):
+    def test_n07_round_1_vote_1(self):
         """Quiplash 3 Round 1 Vote 1 page."""
         self.create_test_input('JackboxTv-Q3-Round_1-Vote_1-start.html')
         self.expect_return(JbgPageIds.VOTE)
