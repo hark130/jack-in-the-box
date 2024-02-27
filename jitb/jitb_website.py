@@ -12,11 +12,12 @@ from jitb.jitb_globals import JITB_POLL_RATE
 from jitb.jitb_logger import Logger
 from jitb.jitb_openai import JitbAi
 from jitb.jbgames.jbg_abc import JbgAbc
+from jitb.jbgames.jbg_q2 import JbgQ2
 from jitb.jbgames.jbg_q3 import JbgQ3
 
 
 # List of Jackbox Games that JITB supports
-JITB_SUPPORTED_GAMES: Final[Dict[str, JbgAbc]] = {'Quiplash 3': JbgQ3}
+JITB_SUPPORTED_GAMES: Final[Dict[str, JbgAbc]] = {'Quiplash 2': JbgQ2, 'Quiplash 3': JbgQ3}
 
 
 def join_room(room_code: str,
