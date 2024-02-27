@@ -250,7 +250,7 @@ def _is_last_lash_page(web_driver: selenium.webdriver.chrome.webdriver.WebDriver
 
     # IS IT?
     if _is_prompt_page(web_driver=web_driver, verify_regular=False) \
-    and not _is_prompt_page(web_driver=web_driver, verify_regular=True):
+            and not _is_prompt_page(web_driver=web_driver, verify_regular=True):
         last_lash_page = True
 
     # DONE
