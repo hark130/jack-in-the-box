@@ -13,6 +13,7 @@ from jitb.jbgames.jbg_page_ids import JbgPageIds
 from jitb.jitb_globals import JITB_POLL_RATE
 from jitb.jitb_logger import Logger
 from jitb.jitb_openai import JitbAi
+from jitb.jitb_selenium import get_web_element_text
 
 
 # A 'needle' to help differentiate between regular prompts and the Round 3 'Last Lash' prompt
@@ -158,43 +159,94 @@ class JbgQ2(JbgAbc):
 
 
 # Public Functions (alphabetical order)
-def get_prompt(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
-               relax: bool = False) -> list:
-    """Get the prompt element id and return the text as-is.
+def get_last_lash_prompt(web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> str:
+    """Get the Last Lash prompt text from the state-answer-question web element.
 
-    Uses the ID 'state-answer-question' in an attempt to get all parts of the prompt.
-    The final prompt has multiple lines.
+    Do not use this for the Round 1 or 2.
 
     Args:
         web_driver: The web driver to get the prompt from.
-        relax: Optional; Be cool on the validation of this being a prompt page or not, if True.
 
     Returns:
-        The game prompt text, split by newline into a list.
+        The game's Last Lash prompt text.
 
     Raises:
         RuntimeError: No prompts found or web_driver isn't a prompt page.
+        TypeError: Bad data type.
+        ValueError: Invalid by value.
     """
     # LOCAL VARIABLES
     needle = 'state-answer-question'  # Web element id to find in web_driver
     element = None                    # Web element pulled from web_driver
-    prompt_text = []                  # The prompt's text, split by newline, as a list
+    prompt_text = ''                  # The prompt's text as a string
+    prompt_list = []                  # Use this to cleanup the text
 
     # INPUT VALIDATION
     _validate_web_driver(web_driver=web_driver)
-    if not _is_prompt_page(web_driver, verify_regular=False) and not relax:
+    if not _is_last_lash_page(web_driver):
+        raise RuntimeError('This is not a Last Lash prompt page')
+
+    # GET IT
+    try:
+        prompt_text = get_web_element_text(web_driver=web_driver, by=By.ID, value=needle)
+    except (RuntimeError, TypeError, ValueError) as err:
+        Logger.debug(f'get_last_lash_prompt() call to get_web_element_text() failed with {err}')
+        raise RuntimeError(f'The call to get_web_element_text() for the {needle} element value '
+                           f'failed with {repr(err)}') from err
+    else:
+        if prompt_text is None:
+            raise RuntimeError(f'Unable to locate the {needle} element value')
+        if not prompt_text:
+            raise RuntimeError(f'Did not detect any text using the {needle} element value')
+
+    # CLEAN IT UP
+    prompt_list = prompt_text.split('\n')[:2]  # Testing shows we only care about the first two
+    prompt_text = ' '.join(prompt_list)  # Put it back together into one string
+
+    # DONE
+    return prompt_text
+
+
+def get_prompt(web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> str:
+    """Get the prompt text from the question-text web element.
+
+    Do not use this for the Round 3 Last Lash prompt because the Last Lash prompt
+    commonly has multiple lines.
+
+    Args:
+        web_driver: The web driver to get the prompt from.
+
+    Returns:
+        The game prompt text.
+
+    Raises:
+        RuntimeError: No prompts found or web_driver isn't a prompt page.
+        TypeError: Bad data type.
+        ValueError: Invalid by value.
+    """
+    # LOCAL VARIABLES
+    needle = 'question-text'  # Web element id to find in web_driver
+    element = None            # Web element pulled from web_driver
+    prompt_text = ''          # The prompt's text as a string
+
+    # INPUT VALIDATION
+    _validate_web_driver(web_driver=web_driver)
+    if not _is_prompt_page(web_driver, verify_regular=True):
         raise RuntimeError('This is not a prompt page')
 
     # GET IT
     try:
-        element = web_driver.find_element(By.ID, needle)
-        prompt_text = element.text.split('\n')
-    except (NoSuchElementException, StaleElementReferenceException) as err:
-        raise RuntimeError(f'Could not find the prompt web element: {needle}') from err
+        prompt_text = get_web_element_text(web_driver=web_driver, by=By.ID, value=needle)
+    except (RuntimeError, TypeError, ValueError) as err:
+        raise RuntimeError(f'The call to get_web_element_text() for the {needle} element value '
+                           f'failed with {repr(err)}') from err
+    else:
+        if prompt_text is None:
+            raise RuntimeError(f'Unable to locate the {needle} element value')
+        if not prompt_text:
+            raise RuntimeError(f'Did not detect any text using the {needle} element value')
 
     # DONE
-    if not prompt_text:
-        raise RuntimeError('Did not detect any prompts')
     return prompt_text
 
 
@@ -408,8 +460,10 @@ def _vote_answer(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
             prompt_text = ''  # Must have been the last prompt to vote
 
     # ANSWER IT
+    print(f'THE _vote_answer PROMPT TEXT WAS {prompt_text}')  # DEBUGGING
     if prompt_text and prompt_text != last_prompt:
         buttons = web_driver.find_elements(By.XPATH, '//button')
+        print(f'_vote_answer FOUND BUTTONS: {buttons}')  # DEBUGGING
         # Form the selection list
         for button in buttons:
             if button.text:
