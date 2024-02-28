@@ -75,7 +75,7 @@ class TestJackboxGames(TediousUnitTest):
         raise NotImplementedError(
             self._test_error.format('The child class must override the call_callable method'))
 
-    def create_web_driver(self, filename: str) -> selenium.webdriver.chrome.webdriver.WebDriver:
+    def create_web_driver(self, filename: str) -> None:
         """Translates file-based test input into a Selenium web driver for the self.web_driver."""
         # LOCAL VARIABLES
         input_html = Path() / 'test' / 'test_input' / filename   # File-based test input
@@ -87,9 +87,24 @@ class TestJackboxGames(TediousUnitTest):
 
         # SETUP
         options.add_argument('--headless')
-        self.web_driver = webdriver.Chrome(options=options)
-        self.web_driver.minimize_window()
-        self.web_driver.get(input_html.absolute().as_uri())
+        if not self.web_driver:
+            self.web_driver = webdriver.Chrome(options=options)
+            self.web_driver.minimize_window()
+            self.web_driver.get(input_html.absolute().as_uri())
+
+    def create_web_input(self, filename: Path, use_kwarg: bool = False) -> None:
+        """Translate a path object into test input.
+
+        Args:
+            filename: Path object to convert to a web driver and use as file-based test input.
+            use_kwarg: Optional; Will call the function using keyword arguments.
+        """
+        # LOCAL VARIABLES
+        self.create_web_driver(filename=filename)  # Unit test input
+        if use_kwarg:
+            self.set_test_input(web_driver=self.web_driver)
+        else:
+            self.set_test_input(self.web_driver)
 
     def create_test_input(self, filename: str, use_kwarg: bool = False) -> None:
         """Translates file-based test input into a Selenium web driver for test case input.
