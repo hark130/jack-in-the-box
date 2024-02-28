@@ -1,4 +1,4 @@
-"""Unit test module for jitb_selenium.get_element().
+"""Unit test module for jitb_selenium.get_web_element().
 
 Typical Usage:
     python -m test                                                  # Run *all* the test cases
@@ -20,10 +20,11 @@ from jitb.jitb_logger import Logger
 from jitb.jitb_selenium import get_web_element
 
 
-class TestJitbSeleniumGetElement(TestJackboxGames):
-    """The jitb_selenium.get_element() unit test class.
+class TestJitbSeleniumGetWebElement(TestJackboxGames):
+    """The jitb_selenium.get_web_element() unit test class.
 
-    This class provides base functionality to run NEBS unit tests for jitb_selenium.get_element().
+    This class provides base functionality to run NEBS unit tests for
+    jitb_selenium.get_web_element().
     """
 
     # CORE CLASS METHODS
@@ -63,24 +64,24 @@ class TestJitbSeleniumGetElement(TestJackboxGames):
             self.set_test_input(self.web_driver, in_by, in_value)
 
     def call_callable(self) -> Any:
-        """Calls jitb_selenium.get_element().
+        """Calls jitb_selenium.get_web_element().
 
-        Overrides the parent method.  Defines the way to call jitb_selenium.get_element().
+        Overrides the parent method.  Defines the way to call jitb_selenium.get_web_element().
 
         Args:
             None
 
         Returns:
-            Return value of jitb_selenium.get_element()
+            Return value of jitb_selenium.get_web_element()
 
         Raises:
-            Exceptions raised by jitb_selenium.get_element() are bubbled up and handled by
+            Exceptions raised by jitb_selenium.get_web_element() are bubbled up and handled by
                 TediousUnitTest
         """
         return get_web_element(*self._args, **self._kwargs)
 
 
-class NormalTestJitbSeleniumGetElement(TestJitbSeleniumGetElement):
+class NormalTestJitbSeleniumGetWebElement(TestJitbSeleniumGetWebElement):
     """Normal Test Cases.
 
     Organize the Normal Test Cases.
@@ -141,7 +142,7 @@ class NormalTestJitbSeleniumGetElement(TestJitbSeleniumGetElement):
         self.run_test()
 
 
-class ErrorTestJitbSeleniumGetElement(TestJitbSeleniumGetElement):
+class ErrorTestJitbSeleniumGetWebElement(TestJitbSeleniumGetWebElement):
     """Error Test Cases.
 
     Organize the Error Test Cases.
@@ -196,7 +197,7 @@ class ErrorTestJitbSeleniumGetElement(TestJitbSeleniumGetElement):
         self.run_test()
 
 
-class SpecialTestJitbSeleniumGetElement(TestJitbSeleniumGetElement):
+class SpecialTestJitbSeleniumGetWebElement(TestJitbSeleniumGetWebElement):
     """Special Test Cases.
 
     Organize the Special Test Cases.
