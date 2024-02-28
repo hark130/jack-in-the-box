@@ -36,7 +36,7 @@ def get_sub_element(web_element: selenium.webdriver.remote.webelement.WebElement
     try:
         element = _get_element(web_thing=web_element, by=by, value=value)
     except (NoSuchElementException, StaleElementReferenceException) as err:
-        Logger.debug(f'get_element() getting {by}:{value} raised {repr(err)}!')
+        Logger.debug(f'get_sub_element() getting {by}:{value} raised {repr(err)}!')
 
     # DONE
     return element
@@ -84,8 +84,8 @@ def get_web_element_text(web_driver: selenium.webdriver.chrome.webdriver.WebDriv
         A string, which could be empty, if found.  None otherwise.
     """
     # LOCAL VARIABLES
-    element = None  # Found selenium.webdriver.remote.webelement.WebElement
-    elem_text = ''  # Text extracted from element
+    element = None    # Found selenium.webdriver.remote.webelement.WebElement
+    elem_text = None  # Text extracted from element
 
     # INPUT VALIDATION handled by get_web_element()
 
@@ -95,7 +95,8 @@ def get_web_element_text(web_driver: selenium.webdriver.chrome.webdriver.WebDriv
     except (NoSuchElementException, StaleElementReferenceException) as err:
         Logger.debug(f'get_web_element_text() getting {by}:{value} raised {repr(err)}!')
     else:
-        elem_text = element.text
+        if element:
+            elem_text = element.text
 
     # DONE
     return elem_text
