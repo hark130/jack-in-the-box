@@ -1,4 +1,4 @@
-"""Unit test module for JbgQ2.id_page().
+"""Unit test module for JbgQ2.get_prompt().
 
 Typical Usage:
     python -m test                                         # Run *all* the test cases
@@ -51,29 +51,15 @@ class NormalTestJbgQ2GetPrompt(TestJbgQ2GetPrompt):
     def test_n01_round_1_prompt_1(self):
         """Quiplash 2 Round 1 Prompt 1 page."""
         self.create_web_input('JackboxTv-Q2-Round_1-Prompt_1.html')
-        self.expect_return(['You know you’re staying at a dirty hotel when they offer '
-                            'a free continental ________', '  SEND SAFETY QUIP', '(HALF POINTS)'])
+        self.expect_return('You know you’re staying at a dirty hotel when they offer '
+                           'a free continental ________')
         self.run_test()
 
     def test_n02_round_2_prompt_1(self):
         """Quiplash 2 Round 2 Prompt 1 page."""
         self.create_web_input('JackboxTv-Q2-Round_2-Prompt_1.html')
-        self.expect_return(['A rejected title in the Magic School Bus series: '
-                            'The Magic School Bus Goes to ________', '  SEND SAFETY QUIP',
-                            '(HALF POINTS)'])
-        self.run_test()
-
-    def test_n03_round_3_prompt_1_v1(self):
-        """Quiplash 2 Round 3 'Last Lash' Prompt 1 page."""
-        self.create_web_input('JackboxTv-Q2-Round_3-Prompt_1.html')
-        self.expect_return(['Come up with a new hilarious sitcom with this word in the title:',
-                            'SLIME', '  SEND'])
-        self.run_test()
-
-    def test_n04_round_3_prompt_1_v2(self):
-        """Another Quiplash 2 Round 3 'Last Lash' Prompt 1 page."""
-        self.create_web_input('JackboxTv-Q2-Round_3-Prompt_1-v2.html')
-        self.expect_return(['Come up with a full name for this acronym!', 'W.A.W.', '  SEND'])
+        self.expect_return('A rejected title in the Magic School Bus series: '
+                           'The Magic School Bus Goes to ________')
         self.run_test()
 
 
@@ -169,6 +155,28 @@ class SpecialTestJbgQ2GetPrompt(TestJbgQ2GetPrompt):
     def test_s10_game_over(self):
         """Quiplash 2 game over page."""
         self.create_web_input('JackboxTv-Q2-Game_Over.html')
+        self.expect_exception(RuntimeError, 'This is not a prompt page')
+        self.run_test()
+
+    def test_s11_round_3_prompt_1_v1(self):
+        """Quiplash 2 Round 3 'Last Lash' Prompt 1 page.
+
+        jitb.selenium.get_prompt() has been refactored to only work for Round 1 & 2 prompts.
+        No more one-size-fits-all shenanigans.  I will refactor the JbgQ2 and jbg_q2
+        functionality to be more 'recipe' driven and to lean heavily on jitb.selenium.
+        """
+        self.create_web_input('JackboxTv-Q2-Round_3-Prompt_1.html')
+        self.expect_exception(RuntimeError, 'This is not a prompt page')
+        self.run_test()
+
+    def test_s12_round_3_prompt_1_v2(self):
+        """Another Quiplash 2 Round 3 'Last Lash' Prompt 1 page.
+
+        jitb.selenium.get_prompt() has been refactored to only work for Round 1 & 2 prompts.
+        No more one-size-fits-all shenanigans.  I will refactor the JbgQ2 and jbg_q2
+        functionality to be more 'recipe' driven and to lean heavily on jitb.selenium.
+        """
+        self.create_web_input('JackboxTv-Q2-Round_3-Prompt_1-v2.html')
         self.expect_exception(RuntimeError, 'This is not a prompt page')
         self.run_test()
 
