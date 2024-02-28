@@ -81,31 +81,6 @@ class TestJitbSeleniumGetWebElementText(TestJackboxGames):
         """
         return get_web_element_text(*self._args, **self._kwargs)
 
-    # def validate_return_value(self, return_value: Any) -> None:
-    #     """Validate the type of the return value and that it starts with what we expect it to.
-
-    #     Explicitly overriding the parent class's definition to do a "softer" validation.
-
-    #     Args:
-    #         return_value: The data to check against what the test author defined as the expected
-    #             return value.  The intended practice is to use the return value of the
-    #             call_callable() method.
-
-    #     Returns:
-    #         None
-
-    #     Raises:
-    #         None.  Calls self._add_test_failure() instead.
-    #     """
-    #     # Type
-    #     if not isinstance(return_value, type(self._exp_return)):
-    #         self._add_test_failure(f'Expected type {type(self._exp_return)} '
-    #                                f'but it was of type {type(return_value)}')
-    #     # Value
-    #     elif not return_value.startswith(self._exp_return):
-    #         self._add_test_failure(f'Expected value "{return_value}" to start with '
-    #                                f'"{self._exp_return}"')
-
 
 class NormalTestJitbSeleniumGetWebElementText(TestJitbSeleniumGetWebElementText):
     """Normal Test Cases.
