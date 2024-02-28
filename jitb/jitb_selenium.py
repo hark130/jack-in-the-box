@@ -25,6 +25,10 @@ def get_sub_element(web_element: selenium.webdriver.remote.webelement.WebElement
 
     Returns:
         A WebElement if found, None otherwise.
+
+    Raises:
+        TypeError: Bad data type.
+        ValueError: Invalid by value.
     """
     # LOCAL VARIABLES
     element = None  # Found selenium.webdriver.remote.webelement.WebElement
@@ -54,6 +58,10 @@ def get_web_element(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
 
     Returns:
         A WebElement if found, None otherwise.
+
+    Raises:
+        TypeError: Bad data type.
+        ValueError: Invalid by value.
     """
     # LOCAL VARIABLES
     element = None  # Found selenium.webdriver.remote.webelement.WebElement
@@ -72,7 +80,7 @@ def get_web_element(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
 
 
 def get_web_element_text(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
-                         by: str ='id', value: str = None) -> str:
+                         by: str = By.ID, value: str = None) -> str:
     """Extract the text from the value element, of type by, from web_driver.
 
     Args:
@@ -82,6 +90,10 @@ def get_web_element_text(web_driver: selenium.webdriver.chrome.webdriver.WebDriv
 
     Returns:
         A string, which could be empty, if found.  None otherwise.
+
+    Raises:
+        TypeError: Bad data type.
+        ValueError: Invalid by value.
     """
     # LOCAL VARIABLES
     element = None    # Found selenium.webdriver.remote.webelement.WebElement
@@ -135,7 +147,7 @@ def _get_element(web_thing: Any, by: str = By.ID, value: str = None) \
     return element
 
 
-def _validate_common_args(by: str = By.ID, value: str = None) -> None:
+def _validate_common_args(by: str, value: str) -> None:
     """Validate the cross-section of this module's API functions."""
     # INPUT VALIDATION
     # by
@@ -150,7 +162,7 @@ def _validate_common_args(by: str = By.ID, value: str = None) -> None:
 
 
 def _validate_wd_input(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
-                       by: str = By.ID, value: str = None) -> None:
+                       by: str, value: str) -> None:
     """Validate the input on behalf of API functions in this module."""
     # INPUT VALIDATION
     # web_driver
@@ -162,7 +174,7 @@ def _validate_wd_input(web_driver: selenium.webdriver.chrome.webdriver.WebDriver
 
 
 def _validate_we_input(web_element: selenium.webdriver.remote.webelement.WebElement,
-                       by: str = By.ID, value: str = None) -> None:
+                       by: str, value: str) -> None:
     """Validate the input on behalf of API functions in this module."""
     # INPUT VALIDATION
     # web_element
