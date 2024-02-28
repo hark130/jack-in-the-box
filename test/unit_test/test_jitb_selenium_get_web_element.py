@@ -1,10 +1,10 @@
 """Unit test module for jitb_selenium.get_web_element().
 
 Typical Usage:
-    python -m test                                                  # Run *all* the test cases
-    python -m test.unit_test                                        # Run *all* the unit test cases
-    python -m test.unit_test.test_jitb_selenium_get_element         # Run just these unit tests
-    python -m test.unit_test.test_jitb_selenium_get_element -k n01  # Run just the n01 unit test
+    python -m test                                                      # Run *all* the test cases
+    python -m test.unit_test                                            # Run *all* unit test cases
+    python -m test.unit_test.test_jitb_selenium_get_web_element         # Run just these unit tests
+    python -m test.unit_test.test_jitb_selenium_get_web_element -k n01  # Run just the n01 unit test
 """
 
 # Standard Imports
