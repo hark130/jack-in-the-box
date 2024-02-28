@@ -25,20 +25,6 @@ class TestJbgQ2GetPrompt(TestJackboxGames):
 
     # CORE CLASS METHODS
     # Methods listed in call order
-    def create_web_input(self, filename: Path, use_kwarg: bool = False) -> None:
-        """Translate a path object into test input.
-
-        Args:
-            filename: Path object to convert to a web driver and use as file-based test input.
-            use_kwarg: Optional; Will call the function using keyword arguments.
-        """
-        # LOCAL VARIABLES
-        self.create_web_driver(filename=filename)  # Unit test input
-        if use_kwarg:
-            self.set_test_input(web_driver=self.web_driver)
-        else:
-            self.set_test_input(self.web_driver)
-
     def call_callable(self) -> Any:
         """Calls jbg_q2.get_prompt().
 
