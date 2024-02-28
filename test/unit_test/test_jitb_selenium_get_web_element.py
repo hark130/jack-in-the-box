@@ -14,7 +14,6 @@ from typing import Any
 from test.unit_test.test_jackbox_games import TestJackboxGames
 from tediousstart.tediousstart import execute_test_cases
 from selenium.webdriver.common.by import By
-import selenium
 # Local Imports
 from jitb.jitb_logger import Logger
 from jitb.jitb_selenium import get_web_element
@@ -46,12 +45,12 @@ class TestJitbSeleniumGetWebElement(TestJackboxGames):
         super().setUp()
         Logger.initialize(debugging=True)  # Enable DEBUG logging while testing
 
-    def expect_element_return(self, filename: str, by: str = By.ID, value: str = None) -> None:
+    def expect_element_return(self, filename: str, by_arg: str = By.ID, value: str = None) -> None:
         """Double do the child element extraction and pass that to self.expect_return."""
         self.create_web_driver(filename=filename)
-        child_element = self.web_driver.find_element(by=by, value=value)  # Expected return
+        child_element = self.web_driver.find_element(by=by_arg, value=value)  # Expected return
         if not child_element:
-            self.fail_test_case(f'Failed to generate an expected return for {by}:{value}')
+            self.fail_test_case(f'Failed to generate an expected return for {by_arg}:{value}')
         self.expect_return(child_element)
 
     def set_web_element_input(self, filename: str, in_by: Any, in_value: Any,
@@ -93,7 +92,7 @@ class NormalTestJitbSeleniumGetWebElement(TestJitbSeleniumGetWebElement):
         in_by = By.ID                                    # By type of the element
         in_value = 'state-answer-question'               # Name of the element
         self.set_web_element_input(filename=filename, in_by=in_by, in_value=in_value)
-        self.expect_element_return(filename=filename, by=in_by, value=in_value)
+        self.expect_element_return(filename=filename, by_arg=in_by, value=in_value)
         self.run_test()
 
     def test_n02_round_1_vote_1(self):
@@ -102,7 +101,7 @@ class NormalTestJitbSeleniumGetWebElement(TestJitbSeleniumGetWebElement):
         in_by = By.ID                                  # By type of the element
         in_value = 'game'                              # Name of the element
         self.set_web_element_input(filename=filename, in_by=in_by, in_value=in_value)
-        self.expect_element_return(filename=filename, by=in_by, value=in_value)
+        self.expect_element_return(filename=filename, by_arg=in_by, value=in_value)
         self.run_test()
 
     def test_n03_round_3_prompt_1_v1(self):
@@ -111,7 +110,7 @@ class NormalTestJitbSeleniumGetWebElement(TestJitbSeleniumGetWebElement):
         in_by = By.ID                                    # By type of the element
         in_value = 'page-quiplash'                       # Name of the element
         self.set_web_element_input(filename=filename, in_by=in_by, in_value=in_value)
-        self.expect_element_return(filename=filename, by=in_by, value=in_value)
+        self.expect_element_return(filename=filename, by_arg=in_by, value=in_value)
         self.run_test()
 
     def test_n04_round_3_prompt_1_v2(self):
@@ -120,7 +119,7 @@ class NormalTestJitbSeleniumGetWebElement(TestJitbSeleniumGetWebElement):
         in_by = By.ID                                       # By type of the element
         in_value = 'page-quiplash'                          # Name of the element
         self.set_web_element_input(filename=filename, in_by=in_by, in_value=in_value)
-        self.expect_element_return(filename=filename, by=in_by, value=in_value)
+        self.expect_element_return(filename=filename, by_arg=in_by, value=in_value)
         self.run_test()
 
     def test_n05_round_3_vote_1_v1(self):
@@ -129,7 +128,7 @@ class NormalTestJitbSeleniumGetWebElement(TestJitbSeleniumGetWebElement):
         in_by = By.ID                                  # By type of the element
         in_value = 'page-quiplash'                     # Name of the element
         self.set_web_element_input(filename=filename, in_by=in_by, in_value=in_value)
-        self.expect_element_return(filename=filename, by=in_by, value=in_value)
+        self.expect_element_return(filename=filename, by_arg=in_by, value=in_value)
         self.run_test()
 
     def test_n06_round_3_vote_1_v2(self):
@@ -138,7 +137,7 @@ class NormalTestJitbSeleniumGetWebElement(TestJitbSeleniumGetWebElement):
         in_by = By.ID                                     # By type of the element
         in_value = 'question-text-alt'                    # Name of the element
         self.set_web_element_input(filename=filename, in_by=in_by, in_value=in_value)
-        self.expect_element_return(filename=filename, by=in_by, value=in_value)
+        self.expect_element_return(filename=filename, by_arg=in_by, value=in_value)
         self.run_test()
 
 
@@ -163,21 +162,21 @@ class ErrorTestJitbSeleniumGetWebElement(TestJitbSeleniumGetWebElement):
     def test_e03_bad_data_type_by_none(self):
         """Bad data type: by == None."""
         self.create_web_driver(filename='JackboxTV-login_start.html')
-        self.set_test_input(web_driver=self.web_driver, by=None)
+        self.set_test_input(web_driver=self.web_driver, by_arg=None)
         self.expect_exception(TypeError, 'Invalid data type')
         self.run_test()
 
     def test_e04_bad_data_type_by_package_enum(self):
         """Bad data type: by == By."""
         self.create_web_driver(filename='JackboxTV-login_start.html')
-        self.set_test_input(web_driver=self.web_driver, by=By)
+        self.set_test_input(web_driver=self.web_driver, by_arg=By)
         self.expect_exception(TypeError, 'Invalid data type')
         self.run_test()
 
     def test_e05_bad_data_type_by_enum_literal(self):
         """Bad data type: by == By."""
         self.create_web_driver(filename='JackboxTV-login_start.html')
-        self.set_test_input(web_driver=self.web_driver, by='By.ID')
+        self.set_test_input(web_driver=self.web_driver, by_arg='By.ID')
         self.expect_exception(ValueError,
                               'Use By value from the selenium.webdriver.common.by module')
         self.run_test()

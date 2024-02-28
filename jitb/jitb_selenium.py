@@ -1,8 +1,7 @@
 """Common functionality for Selenium web drivers and web elements."""
 
 # Standard
-from typing import Any, Final
-import time
+from typing import Any
 # Third Party
 from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException
 from selenium.webdriver.common.by import By
@@ -12,88 +11,88 @@ from jitb.jitb_logger import Logger
 
 
 def get_sub_element(web_element: selenium.webdriver.remote.webelement.WebElement,
-                    by: str = By.ID, value: str = None) \
-    -> selenium.webdriver.remote.webelement.WebElement:
+                    by_arg: str = By.ID, value: str = None) \
+        -> selenium.webdriver.remote.webelement.WebElement:
     """Get an element from a web element.
 
     Sometimes you have to get specifically discrete when searching for IDs.
 
     Args:
         web_driver: Selenium web driver to search for an element.
-        by: Optional; See: help(selenium.webdriver.common.by.By).
-        value: Optional; Value of the by-type of web element.
+        by_arg: Optional; See: help(selenium.webdriver.common.by.By).
+        value: Optional; Value of the by_arg-type of web element.
 
     Returns:
         A WebElement if found, None otherwise.
 
     Raises:
         TypeError: Bad data type.
-        ValueError: Invalid by value.
+        ValueError: Invalid by_arg value.
     """
     # LOCAL VARIABLES
     element = None  # Found selenium.webdriver.remote.webelement.WebElement
 
     # INPUT VALIDATION
-    _validate_we_input(web_element=web_element, by=by, value=value)
+    _validate_we_input(web_element=web_element, by_arg=by_arg, value=value)
 
     # GET IT
     try:
-        element = _get_element(web_thing=web_element, by=by, value=value)
+        element = _get_element(web_thing=web_element, by_arg=by_arg, value=value)
     except (NoSuchElementException, StaleElementReferenceException) as err:
-        Logger.debug(f'get_sub_element() getting {by}:{value} raised {repr(err)}!')
+        Logger.debug(f'get_sub_element() getting {by_arg}:{value} raised {repr(err)}!')
 
     # DONE
     return element
 
 
 def get_web_element(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
-                    by: str = By.ID, value: str = None) \
-    -> selenium.webdriver.remote.webelement.WebElement:
-    """Get the value element, of type by, from web_driver.
+                    by_arg: str = By.ID, value: str = None) \
+        -> selenium.webdriver.remote.webelement.WebElement:
+    """Get the value element, of type by_arg, from web_driver.
 
     Args:
         web_driver: Selenium web driver to search for an element.
-        by: Optional; See: help(selenium.webdriver.common.by.By).
-        value: Optional; Value of the by-type of web element.
+        by_arg: Optional; See: help(selenium.webdriver.common.by.By).
+        value: Optional; Value of the by_arg-type of web element.
 
     Returns:
         A WebElement if found, None otherwise.
 
     Raises:
         TypeError: Bad data type.
-        ValueError: Invalid by value.
+        ValueError: Invalid by_arg value.
     """
     # LOCAL VARIABLES
     element = None  # Found selenium.webdriver.remote.webelement.WebElement
 
     # INPUT VALIDATION
-    _validate_wd_input(web_driver=web_driver, by=by, value=value)
+    _validate_wd_input(web_driver=web_driver, by_arg=by_arg, value=value)
 
     # GET IT
     try:
-        element = _get_element(web_thing=web_driver, by=by, value=value)
+        element = _get_element(web_thing=web_driver, by_arg=by_arg, value=value)
     except (NoSuchElementException, StaleElementReferenceException) as err:
-        Logger.debug(f'get_web_element() getting {by}:{value} raised {repr(err)}!')
+        Logger.debug(f'get_web_element() getting {by_arg}:{value} raised {repr(err)}!')
 
     # DONE
     return element
 
 
 def get_web_element_text(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
-                         by: str = By.ID, value: str = None) -> str:
-    """Extract the text from the value element, of type by, from web_driver.
+                         by_arg: str = By.ID, value: str = None) -> str:
+    """Extract the text from the value element, of type by_arg, from web_driver.
 
     Args:
         web_driver: Selenium web driver to search for an element.
-        by: Optional; See: help(selenium.webdriver.common.by.By).
-        value: Optional; Value of the by-type of web element.
+        by_arg: Optional; See: help(selenium.webdriver.common.by.By).
+        value: Optional; Value of the by_arg-type of web element.
 
     Returns:
         A string, which could be empty, if found.  None otherwise.
 
     Raises:
         TypeError: Bad data type.
-        ValueError: Invalid by value.
+        ValueError: Invalid by_arg value.
     """
     # LOCAL VARIABLES
     element = None    # Found selenium.webdriver.remote.webelement.WebElement
@@ -103,9 +102,9 @@ def get_web_element_text(web_driver: selenium.webdriver.chrome.webdriver.WebDriv
 
     # GET IT
     try:
-        element = get_web_element(web_driver=web_driver, by=by, value=value)
+        element = get_web_element(web_driver=web_driver, by_arg=by_arg, value=value)
     except (NoSuchElementException, StaleElementReferenceException) as err:
-        Logger.debug(f'get_web_element_text() getting {by}:{value} raised {repr(err)}!')
+        Logger.debug(f'get_web_element_text() getting {by_arg}:{value} raised {repr(err)}!')
     else:
         if element:
             elem_text = element.text
@@ -114,8 +113,8 @@ def get_web_element_text(web_driver: selenium.webdriver.chrome.webdriver.WebDriv
     return elem_text
 
 
-def _get_element(web_thing: Any, by: str = By.ID, value: str = None) \
-    -> selenium.webdriver.remote.webelement.WebElement:
+def _get_element(web_thing: Any, by_arg: str = By.ID, value: str = None) \
+        -> selenium.webdriver.remote.webelement.WebElement:
     """Find an element, in web_thing, if the find_element method exists.
 
     Does not validate input other than verifying web_thing.find_element() exists.
@@ -123,8 +122,8 @@ def _get_element(web_thing: Any, by: str = By.ID, value: str = None) \
     Args:
         web_thing: Basically, any object that has a find_element method.  This private function
             was written with the Selenium WebDriver and WebElement in mind.
-        by: Optional; See: help(selenium.webdriver.common.by.By).
-        value: Optional; Value of the by-type of web element.
+        by_arg: Optional; See: help(selenium.webdriver.common.by.By).
+        value: Optional; Value of the by_arg-type of web element.
 
     Returns:
         A WebElement if found, None otherwise.
@@ -139,22 +138,22 @@ def _get_element(web_thing: Any, by: str = By.ID, value: str = None) \
         get_it = getattr(web_thing, attr_name)
         if callable(get_it):
             try:
-                element = get_it(by=by, value=value)
+                element = get_it(by=by_arg, value=value)
             except (NoSuchElementException, StaleElementReferenceException) as err:
-                Logger.debug(f'Getting element {by}:{value} raised {repr(err)}!')
+                Logger.debug(f'Getting element {by_arg}:{value} raised {repr(err)}!')
 
     # DONE
     return element
 
 
-def _validate_common_args(by: str, value: str) -> None:
+def _validate_common_args(by_arg: str, value: str) -> None:
     """Validate the cross-section of this module's API functions."""
     # INPUT VALIDATION
-    # by
-    if not isinstance(by, str):
-        raise TypeError(f'Invalid data type of {type(by)} for the by')
-    if not hasattr(By, by.upper()):
-        raise ValueError(f'Invalid by value of {by}.  Use By value from '
+    # by_arg
+    if not isinstance(by_arg, str):
+        raise TypeError(f'Invalid data type of {type(by_arg)} for the by_arg')
+    if not hasattr(By, by_arg.upper()):
+        raise ValueError(f'Invalid by_arg value of {by_arg}.  Use By value from '
                          'the selenium.webdriver.common.by module')
     # value
     if not isinstance(value, str) and value is not None:
@@ -162,7 +161,7 @@ def _validate_common_args(by: str, value: str) -> None:
 
 
 def _validate_wd_input(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
-                       by: str, value: str) -> None:
+                       by_arg: str, value: str) -> None:
     """Validate the input on behalf of API functions in this module."""
     # INPUT VALIDATION
     # web_driver
@@ -170,11 +169,11 @@ def _validate_wd_input(web_driver: selenium.webdriver.chrome.webdriver.WebDriver
         raise TypeError('Web driver may not be None')
     if not isinstance(web_driver, selenium.webdriver.chrome.webdriver.WebDriver):
         raise TypeError(f'Invalid data type of {type(web_driver)} for the web_driver')
-    _validate_common_args(by=by, value=value)
+    _validate_common_args(by_arg=by_arg, value=value)
 
 
 def _validate_we_input(web_element: selenium.webdriver.remote.webelement.WebElement,
-                       by: str, value: str) -> None:
+                       by_arg: str, value: str) -> None:
     """Validate the input on behalf of API functions in this module."""
     # INPUT VALIDATION
     # web_element
@@ -182,4 +181,4 @@ def _validate_we_input(web_element: selenium.webdriver.remote.webelement.WebElem
         raise TypeError('Web element may not be None')
     if not isinstance(web_element, selenium.webdriver.remote.webelement.WebElement):
         raise TypeError(f'Invalid data type of {type(web_element)} for the web_element')
-    _validate_common_args(by=by, value=value)
+    _validate_common_args(by_arg=by_arg, value=value)

@@ -177,7 +177,6 @@ def get_last_lash_prompt(web_driver: selenium.webdriver.chrome.webdriver.WebDriv
     """
     # LOCAL VARIABLES
     needle = 'state-answer-question'  # Web element id to find in web_driver
-    element = None                    # Web element pulled from web_driver
     prompt_text = ''                  # The prompt's text as a string
     prompt_list = []                  # Use this to cleanup the text
 
@@ -188,7 +187,7 @@ def get_last_lash_prompt(web_driver: selenium.webdriver.chrome.webdriver.WebDriv
 
     # GET IT
     try:
-        prompt_text = get_web_element_text(web_driver=web_driver, by=By.ID, value=needle)
+        prompt_text = get_web_element_text(web_driver=web_driver, by_arg=By.ID, value=needle)
     except (RuntimeError, TypeError, ValueError) as err:
         Logger.debug(f'get_last_lash_prompt() call to get_web_element_text() failed with {err}')
         raise RuntimeError(f'The call to get_web_element_text() for the {needle} element value '
@@ -226,7 +225,6 @@ def get_prompt(web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> str
     """
     # LOCAL VARIABLES
     needle = 'question-text'  # Web element id to find in web_driver
-    element = None            # Web element pulled from web_driver
     prompt_text = ''          # The prompt's text as a string
 
     # INPUT VALIDATION
@@ -236,7 +234,7 @@ def get_prompt(web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> str
 
     # GET IT
     try:
-        prompt_text = get_web_element_text(web_driver=web_driver, by=By.ID, value=needle)
+        prompt_text = get_web_element_text(web_driver=web_driver, by_arg=By.ID, value=needle)
     except (RuntimeError, TypeError, ValueError) as err:
         raise RuntimeError(f'The call to get_web_element_text() for the {needle} element value '
                            f'failed with {repr(err)}') from err
@@ -449,7 +447,7 @@ def _vote_answer(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
     # WAIT FOR IT
     for _ in range(num_loops):
         try:
-            prompt_text = get_prompt(web_driver=web_driver, relax=True)[0]
+            prompt_text = get_prompt(web_driver=web_driver)[0]
             if prompt_text and prompt_text != last_prompt:
                 break
             if not _is_vote_page(web_driver):

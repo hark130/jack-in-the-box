@@ -8,7 +8,6 @@ import warnings
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from tediousstart.tediousunittest import TediousUnitTest
-import selenium
 # Local Imports
 
 

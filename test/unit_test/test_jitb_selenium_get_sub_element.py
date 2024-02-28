@@ -1,10 +1,10 @@
 """Unit test module for jitb_selenium.get_element().
 
 Typical Usage:
-    python -m test                                                  # Run *all* the test cases
-    python -m test.unit_test                                        # Run *all* the unit test cases
-    python -m test.unit_test.test_jitb_selenium_get_element         # Run just these unit tests
-    python -m test.unit_test.test_jitb_selenium_get_element -k n01  # Run just the n01 unit test
+    python -m test                                                      # Run *all* the test cases
+    python -m test.unit_test                                            # Run *all* unit test cases
+    python -m test.unit_test.test_jitb_selenium_get_sub_element         # Run just these unit tests
+    python -m test.unit_test.test_jitb_selenium_get_sub_element -k n01  # Run just the n01 unit test
 """
 
 # Standard Imports
@@ -45,8 +45,8 @@ class TestJitbSeleniumGetElement(TestJackboxGames):
         super().setUp()
         Logger.initialize(debugging=True)  # Enable DEBUG logging while testing
 
-    def get_element_input(self, filename: str, by: By = By.ID, value: str = None) \
-        -> selenium.webdriver.remote.webelement.WebElement:
+    def get_element_input(self, filename: str, by_arg: By = By.ID, value: str = None) \
+            -> selenium.webdriver.remote.webelement.WebElement:
         """Use filename to create a web driver, fetch element value, and set that as input.
 
         1. Call self.create_web_driver()
@@ -62,19 +62,20 @@ class TestJitbSeleniumGetElement(TestJackboxGames):
             A WebElement on success, None if not found.
         """
         self.create_web_driver(filename=filename)
-        return self.web_driver.find_element(by=by, value=value)
+        return self.web_driver.find_element(by=by_arg, value=value)
 
     def expect_element_return(self, parent_element: selenium.webdriver.remote.webelement.WebElement,
-                              by: By = By.ID, value: str = None) -> None:
+                              by_arg: By = By.ID, value: str = None) -> None:
         """Double do the child element extraction and pass that to self.expect_return."""
-        child_element = parent_element.find_element(by=by, value=value)
+        child_element = parent_element.find_element(by=by_arg, value=value)
         if not child_element:
-            self.fail_test_case(f'Failed to generate an expected return for {by}:{value}')
+            self.fail_test_case(f'Failed to generate an expected return for {by_arg}:{value}')
         self.expect_return(child_element)
 
+    # pylint: disable=too-many-arguments
     def set_element_input(self, filename: str, parent_by: By, parent_value: str,
                           child_by: Any, child_value: Any) \
-        -> selenium.webdriver.remote.webelement.WebElement:
+            -> selenium.webdriver.remote.webelement.WebElement:
         """Setup the test input for this test case.
 
         1. Call self.get_element_input(filename, parent_by, parent_value) to get and element
@@ -87,9 +88,11 @@ class TestJitbSeleniumGetElement(TestJackboxGames):
             expected results.
         """
         # LOCAL VARIABLES
-        parent_element = self.get_element_input(filename=filename, by=parent_by, value=parent_value)
+        parent_element = self.get_element_input(filename=filename, by_arg=parent_by,
+                                                value=parent_value)
         self.set_test_input(parent_element, child_by, child_value)
         return parent_element
+    # pylint: enable=too-many-arguments
 
     def call_callable(self) -> Any:
         """Calls jitb_selenium.get_element().
@@ -125,7 +128,8 @@ class NormalTestJitbSeleniumGetElement(TestJitbSeleniumGetElement):
         parent_element = self.set_element_input(filename='JackboxTv-Q2-Round_1-Prompt_1.html',
                                                 parent_by=parent_by, parent_value=parent_value,
                                                 child_by=child_by, child_value=child_value)
-        self.expect_element_return(parent_element=parent_element, by=child_by, value=child_value)
+        self.expect_element_return(parent_element=parent_element, by_arg=child_by,
+                                   value=child_value)
         self.run_test()
 
     def test_n02_round_1_vote_1(self):
@@ -138,7 +142,8 @@ class NormalTestJitbSeleniumGetElement(TestJitbSeleniumGetElement):
         parent_element = self.set_element_input(filename='JackboxTv-Q2-Round_1-Vote_1.html',
                                                 parent_by=parent_by, parent_value=parent_value,
                                                 child_by=child_by, child_value=child_value)
-        self.expect_element_return(parent_element=parent_element, by=child_by, value=child_value)
+        self.expect_element_return(parent_element=parent_element, by_arg=child_by,
+                                   value=child_value)
         self.run_test()
 
     def test_n03_round_3_prompt_1_v1(self):
@@ -151,7 +156,8 @@ class NormalTestJitbSeleniumGetElement(TestJitbSeleniumGetElement):
         parent_element = self.set_element_input(filename='JackboxTv-Q2-Round_3-Prompt_1.html',
                                                 parent_by=parent_by, parent_value=parent_value,
                                                 child_by=child_by, child_value=child_value)
-        self.expect_element_return(parent_element=parent_element, by=child_by, value=child_value)
+        self.expect_element_return(parent_element=parent_element, by_arg=child_by,
+                                   value=child_value)
         self.run_test()
 
     def test_n04_round_3_prompt_1_v2(self):
@@ -164,7 +170,8 @@ class NormalTestJitbSeleniumGetElement(TestJitbSeleniumGetElement):
         parent_element = self.set_element_input(filename='JackboxTv-Q2-Round_3-Prompt_1-v2.html',
                                                 parent_by=parent_by, parent_value=parent_value,
                                                 child_by=child_by, child_value=child_value)
-        self.expect_element_return(parent_element=parent_element, by=child_by, value=child_value)
+        self.expect_element_return(parent_element=parent_element, by_arg=child_by,
+                                   value=child_value)
         self.run_test()
 
     def test_n05_round_3_vote_1_v1(self):
@@ -177,7 +184,8 @@ class NormalTestJitbSeleniumGetElement(TestJitbSeleniumGetElement):
         parent_element = self.set_element_input(filename='JackboxTv-Q2-Round_3-Vote_1.html',
                                                 parent_by=parent_by, parent_value=parent_value,
                                                 child_by=child_by, child_value=child_value)
-        self.expect_element_return(parent_element=parent_element, by=child_by, value=child_value)
+        self.expect_element_return(parent_element=parent_element, by_arg=child_by,
+                                   value=child_value)
         self.run_test()
 
     def test_n06_round_3_vote_1_v2(self):
@@ -190,7 +198,8 @@ class NormalTestJitbSeleniumGetElement(TestJitbSeleniumGetElement):
         parent_element = self.set_element_input(filename='JackboxTv-Q2-Round_3-Vote_1-v2.html',
                                                 parent_by=parent_by, parent_value=parent_value,
                                                 child_by=child_by, child_value=child_value)
-        self.expect_element_return(parent_element=parent_element, by=child_by, value=child_value)
+        self.expect_element_return(parent_element=parent_element, by_arg=child_by,
+                                   value=child_value)
         self.run_test()
 
 
@@ -213,26 +222,26 @@ class ErrorTestJitbSeleniumGetElement(TestJitbSeleniumGetElement):
         self.run_test()
 
     def test_e03_bad_data_type_by_none(self):
-        """Bad data type: by == None."""
+        """Bad data type: by_arg == None."""
         self.set_test_input(
             web_element=self.get_element_input(filename='JackboxTV-login_start.html',
-                                               value='app'), by=None)
+                                               value='app'), by_arg=None)
         self.expect_exception(TypeError, 'Invalid data type')
         self.run_test()
 
     def test_e04_bad_data_type_by_package_enum(self):
-        """Bad data type: by == By."""
+        """Bad data type: by_arg == By."""
         self.set_test_input(
             web_element=self.get_element_input(filename='JackboxTV-login_start.html',
-                                               value='app'), by=By)
+                                               value='app'), by_arg=By)
         self.expect_exception(TypeError, 'Invalid data type')
         self.run_test()
 
     def test_e05_bad_data_type_by_enum_literal(self):
-        """Bad data type: by == By."""
+        """Bad data type: by_arg == By."""
         self.set_test_input(
             web_element=self.get_element_input(filename='JackboxTV-login_start.html',
-                                               value='app'), by='By.ID')
+                                               value='app'), by_arg='By.ID')
         self.expect_exception(ValueError,
                               'Use By value from the selenium.webdriver.common.by module')
         self.run_test()
