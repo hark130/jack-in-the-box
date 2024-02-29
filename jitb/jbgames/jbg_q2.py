@@ -248,6 +248,50 @@ def get_prompt(web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> str
     return prompt_text
 
 
+def get_vote_text(web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> str:
+    """Get the vote text from various web elements, assemble them, and return it.
+
+    Combinations of vote text could appear in one or more of the following web elements:
+        - question-text-alt
+        - question-text
+        - vote-text
+
+    Args:
+        web_driver: The web driver to get the prompt from.
+
+    Returns:
+        The game vote text.
+
+    Raises:
+        RuntimeError: No prompts found or web_driver isn't a vote page.
+        TypeError: Bad data type.
+        ValueError: Invalid by value.
+    """
+    # LOCAL VARIABLES
+    needle = 'state-vote'  # Web element to look for
+    vote_text = ''         # The full vote prompt
+
+    # INPUT VALIDATION
+    _validate_web_driver(web_driver=web_driver)
+    if not _is_vote_page(web_driver):
+        raise RuntimeError('This is not a vote page')
+
+    # GET THEM
+    try:
+        vote_text = get_web_element_text(web_driver=web_driver, by_arg=By.ID, value=needle)
+    except (RuntimeError, TypeError, ValueError) as err:
+        raise RuntimeError(f'The call to get_web_element_text() for the {needle} element value '
+                           f'failed with {repr(err)}') from err
+    else:
+        if vote_text is None:
+            raise RuntimeError(f'Unable to locate the {needle} element value')
+        if not vote_text:
+            raise RuntimeError(f'Did not detect any text using the {needle} element value')
+
+    # DONE
+    return vote_text
+
+
 # Private Functions (alphabetical order)
 def _answer_last_lash(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
                       ai_obj: JitbAi) -> None:
@@ -447,7 +491,8 @@ def _vote_answer(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
     # WAIT FOR IT
     for _ in range(num_loops):
         try:
-            prompt_text = get_prompt(web_driver=web_driver)[0]
+            # prompt_text = get_prompt(web_driver=web_driver)[0]
+            prompt_text = get_vote_text(web_driver=web_driver)
             if prompt_text and prompt_text != last_prompt:
                 break
             if not _is_vote_page(web_driver):
@@ -460,11 +505,13 @@ def _vote_answer(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
     # ANSWER IT
     print(f'THE _vote_answer PROMPT TEXT WAS {prompt_text}')  # DEBUGGING
     if prompt_text and prompt_text != last_prompt:
-        buttons = web_driver.find_elements(By.XPATH, '//button')
+        # buttons = web_driver.find_elements(By.XPATH, '//button')
+        buttons = get_sub_buttons(web_driver=web_driver, sub_by=By.ID, sub_value='quiplash-vote')
         print(f'_vote_answer FOUND BUTTONS: {buttons}')  # DEBUGGING
         # Form the selection list
         for button in buttons:
             if button.text:
+                print(f'PROCESSING BUTTON TEXT: {button.text}')  # DEBUGGING
                 temp_text = button.text.strip('\n')
                 button_dict[temp_text] = button.text
                 choice_list.append(temp_text)
