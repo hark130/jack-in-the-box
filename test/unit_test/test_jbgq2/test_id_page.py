@@ -1,17 +1,18 @@
 """Unit test module for JbgQ2.id_page().
 
 Typical Usage:
-    python -m test                                      # Run *all* the test cases
-    python -m test.unit_test                            # Run *all* the unit test cases
-    python -m test.unit_test.test_jbgq2_id_page         # Run just these unit tests
-    python -m test.unit_test.test_jbgq2_id_page -k n01  # Run just this normal 1 unit test
+    python -m test                                           # Run *all* the test cases
+    python -m test.unit_test                                 # Run *all* the unit test cases
+    python -m test.unit_test.test_jbgq2                      # Run *all* jbgq2 unit tests cases
+    python -m test.unit_test.test_jbgq2.test_id_page         # Run just these unit tests
+    python -m test.unit_test.test_jbgq2.test_id_page -k n01  # Run just this normal 1 unit test
 """
 
 # Standard Imports
 from pathlib import Path
 from typing import Any
 # Third Party Imports
-from test.unit_test.test_jbgq2 import TestJbgQ2
+from test.unit_test.test_jbgq2.test_jbgq2 import TestJbgQ2
 from tediousstart.tediousstart import execute_test_cases
 # Local Imports
 from jitb.jbgames.jbg_page_ids import JbgPageIds

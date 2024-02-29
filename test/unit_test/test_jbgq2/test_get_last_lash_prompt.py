@@ -1,10 +1,11 @@
 """Unit test module for JbgQ2.get_last_lash_prompt().
 
 Typical Usage:
-    python -m test                                                   # Run *all* the test cases
-    python -m test.unit_test                                         # Run *all* the unit test cases
-    python -m test.unit_test.test_jbgq2_get_last_lash_prompt         # Run just these unit tests
-    python -m test.unit_test.test_jbgq2_get_last_lash_prompt -k n01  # Run just the normal 1 test
+    python -m test                                                        # Run *all* the test cases
+    python -m test.unit_test                                              # Run *all* unit tests
+    python -m test.unit_test.test_jbgq2                                   # Run *all* jbgq2 tests
+    python -m test.unit_test.test_jbgq2.test_get_last_lash_prompt         # Run just these tests
+    python -m test.unit_test.test_jbgq2.test_get_last_lash_prompt -k n01  # Run just the n01 test
 """
 
 # Standard Imports

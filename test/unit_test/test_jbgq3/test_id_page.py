@@ -1,10 +1,11 @@
 """Unit test module for JbgQ3.id_page().
 
 Typical Usage:
-    python -m test                                      # Run *all* the test cases
-    python -m test.unit_test                            # Run *all* the unit test cases
-    python -m test.unit_test.test_jbgq3_id_page         # Run just these unit tests
-    python -m test.unit_test.test_jbgq3_id_page -k n01  # Run just this normal 1 unit test
+    python -m test                                           # Run *all* the test cases
+    python -m test.unit_test                                 # Run *all* the unit test cases
+    python -m test.unit_test.test_jbgq3                      # Run *all* jbgq3 unit tests cases
+    python -m test.unit_test.test_jbgq3.test_id_page         # Run just these unit tests
+    python -m test.unit_test.test_jbgq3.test_id_page -k n01  # Run just this normal 1 unit test
 """
 
 # Standard Imports
