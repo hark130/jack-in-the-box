@@ -71,6 +71,7 @@ class JbgQ2(JbgAbc):
         # ANSWER THEM
         _answer_last_lash(web_driver=web_driver, ai_obj=self._ai_obj)
 
+
     def answer_prompts(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
                        num_answers: int = 2) -> None:
         """Read a prompt from the web_driver, ask the AI, and submit the AI's answer.
@@ -110,11 +111,13 @@ class JbgQ2(JbgAbc):
 
         # VOTE IT
         while True:
+            Logger.debug(f'vote_answers() is looping...')
             prompt_text = _vote_answer(web_driver=web_driver, last_prompt=prompt_text,
                                        ai_obj=self._ai_obj)
             if not prompt_text:
                 break
             if not _is_vote_page(web_driver):
+                Logger.debug(f'No longer a vote page... breaking')
                 break
 
     def id_page(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> JbgPageIds:
@@ -146,6 +149,7 @@ class JbgQ2(JbgAbc):
             current_page = JbgPageIds.VOTE
 
         # DONE
+        Logger.debug(f'This is a(n) {current_page.name} page!')
         return current_page
 
     # Public Methods (alphabetical order)
@@ -308,11 +312,13 @@ def _answer_last_lash(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
         raise RuntimeError('This is not the Last Lash prompt page')
 
     # ANSWER IT
-    prompt_text = ' '.join(get_prompt(web_driver=web_driver)[:2])
+    # prompt_text = get_prompt(web_driver=web_driver)
+    prompt_text = get_last_lash_prompt(web_driver=web_driver)
     gen_answer = ai_obj.generate_answer(prompt_text)
     input_field = web_driver.find_element(By.ID, 'quiplash-answer-input')
 
     # SUBMIT IT
+    input('IS THIS A SPECIAL LAST LASH?!  IF SO, SAVE IT!')  # DEBUGGING
     input_field.send_keys(gen_answer)
     buttons = web_driver.find_elements(By.XPATH, '//button')
     for button in buttons:
@@ -356,10 +362,16 @@ def _answer_prompt(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
 
     # WAIT FOR IT
     for _ in range(num_loops):
-        prompt_text = get_prompt(web_driver=web_driver)[0]
-        if prompt_text and prompt_text != last_prompt:
-            break
-        time.sleep(JITB_POLL_RATE)  # Give the prompt a chance to update from the last one
+        try:
+            prompt_text = get_prompt(web_driver=web_driver)
+            if prompt_text and prompt_text != last_prompt:
+                break
+            time.sleep(JITB_POLL_RATE)  # Give the prompt a chance to update from the last one
+        except RuntimeError as err:
+            if err.args[0] == 'This is not a prompt page':
+                break  # It was(?) but now it's not...
+            else:
+                raise err from err
 
     # ANSWER IT
     answer = ai_obj.generate_answer(prompt=prompt_text)
@@ -501,6 +513,11 @@ def _vote_answer(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
             time.sleep(JITB_POLL_RATE)
         except NoSuchElementException:
             prompt_text = ''  # Must have been the last prompt to vote
+        except RuntimeError as err:
+            if err.args[0] == 'This is not a vote page':
+                break  # It was(?) but now it's not...
+            else:
+                raise err from err
 
     # ANSWER IT
     print(f'THE _vote_answer PROMPT TEXT WAS {prompt_text}')  # DEBUGGING
@@ -528,6 +545,7 @@ def _vote_answer(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
     # DONE
     if prompt_text and prompt_text != last_prompt and not clicked_it:
         raise RuntimeError('Did not vote an answer')
-    if button:
-        Logger.debug(f'VOTED {favorite} for {prompt_text}!')
+    if clicked_it:
+        temp_text = prompt_text.replace('\n', ' ')
+        Logger.debug(f'VOTED {favorite} for "{temp_text}"!')
     return prompt_text
