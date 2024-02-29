@@ -3,8 +3,9 @@
 Typical Usage:
     python -m test                                                           # Run *all* test cases
     python -m test.unit_test                                                 # Run *all* unit tests
-    python -m test.unit_test.test_jitb_selenium_get_web_element_text         # Run these unit tests
-    python -m test.unit_test.test_jitb_selenium_get_web_element_text -k n01  # Just run the n01 test
+    python -m test.unit_test.test_selenium                                   # Run selenium tests
+    python -m test.unit_test.test_selenium.test_get_web_element_text         # Run these unit tests
+    python -m test.unit_test.test_selenium.test_get_web_element_text -k n01  # Just run the n01 test
 """
 
 # Standard Imports
