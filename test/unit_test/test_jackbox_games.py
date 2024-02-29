@@ -53,13 +53,12 @@ class TestJackboxGames(TediousUnitTest):
             None
         """
         super().setUp()
-        warnings.filterwarnings(action="ignore", message="unclosed", category=ResourceWarning)
 
     def tearDown(self) -> None:
         """Close the web driver."""
         super().tearDown()
         if self.web_driver:
-            self.web_driver.close()
+            self.web_driver.quit()
 
     def call_callable(self) -> Any:
         """Child class defines test case callable.
