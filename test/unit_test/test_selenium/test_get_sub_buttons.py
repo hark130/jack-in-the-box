@@ -34,23 +34,6 @@ class TestJitbSeleniumGetSubButtons(TestJackboxGames):
 
     # CORE CLASS METHODS
     # Methods listed in call order
-    def setUp(self) -> None:
-        """Prepares Test Case.
-
-        Automate any preparation necessary before each Test Case executes.
-
-        Args:
-            None
-
-        Returns:
-            None
-
-        Raises:
-            None
-        """
-        super().setUp()
-        Logger.initialize(debugging=True)  # Enable DEBUG logging while testing
-
     def expect_buttons_return(self, filename: str, sub_by: str = By.ID,
                               sub_value: str = None) -> None:
         """Double do the button element extraction and pass that to self.expect_return."""

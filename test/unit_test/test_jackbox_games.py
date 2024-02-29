@@ -9,6 +9,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from tediousstart.tediousunittest import TediousUnitTest
 # Local Imports
+from jitb.jitb_logger import Logger
 
 
 class TestJackboxGames(TediousUnitTest):
@@ -53,6 +54,7 @@ class TestJackboxGames(TediousUnitTest):
             None
         """
         super().setUp()
+        Logger.initialize(debugging=True)  # Enable DEBUG logging while testing
 
     def tearDown(self) -> None:
         """Close the web driver."""

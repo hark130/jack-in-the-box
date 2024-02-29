@@ -29,23 +29,6 @@ class TestJitbSeleniumGetWebElement(TestJackboxGames):
 
     # CORE CLASS METHODS
     # Methods listed in call order
-    def setUp(self) -> None:
-        """Prepares Test Case.
-
-        Automate any preparation necessary before each Test Case executes.
-
-        Args:
-            None
-
-        Returns:
-            None
-
-        Raises:
-            None
-        """
-        super().setUp()
-        Logger.initialize(debugging=True)  # Enable DEBUG logging while testing
-
     def expect_element_return(self, filename: str, by_arg: str = By.ID, value: str = None) -> None:
         """Double do the child element extraction and pass that to self.expect_return."""
         self.create_web_driver(filename=filename)
