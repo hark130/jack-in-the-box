@@ -13,7 +13,7 @@ from jitb.jbgames.jbg_page_ids import JbgPageIds
 from jitb.jitb_globals import JITB_POLL_RATE
 from jitb.jitb_logger import Logger
 from jitb.jitb_openai import JitbAi
-from jitb.jitb_selenium import get_web_element_text
+from jitb.jitb_selenium import get_sub_buttons, get_web_element_text
 
 
 # A 'needle' to help differentiate between regular prompts and the Round 3 'Last Lash' prompt
