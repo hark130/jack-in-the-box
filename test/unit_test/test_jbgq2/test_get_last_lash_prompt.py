@@ -11,6 +11,7 @@ Typical Usage:
 # Standard Imports
 from pathlib import Path
 from typing import Any
+from unittest import skip
 # Third Party Imports
 from test.unit_test.test_jackbox_games import TestJackboxGames
 from tediousstart.tediousstart import execute_test_cases
@@ -71,6 +72,25 @@ class NormalTestJbgQ2GetPrompt(TestJbgQ2GetPrompt):
         """
         self.create_web_input('JackboxTv-Q2-Round_3-Prompt_1-v2.html')
         self.expect_return('Come up with a full name for this acronym! W.A.W.')
+        self.run_test()
+
+    def test_n03_round_3_prompt_1_acro_lash(self):
+        """Quiplash 2 Round 3 'Last Lash' Prompt 1 page: specifically the Acro Lash."""
+        self.create_web_input('JackboxTv-Q2-Round_3-Prompt_1-Acro_Lash.html')
+        self.expect_return('Come up with a full name for this acronym! G.O.R.')
+        self.run_test()
+
+    @skip('test_n04_round_3_prompt_1_comic_lash needs test input')
+    def test_n04_round_3_prompt_1_comic_lash(self):
+        """Quiplash 2 Round 3 'Last Lash' Prompt 1 page: specifically the Comic Lash."""
+        self.create_web_input('.html')
+        self.expect_return('')
+        self.run_test()
+
+    def test_n05_round_3_prompt_1_word_lash(self):
+        """Quiplash 2 Round 3 'Last Lash' Prompt 1 page: specifically the Word Lash."""
+        self.create_web_input('JackboxTv-Q2-Round_3-Prompt_1-Word_Lash.html')
+        self.expect_return('Come up with a romantic comedy film with this word in the title: WIG')
         self.run_test()
 
 

@@ -11,6 +11,7 @@ Typical Usage:
 # Standard Imports
 from pathlib import Path
 from typing import Any
+from unittest import skip
 # Third Party Imports
 from test.unit_test.test_jackbox_games import TestJackboxGames
 from tediousstart.tediousstart import execute_test_cases
@@ -67,6 +68,43 @@ class NormalTestJbgQ2GetVoteText(TestJbgQ2GetVoteText):
         self.create_web_input('JackboxTv-Q2-Round_3-Vote_1.html')
         self.expect_return('Come up with a new hilarious sitcom with this word in the title:\n'
                            'SLIME\n' + 'Which one do you like more?'.upper() + '\nSLIMER\nSLIMEY')
+        self.run_test()
+
+    def test_n03_round_3_vote_1_v2(self):
+        """Quiplash 2 Round 3 Vote 1 v2 page."""
+        self.create_web_input('JackboxTv-Q2-Round_3-Vote_1-v2.html')
+        self.expect_return('Come up with a full name for this acronym!\nW.A.W.\n'
+                           + 'Which one do you like more?'.upper() + '\nWIN A WAR\n5')
+        self.run_test()
+
+    def test_n04_round_3_vote_1_v3(self):
+        """Quiplash 2 Round 3 Vote 1 v3 page."""
+        self.create_web_input('JackboxTv-Q2-Round_3-Vote_1-v3.html')
+        self.expect_return('Come up with a full name for this acronym!\nG.O.R.\n'
+                           + 'Which one do you like more?'.upper() + '\nGET ON READ\n'
+                           + 'GUMMY ORGASM RECIPE')
+        self.run_test()
+
+    def test_n05_round_3_vote_1_acro_lash(self):
+        """Quiplash 2 Round 3 Vote 1 page: specifically the Acro Lash."""
+        self.create_web_input('JackboxTv-Q2-Round_3-Vote_1-v3.html')
+        self.expect_return('Come up with a full name for this acronym!\nG.O.R.\n'
+                           + 'Which one do you like more?'.upper() + '\nGET ON READ\n'
+                           + 'GUMMY ORGASM RECIPE')
+        self.run_test()
+
+    @skip('test_n06_round_3_vote_1_comic_lash needs test input')
+    def test_n06_round_3_vote_1_comic_lash(self):
+        """Quiplash 2 Round 3 Vote 1 page: specifically the Comic Lash."""
+        self.create_web_input('')
+        self.expect_return('')
+        self.run_test()
+
+    @skip('test_n07_round_3_vote_1_word_lash needs test input')
+    def test_n07_round_3_vote_1_word_lash(self):
+        """Quiplash 2 Round 3 Vote 1 page: specifically the Word Lash."""
+        self.create_web_input('')
+        self.expect_return('')
         self.run_test()
 
 
