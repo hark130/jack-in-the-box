@@ -31,7 +31,6 @@ class TestJbgQ2GetVoteText(TestJackboxGames):
         """Expect RuntimeError('This is not a vote page')."""
         self.expect_exception(RuntimeError, 'This is not a vote page')
 
-
     def call_callable(self) -> Any:
         """Calls jbg_q2.get_vote_text().
 
@@ -44,7 +43,8 @@ class TestJbgQ2GetVoteText(TestJackboxGames):
             Return value of jbg_q2.get_vote_text()
 
         Raises:
-            Exceptions raised by jbg_q2.get_vote_text() are bubbled up and handled by TediousUnitTest
+            Exceptions raised by jbg_q2.get_vote_text() are bubbled up and handled by
+            TediousUnitTest.
         """
         return get_vote_text(*self._args, **self._kwargs)
 

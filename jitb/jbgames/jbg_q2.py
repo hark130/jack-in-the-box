@@ -73,7 +73,6 @@ class JbgQ2(JbgAbc):
         # ANSWER THEM
         _answer_last_lash(web_driver=web_driver, ai_obj=self._ai_obj)
 
-
     def answer_prompts(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
                        num_answers: int = 2) -> None:
         """Read a prompt from the web_driver, ask the AI, and submit the AI's answer.
@@ -309,9 +308,9 @@ def _answer_last_lash(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
     clicked_it = False  # Keep track of whether this prompt was answered or not
     # Replacement prompt when a Comic Lash is detected
     comic_text = 'The other players are being shown a picture you can not see. ' \
-                  + 'It is a generic web comic with the text removed from the speech bubble ' \
-                  + 'of the last panel.  Give an answer that is generic enough to ' \
-                  + 'work as funny/quirky text for such an empty speech bubble.'
+        + 'It is a generic web comic with the text removed from the speech bubble ' \
+        + 'of the last panel.  Give an answer that is generic enough to ' \
+        + 'work as funny/quirky text for such an empty speech bubble.'
 
     # INPUT VALIDATION
     if not _is_last_lash_page(web_driver=web_driver):
