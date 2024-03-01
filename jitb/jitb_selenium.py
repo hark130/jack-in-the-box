@@ -209,7 +209,7 @@ def _get_element(web_thing: Any, by_arg: str = By.ID, value: str = None) \
             try:
                 element = get_it(by=by_arg, value=value)
             except (NoSuchElementException, StaleElementReferenceException) as err:
-                Logger.debug(f'Getting element {by_arg}:{value} raised {repr(err)}!')
+                Logger.debug(f'_get_element() {by_arg}:{value} raised {repr(err)}!')
 
     # DONE
     return element
@@ -244,9 +244,9 @@ def _get_elements(web_thing: Any, by_arg: str = By.ID, value: str = None) \
                 elements = get_it(by=by_arg, value=value)
                 # print(f'get_it() returned {elements}')  # DEBUGGING
             except (NoSuchElementException, StaleElementReferenceException) as err:
-                Logger.debug(f'Getting elements {by_arg}:{value} raised {repr(err)}!')
+                Logger.debug(f'_get_elements() {by_arg}:{value} raised {repr(err)}!')
     else:
-        Logger.debug(f'_get_elements reports the web thing had no attr {attr_name}!')
+        Logger.debug(f'_get_elements() reports the web thing had no attr {attr_name}!')
 
     # DONE
     return elements
