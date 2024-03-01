@@ -80,11 +80,10 @@ class NormalTestJbgQ2GetPrompt(TestJbgQ2GetPrompt):
         self.expect_return('Come up with a full name for this acronym! G.O.R.')
         self.run_test()
 
-    @skip('test_n04_round_3_prompt_1_comic_lash needs test input')
     def test_n04_round_3_prompt_1_comic_lash(self):
         """Quiplash 2 Round 3 'Last Lash' Prompt 1 page: specifically the Comic Lash."""
-        self.create_web_input('.html')
-        self.expect_return('')
+        self.create_web_input('JackboxTv-Q2-Round_3-Prompt_1-Comic_Lash.html')
+        self.expect_return('Complete the Comic!   SEND')  # Odd edge case among the Last Lashes
         self.run_test()
 
     def test_n05_round_3_prompt_1_word_lash(self):
