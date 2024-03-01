@@ -17,7 +17,6 @@ from test.unit_test.test_jackbox_games import TestJackboxGames
 from tediousstart.tediousstart import execute_test_cases
 from selenium.webdriver.common.by import By
 # Local Imports
-from jitb.jitb_logger import Logger
 from jitb.jitb_selenium import get_web_element_text
 
 

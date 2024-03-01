@@ -379,8 +379,7 @@ def _answer_prompt(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
         except RuntimeError as err:
             if err.args[0] == 'This is not a prompt page':
                 break  # It was(?) but now it's not...
-            else:
-                raise err from err
+            raise err from err
 
     # ANSWER IT
     answer = ai_obj.generate_answer(prompt=prompt_text)
@@ -439,7 +438,6 @@ def _is_prompt_page(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
     # LOCAL VARIABLES
     element_name = 'state-answer-question'  # The web element value to search for
     prompt_page = False                     # Prove this true
-    temp_we = None                          # Temporary web element variable
     temp_text = ''                          # Text from the web element
 
     # IS IT?
@@ -465,7 +463,6 @@ def _is_vote_page(web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> 
     # LOCAL VARIABLES
     element_name = 'vote-text'              # The web element value to search for
     vote_page = False                       # Prove this true
-    temp_we = None                          # Temporary web element variable
     prompt = 'Which one do you like more?'  # Prompt needles
     temp_text = ''                          # Temp prompt text
 
@@ -489,6 +486,7 @@ def _validate_web_driver(web_driver: selenium.webdriver.chrome.webdriver.WebDriv
         raise TypeError(f'Invalid web_driver data type of {type(web_driver)}')
 
 
+# pylint: disable = too-many-branches
 def _vote_answer(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
                  last_prompt: str, ai_obj: JitbAi) -> str:
     """Generate votes for other players prompts.
@@ -530,8 +528,7 @@ def _vote_answer(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
         except RuntimeError as err:
             if err.args[0] == 'This is not a vote page':
                 break  # It was(?) but now it's not...
-            else:
-                raise err from err
+            raise err from err
 
     # ANSWER IT
     if prompt_text and prompt_text != last_prompt:
@@ -559,3 +556,4 @@ def _vote_answer(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
         temp_text = prompt_text.replace('\n', ' ')
         Logger.debug(f'Voted "{favorite}" for "{temp_text}"!')
     return prompt_text
+# pylint: enable = too-many-branches

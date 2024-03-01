@@ -17,7 +17,6 @@ from tediousstart.tediousstart import execute_test_cases
 from selenium.webdriver.common.by import By
 import selenium
 # Local Imports
-from jitb.jitb_logger import Logger
 from jitb.jitb_selenium import get_sub_element
 
 

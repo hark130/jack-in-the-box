@@ -16,9 +16,7 @@ from test.unit_test.test_jackbox_games import TestJackboxGames
 from tediousstart.tediousstart import execute_test_cases
 from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException
 from selenium.webdriver.common.by import By
-import selenium
 # Local Imports
-from jitb.jitb_logger import Logger
 from jitb.jitb_selenium import get_sub_buttons
 
 
@@ -51,7 +49,8 @@ class TestJitbSeleniumGetSubButtons(TestJackboxGames):
                                 f'with {err}')
         else:
             if not child_element:
-                self.fail_test_case(f'web_driver.find_element() did not find anything')
+                self.fail_test_case('web_driver.find_element() did not find anything for '
+                                    f'{sub_by}:{sub_value}')
         # Find the child element's buttons
         button_elements = child_element.find_elements(by=self.DEFAULT_BUTTON_BY,
                                                       value=self.DEFAULT_BUTTON_VALUE)

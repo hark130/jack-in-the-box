@@ -3,7 +3,6 @@
 # Standard Imports
 from pathlib import Path
 from typing import Any
-import warnings
 # Third Party Imports
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
