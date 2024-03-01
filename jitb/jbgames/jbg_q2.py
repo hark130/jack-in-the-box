@@ -13,7 +13,7 @@ from jitb.jbgames.jbg_page_ids import JbgPageIds
 from jitb.jitb_globals import JITB_POLL_RATE
 from jitb.jitb_logger import Logger
 from jitb.jitb_openai import JitbAi
-from jitb.jitb_selenium import get_sub_buttons, get_web_element_text
+from jitb.jitb_selenium import get_buttons, get_sub_buttons, get_web_element, get_web_element_text
 
 
 # A 'needle' to help differentiate between regular prompts and the Round 3 'Last Lash' prompt
@@ -315,17 +315,18 @@ def _answer_last_lash(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
     # prompt_text = get_prompt(web_driver=web_driver)
     prompt_text = get_last_lash_prompt(web_driver=web_driver)
     gen_answer = ai_obj.generate_answer(prompt_text)
-    input_field = web_driver.find_element(By.ID, 'quiplash-answer-input')
+    input_field = get_web_element(web_driver, By.ID, 'quiplash-answer-input')
 
     # SUBMIT IT
     input('IS THIS A SPECIAL LAST LASH?!  IF SO, SAVE IT!')  # DEBUGGING
-    input_field.send_keys(gen_answer)
-    buttons = web_driver.find_elements(By.XPATH, '//button')
-    for button in buttons:
-        if 'SEND'.lower() in button.text.lower() and button.is_enabled():
-            button.click()
-            clicked_it = True
-            break
+    if input_field:
+        input_field.send_keys(gen_answer)
+        buttons = get_buttons(web_driver)
+        for button in buttons:
+            if 'SEND'.lower() in button.text.lower() and button.is_enabled():
+                button.click()
+                clicked_it = True
+                break
 
     # DONE
     if not clicked_it:
@@ -375,14 +376,15 @@ def _answer_prompt(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
 
     # ANSWER IT
     answer = ai_obj.generate_answer(prompt=prompt_text)
-    prompt_input = web_driver.find_element(By.ID, 'quiplash-answer-input')
-    prompt_input.send_keys(answer)
-    buttons = web_driver.find_elements(By.XPATH, '//button')
-    for button in buttons:
-        if 'SEND'.lower() in button.text.lower() and button.is_enabled():
-            button.click()
-            clicked_it = True
-            break
+    prompt_input = get_web_element(web_driver, By.ID, 'quiplash-answer-input')
+    if prompt_input:
+        prompt_input.send_keys(answer)
+        buttons = get_buttons(web_driver)
+        for button in buttons:
+            if 'SEND'.lower() in button.text.lower() and button.is_enabled():
+                button.click()
+                clicked_it = True
+                break
 
     # DONE
     if not clicked_it:
@@ -427,15 +429,17 @@ def _is_prompt_page(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
         True if this is a regular prompt screen, False otherwise.
     """
     # LOCAL VARIABLES
-    prompt_page = False  # Prove this true
-    temp_we = None       # Temporary web element variable
+    element_name = 'state-answer-question'  # The web element value to search for
+    prompt_page = False                     # Prove this true
+    temp_we = None                          # Temporary web element variable
+    temp_text = ''                          # Text from the web element
 
     # IS IT?
     try:
-        temp_we = web_driver.find_element(By.ID, 'state-answer-question')
-        if temp_we and temp_we.text:
+        temp_text = get_web_element_text(web_driver, By.ID, element_name)
+        if temp_text:
             prompt_page = True  # If we made it here, it's a prompt page
-            if verify_regular and NORMAL_PROMPT_NEEDLE.lower() not in temp_we.text.lower():
+            if verify_regular and NORMAL_PROMPT_NEEDLE.lower() not in temp_text.lower():
                 prompt_page = False
     except (NoSuchElementException, StaleElementReferenceException, TypeError, ValueError):
         pass  # Not a prompt page
@@ -451,14 +455,16 @@ def _is_vote_page(web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> 
         True if this is a regular vote screen, False otherwise.
     """
     # LOCAL VARIABLES
+    element_name = 'vote-text'              # The web element value to search for
     vote_page = False                       # Prove this true
     temp_we = None                          # Temporary web element variable
     prompt = 'Which one do you like more?'  # Prompt needles
+    temp_text = ''                          # Temp prompt text
 
     # IS IT?
     try:
-        temp_we = web_driver.find_element(By.ID, 'vote-text')
-        if temp_we and prompt.lower() in temp_we.text.lower():
+        temp_text = get_web_element_text(web_driver, By.ID, element_name)
+        if temp_text and prompt.lower() in temp_text.lower():
             vote_page = True  # If we made it here, it's a vote page
     except (NoSuchElementException, StaleElementReferenceException, TypeError, ValueError):
         pass  # Not a vote page
@@ -520,15 +526,11 @@ def _vote_answer(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
                 raise err from err
 
     # ANSWER IT
-    print(f'THE _vote_answer PROMPT TEXT WAS {prompt_text}')  # DEBUGGING
     if prompt_text and prompt_text != last_prompt:
-        # buttons = web_driver.find_elements(By.XPATH, '//button')
         buttons = get_sub_buttons(web_driver=web_driver, sub_by=By.ID, sub_value='quiplash-vote')
-        print(f'_vote_answer FOUND BUTTONS: {buttons}')  # DEBUGGING
         # Form the selection list
         for button in buttons:
             if button.text:
-                print(f'PROCESSING BUTTON TEXT: {button.text}')  # DEBUGGING
                 temp_text = button.text.strip('\n')
                 button_dict[temp_text] = button.text
                 choice_list.append(temp_text)
