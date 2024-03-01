@@ -17,7 +17,9 @@ from jitb.jitb_selenium import get_buttons, get_sub_buttons, get_web_element, ge
 
 
 # A 'needle' to help differentiate between regular prompts and the Round 3 'Last Lash' prompt
-NORMAL_PROMPT_NEEDLE: Final[str] = 'SEND SAFETY QUIP'
+NORMAL_PROMPT_NEEDLE: Final[str] = 'SEND SAFETY QUIP'  # This does not appears on the Last Lash
+# A 'needle' to help differentiate a Comic Lash from the other Round 3 'Last Last' examples.
+COMIC_LAST_NEEDLE: Final[str] = '   SEND'  # Only the Comic Last Lash seems to get this
 
 
 class JbgQ2(JbgAbc):
@@ -111,13 +113,11 @@ class JbgQ2(JbgAbc):
 
         # VOTE IT
         while True:
-            Logger.debug(f'vote_answers() is looping...')
             prompt_text = _vote_answer(web_driver=web_driver, last_prompt=prompt_text,
                                        ai_obj=self._ai_obj)
             if not prompt_text:
                 break
             if not _is_vote_page(web_driver):
-                Logger.debug(f'No longer a vote page... breaking')
                 break
 
     def id_page(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> JbgPageIds:
@@ -149,7 +149,8 @@ class JbgQ2(JbgAbc):
             current_page = JbgPageIds.VOTE
 
         # DONE
-        Logger.debug(f'This is a(n) {current_page.name} page!')
+        if current_page != JbgPageIds.UNKNOWN:
+            Logger.debug(f'This is a(n) {current_page.name} page!')
         return current_page
 
     # Public Methods (alphabetical order)
@@ -306,6 +307,11 @@ def _answer_last_lash(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
     input_field = None  # Web element for the input field
     buttons = []        # List of button web elements
     clicked_it = False  # Keep track of whether this prompt was answered or not
+    # Replacement prompt when a Comic Lash is detected
+    comic_text = 'The other players are being shown a picture you can not see. ' \
+                  + 'It is a generic web comic with the text removed from the speech bubble ' \
+                  + 'of the last panel.  Give an answer that is generic enough to ' \
+                  + 'work as funny/quirky text for such an empty speech bubble.'
 
     # INPUT VALIDATION
     if not _is_last_lash_page(web_driver=web_driver):
@@ -314,11 +320,14 @@ def _answer_last_lash(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
     # ANSWER IT
     # prompt_text = get_prompt(web_driver=web_driver)
     prompt_text = get_last_lash_prompt(web_driver=web_driver)
+    if COMIC_LAST_NEEDLE.lower() in prompt_text.lower():
+        Logger.debug(f'It appears we have encountered a Comic Last because the "{prompt_text}" '
+                     f'is being repaced with "{comic_text}"')
+        prompt_text = comic_text
     gen_answer = ai_obj.generate_answer(prompt_text)
     input_field = get_web_element(web_driver, By.ID, 'quiplash-answer-input')
 
     # SUBMIT IT
-    input('IS THIS A SPECIAL LAST LASH?!  IF SO, SAVE IT!')  # DEBUGGING
     if input_field:
         input_field.send_keys(gen_answer)
         buttons = get_buttons(web_driver)
@@ -331,7 +340,7 @@ def _answer_last_lash(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
     # DONE
     if not clicked_it:
         raise RuntimeError('Did not answer the Last Lash prompt')
-    Logger.debug(f'ANSWERED LAST LASH {prompt_text} with: {gen_answer}!')
+    Logger.debug(f'Answered Last Lash prompt "{prompt_text}" with: "{gen_answer}"!')
 
 
 def _answer_prompt(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
@@ -389,7 +398,7 @@ def _answer_prompt(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
     # DONE
     if not clicked_it:
         raise RuntimeError('Did not answer the prompt')
-    Logger.debug(f'ANSWERED {prompt_text} with {answer}!')
+    Logger.debug(f'Answered prompt "{prompt_text}" with "{answer}"!')
     return prompt_text
 
 
@@ -549,5 +558,5 @@ def _vote_answer(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
         raise RuntimeError('Did not vote an answer')
     if clicked_it:
         temp_text = prompt_text.replace('\n', ' ')
-        Logger.debug(f'VOTED {favorite} for "{temp_text}"!')
+        Logger.debug(f'Voted "{favorite}" for "{temp_text}"!')
     return prompt_text
