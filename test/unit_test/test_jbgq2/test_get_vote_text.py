@@ -100,11 +100,12 @@ class NormalTestJbgQ2GetVoteText(TestJbgQ2GetVoteText):
         self.expect_return('')
         self.run_test()
 
-    @skip('test_n07_round_3_vote_1_word_lash needs test input')
     def test_n07_round_3_vote_1_word_lash(self):
         """Quiplash 2 Round 3 Vote 1 page: specifically the Word Lash."""
-        self.create_web_input('')
-        self.expect_return('')
+        self.create_web_input('JackboxTv-Q2-Round_3-Vote_1-Word_Lash.html')
+        self.expect_return('Come up with a classic novel with this word in the title:\nFUDGE\n'
+                           + 'Which one do you like more?'.upper()
+                           + '\nFUDGE SOUP FOR THE SOUL\nWUTHERING FUDGES')
         self.run_test()
 
 
