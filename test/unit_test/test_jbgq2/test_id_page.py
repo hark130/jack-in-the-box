@@ -217,6 +217,26 @@ class SpecialTestJbgQ2IdPage(TestJbgQ2IdPage):
         self.expect_return(JbgPageIds.VOTE)
         self.run_test()
 
+    def test_s11_round_3_vote_2_silver_medal(self):
+        """Quiplash 2 Round 3 Vote 2 page.
+
+        Quiplash 2's Last Lash is unique in that enough players allow a voter to vote for
+        gold, silver, and bronze choices.
+        """
+        self.create_web_input('JackboxTv-Q2-Round_3-Vote_2-Silver_Medal.html')
+        self.expect_return(JbgPageIds.VOTE)
+        self.run_test()
+
+    def test_s12_round_3_vote_3_bronze_medal(self):
+        """Quiplash 2 Round 3 Vote 3 page.
+
+        Quiplash 2's Last Lash is unique in that enough players allow a voter to vote for
+        gold, silver, and bronze choices.
+        """
+        self.create_web_input('JackboxTv-Q2-Round_3-Vote_2-Silver_Medal.html')
+        self.expect_return(JbgPageIds.VOTE)
+        self.run_test()
+
 
 if __name__ == '__main__':
     execute_test_cases()
