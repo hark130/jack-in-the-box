@@ -538,9 +538,7 @@ def _vote_answer(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
     # ANSWER IT
     if prompt_text and prompt_text != last_prompt:
         buttons = get_sub_buttons(web_driver=web_driver, sub_by=By.ID, sub_value='quiplash-vote')
-        # print(f'{len(buttons)} ORIGINAL BUTTONS')  # DEBUGGING
         buttons = [button for button in buttons if button.is_enabled()]
-        # print(f'{len(buttons)} ENABLED BUTTONS')  # DEBUGGING
         # Form the selection list
         for button in buttons:
             if button.text:
@@ -548,8 +546,6 @@ def _vote_answer(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
                 button_dict[temp_text] = button.text
                 choice_list.append(temp_text)
         # Ask the AI
-        # print(f'AI PROMPT: {prompt_text}')  # DEBUGGING
-        # print(f'AI CHOICES: {choice_list}')  # DEBUGGING
         favorite = ai_obj.vote_favorite(prompt=prompt_text, answers=choice_list)
         for button in buttons:
             if button and button.text == button_dict[favorite] and button.is_enabled():

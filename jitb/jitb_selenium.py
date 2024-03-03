@@ -33,7 +33,6 @@ def get_buttons(web_driver: selenium.webdriver.chrome.webdriver.WebDriver) \
     _validate_wd_input(web_driver=web_driver, by_arg=button_by, value=button_value)
 
     # GET IT
-    # print(f'get_buttons() has {web_driver} {button_by} {button_value}')  # DEBUGGING
     element_list = _get_elements(web_thing=web_driver, by_arg=button_by, value=button_value)
 
     # DONE
@@ -240,9 +239,7 @@ def _get_elements(web_thing: Any, by_arg: str = By.ID, value: str = None) \
         get_it = getattr(web_thing, attr_name)
         if callable(get_it):
             try:
-                # print(f'_get_elements({by_arg}, {value})')  # DEBUGGING
                 elements = get_it(by=by_arg, value=value)
-                # print(f'get_it() returned {elements}')  # DEBUGGING
             except (NoSuchElementException, StaleElementReferenceException) as err:
                 Logger.debug(f'_get_elements() {by_arg}:{value} raised {repr(err)}!')
     else:
