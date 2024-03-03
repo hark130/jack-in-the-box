@@ -225,10 +225,11 @@ class SpecialTestJbgQ2GetVoteText(TestJbgQ2GetVoteText):
         Quiplash 2's Last Lash is unique in that enough players allow a voter to vote for
         gold, silver, and bronze choices.
         """
-        self.create_web_input('JackboxTv-Q2-Round_3-Vote_2-Silver_Medal.html')
+        self.create_web_input('JackboxTv-Q2-Round_3-Vote_3-Bronze_Medal.html')
         self.expect_return('Come up with a new TV show with this word in the title:\n' +
-                           'CORN\nNOW AWARD YOUR SILVER MEDAL!\nWATCHING 2 MUCH CORN\n' +
-                           'CORN HUB\nCORNY TONY\nTHE OTHER QUESTIONS PROLLY GONNA SAY CORNHUB\n' +
+                           'CORN\nAND HAND OUT A BRONZE MEDAL TO YOUR THIRD FAVORITE.\n' +
+                           'WATCHING 2 MUCH CORN\nCORN HUB\nCORNY TONY\n' +
+                           'THE OTHER QUESTIONS PROLLY GONNA SAY CORNHUB\n' +
                            'AVATAR THE LAST CORNBENDER')
         self.run_test()
 
