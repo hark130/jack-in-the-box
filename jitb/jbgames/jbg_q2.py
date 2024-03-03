@@ -463,14 +463,19 @@ def _is_vote_page(web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> 
     # LOCAL VARIABLES
     element_name = 'vote-text'              # The web element value to search for
     vote_page = False                       # Prove this true
-    prompt = 'Which one do you like more?'  # Prompt needles
     temp_text = ''                          # Temp prompt text
+    # List of prompt needles from various Quiplash 2 voting screens
+    prompts = ['Which one do you like more?', 'Now award your silver medal',
+               'And hand out a bronze medal to your third favorite']
 
     # IS IT?
     try:
         temp_text = get_web_element_text(web_driver, By.ID, element_name)
-        if temp_text and prompt.lower() in temp_text.lower():
-            vote_page = True  # If we made it here, it's a vote page
+        if temp_text:
+            for prompt in prompts:
+                if prompt.lower() in temp_text.lower():
+                    vote_page = True  # If we made it here, it's a vote page
+                    break  # Found one.  Stop looking.
     except (NoSuchElementException, StaleElementReferenceException, TypeError, ValueError):
         pass  # Not a vote page
 
