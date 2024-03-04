@@ -389,14 +389,14 @@ def remove_answer_overlap(prompt: str, answer: str) -> str:
         # opening = _get_overlap(opening, answer)  # Overlap between opening and answer
         # closing = _get_overlap(closing, answer)  # Overlap between closing and answer
         # Attempt #3
-        opening = _get_leading_overlap(opening, answer)  # Overlap between opening and answer
-        closing = _get_trailing_overlap(closing, answer)  # Overlap between closing and answer
+        opening = _get_leading_overlap(opening.lower(), answer.lower())  # Opening & answer overlap
+        closing = _get_trailing_overlap(closing.lower(), answer.lower())  # Closing & answer overlap
         print(f'OPENING OVERLAP: "{opening}"')  # DEBUGGING
         print(f'CLOSING OVERLAP: "{closing}"')  # DEBUGGING
         if opening:
             try:
                 # Slice off leading overlap
-                new_answer = new_answer[new_answer.index(opening) + len(opening):]
+                new_answer = new_answer[new_answer.lower().index(opening.lower()) + len(opening):]
             except ValueError as err:
                 Logger.debug('remove_answer_overlap() failed slicing the opening overlap of '
                              + f'"{opening}" off of the current working answer of '
@@ -404,7 +404,7 @@ def remove_answer_overlap(prompt: str, answer: str) -> str:
         if closing:
             try:
                 # Slice off trailing overlap
-                new_answer = new_answer[:new_answer.index(closing)]
+                new_answer = new_answer[:new_answer.lower().index(closing.lower())]
             except ValueError as err:
                 Logger.debug('remove_answer_overlap() failed slicing the trailing overlap of '
                              + f'"{closing}" off of the current working answer of '
