@@ -372,27 +372,13 @@ def remove_answer_overlap(prompt: str, answer: str) -> str:
     # INPUT VALIDATION
     _validate_string(prompt, 'prompt')
     _validate_string(answer, 'answer')
-    print(f'\nPROMPT: {prompt}')  # DEBUGGING
-    print(f'ANSWER: {answer}')  # DEBUGGING
 
     # REMOVE OVERLAP
-    print(f'COUNT: {prompt.count(blank)}')  # DEBUGGING
     if prompt.count(blank) == 1:
         opening = prompt.split(blank)[0]   # Prompt substring before the blank
         closing = prompt.split(blank)[1]   # Prompt substring after the blank
-        print(f'OPENING PROMPT: "{opening}"')  # DEBUGGING
-        print(f'CLOSING PROMPT: "{closing}"')  # DEBUGGING
-        # Attempt #1
-        # opening = ''.join(set(opening).intersection(answer))  # Overlap between opening and answer
-        # closing = ''.join(set(opening).intersection(answer))  # Overlap between closing and answer
-        # Attempt #2
-        # opening = _get_overlap(opening, answer)  # Overlap between opening and answer
-        # closing = _get_overlap(closing, answer)  # Overlap between closing and answer
-        # Attempt #3
         opening = _get_leading_overlap(opening.lower(), answer.lower())  # Opening & answer overlap
         closing = _get_trailing_overlap(closing.lower(), answer.lower())  # Closing & answer overlap
-        print(f'OPENING OVERLAP: "{opening}"')  # DEBUGGING
-        print(f'CLOSING OVERLAP: "{closing}"')  # DEBUGGING
         if opening:
             try:
                 # Slice off leading overlap
@@ -409,7 +395,6 @@ def remove_answer_overlap(prompt: str, answer: str) -> str:
                 Logger.debug('remove_answer_overlap() failed slicing the trailing overlap of '
                              + f'"{closing}" off of the current working answer of '
                              + f'"{new_answer}" with {repr(err)}!')
-        print(f'TRIMMED UP ANSWER: {new_answer}')  # DEBUGGING
 
     # DONE
     return new_answer
