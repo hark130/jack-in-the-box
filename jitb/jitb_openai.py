@@ -370,11 +370,13 @@ def remove_answer_overlap(prompt: str, answer: str) -> str:
     new_answer = answer          # Trimmed up version of answer
 
     # INPUT VALIDATION
-    # TO DO: DON'T DO NOW
+    _validate_string(prompt, 'prompt')
+    _validate_string(answer, 'answer')
     print(f'\nPROMPT: {prompt}')  # DEBUGGING
     print(f'ANSWER: {answer}')  # DEBUGGING
 
     # REMOVE OVERLAP
+    print(f'COUNT: {prompt.count(blank)}')  # DEBUGGING
     if prompt.count(blank) == 1:
         opening = prompt.split(blank)[0]   # Prompt substring before the blank
         closing = prompt.split(blank)[1]   # Prompt substring after the blank
@@ -478,3 +480,20 @@ def _match_phrase(needle: str, haystack: str, threshold: float = 0.75) -> bool:
 def _randomize_choice(choices: dict) -> str:
     """Randomize one of the values from choices."""
     return random.choice(list(choices.values()))
+
+
+def _validate_string(string: str, name: str) -> None:
+    """Validate input on behalf of this module's API functions.
+
+    Args:
+        string: Input to validate.
+        name: Name of the original variable to us in crafting the Exception message.
+
+    Raises:
+        TypeError: Bad data type.
+        ValueError: Empty string.
+    """
+    if not isinstance(string, str):
+        raise TypeError(f'Invalid data type for {name} argument: {type(string)}')
+    if not string:
+        raise ValueError(f'{name.upper()} may not be empty')
