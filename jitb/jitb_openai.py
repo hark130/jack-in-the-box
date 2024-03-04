@@ -1,6 +1,7 @@
 """The package's interface to OpenAI's API."""
 # Standard
 from collections import OrderedDict
+from difflib import SequenceMatcher
 import os
 import re
 import random
@@ -9,7 +10,7 @@ import sys
 # Third Party
 from openai import OpenAI
 # Local
-from jitb.jitb_globals import OPENAI_KEY_ENV_VAR
+from jitb.jitb_globals import FILL_IN_THE_BLANK, OPENAI_KEY_ENV_VAR
 from jitb.jitb_logger import Logger
 
 
@@ -342,6 +343,94 @@ class JitbAi:
 
         # DONE
         return new_answers
+
+
+def remove_answer_overlap(prompt: str, answer: str) -> str:
+    """Remove any overlap between the prompt and answer for fill-in-the-blank prompts.
+
+    OpenAI response don't do a good job of following instructions for the fill-in-the-blank
+    prompts so we're going to help them.  This function will not change an answer for a prompt
+    that does *not* include a fill-in-the-blank.
+
+    Args:
+        prompt: The original prompt.
+        answer: The AI-generated answer.
+
+    Returns:
+        The answer to the prompt, modified or not.
+
+    Raises:
+        TypeError: Bad data type.
+        ValueError: Empty string.
+    """
+    # LOCAL VARIABLES
+    opening = ''                 # Portion of the prompt preceding the blank
+    blank = FILL_IN_THE_BLANK    # Fill-in-the-blank substring
+    closing = ''                 # Portion of the prompt following the blank
+    new_answer = answer          # Trimmed up version of answer
+
+    # INPUT VALIDATION
+    # TO DO: DON'T DO NOW
+    print(f'\nPROMPT: {prompt}')  # DEBUGGING
+    print(f'ANSWER: {answer}')  # DEBUGGING
+
+    # REMOVE OVERLAP
+    if prompt.count(blank) == 1:
+        opening = prompt.split(blank)[0]   # Prompt substring before the blank
+        closing = prompt.split(blank)[1]   # Prompt substring after the blank
+        print(f'OPENING PROMPT: "{opening}"')  # DEBUGGING
+        print(f'CLOSING PROMPT: "{closing}"')  # DEBUGGING
+        # Attempt #1
+        # opening = ''.join(set(opening).intersection(answer))  # Overlap between opening and answer
+        # closing = ''.join(set(opening).intersection(answer))  # Overlap between closing and answer
+        # Attempt #2
+        # opening = _get_overlap(opening, answer)  # Overlap between opening and answer
+        # closing = _get_overlap(closing, answer)  # Overlap between closing and answer
+        # Attempt #3
+        opening = _get_leading_overlap(opening, answer)  # Overlap between opening and answer
+        closing = _get_trailing_overlap(closing, answer)  # Overlap between closing and answer
+        print(f'OPENING OVERLAP: "{opening}"')  # DEBUGGING
+        print(f'CLOSING OVERLAP: "{closing}"')  # DEBUGGING
+        if opening:
+            try:
+                # Slice off leading overlap
+                new_answer = new_answer[new_answer.index(opening) + len(opening):]
+            except ValueError as err:
+                Logger.debug('remove_answer_overlap() failed slicing the opening overlap of '
+                             + f'"{opening}" off of the current working answer of '
+                             + f'"{new_answer}" with {repr(err)}!')
+        if closing:
+            try:
+                # Slice off trailing overlap
+                new_answer = new_answer[:new_answer.index(closing)]
+            except ValueError as err:
+                Logger.debug('remove_answer_overlap() failed slicing the trailing overlap of '
+                             + f'"{closing}" off of the current working answer of '
+                             + f'"{new_answer}" with {repr(err)}!')
+        print(f'TRIMMED UP ANSWER: {new_answer}')  # DEBUGGING
+
+    # DONE
+    return new_answer
+
+
+def _get_leading_overlap(haystack: str, needle: str) -> str:
+    """Returns the trailing haystack and leading needle overlap sub-string."""
+    overlap = ''  # Overlap between haystack and needle
+    for i in range(1, len(needle)):
+        if haystack.endswith(needle[:-i]):
+            overlap = needle[:-i]
+            break
+    return overlap
+
+
+def _get_trailing_overlap(haystack: str, needle: str) -> str:
+    """Returns the leading haystack and trailing needle overlap sub-string."""
+    overlap = ''  # Overlap between haystack and needle
+    for i in range(1, len(needle)):
+        if haystack.startswith(needle[i:]):
+            overlap = needle[i:]
+            break
+    return overlap
 
 
 def _match_phrase(needle: str, haystack: str, threshold: float = 0.75) -> bool:
