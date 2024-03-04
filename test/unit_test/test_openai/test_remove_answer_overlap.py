@@ -179,7 +179,8 @@ class ErrorTestJitbOpenaiRemoveAnswerOverlap(TestJitbOpenaiRemoveAnswerOverlap):
         in_prompt = None    # Test input for the prompt argument
         in_answer = 'None'  # Test input for the answer argument
         self.set_test_input(prompt=in_prompt, answer=in_answer)
-        self.expect_exception(TypeError, 'Prompt may not be None')
+        self.expect_exception(TypeError,
+                              "Invalid data type for prompt argument: <class 'NoneType'>")
         self.run_test()
 
     def test_e02_bad_data_type_prompt_list(self):
@@ -195,7 +196,8 @@ class ErrorTestJitbOpenaiRemoveAnswerOverlap(TestJitbOpenaiRemoveAnswerOverlap):
         in_prompt = 'None'  # Test input for the prompt argument
         in_answer = None    # Test input for the answer argument
         self.set_test_input(prompt=in_prompt, answer=in_answer)
-        self.expect_exception(TypeError, 'Answer may not be None')
+        self.expect_exception(TypeError,
+                              "Invalid data type for answer argument: <class 'NoneType'>")
         self.run_test()
 
     def test_e04_bad_data_type_answer_list(self):
