@@ -1,7 +1,6 @@
 """The package's interface to OpenAI's API."""
 # Standard
 from collections import OrderedDict
-from difflib import SequenceMatcher
 import os
 import re
 import random
@@ -467,18 +466,18 @@ def _randomize_choice(choices: dict) -> str:
     return random.choice(list(choices.values()))
 
 
-def _validate_string(string: str, name: str) -> None:
+def _validate_string(in_str: str, name: str) -> None:
     """Validate input on behalf of this module's API functions.
 
     Args:
-        string: Input to validate.
+        in_str: Input to validate.
         name: Name of the original variable to us in crafting the Exception message.
 
     Raises:
         TypeError: Bad data type.
         ValueError: Empty string.
     """
-    if not isinstance(string, str):
-        raise TypeError(f'Invalid data type for {name} argument: {type(string)}')
-    if not string:
+    if not isinstance(in_str, str):
+        raise TypeError(f'Invalid data type for {name} argument: {type(in_str)}')
+    if not in_str:
         raise ValueError(f'{name.upper()} may not be empty')
