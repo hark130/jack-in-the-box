@@ -9,6 +9,9 @@ JITB_POLL_RATE: Final[float] = 0.5  # Rate, in seconds, JITB will parse page con
 # Environment variable to get the OpenAI API key from.
 OPENAI_KEY_ENV_VAR: Final[str] = 'OPENAI_API_KEY'
 
+# Fill-in-the-blank string
+FILL_IN_THE_BLANK: Final[str] = '________'  # Indicates a fill-in-the-blank prompt
+
 # List of Character accessible names for the Jackbox Games Quiplash 3 avatars
 # buttons = test.find_elements(By.XPATH, '//button')
 JBG_QUIP3_CHAR_NAMES: Final[List] = ['Purple', 'Blue', 'Teal', 'Green', 'Yellow', 'Orange',
