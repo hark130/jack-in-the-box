@@ -1,0 +1,38 @@
+[2024-03-03 15:08:01.973] DEBUGGING - This room code is a Quiplash 2 game
+[2024-03-03 15:10:08.584] DEBUGGING - This is a(n) ANSWER page!
+[2024-03-03 15:10:11.189] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-03 15:10:11.434] DEBUGGING - Answered prompt "An awkward thing to say to the naked guy next to you on the bus" with "Nice socks, bro."!
+[2024-03-03 15:10:12.418] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-03 15:10:12.601] DEBUGGING - Answered prompt "A terrible name for a hotel: The ________ Inn" with "The Roach Motel"!
+[2024-03-03 15:10:39.353] DEBUGGING - This is a(n) VOTE page!
+[2024-03-03 15:10:41.926] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-03 15:10:41.928] DEBUGGING - OpenAI followed instructions and THE TSA HOLIDAY PARTY was chosen
+[2024-03-03 15:10:41.978] DEBUGGING - Voted "THE TSA HOLIDAY PARTY" for "A rejected church hymn “Swing Low, Sweet ________” WHICH ONE DO YOU LIKE MORE? THE TSA HOLIDAY PARTY “DR. LOVE”"!
+[2024-03-03 15:11:56.099] DEBUGGING - This is a(n) VOTE page!
+[2024-03-03 15:11:58.572] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-03 15:11:58.574] DEBUGGING - OpenAI followed instructions and A POCKET FULL O’ DREAMS was chosen
+[2024-03-03 15:11:58.634] DEBUGGING - Voted "A POCKET FULL O’ DREAMS" for "An ingredient you definitely shouldn’t find in a bottle of water WHICH ONE DO YOU LIKE MORE? COMMUNITY THEATRE A POCKET FULL O’ DREAMS"!
+[2024-03-03 15:12:32.655] DEBUGGING - This is a(n) ANSWER page!
+[2024-03-03 15:12:35.281] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-03 15:12:35.494] DEBUGGING - Answered prompt "The worst song to lose your virginity to" with "Baby Shark Doo Doo Doo"!
+[2024-03-03 15:12:36.463] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-03 15:12:36.648] DEBUGGING - Answered prompt "You know your company is going out of business when you show up to work and notice ________" with "Clowns running the show."!
+[2024-03-03 15:12:56.682] DEBUGGING - This is a(n) VOTE page!
+[2024-03-03 15:12:59.139] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-03 15:12:59.140] DEBUGGING - OpenAI followed instructions and PRESCRIPTION SHOES was chosen
+[2024-03-03 15:12:59.188] DEBUGGING - Voted "PRESCRIPTION SHOES" for "How Matthew McConaughey stays in such great shape, probably WHICH ONE DO YOU LIKE MORE? PRESCRIPTION SHOES MY CREAMS AND UNGUENTS"!
+[2024-03-03 15:14:13.107] DEBUGGING - This is a(n) VOTE page!
+[2024-03-03 15:14:15.752] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-03 15:14:15.754] DEBUGGING - OpenAI followed instructions and BETTING ON CRAB FIGHTS was chosen
+[2024-03-03 15:14:15.812] DEBUGGING - Voted "BETTING ON CRAB FIGHTS" for "The worst time to tell someone you want a divorce is in the middle of ________ WHICH ONE DO YOU LIKE MORE? BETTING ON CRAB FIGHTS SHOWER SHOES"!
+[2024-03-03 15:15:03.309] DEBUGGING - This is a(n) Q2_LAST page!
+[2024-03-03 15:15:05.870] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-03 15:15:06.087] DEBUGGING - Answered Last Lash prompt "Come up with a full name for this acronym! Q.C.B." with: "Quirky Cabbage Bunch"!
+[2024-03-03 15:15:52.846] DEBUGGING - This is a(n) VOTE page!
+[2024-03-03 15:15:55.519] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-03 15:15:55.521] DEBUGGING - OpenAI added words but we extracted QUIT CALLING BUBBA from A. QUIT CALLING BUBBA
+[2024-03-03 15:15:55.569] DEBUGGING - Voted "QUIT CALLING BUBBA" for "Come up with a full name for this acronym! Q.C.B. WHICH ONE DO YOU LIKE MORE? QUIT CALLING BUBBA QUIET CALL BACK QUITE CONFUSED BAT"!
+[2024-03-03 15:15:56.598] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-03 15:15:56.600] DEBUGGING - OpenAI followed instructions and QUIET CALL BACK was chosen
+[2024-03-03 15:15:56.640] DEBUGGING - Voted "QUIET CALL BACK" for "Come up with a full name for this acronym! Q.C.B. NOW AWARD YOUR SILVER MEDAL! QUIT CALLING BUBBA QUIET CALL BACK QUITE CONFUSED BAT"!
+[2024-03-03 15:16:54.109] ERROR     - RuntimeError('The room was disconnected')

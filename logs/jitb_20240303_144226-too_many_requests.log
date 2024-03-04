@@ -1,0 +1,10 @@
+[2024-03-03 14:42:30.455] DEBUGGING - This room code is a Quiplash 2 game
+[2024-03-03 14:43:43.695] DEBUGGING - This is a(n) ANSWER page!
+[2024-03-03 14:43:46.286] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-03 14:43:46.509] DEBUGGING - Answered prompt "What Abe Lincoln probably called having sex" with "Gettin' jiggy wit it"!
+[2024-03-03 14:43:47.146] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 429 Too Many Requests"
+[2024-03-03 14:43:47.146] INFO      - Retrying request to /completions in 20.000000 seconds
+[2024-03-03 14:44:07.674] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-03 14:44:07.879] DEBUGGING - Answered prompt "The kinkiest thing about 1800s pioneer sex" with "Wooden toys and bonnet bondage"!
+[2024-03-03 14:44:14.523] DEBUGGING - This is a(n) ANSWER page!
+[2024-03-03 14:44:17.098] ERROR     - RuntimeError('The room was disconnected')

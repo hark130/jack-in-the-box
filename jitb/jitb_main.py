@@ -19,11 +19,13 @@ def main() -> int:
     exit_code = 0   # 0 for success, 1 for failure.
     room_code = ''  # Jackbox Games room code
     username = ''   # Jackbox Games username
+    debug = False   # Debug command line argument
     client = None   # JitbAi object
 
     # DO IT
-    (room_code, username) = parse_args()
+    (room_code, username, debug) = parse_args()
     try:
+        Logger.initialize(debugging=debug)
         client = JitbAi()
         client.setup()
         play_the_game(room_code=room_code, username=username, ai_obj=client)
@@ -31,6 +33,9 @@ def main() -> int:
         _print_exception(err)
         exit_code = 1
     finally:
+        if debug:
+            input('[DEBUG] Game is over.  If there is an Exception, consider saving the log and '
+                  'webpage for testing.  Press [Enter] to exit.')
         client.tear_down()
 
     # DONE

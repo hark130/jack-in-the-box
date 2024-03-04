@@ -3,16 +3,13 @@
 import argparse
 # Third Party
 # Local
-from jitb.jitb_logger import Logger
 
 
 def parse_args() -> tuple:
-    """Parse the command line arguments and return the room code and username.
-
-    Sets the logger to DEBUG level if debug command line argument is provided.
+    """Parse the command line arguments.
 
     Returns:
-        A tuple containing the (room_code, username).
+        A tuple containing the (room_code, username, debug).
     """
     parser = argparse.ArgumentParser(prog='Jack in the Box',
                                      description='Connecting Jackbox Games to the OpenAI API')
@@ -24,8 +21,5 @@ def parse_args() -> tuple:
                         help='Log debug messages to /tmp/jitb_YYYYMMDD_HHMMSS.log', required=False)
     args = parser.parse_args()
 
-    # SETUP LOG
-    Logger.initialize(debugging=args.debug)
-
     # DONE
-    return tuple((args.room, args.user))
+    return tuple((args.room, args.user, args.debug))

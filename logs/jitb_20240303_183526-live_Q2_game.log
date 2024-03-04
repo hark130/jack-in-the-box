@@ -1,0 +1,143 @@
+[2024-03-03 18:35:31.702] DEBUGGING - This room code is a Quiplash 2 game
+[2024-03-03 18:48:24.057] DEBUGGING - This is a(n) ANSWER page!
+[2024-03-03 18:48:26.572] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-03 18:48:26.807] DEBUGGING - Answered prompt "A lame thing to say before your big drag race" with "Vroom vroom, I'm a turtle!"!
+[2024-03-03 18:48:27.611] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-03 18:48:27.798] DEBUGGING - Answered prompt "Surprising photos to find on Garfield’s phone would be of ________" with "Lasagna-themed selfies"!
+[2024-03-03 18:50:40.587] DEBUGGING - This is a(n) VOTE page!
+[2024-03-03 18:50:43.052] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-03 18:50:43.053] DEBUGGING - OpenAI followed instructions and STEAK was chosen
+[2024-03-03 18:50:43.121] DEBUGGING - Voted "STEAK" for "The ultra-rich have a spoon specifically for when ________ is served WHICH ONE DO YOU LIKE MORE? LOWER CLASS TEARS STEAK"!
+[2024-03-03 18:51:36.536] DEBUGGING - This is a(n) VOTE page!
+[2024-03-03 18:51:39.031] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-03 18:51:39.033] DEBUGGING - OpenAI followed instructions and COITUS MEGASEXIUM was chosen
+[2024-03-03 18:51:39.083] DEBUGGING - Voted "COITUS MEGASEXIUM" for "Make up a name that probably no one in history has ever had WHICH ONE DO YOU LIKE MORE? COITUS MEGASEXIUM MENGAY"!
+[2024-03-03 18:52:13.040] DEBUGGING - This is a(n) VOTE page!
+[2024-03-03 18:52:15.497] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-03 18:52:15.499] DEBUGGING - OpenAI followed instructions and FUUUUUUUUUCK YEAH was chosen
+[2024-03-03 18:52:15.559] DEBUGGING - Voted "FUUUUUUUUUCK YEAH" for "What a weird sheep thinks when it’s getting shorn WHICH ONE DO YOU LIKE MORE? I’M FEELING SEXY.. FUUUUUUUUUCK YEAH"!
+[2024-03-03 18:52:49.251] DEBUGGING - This is a(n) ANSWER page!
+[2024-03-03 18:52:51.726] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-03 18:52:51.941] DEBUGGING - Answered prompt "What you’ve been searching for wasn’t inside you this whole time. It was in ________" with "your neighbor's fridge"!
+[2024-03-03 18:52:52.737] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-03 18:52:52.927] DEBUGGING - Answered prompt "Your secret recipe for apple sauce is to simply ________" with "Add unicorn tears."!
+[2024-03-03 18:54:58.835] DEBUGGING - This is a(n) VOTE page!
+[2024-03-03 18:55:01.462] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-03 18:55:01.464] DEBUGGING - OpenAI followed instructions and YOU FIND A ROACH PAINTED OVER was chosen
+[2024-03-03 18:55:01.531] DEBUGGING - Voted "YOU FIND A ROACH PAINTED OVER" for "You know you have a shady landlord when ________ WHICH ONE DO YOU LIKE MORE? THEY INSTALL CAMERAS IN THE SHOWER YOU FIND A ROACH PAINTED OVER"!
+[2024-03-03 18:55:55.020] DEBUGGING - This is a(n) VOTE page!
+[2024-03-03 18:55:57.475] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-03 18:55:57.477] DEBUGGING - OpenAI followed instructions and AMEN was chosen
+[2024-03-03 18:55:57.530] DEBUGGING - Voted "AMEN" for "The wrong thing to say after farting in church WHICH ONE DO YOU LIKE MORE? SATAN IS A HOLLERIN AMEN"!
+[2024-03-03 18:56:24.587] DEBUGGING - This is a(n) VOTE page!
+[2024-03-03 18:56:27.149] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-03 18:56:27.151] DEBUGGING - OpenAI followed instructions and ON THE SHITTER was chosen
+[2024-03-03 18:56:27.208] DEBUGGING - Voted "ON THE SHITTER" for "The worst time to hear a camera go off WHICH ONE DO YOU LIKE MORE? WHEN YOURE AT GUN CAMERA SHOP ON THE SHITTER"!
+[2024-03-03 18:57:14.448] DEBUGGING - This is a(n) Q2_LAST page!
+[2024-03-03 18:57:16.901] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-03 18:57:17.117] DEBUGGING - Answered Last Lash prompt "Come up with a hit song with this word in the title: DUMP" with: "Dumpster Fire Anthem"!
+[2024-03-03 18:58:23.472] DEBUGGING - This is a(n) VOTE page!
+[2024-03-03 18:58:26.049] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-03 18:58:26.051] DEBUGGING - OpenAI added words but we extracted DAT DUMPTRUCK A$$ from B. DAT DUMPTRUCK A$$
+[2024-03-03 18:58:26.119] DEBUGGING - Voted "DAT DUMPTRUCK A$$" for "Come up with a hit song with this word in the title: DUMP WHICH ONE DO YOU LIKE MORE? DUST UP MY P**** (D.U.S.T) DAT DUMPTRUCK A$$ MARCIANA MIA PUMP THEN DUMP"!
+[2024-03-03 18:58:27.167] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-03 18:58:27.169] DEBUGGING - OpenAI followed instructions and PUMP THEN DUMP was chosen
+[2024-03-03 18:58:27.231] DEBUGGING - Voted "PUMP THEN DUMP" for "Come up with a hit song with this word in the title: DUMP NOW AWARD YOUR SILVER MEDAL! DUST UP MY P**** (D.U.S.T) DAT DUMPTRUCK A$$ MARCIANA MIA PUMP THEN DUMP"!
+[2024-03-03 18:58:28.104] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-03 18:58:28.105] DEBUGGING - OpenAI followed instructions and MARCIANA MIA was chosen
+[2024-03-03 18:58:28.153] DEBUGGING - Voted "MARCIANA MIA" for "Come up with a hit song with this word in the title: DUMP AND HAND OUT A BRONZE MEDAL TO YOUR THIRD FAVORITE. DUST UP MY P**** (D.U.S.T) DAT DUMPTRUCK A$$ MARCIANA MIA PUMP THEN DUMP"!
+[2024-03-03 19:00:28.297] DEBUGGING - This is a(n) ANSWER page!
+[2024-03-03 19:00:30.720] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-03 19:00:30.938] DEBUGGING - Answered prompt "What a turtle looks for in a mate" with "Shell-Phone Compatibility"!
+[2024-03-03 19:00:31.748] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-03 19:00:31.930] DEBUGGING - Answered prompt "The way to celebrate being honored as “Zoo Employee of the Month”" with "Monkey business as usual."!
+[2024-03-03 19:01:58.224] DEBUGGING - This is a(n) VOTE page!
+[2024-03-03 19:02:00.659] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-03 19:02:00.661] DEBUGGING - OpenAI followed instructions and SMOKIN BLUNTS AND GETTIN BITCHES was chosen
+[2024-03-03 19:02:00.724] DEBUGGING - Voted "SMOKIN BLUNTS AND GETTIN BITCHES" for "How you would spend your first day as U.S. president WHICH ONE DO YOU LIKE MORE? PROBABLY HAVING A PANIC ATTACK SMOKIN BLUNTS AND GETTIN BITCHES"!
+[2024-03-03 19:02:27.960] DEBUGGING - This is a(n) VOTE page!
+[2024-03-03 19:02:30.423] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-03 19:02:30.425] DEBUGGING - OpenAI followed instructions and EAT YOUR WAY OUT was chosen
+[2024-03-03 19:02:30.477] DEBUGGING - Voted "EAT YOUR WAY OUT" for "The best way to escape the inside of a whale WHICH ONE DO YOU LIKE MORE? FARTH EAT YOUR WAY OUT"!
+[2024-03-03 19:03:24.490] DEBUGGING - This is a(n) VOTE page!
+[2024-03-03 19:03:26.911] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-03 19:03:26.913] DEBUGGING - OpenAI followed instructions and TRUMP ADULT DIAPERS was chosen
+[2024-03-03 19:03:26.960] DEBUGGING - Voted "TRUMP ADULT DIAPERS" for "The brand name of a patriotic line of diapers WHICH ONE DO YOU LIKE MORE? TRUMP ADULT DIAPERS BABY DAMPER"!
+[2024-03-03 19:04:40.935] DEBUGGING - This is a(n) ANSWER page!
+[2024-03-03 19:04:43.425] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-03 19:04:43.644] DEBUGGING - Answered prompt "A terrible thing to tell your kid when the dog dies" with "Rover's on a permanent vacation."!
+[2024-03-03 19:04:44.577] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-03 19:04:44.758] DEBUGGING - Answered prompt "A sign you may be a terrible babysitter" with "Lost the baby...again."!
+[2024-03-03 19:06:24.267] DEBUGGING - This is a(n) VOTE page!
+[2024-03-03 19:06:26.860] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-03 19:06:26.861] DEBUGGING - OpenAI followed instructions and WHEN EATING DIRTY ICE CREAM was chosen
+[2024-03-03 19:06:26.928] DEBUGGING - Voted "WHEN EATING DIRTY ICE CREAM" for "A time you absolutely should not wear white WHICH ONE DO YOU LIKE MORE? I THINK WE ALL KNOW... WHEN EATING DIRTY ICE CREAM"!
+[2024-03-03 19:07:13.889] DEBUGGING - This is a(n) VOTE page!
+[2024-03-03 19:07:16.322] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-03 19:07:16.323] DEBUGGING - OpenAI followed instructions and THE GOLD DIGGING BITCH was chosen
+[2024-03-03 19:07:16.375] DEBUGGING - Voted "THE GOLD DIGGING BITCH" for "An odd sequel to the children’s book, The Giving Tree WHICH ONE DO YOU LIKE MORE? THE GIVING TREE 2: GIVING UP THE GOLD DIGGING BITCH"!
+[2024-03-03 19:07:43.592] DEBUGGING - This is a(n) VOTE page!
+[2024-03-03 19:07:46.184] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-03 19:07:46.186] DEBUGGING - OpenAI followed instructions and KATE MCCOOCHIE was chosen
+[2024-03-03 19:07:46.240] DEBUGGING - Voted "KATE MCCOOCHIE" for "The perfect odd-couple pairing: Andy Dick and ________ WHICH ONE DO YOU LIKE MORE? MARTHA PUSSY KATE MCCOOCHIE"!
+[2024-03-03 19:09:20.189] DEBUGGING - This is a(n) Q2_LAST page!
+[2024-03-03 19:09:22.625] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-03 19:09:22.840] DEBUGGING - Answered Last Lash prompt "Come up with a full name for this acronym! L.D.R." with: "Lazy Donut Roller"!
+[2024-03-03 19:10:22.896] DEBUGGING - This is a(n) VOTE page!
+[2024-03-03 19:10:25.628] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-03 19:10:25.629] DEBUGGING - OpenAI added words but we extracted LESBIANS DONT RIDE from A. LESBIANS DONT RIDE
+[2024-03-03 19:10:25.682] DEBUGGING - Voted "LESBIANS DONT RIDE" for "Come up with a full name for this acronym! L.D.R. WHICH ONE DO YOU LIKE MORE? LESBIANS DONT RIDE LITTLE DICK READER LONG DEAD RAT LIL’ DUBIOUS RETARD"!
+[2024-03-03 19:10:26.668] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-03 19:10:26.670] DEBUGGING - OpenAI followed instructions and LONG DEAD RAT was chosen
+[2024-03-03 19:10:26.730] DEBUGGING - Voted "LONG DEAD RAT" for "Come up with a full name for this acronym! L.D.R. NOW AWARD YOUR SILVER MEDAL! LESBIANS DONT RIDE LITTLE DICK READER LONG DEAD RAT LIL’ DUBIOUS RETARD"!
+[2024-03-03 19:10:27.659] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-03 19:10:27.661] DEBUGGING - OpenAI added words but we extracted LITTLE DICK READER from A. LITTLE DICK READER
+[2024-03-03 19:10:27.702] DEBUGGING - Voted "LITTLE DICK READER" for "Come up with a full name for this acronym! L.D.R. AND HAND OUT A BRONZE MEDAL TO YOUR THIRD FAVORITE. LESBIANS DONT RIDE LITTLE DICK READER LONG DEAD RAT LIL’ DUBIOUS RETARD"!
+[2024-03-03 19:12:08.267] DEBUGGING - This is a(n) ANSWER page!
+[2024-03-03 19:12:10.795] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-03 19:12:11.031] DEBUGGING - Answered prompt "A sign you got a bad nose job" with "Pinocchio called, he wants his nose back."!
+[2024-03-03 19:12:11.824] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-03 19:12:12.019] DEBUGGING - Answered prompt "A perplexing band would be Crosby, Stills, Nash, Young & ________" with "Old & Confused"!
+[2024-03-03 19:14:18.430] DEBUGGING - This is a(n) VOTE page!
+[2024-03-03 19:14:20.866] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-03 19:14:20.867] DEBUGGING - OpenAI followed instructions and FIGURE OUT HOW TO MAKE HIS DICK HARD AGAIN was chosen
+[2024-03-03 19:14:20.938] DEBUGGING - Voted "FIGURE OUT HOW TO MAKE HIS DICK HARD AGAIN" for "The first thing Pinocchio did after becoming a real boy WHICH ONE DO YOU LIKE MORE? FIGURE OUT HOW TO MAKE HIS DICK HARD AGAIN LOOK AT HIS DUDOY"!
+[2024-03-03 19:14:48.074] DEBUGGING - This is a(n) VOTE page!
+[2024-03-03 19:14:50.537] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-03 19:14:50.539] DEBUGGING - OpenAI followed instructions and JAZZERCISE was chosen
+[2024-03-03 19:14:50.598] DEBUGGING - Voted "JAZZERCISE" for "Something found in the seat cracks of nearly every cab WHICH ONE DO YOU LIKE MORE? CHILDREN JAZZERCISE"!
+[2024-03-03 19:15:50.738] DEBUGGING - This is a(n) VOTE page!
+[2024-03-03 19:15:53.355] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-03 19:15:53.357] DEBUGGING - OpenAI followed instructions and SHE’S UGLIER THAN A BAG A HAMMERS was chosen
+[2024-03-03 19:15:53.418] DEBUGGING - Voted "SHE’S UGLIER THAN A BAG A HAMMERS" for "Something somebody named Dale would say WHICH ONE DO YOU LIKE MORE? DIGNITY SHE’S UGLIER THAN A BAG A HAMMERS"!
+[2024-03-03 19:16:33.901] DEBUGGING - This is a(n) ANSWER page!
+[2024-03-03 19:16:36.393] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-03 19:16:36.614] DEBUGGING - Answered prompt "What a crappy doctor would say every time a patient gets naked" with "Oops, wrong patient!"!
+[2024-03-03 19:16:37.621] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-03 19:16:37.823] DEBUGGING - Answered prompt "Explain how babies are made in three words" with "Storks, magic, cabbage."!
+[2024-03-03 19:17:50.904] DEBUGGING - This is a(n) VOTE page!
+[2024-03-03 19:17:53.598] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-03 19:17:53.600] DEBUGGING - OpenAI followed instructions and DAMN THOSE DWENDE was chosen
+[2024-03-03 19:17:53.665] DEBUGGING - Voted "DAMN THOSE DWENDE" for "A strange thing to yell when you find your first gray hair WHICH ONE DO YOU LIKE MORE? MY HEART X.X DAMN THOSE DWENDE"!
+[2024-03-03 19:18:20.736] DEBUGGING - This is a(n) VOTE page!
+[2024-03-03 19:18:23.220] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-03 19:18:23.222] DEBUGGING - OpenAI added words but we extracted BARREL SCRAPINGS from A. BARREL SCRAPINGS
+[2024-03-03 19:18:23.275] DEBUGGING - Voted "BARREL SCRAPINGS" for "A good name for a very cheap brand of whiskey WHICH ONE DO YOU LIKE MORE? BARREL SCRAPINGS WESKY"!
+[2024-03-03 19:18:50.470] DEBUGGING - This is a(n) VOTE page!
+[2024-03-03 19:18:52.915] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-03 19:18:52.917] DEBUGGING - OpenAI followed instructions and LEG CRAMP! LEG CRAMP! was chosen
+[2024-03-03 19:18:52.967] DEBUGGING - Voted "LEG CRAMP! LEG CRAMP!" for "The sequel to the song “I Saw Mommy Kissing Santa Claus” WHICH ONE DO YOU LIKE MORE? LEG CRAMP! LEG CRAMP! MY BROTHERS AN ELF"!
+[2024-03-03 19:20:39.992] DEBUGGING - This is a(n) Q2_LAST page!
+[2024-03-03 19:20:42.483] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-03 19:20:42.708] DEBUGGING - Answered Last Lash prompt "Come up with a music group with this word in their name: MULE" with: "Mule-ti-talented Tunes"!
+[2024-03-03 19:21:22.927] DEBUGGING - This is a(n) VOTE page!
+[2024-03-03 19:21:25.515] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-03 19:21:25.517] DEBUGGING - OpenAI added words but we extracted RAGE AGAINST THE MULECHINE from B. RAGE AGAINST THE MULECHINE
+[2024-03-03 19:21:25.579] DEBUGGING - Voted "RAGE AGAINST THE MULECHINE" for "Come up with a music group with this word in their name: MULE WHICH ONE DO YOU LIKE MORE? PACKING THE MULE RAGE AGAINST THE MULECHINE AMULENTE BAND MULE SLAPPERS ON ICE"!
+[2024-03-03 19:21:26.511] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-03 19:21:26.513] DEBUGGING - OpenAI added words but we extracted AMULENTE BAND from B. AMULENTE BAND
+[2024-03-03 19:21:26.564] DEBUGGING - Voted "AMULENTE BAND" for "Come up with a music group with this word in their name: MULE NOW AWARD YOUR SILVER MEDAL! PACKING THE MULE RAGE AGAINST THE MULECHINE AMULENTE BAND MULE SLAPPERS ON ICE"!
+[2024-03-03 19:21:27.493] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-03 19:21:27.494] DEBUGGING - OpenAI added words but we extracted MULE SLAPPERS ON ICE from B. MULE SLAPPERS ON ICE
+[2024-03-03 19:21:27.543] DEBUGGING - Voted "MULE SLAPPERS ON ICE" for "Come up with a music group with this word in their name: MULE AND HAND OUT A BRONZE MEDAL TO YOUR THIRD FAVORITE. PACKING THE MULE RAGE AGAINST THE MULECHINE AMULENTE BAND MULE SLAPPERS ON ICE"!
+[2024-03-03 19:22:48.461] ERROR     - RuntimeError('The room was disconnected')

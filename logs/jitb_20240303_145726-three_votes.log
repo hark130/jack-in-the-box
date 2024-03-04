@@ -1,0 +1,50 @@
+[2024-03-03 14:57:31.424] DEBUGGING - This room code is a Quiplash 2 game
+[2024-03-03 14:58:17.723] DEBUGGING - This is a(n) ANSWER page!
+[2024-03-03 14:58:20.327] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-03 14:58:20.548] DEBUGGING - Answered prompt "Every airline flight should come with a free ________" with "Snakes on a plane"!
+[2024-03-03 14:58:21.448] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-03 14:58:21.628] DEBUGGING - Answered prompt "Never take a first date to a ________" with "Funeral home."!
+[2024-03-03 14:58:48.321] DEBUGGING - This is a(n) VOTE page!
+[2024-03-03 14:58:51.035] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-03 14:58:51.037] DEBUGGING - OpenAI followed instructions and ARSON was chosen
+[2024-03-03 14:58:51.094] DEBUGGING - Voted "ARSON" for "Don’t throw out those used chopsticks! They can be used to ________ WHICH ONE DO YOU LIKE MORE? DETROIT ARSON"!
+[2024-03-03 14:59:45.253] DEBUGGING - This is a(n) VOTE page!
+[2024-03-03 14:59:47.833] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-03 14:59:47.835] DEBUGGING - OpenAI followed instructions and WET DOG SMELL was chosen
+[2024-03-03 14:59:47.882] DEBUGGING - Voted "WET DOG SMELL" for "The name of a disease that makes you look like a Minion WHICH ONE DO YOU LIKE MORE? WET DOG SMELL HOT YOGA"!
+[2024-03-03 15:00:15.287] DEBUGGING - This is a(n) VOTE page!
+[2024-03-03 15:00:17.727] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-03 15:00:17.729] DEBUGGING - OpenAI followed instructions and PHLEGM was chosen
+[2024-03-03 15:00:17.783] DEBUGGING - Voted "PHLEGM" for "Santa’s phasing out reindeer and next year, his sleigh will be pulled by ________ WHICH ONE DO YOU LIKE MORE? INGROWN TOENAIL PHLEGM"!
+[2024-03-03 15:01:25.177] DEBUGGING - This is a(n) ANSWER page!
+[2024-03-03 15:01:27.717] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-03 15:01:27.925] DEBUGGING - Answered prompt "The worst thing to hear during a massage" with "Oops, wrong person!"!
+[2024-03-03 15:01:28.879] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-03 15:01:29.064] DEBUGGING - Answered prompt "The next TV spin-off: Law and Order: Special ________ Unit" with "Law and Order: Special Pizza Unit"!
+[2024-03-03 15:01:55.717] DEBUGGING - This is a(n) VOTE page!
+[2024-03-03 15:01:58.318] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-03 15:01:58.320] DEBUGGING - OpenAI followed instructions and BRUNCH BUDDIES was chosen
+[2024-03-03 15:01:58.368] DEBUGGING - Voted "BRUNCH BUDDIES" for "Dennis the Menace grew up and got the new nickname: Dennis the ________ WHICH ONE DO YOU LIKE MORE? BRUNCH BUDDIES SPIDERS!"!
+[2024-03-03 15:02:18.919] DEBUGGING - This is a(n) VOTE page!
+[2024-03-03 15:02:21.497] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-03 15:02:21.499] DEBUGGING - OpenAI followed instructions and DIET CRACKERS was chosen
+[2024-03-03 15:02:21.552] DEBUGGING - Voted "DIET CRACKERS" for "The worst thing an HR manager could wear WHICH ONE DO YOU LIKE MORE? PLACENTA DIET CRACKERS"!
+[2024-03-03 15:03:49.035] DEBUGGING - This is a(n) VOTE page!
+[2024-03-03 15:03:51.647] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-03 15:03:51.649] DEBUGGING - OpenAI followed instructions and TWERKING was chosen
+[2024-03-03 15:03:51.703] DEBUGGING - Voted "TWERKING" for "The one change churches could make that would probably get more people to attend WHICH ONE DO YOU LIKE MORE? TWERKING HIP PARENTING BLOGS"!
+[2024-03-03 15:05:12.381] DEBUGGING - This is a(n) Q2_LAST page!
+[2024-03-03 15:05:14.505] DEBUGGING - It appears we have encountered a Comic Last because the "Complete the Comic!   SEND" is being repaced with "The other players are being shown a picture you can not see. It is a generic web comic with the text removed from the speech bubble of the last panel.  Give an answer that is generic enough to work as funny/quirky text for such an empty speech bubble."
+[2024-03-03 15:05:14.975] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-03 15:05:15.194] DEBUGGING - Answered Last Lash prompt "The other players are being shown a picture you can not see. It is a generic web comic with the text removed from the speech bubble of the last panel.  Give an answer that is generic enough to work as funny/quirky text for such an empty speech bubble." with: "Insert witty punchline here."!
+[2024-03-03 15:05:55.242] DEBUGGING - This is a(n) VOTE page!
+[2024-03-03 15:05:57.893] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-03 15:05:57.895] DEBUGGING - OpenAI followed instructions and MULTO was chosen
+[2024-03-03 15:05:57.949] DEBUGGING - Voted "MULTO" for "Complete the Comic! WHICH ONE DO YOU LIKE MORE? MAGUGOL MULTO PRIMADO SECOND"!
+[2024-03-03 15:05:58.941] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-03 15:05:58.943] DEBUGGING - OpenAI followed instructions and SECOND was chosen
+[2024-03-03 15:05:58.995] DEBUGGING - Voted "SECOND" for "Complete the Comic! NOW AWARD YOUR SILVER MEDAL! MAGUGOL MULTO PRIMADO SECOND"!
+[2024-03-03 15:06:00.035] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-03 15:06:00.037] DEBUGGING - OpenAI added words but we extracted PRIMADO from B. PRIMADO
+[2024-03-03 15:06:00.088] DEBUGGING - Voted "PRIMADO" for "Complete the Comic! AND HAND OUT A BRONZE MEDAL TO YOUR THIRD FAVORITE. MAGUGOL MULTO PRIMADO SECOND"!
+[2024-03-03 15:07:22.190] ERROR     - RuntimeError('The room was disconnected')
