@@ -398,7 +398,7 @@ class SpecialTestJitbOpenaiRemoveAnswerOverlap(TestJitbOpenaiRemoveAnswerOverlap
         in_answer = f'Notice {exp_answer}'
         self.run_test_success(in_prompt, in_answer, exp_answer)
 
-    def test_s05_fabricated_fitb_prompt_case_mismatch_v3(self):
+    def test_s07_fabricated_fitb_prompt_case_mismatch_v3(self):
         """This special case contains part of the prompt but the case is different in the answer."""
         # Test input for the prompt argument
         in_prompt = 'A rejected superhero vehicle: the ________mobile'
@@ -408,7 +408,7 @@ class SpecialTestJitbOpenaiRemoveAnswerOverlap(TestJitbOpenaiRemoveAnswerOverlap
         in_answer = f'the {exp_answer}Mobile'
         self.run_test_success(in_prompt, in_answer, exp_answer)
 
-    def test_s06_fabricated_fitb_prompt_case_mismatch_v4(self):
+    def test_s08_fabricated_fitb_prompt_case_mismatch_v4(self):
         """This special case contains part of the prompt but the case is different in the answer."""
         # Test input for the prompt argument
         in_prompt = 'You know your company is going out of business when you show up to work ' \
@@ -419,7 +419,7 @@ class SpecialTestJitbOpenaiRemoveAnswerOverlap(TestJitbOpenaiRemoveAnswerOverlap
         in_answer = f'Notice {exp_answer}'
         self.run_test_success(in_prompt, in_answer, exp_answer)
 
-    def test_s07_variable_length_fitb_way_too_short(self):
+    def test_s09_variable_length_fitb_way_too_short(self):
         """Fill in the blank sub-string is much shorter than actual observed strings.
 
         Current implementation will likely use hard-coded prompt string.  As such, shorter strings
@@ -434,7 +434,7 @@ class SpecialTestJitbOpenaiRemoveAnswerOverlap(TestJitbOpenaiRemoveAnswerOverlap
         in_answer = exp_answer
         self.run_test_success(in_prompt, in_answer, exp_answer)
 
-    def test_s08_variable_length_fitb_barely_too_short(self):
+    def test_s10_variable_length_fitb_barely_too_short(self):
         """Fill in the blank sub-string is barely shorter than actual observed strings.
 
         Current implementation will likely use hard-coded prompt string.  As such, shorter strings
@@ -449,7 +449,7 @@ class SpecialTestJitbOpenaiRemoveAnswerOverlap(TestJitbOpenaiRemoveAnswerOverlap
         in_answer = exp_answer
         self.run_test_success(in_prompt, in_answer, exp_answer)
 
-    def test_s09_variable_length_fitb_barely_too_long(self):
+    def test_s11_variable_length_fitb_barely_too_long(self):
         """Fill in the blank sub-string is barely longer than actual observed strings.
 
         Current implementation will likely use hard-coded prompt string.  As such, longer
@@ -459,27 +459,27 @@ class SpecialTestJitbOpenaiRemoveAnswerOverlap(TestJitbOpenaiRemoveAnswerOverlap
         # Test input for the prompt argument
         in_prompt = 'This blank _________ is barely too long'
         # Expected return value
-        exp_answer = 'certainly_'
+        exp_answer = 'certainly'
         # Test input for the answer argument
-        in_answer = f'blank {exp_answer} is'
+        in_answer = f'blank {exp_answer}_ is'
         self.run_test_success(in_prompt, in_answer, exp_answer)
 
-    def test_s10_variable_length_fitb_way_too_short(self):
+    def test_s12_variable_length_fitb_way_too_short(self):
         """Fill in the blank sub-string is much longer than actual observed strings.
 
-        Current implementation will likely use hard-coded prompt string.  As such, longer
-        fill-in-the-blank strings could become a problem.  If this becomes a problem in the
-        future, use this test case to verify the change in behavior.
+        Current implementation is passing this test case as desired but future changes could
+        make this a problem.  If this becomes a problem in the future, use this test case to
+        verify the change in behavior.
         """
         # Test input for the prompt argument
-        in_prompt = 'This blank ________________ is much too long'
+        in_prompt = 'This blank _______________ is much too long'
         # Expected return value
-        exp_answer = 'certainly________'
+        exp_answer = 'certainly'
         # Test input for the answer argument
-        in_answer = f'blank {exp_answer} is'
+        in_answer = f'blank {exp_answer}_______ is'
         self.run_test_success(in_prompt, in_answer, exp_answer)
 
-    def test_s11_more_than_one_fitb(self):
+    def test_s13_more_than_one_fitb(self):
         """Input prompt has multiple fill-in-the-blanks.
 
         Current design of the function will be to ignore this input, as if there was no
@@ -491,6 +491,20 @@ class SpecialTestJitbOpenaiRemoveAnswerOverlap(TestJitbOpenaiRemoveAnswerOverlap
         # Test input for the answer argument
         in_answer = 'like bad data types or ill-formed values as input'
         self.run_test_success(in_prompt, in_answer, in_answer)
+
+    def test_s14_variable_length_fitb_way_too_short(self):
+        """Fill in the blank sub-string is double the length of actual observed strings.
+
+        The current implementation treats this as there being two fill-in-the-blanks, which is
+        fine.  Even so, it just returns the original answer, unedited, which is also fine.
+        """
+        # Test input for the prompt argument
+        in_prompt = 'This blank ________________ is much too long'
+        # Expected return value
+        exp_answer = 'blank certainly_______ is'
+        # Test input for the answer argument
+        in_answer = exp_answer
+        self.run_test_success(in_prompt, in_answer, exp_answer)
 
 
 if __name__ == '__main__':
