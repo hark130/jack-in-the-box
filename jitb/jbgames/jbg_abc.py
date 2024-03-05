@@ -9,6 +9,7 @@ from selenium.webdriver.common.by import By
 import selenium
 # Local
 from jitb.jbgames.jbg_page_ids import JbgPageIds
+from jitb.jitb_logger import Logger
 from jitb.jitb_openai import JitbAi
 
 
@@ -86,6 +87,36 @@ class JbgAbc(ABC):
         Args:
             web_driver: The webdriver object to interact with.
         """
+
+    def generate_ai_answer(self, prompt: str, ai_obj: JitbAi = None) -> str:
+        """Wraps ai_obj.generate_answer() to inject context regarding prompts about the username.
+
+        Args:
+            prompt: Prompt to give the AI to generate an answer for.
+            ai_obj: Optional; If None, utilizes self.ai_obj instead.
+        """
+        # LOCAL VARIABLES
+        local_ai_obj = ai_obj  # Local copy of the JitbAi object
+        local_prompt = prompt  # Local copy of the prompt
+        answer = ''            # AI-generated answer to the prompt
+
+        # INPUT VALIDATION
+        if not local_ai_obj:
+            local_ai_obj = self._ai_obj
+
+        # CHECK THE PROMPT
+        if self._username.upper() in prompt.upper():
+            local_prompt = local_prompt + '  For context, you are playing as ' \
+                           + f'username {self._username.upper()}'
+
+        # GENERATE IT
+        answer = local_ai_obj.generate_answer(prompt=local_prompt)
+
+        # DONE
+        if prompt != local_prompt:
+            Logger.debug(f'Changed "{prompt}" to "{local_prompt}" and received "{answer}" '
+                         'from the AI')
+        return answer
 
     @abstractmethod
     def vote_answers(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> None:

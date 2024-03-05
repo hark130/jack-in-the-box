@@ -64,6 +64,10 @@ class JitbAi:
     def generate_answer(self, prompt: str, length_limit: int = 45) -> str:
         """Prompt OpenAI to generate an answer for the given prompt.
 
+        Args:
+            prompt: Prompt to give the AI to generate an answer for.
+            length_limit: Optional; Maximum length of the answer.
+
         Returns:
             The generated answer as a string.
         """
@@ -491,9 +495,6 @@ def remove_punctuation(prompt: str, answer: str) -> str:
         new_answer = new_answer.rstrip(punctuation)
 
     # DONE
-    if new_answer != answer:
-        Logger.debug(f'Removed trailing punctuation from "{answer}" into "{new_answer}" for '
-                     f'this prompt: "{prompt}"')
     return new_answer
 
 
