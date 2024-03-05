@@ -21,6 +21,7 @@ CATCHPHRASE_PROMPT_NEEDLE: Final[str] = 'catchphrase'
 # A 'needle' to help identify the joke topic page
 JOKE_TOPIC_PROMPT_NEEDLE: Final[str] = 'Write as many topics as you can'
 
+
 class JbgJb(JbgAbc):
     """Jackbox Games (JBG) Joke Boat (JB) class."""
 
