@@ -9,7 +9,7 @@ import sys
 # Third Party
 from openai import OpenAI
 # Local
-from jitb.jitb_globals import OPENAI_KEY_ENV_VAR
+from jitb.jitb_globals import FILL_IN_THE_BLANK, OPENAI_KEY_ENV_VAR
 from jitb.jitb_logger import Logger
 
 
@@ -344,6 +344,84 @@ class JitbAi:
         return new_answers
 
 
+def remove_answer_overlap(prompt: str, answer: str) -> str:
+    """Remove any overlap between the prompt and answer for fill-in-the-blank prompts.
+
+    OpenAI response don't do a good job of following instructions for the fill-in-the-blank
+    prompts so we're going to help them.  This function will not change an answer for a prompt
+    that does *not* include a fill-in-the-blank.
+
+    Args:
+        prompt: The original prompt.
+        answer: The AI-generated answer.
+
+    Returns:
+        The answer to the prompt, modified or not.
+
+    Raises:
+        TypeError: Bad data type.
+        ValueError: Empty string.
+    """
+    # LOCAL VARIABLES
+    opening = ''                 # Portion of the prompt preceding the blank
+    blank = FILL_IN_THE_BLANK    # Fill-in-the-blank substring
+    closing = ''                 # Portion of the prompt following the blank
+    new_answer = answer          # Trimmed up version of answer
+
+    # INPUT VALIDATION
+    _validate_string(prompt, 'prompt')
+    _validate_string(answer, 'answer')
+
+    # REMOVE OVERLAP
+    if prompt.count(blank) == 1:
+        opening = prompt.split(blank)[0]   # Prompt substring before the blank
+        closing = prompt.split(blank)[1]   # Prompt substring after the blank
+        opening = _get_leading_overlap(opening.lower(), answer.lower())  # Opening & answer overlap
+        closing = _get_trailing_overlap(closing.lower(), answer.lower())  # Closing & answer overlap
+        if opening:
+            try:
+                # Slice off leading overlap
+                new_answer = new_answer[new_answer.lower().index(opening.lower()) + len(opening):]
+            except ValueError as err:
+                Logger.debug('remove_answer_overlap() failed slicing the opening overlap of '
+                             + f'"{opening}" off of the current working answer of '
+                             + f'"{new_answer}" with {repr(err)}!')
+        if closing:
+            try:
+                # Slice off trailing overlap
+                new_answer = new_answer[:new_answer.lower().index(closing.lower())]
+            except ValueError as err:
+                Logger.debug('remove_answer_overlap() failed slicing the trailing overlap of '
+                             + f'"{closing}" off of the current working answer of '
+                             + f'"{new_answer}" with {repr(err)}!')
+
+    # DONE
+    if new_answer != answer:
+        Logger.debug(f'Trimmed "{new_answer}" from "{answer}" by removing overlap with '
+                     f'this prompt: "{prompt}"')
+    return new_answer
+
+
+def _get_leading_overlap(haystack: str, needle: str) -> str:
+    """Returns the trailing haystack and leading needle overlap sub-string."""
+    overlap = ''  # Overlap between haystack and needle
+    for i in range(1, len(needle)):
+        if haystack.endswith(needle[:-i]):
+            overlap = needle[:-i]
+            break
+    return overlap
+
+
+def _get_trailing_overlap(haystack: str, needle: str) -> str:
+    """Returns the leading haystack and trailing needle overlap sub-string."""
+    overlap = ''  # Overlap between haystack and needle
+    for i in range(1, len(needle)):
+        if haystack.startswith(needle[i:]):
+            overlap = needle[i:]
+            break
+    return overlap
+
+
 def _match_phrase(needle: str, haystack: str, threshold: float = 0.75) -> bool:
     """Loosely match a needle and a haystack to an established threshold.
 
@@ -389,3 +467,20 @@ def _match_phrase(needle: str, haystack: str, threshold: float = 0.75) -> bool:
 def _randomize_choice(choices: dict) -> str:
     """Randomize one of the values from choices."""
     return random.choice(list(choices.values()))
+
+
+def _validate_string(in_str: str, name: str) -> None:
+    """Validate input on behalf of this module's API functions.
+
+    Args:
+        in_str: Input to validate.
+        name: Name of the original variable to us in crafting the Exception message.
+
+    Raises:
+        TypeError: Bad data type.
+        ValueError: Empty string.
+    """
+    if not isinstance(in_str, str):
+        raise TypeError(f'Invalid data type for {name} argument: {type(in_str)}')
+    if not in_str:
+        raise ValueError(f'{name.upper()} may not be empty')

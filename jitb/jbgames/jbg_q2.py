@@ -138,14 +138,14 @@ class JbgQ2(JbgAbc):
         self.validate_status(web_driver=web_driver)
 
         # DETERMINE PAGE
-        if self._is_login_page(web_driver=web_driver):
-            current_page = JbgPageIds.LOGIN
+        if _is_vote_page(web_driver=web_driver):
+            current_page = JbgPageIds.VOTE
         elif _is_prompt_page(web_driver=web_driver):
             current_page = JbgPageIds.ANSWER
         elif _is_last_lash_page(web_driver=web_driver):
             current_page = JbgPageIds.Q2_LAST
-        elif _is_vote_page(web_driver=web_driver):
-            current_page = JbgPageIds.VOTE
+        elif self._is_login_page(web_driver=web_driver):
+            current_page = JbgPageIds.LOGIN
 
         # DONE
         if current_page != JbgPageIds.UNKNOWN:
@@ -527,7 +527,7 @@ def _vote_answer(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
             if not _is_vote_page(web_driver):
                 prompt_text = ''
                 break
-            time.sleep(JITB_POLL_RATE)
+            time.sleep(JITB_POLL_RATE / 2)  # Less sleep, faster voting
         except NoSuchElementException:
             prompt_text = ''  # Must have been the last prompt to vote
         except RuntimeError as err:
