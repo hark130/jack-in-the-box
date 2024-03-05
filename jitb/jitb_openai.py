@@ -396,6 +396,9 @@ def remove_answer_overlap(prompt: str, answer: str) -> str:
                              + f'"{new_answer}" with {repr(err)}!')
 
     # DONE
+    if new_answer != answer:
+        Logger.debug(f'Trimmed "{new_answer}" from "{answer}" by removing overlap with '
+                     f'this prompt: "{prompt}"')
     return new_answer
 
 
