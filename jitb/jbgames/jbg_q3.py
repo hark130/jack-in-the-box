@@ -185,7 +185,6 @@ class JbgQ3(JbgAbc):
         Args:
             last_prompt: The last prompt that was answered.  Helps this function avoid trying to
                 answer the same prompt twice.
-            ai_obj: Query object to get AI-generated answers.
 
         Returns:
             The prompt that was answered as a string.
