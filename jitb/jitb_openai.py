@@ -1,6 +1,7 @@
 """The package's interface to OpenAI's API."""
 # Standard
 from collections import OrderedDict
+from string import punctuation
 import os
 import re
 import random
@@ -71,7 +72,7 @@ class JitbAi:
         messages = self._base_messages  # Local copy of messages to update with actual query
         # Base prompt to prompt OpenAI to generate a single answer to a prompt
         content = f'Give me a funny answer, limited to {length_limit} characters, ' \
-                  + f'for the Quiplash 3 prompt "{prompt}" without using any previous context.'
+                  + f'for the Jackbox game prompt "{prompt}" without using any previous context.'
 
         # CLASS VALIDATION
         self.setup()
@@ -83,9 +84,7 @@ class JitbAi:
                       + 'the orignal prompt in your answer.'
         messages.append({'role': 'user', 'content': content})
         answer = self._create_content(messages=messages)
-        answer = re.sub(r'^"|"$', '', answer)  # Strip leading and trailing quotes
-        if len(answer) > length_limit:
-            answer = answer[:length_limit]
+        answer = polish_answer(prompt=prompt, answer=answer, length_limit=length_limit)
 
         # DONE
         return answer
@@ -344,6 +343,66 @@ class JitbAi:
         return new_answers
 
 
+def polish_answer(prompt: str, answer: str, length_limit: int, original_answer: str = None) -> str:
+    """Polishes AI answers to improve the quality of responses.
+
+    This function recursively performs the following until no other changes are necessary:
+        1. Removes leading and trailing quotes
+        2. Removes overlap between the prompt and answer
+        3. Removes trailing punctuation (in certain situations)
+        4. Ensures the answer is no longer than length_limit
+
+    Args:
+        prompt: The original prompt.
+        answer: The AI-generated answer.
+        length_limit: Upper end limit for the length of the answer.
+        original_answer: Optional; Keep track of the original through all the recursion.  If you
+            *must* include a value for this argument, choose the same value as answer.
+
+    Returns:
+        An answer, which may or may not be modified.
+
+    Raises:
+        TypeError: Bad data type.
+        ValueError: Bad value.
+    """
+    # LOCAL VARIABLES
+    new_answer = answer  # A polished up version of answer
+    final_run = False    # Final call in the recursive call stack
+
+    # INPUT VALIDATION
+    _validate_string(prompt, 'prompt')
+    _validate_string(answer, 'answer')
+    if not isinstance(length_limit, int):
+        raise TypeError(f'The length_limit argument must be an int instead of {type(length_limit)}')
+    if length_limit < 1:
+        raise ValueError(f'The length_limit must be a positive number instead of {length_limit}')
+    if original_answer:
+        _validate_string(original_answer, 'original_answer')
+
+    # POLISH IT
+    # 1. Removes leading and trailing quotes
+    new_answer = re.sub(r'^"|"$', '', new_answer)  # Strip leading and trailing quotes
+    # 2. Removes overlap between the prompt and answer
+    new_answer = remove_answer_overlap(prompt=prompt, answer=new_answer)
+    # 3. Removes trailing punctuation (in certain situations)
+    new_answer = remove_punctuation(prompt=prompt, answer=new_answer)
+    # Save truncation for last
+    if new_answer != answer:
+        new_answer = polish_answer(prompt=prompt, answer=new_answer, length_limit=length_limit,
+                                   original_answer=answer)
+    else:
+        final_run = True
+    # 4. Ensures the answer is no longer than length_limit
+    if len(new_answer) > length_limit:
+        new_answer = new_answer[:length_limit]
+
+    # DONE
+    if new_answer != original_answer and final_run:
+        Logger.debug(f'Polished "{new_answer}" from "{original_answer}" for this: "{prompt}"')
+    return new_answer
+
+
 def remove_answer_overlap(prompt: str, answer: str) -> str:
     """Remove any overlap between the prompt and answer for fill-in-the-blank prompts.
 
@@ -398,6 +457,42 @@ def remove_answer_overlap(prompt: str, answer: str) -> str:
     # DONE
     if new_answer != answer:
         Logger.debug(f'Trimmed "{new_answer}" from "{answer}" by removing overlap with '
+                     f'this prompt: "{prompt}"')
+    return new_answer
+
+
+def remove_punctuation(prompt: str, answer: str) -> str:
+    """Remove trailing punctuation from answer, depending on the prompt.
+
+    Removes trailing punctuation from answer unless the prompt has a trailing fill-in-the-blank,
+    sans prompt punctuation.  Never removes punctuation marks.
+
+    Args:
+        prompt: The original prompt.
+        answer: The AI-generated answer.
+
+    Returns:
+        The answer to the prompt, modified or not.
+
+    Raises:
+        TypeError: Bad data type.
+        ValueError: Empty string.
+    """
+    # LOCAL VARIABLES
+    new_answer = answer        # A polished up version of answer
+    blank = FILL_IN_THE_BLANK  # Fill-in-the-blank substring
+
+    # INPUT VALIDATION
+    _validate_string(prompt, 'prompt')
+    _validate_string(answer, 'answer')
+
+    # REMOVE IT
+    if not answer.endswith('!') and not prompt.endswith(blank):
+        new_answer = new_answer.rstrip(punctuation)
+
+    # DONE
+    if new_answer != answer:
+        Logger.debug(f'Removed trailing punctuation from "{answer}" into "{new_answer}" for '
                      f'this prompt: "{prompt}"')
     return new_answer
 

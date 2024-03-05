@@ -1,0 +1,37 @@
+[2024-03-04 20:54:06.109] DEBUGGING - This room code is a Quiplash 3 game
+[2024-03-04 20:55:22.093] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-04 20:55:22.095] DEBUGGING - Polished "Taxidermied unicorns" from ""Taxidermied unicorns"" for this: "Never trust a veterinarian who decorates their waiting room with _______"
+[2024-03-04 20:55:22.246] DEBUGGING - ANSWERED Never trust a veterinarian who decorates their waiting room with _______ with Taxidermied unicorns!
+[2024-03-04 20:55:23.164] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-04 20:55:23.165] DEBUGGING - Polished "Bees!" from ""Bees!"" for this: "Everyone was sad when they saw the piñata was full of _______"
+[2024-03-04 20:55:23.258] DEBUGGING - ANSWERED Everyone was sad when they saw the piñata was full of _______ with Bees!!
+[2024-03-04 20:56:27.738] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-04 20:56:27.740] DEBUGGING - OpenAI followed instructions and MY HOME NETWORK was chosen
+[2024-03-04 20:56:27.798] DEBUGGING - VOTED MY HOME NETWORK for What would you call your ANTI-social network?!
+[2024-03-04 20:57:31.917] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-04 20:57:31.919] DEBUGGING - Removed trailing punctuation from "Erased my hopes and dreams." into "Erased my hopes and dreams" for this prompt: "An absolutely scathing review for an eraser"
+[2024-03-04 20:57:31.919] DEBUGGING - Polished "Erased my hopes and dreams" from ""Erased my hopes and dreams."" for this: "An absolutely scathing review for an eraser"
+[2024-03-04 20:57:32.046] DEBUGGING - ANSWERED An absolutely scathing review for an eraser with Erased my hopes and dreams!
+[2024-03-04 20:57:32.944] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-04 20:57:32.945] DEBUGGING - Removed trailing punctuation from "Overdose on invisible medicine." into "Overdose on invisible medicine" for this prompt: "Why do most mimes end up in the hospital?"
+[2024-03-04 20:57:32.946] DEBUGGING - Polished "Overdose on invisible medicine" from ""Overdose on invisible medicine."" for this: "Why do most mimes end up in the hospital?"
+[2024-03-04 20:57:33.057] DEBUGGING - ANSWERED Why do most mimes end up in the hospital? with Overdose on invisible medicine!
+[2024-03-04 20:59:12.082] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-04 20:59:12.083] DEBUGGING - OpenAI followed instructions and WORLD WAR 2.5 was chosen
+[2024-03-04 20:59:12.150] DEBUGGING - VOTED WORLD WAR 2.5 for You know you’re addicted to Wikipedia when you start reading about _______!
+[2024-03-04 21:00:31.265] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-04 21:00:31.531] DEBUGGING - ANSWERED THRIPLASH Your three-step plan for escaping prison that’s bound to fail with: Dig with spoon, Disguise as guard, Use paperclip!
+[2024-03-04 21:01:52.340] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-04 21:01:52.342] DEBUGGING - OpenAI added words but we extracted BOOT CUT
+,
+HIGH-WASTED
+,
+WORN-OUT
+, from B. HIGH-WASTED
+[2024-03-04 21:01:52.413] DEBUGGING - VOTED BOOT CUT
+,
+HIGH-WASTED
+,
+WORN-OUT
+, for Three words that can describe both a person and a pair of jeans!
+[2024-03-04 21:02:58.777] ERROR     - RuntimeError('The room was disconnected')
