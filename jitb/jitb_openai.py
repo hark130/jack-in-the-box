@@ -495,9 +495,6 @@ def remove_punctuation(prompt: str, answer: str) -> str:
         new_answer = new_answer.rstrip(punctuation)
 
     # DONE
-    if new_answer != answer:
-        Logger.debug(f'Removed trailing punctuation from "{answer}" into "{new_answer}" for '
-                     f'this prompt: "{prompt}"')
     return new_answer
 
 
