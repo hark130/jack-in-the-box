@@ -17,6 +17,7 @@ from tediousstart.tediousstart import execute_test_cases
 from jitb.jitb_openai import polish_answer
 
 
+# pylint: disable = too-many-arguments, too-many-public-methods
 class TestJitbOpenaiPolishAnswer(TestJackboxGames):
     """The jitb_openai.polish_answer() unit test class.
 
@@ -659,7 +660,7 @@ class BoundaryTestJitbOpenaiPolishAnswer(TestJitbOpenaiPolishAnswer):
         # Expected return value
         exp_answer = 'b'
         # Test input for the answer argument
-        in_answer = f' boogers as'
+        in_answer = ' boogers as'
         self.run_test_success(in_prompt, in_answer, in_limit, exp_answer)
 
     def test_b15_good_value_length_limit_less_than_answer(self):
@@ -920,6 +921,7 @@ class SpecialTestJitbOpenaiPolishAnswer(TestJitbOpenaiPolishAnswer):
         # Expected return value
         exp_answer = 'Feline Friend Fatale'[:in_limit]
         self.run_test_success(in_prompt, in_answer, in_limit, exp_answer)
+# pylint: enable = too-many-arguments, too-many-public-methods
 
 
 if __name__ == '__main__':

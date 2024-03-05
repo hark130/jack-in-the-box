@@ -497,8 +497,6 @@ def remove_punctuation(prompt: str, answer: str) -> str:
     return new_answer
 
 
-
-
 def _get_leading_overlap(haystack: str, needle: str) -> str:
     """Returns the trailing haystack and leading needle overlap sub-string."""
     overlap = ''  # Overlap between haystack and needle
