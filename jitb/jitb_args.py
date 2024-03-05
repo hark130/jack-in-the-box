@@ -18,7 +18,8 @@ def parse_args() -> tuple:
     parser.add_argument('-u', '--user', action='store', help='The Jackbox Games name',
                         required=True)
     parser.add_argument('-d', '--debug', action='store_true',
-                        help='Log debug messages to /tmp/jitb_YYYYMMDD_HHMMSS.log', required=False)
+                        help='Log debug messages to /tmp/jitb_YYYYMMDD_HHMMSS-#.log',
+                        required=False)
     args = parser.parse_args()
 
     # DONE
