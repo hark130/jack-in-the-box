@@ -398,7 +398,7 @@ def polish_answer(prompt: str, answer: str, length_limit: int, original_answer: 
         new_answer = new_answer[:length_limit]
 
     # DONE
-    if new_answer != answer and final_run:
+    if new_answer != original_answer and final_run:
         Logger.debug(f'Polished "{new_answer}" from "{original_answer}" for this: "{prompt}"')
     return new_answer
 
