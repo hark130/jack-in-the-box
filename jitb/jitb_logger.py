@@ -159,9 +159,16 @@ def _create_filename() -> str:
     # LOCAL VARAIBLES
     abs_log_filename = ''  # Absolute filename of the log to use
     now = datetime.now()   # Current date and time
+    number = 0             # Number of times the generated filename has been detected
 
     # CREATE IT
-    abs_log_filename = os.path.join('/tmp', f'jitb_{now.strftime("%Y%m%d_%H%M%S")}.log')
+    while True:
+        abs_log_filename = os.path.join('/tmp',
+                                        f'jitb_{now.strftime("%Y%m%d_%H%M%S")}-{str(number)}.log')
+        if os.path.isfile(abs_log_filename):
+            number += 1
+        else:
+            break
 
     # DONE
     return abs_log_filename
