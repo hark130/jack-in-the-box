@@ -104,8 +104,7 @@ class JbgQ3(JbgAbc):
 
         # ANSWER THEM
         for _ in range(num_answers):
-            prompt_text = _answer_prompt(web_driver=web_driver, last_prompt=prompt_text,
-                                         ai_obj=self._ai_obj)
+            prompt_text = self._answer_prompt(web_driver=web_driver, last_prompt=prompt_text)
 
     def vote_answers(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> None:
         """Read other answers to a prompt from the web_driver, ask the AI, and submit the answer.
@@ -179,62 +178,59 @@ class JbgQ3(JbgAbc):
         self._validate_core_attributes()
 
     # Private Methods (alphabetical order)
-    # N/A
+    def _answer_prompt(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
+                       last_prompt: str) -> str:
+        """Generating answers for prompts.
+
+        Args:
+            last_prompt: The last prompt that was answered.  Helps this function avoid trying to
+                answer the same prompt twice.
+            ai_obj: Query object to get AI-generated answers.
+
+        Returns:
+            The prompt that was answered as a string.
+
+        Raises:
+            RuntimeError: The prompt wasn't answered.
+        """
+        # LOCAL VARIABLES
+        prompt_text = ''     # Input prompt
+        answer = ''          # Answer to the prompt
+        prompt_input = None  # Web element for the prompt input field
+        buttons = []         # Web element for the submit button
+        clicked_it = False   # Keep track of whether this prompt was answered or not
+        num_loops = 5        # Number of attempts to make for a new prompt
+
+        # INPUT VALIDATION
+        if not _is_prompt_page(web_driver):
+            raise RuntimeError('This is not a prompt page')
+
+        # WAIT FOR IT
+        for _ in range(num_loops):
+            prompt_text = _get_prompt(web_driver)[1]
+            if prompt_text and prompt_text != last_prompt:
+                break
+            time.sleep(JITB_POLL_RATE)  # Give the prompt a chance to update from the last one
+
+        # ANSWER IT
+        answer = self.generate_ai_answer(prompt=prompt_text, ai_obj=self._ai_obj)
+        prompt_input = web_driver.find_element(By.ID, 'input-text-textarea')
+        prompt_input.send_keys(answer)
+        buttons = web_driver.find_elements(By.XPATH, '//button')
+        for button in buttons:
+            if button.text.lower() == 'SUBMIT'.lower() and button.is_enabled():
+                button.click()
+                clicked_it = True
+                break
+
+        # DONE
+        if not clicked_it:
+            raise RuntimeError('Did not answer the prompt')
+        Logger.debug(f'ANSWERED {prompt_text} with {answer}!')
+        return prompt_text
 
 
 # Private Functions (alphabetical order)
-def _answer_prompt(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
-                   last_prompt: str, ai_obj: JitbAi) -> str:
-    """Generating answers for prompts.
-
-    Args:
-        last_prompt: The last prompt that was answered.  Helps this function avoid trying to
-            answer the same prompt twice.
-        ai_obj: Query object to get AI-generated answers.
-
-    Returns:
-        The prompt that was answered as a string.
-
-    Raises:
-        RuntimeError: The prompt wasn't answered.
-    """
-    # LOCAL VARIABLES
-    prompt_text = ''     # Input prompt
-    answer = ''          # Answer to the prompt
-    prompt_input = None  # Web element for the prompt input field
-    buttons = []         # Web element for the submit button
-    clicked_it = False   # Keep track of whether this prompt was answered or not
-    num_loops = 5        # Number of attempts to make for a new prompt
-
-    # INPUT VALIDATION
-    if not _is_prompt_page(web_driver):
-        raise RuntimeError('This is not a prompt page')
-
-    # WAIT FOR IT
-    for _ in range(num_loops):
-        prompt_text = _get_prompt(web_driver)[1]
-        if prompt_text and prompt_text != last_prompt:
-            break
-        time.sleep(JITB_POLL_RATE)  # Give the prompt a chance to update from the last one
-
-    # ANSWER IT
-    answer = ai_obj.generate_answer(prompt=prompt_text)
-    prompt_input = web_driver.find_element(By.ID, 'input-text-textarea')
-    prompt_input.send_keys(answer)
-    buttons = web_driver.find_elements(By.XPATH, '//button')
-    for button in buttons:
-        if button.text.lower() == 'SUBMIT'.lower() and button.is_enabled():
-            button.click()
-            clicked_it = True
-            break
-
-    # DONE
-    if not clicked_it:
-        raise RuntimeError('Did not answer the prompt')
-    Logger.debug(f'ANSWERED {prompt_text} with {answer}!')
-    return prompt_text
-
-
 def _answer_thriplash(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
                       ai_obj: JitbAi) -> None:
     """Generate answers for the Thriplash (Round 3) prompt."""
