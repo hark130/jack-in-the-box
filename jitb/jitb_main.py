@@ -33,6 +33,7 @@ def main() -> int:
         _print_exception(err)
         exit_code = 1
     finally:
+        Logger.shutdown()
         if debug:
             input('[DEBUG] Game is over.  If there is an Exception, consider saving the log and '
                   'webpage for testing.  Press [Enter] to exit.')
