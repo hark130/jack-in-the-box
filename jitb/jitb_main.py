@@ -1,7 +1,6 @@
 """Defines the entry-point function for this package."""
 # Standard
 # Third Party
-from selenium.common.exceptions import NoSuchElementException, TimeoutException
 # Local
 from jitb.jitb_args import parse_args
 from jitb.jitb_logger import Logger
@@ -29,7 +28,7 @@ def main() -> int:
         client = JitbAi()
         client.setup()
         play_the_game(room_code=room_code, username=username, ai_obj=client)
-    except (KeyboardInterrupt, NoSuchElementException, RuntimeError, TimeoutException) as err:
+    except Exception as err:
         _print_exception(err)
         exit_code = 1
     finally:
