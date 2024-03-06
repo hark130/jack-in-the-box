@@ -43,12 +43,16 @@ class JbgJb(JbgAbc):
 
         # PLAY
         if self._last_page != self._current_page:
-            if self._current_page == JbgPageIds.ANSWER:
-                self.answer_prompts(web_driver=web_driver)
-            elif self._current_page == JbgPageIds.Q2_LAST:
-                self.answer_last_lash(web_driver=web_driver)
-            elif self._current_page == JbgPageIds.VOTE:
+            if self._current_page == JbgPageIds.VOTE:
                 self.vote_answers(web_driver=web_driver)
+            elif self._current_page == JbgPageIds.JB_TOPIC:
+                pass  # TO DO: DON'T DO NOW
+            elif self._current_page == JbgPageIds.ANSWER:
+                self.answer_prompts(web_driver=web_driver)
+            elif self._current_page == JbgPageIds.JB_PERFORM:
+                pass  # TO DO: DON'T DO NOW
+            elif self._current_page == JbgPageIds.JB_CATCH:
+                pass  # TO DO: DON'T DO NOW
 
     def select_character(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> None:
         """Randomize an avatar selection from the available list.
@@ -144,6 +148,16 @@ class JbgJb(JbgAbc):
         return current_page
 
     # Public Methods (alphabetical order)
+    def choose_catchphrase(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> None:
+        """Choose the catchphrase for the game."""
+        # INPUT VALIDATION
+        if not _is_catchphrase_page(web_driver=web_driver):
+            raise RuntimeError('This is not the catchphrase page')
+
+        # CHOOSE IT
+        prompt_text = get_prompt(web_driver=web_driver, check_needles=False)
+        print()
+
     def validate_status(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> None:
         """Validates the web_driver and internal attributes."""
         self._check_web_driver(web_driver=web_driver)
@@ -251,54 +265,8 @@ class JbgJb(JbgAbc):
 
 
 # Public Functions (alphabetical order)
-def get_last_lash_prompt(web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> str:
-    """Get the Last Lash prompt text from the state-answer-question web element.
-
-    Do not use this for the Round 1 or 2.
-
-    Args:
-        web_driver: The web driver to get the prompt from.
-
-    Returns:
-        The game's Last Lash prompt text.
-
-    Raises:
-        RuntimeError: No prompts found or web_driver isn't a prompt page.
-        TypeError: Bad data type.
-        ValueError: Invalid by value.
-    """
-    # LOCAL VARIABLES
-    needle = 'state-answer-question'  # Web element id to find in web_driver
-    prompt_text = ''                  # The prompt's text as a string
-    prompt_list = []                  # Use this to cleanup the text
-
-    # INPUT VALIDATION
-    _validate_web_driver(web_driver=web_driver)
-    if not _is_last_lash_page(web_driver):
-        raise RuntimeError('This is not a Last Lash prompt page')
-
-    # GET IT
-    try:
-        prompt_text = get_web_element_text(web_driver=web_driver, by_arg=By.ID, value=needle)
-    except (RuntimeError, TypeError, ValueError) as err:
-        Logger.debug(f'get_last_lash_prompt() call to get_web_element_text() failed with {err}')
-        raise RuntimeError(f'The call to get_web_element_text() for the {needle} element value '
-                           f'failed with {repr(err)}') from err
-    else:
-        if prompt_text is None:
-            raise RuntimeError(f'Unable to locate the {needle} element value')
-        if not prompt_text:
-            raise RuntimeError(f'Did not detect any text using the {needle} element value')
-
-    # CLEAN IT UP
-    prompt_list = prompt_text.split('\n')[:2]  # Testing shows we only care about the first two
-    prompt_text = ' '.join(prompt_list)  # Put it back together into one string
-
-    # DONE
-    return prompt_text
-
-
-def get_prompt(web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> str:
+def get_prompt(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
+               check_needles: bool = True) -> str:
     """Get the prompt text from the question-text web element.
 
     Do not use this for the Round 3 Last Lash prompt because the Last Lash prompt
@@ -306,6 +274,7 @@ def get_prompt(web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> str
 
     Args:
         web_driver: The web driver to get the prompt from.
+        check_needles: Optional; If True, will verify prompt needles are found.
 
     Returns:
         The game prompt text.
@@ -316,12 +285,12 @@ def get_prompt(web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> str
         ValueError: Invalid by value.
     """
     # LOCAL VARIABLES
-    needle = 'question-text'  # Web element id to find in web_driver
-    prompt_text = ''          # The prompt's text as a string
+    needle = 'prompt'  # Web element id to find in web_driver
+    prompt_text = ''   # The prompt's text as a string
 
     # INPUT VALIDATION
     _validate_web_driver(web_driver=web_driver)
-    if not _is_prompt_page(web_driver, verify_regular=True):
+    if not _is_prompt_page(web_driver, check_needles=check_needles):
         raise RuntimeError('This is not a prompt page')
 
     # GET IT
@@ -464,13 +433,13 @@ def _is_perform_page(web_driver: selenium.webdriver.chrome.webdriver.WebDriver) 
     return perform_page
 
 
-def _is_prompt_page(web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> bool:
+def _is_prompt_page(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
+                    check_needles: bool = True) -> bool:
     """Determine if this is a prompt page.
 
     Args:
         web_driver: The web driver to check.
-        verify_regular: Optional; If True, will verify the NORMAL_PROMPT_NEEDLE exists in the
-            output.
+        check_needles: Optional; If True, will verify prompt needles are found.
 
     Returns:
         True if this is a regular prompt screen, False otherwise.
@@ -486,10 +455,13 @@ def _is_prompt_page(web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -
     try:
         temp_text = get_web_element_text(web_driver, By.ID, element_name)
         if temp_text:
-            for prompt in prompts:
-                if prompt.lower() in temp_text.lower():
-                    prompt_page = True  # If we made it here, it's a prompt page
-                    break  # Found one.  Stop looking.
+            if check_needles:
+                for prompt in prompts:
+                    if prompt.lower() in temp_text.lower():
+                        prompt_page = True  # If we made it here, it's a prompt page
+                        break  # Found one.  Stop looking.
+            else:
+                prompt_page = True  # Far enough
     except (NoSuchElementException, StaleElementReferenceException, TypeError, ValueError):
         pass  # Not a prompt page
 
