@@ -54,7 +54,7 @@ class Logger():
     _initialized = False  # Logging subsystem status
     _filename = ''        # Absolute debug log filename
 
-    def __del__() -> None:
+    def __del__(self) -> None:
         """Class dtor."""
         Logger.shutdown()
 

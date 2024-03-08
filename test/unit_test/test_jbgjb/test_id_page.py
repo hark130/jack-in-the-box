@@ -18,6 +18,7 @@ from tediousstart.tediousstart import execute_test_cases
 from jitb.jbgames.jbg_page_ids import JbgPageIds
 
 
+# pylint: disable = too-many-public-methods
 class TestJbgJbIdPage(TestJbgJb):
     """JbgJb.id_page() unit test class.
 
@@ -315,6 +316,7 @@ class SpecialTestJbgJbIdPage(TestJbgJbIdPage):
         self.create_test_input('JackboxTV-JB-Game_Done-disconnected.html')
         self.expect_exception(RuntimeError, 'The room was disconnected')
         self.run_test()
+# pylint: enable = too-many-public-methods
 
 
 if __name__ == '__main__':

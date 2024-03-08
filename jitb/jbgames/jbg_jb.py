@@ -2,7 +2,7 @@
 
 # Standard
 from string import digits, punctuation, whitespace
-from typing import Dict, Final, List
+from typing import Final, List
 import time
 # Third Party
 from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException
@@ -14,7 +14,7 @@ from jitb.jbgames.jbg_page_ids import JbgPageIds
 from jitb.jitb_globals import JITB_POLL_RATE
 from jitb.jitb_logger import Logger
 from jitb.jitb_openai import JitbAi
-from jitb.jitb_selenium import get_buttons, get_sub_buttons, get_web_element, get_web_element_text
+from jitb.jitb_selenium import get_buttons, get_web_element, get_web_element_text
 
 
 # A 'needle' to help identify the catchphrase page
@@ -225,7 +225,7 @@ class JbgJb(JbgAbc):
         if key in self._joke_topic_dict:
             self._joke_topic_dict[key].extend(value)
         else:
-            self._joke_topic_dict[key] = answers
+            self._joke_topic_dict[key] = value
 
     def _answer_prompt(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
                        last_prompt: str) -> str:
@@ -309,13 +309,13 @@ class JbgJb(JbgAbc):
 
         The real problem is OpenAI doesn't like to be spammed.  Currently model in use restricts
         requests to 3 requests per minute (rpm).  There's an attribute to keep track of the
-        number of requests.  Less than 3 requests, call self._generate_bulk_topics().  Last
+        number of requests.  Less than 3 requests, call self._generate_bulk_joke_topics().  Last
         request will be to _populate_joke_topic_dict().  The Joke Topic round is only 45 seconds
         so this method will stop attempting to generate Joke Topics after three JitbAi queries.
         """
-        # self._generate_bulk_topics()
+        # self._generate_bulk_joke_topics()
         if self._num_requests < 2:
-            self._generate_bulk_topics(key=key)  # Gen 10 answers for key
+            self._generate_bulk_joke_topics(key=key)  # Gen 10 answers for key
             self._num_requests += 1
         # self._populate_joke_topic_dict()
         elif self._num_requests == 2:
@@ -331,7 +331,7 @@ class JbgJb(JbgAbc):
             num_requests: Optional; Number of times to request topics from JitbAi.
             key: Optional; Ensure this key is part of KNOWN_JOKE_TOPICS, otherwise lump it in.
 
-        If _generate_bulk_topics() generates many answers about one topic,
+        If _generate_bulk_joke_topics() generates many answers about one topic,
         _populate_joke_topic_dict() one answer for each topic.
         """
         # LOCAL VARIABLES
@@ -339,7 +339,6 @@ class JbgJb(JbgAbc):
         base_prompt = 'Give me one example each for each of these in a comma-separaed list: {}'
         joke_topics = KNOWN_JOKE_TOPICS  # List of topics to query JitbAi for
         actual_prompt = ''               # Formatted with the dynamic list of topics
-        ai_answer = ''                   # Response from JitbAi
         answers = []                     # AI answer split and stripped into a list
 
         # SETUP
@@ -439,7 +438,7 @@ class JbgJb(JbgAbc):
 # for joke_topic in KNOWN_JOKE_TOPICS:
 #     # temp_value = self.generate_ai_answer(prompt=prompt.format(joke_topic),
 #     #                                      ai_obj=self._ai_obj, length_limit=1000)
-#     self._generate_bulk_topics(prompt=prompt.format(joke_topic), key=joke_topic)
+#     self._generate_bulk_joke_topics(prompt=prompt.format(joke_topic), key=joke_topic)
 #     # print(f'JitbAi pregenerated "{temp_value}" for "{joke_topic}"')
 #     # temp_list = temp_value.split(',')
 #     # temp_list = [entry.rstrip(strip_string).lstrip(strip_string) for entry in
@@ -692,7 +691,7 @@ def _split_and_strip_answers(answer: str, delimiter: str = ',') -> List[str]:
     strip_string = digits + punctuation + whitespace  # Strip these characters from list entries
     # List of split and stripped answers
     answers = [entry.rstrip(strip_string).lstrip(strip_string) for entry in
-               ai_answer.split(delimiter) if entry]
+               answer.split(delimiter) if entry]
     return answers
 
 

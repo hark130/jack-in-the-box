@@ -18,6 +18,7 @@ from tediousstart.tediousstart import execute_test_cases
 from jitb.jbgames.jbg_jb import get_prompt
 
 
+# pylint: disable = too-many-public-methods
 class TestJbgJbGetPrompt(TestJackboxGames):
     """The jbg_jb.get_prompt() unit test class.
 
@@ -473,6 +474,7 @@ class SpecialTestJbgJbGetPrompt(TestJbgJbGetPrompt):
                              check_needles=True, use_kwarg=True)
         self.expect_exception(RuntimeError, 'This is not a prompt page')
         self.run_test()
+# pylint: enable = too-many-public-methods
 
 
 if __name__ == '__main__':
