@@ -58,7 +58,7 @@ class JbgJb(JbgAbc):
         self._last_page = self._current_page  # Store the last page
         self._current_page = self.id_page(web_driver=web_driver)  # Get the current page
         if not self._joke_topic_init:
-            self._populate_joke_topic_dict(num_requests=2)
+            self._populate_joke_topic_dict(num_requests=1)  # Make this 2 when JitbAi has context
 
         # PLAY
         if self._last_page != self._current_page:
@@ -195,9 +195,10 @@ class JbgJb(JbgAbc):
             # ANSWER IT
             if temp_key not in self._joke_topic_dict or not self._joke_topic_dict[temp_key]:
                 Logger.debug(f'{temp_key} was requested as a vote topic but not present')
-                self._gen_vote_topics(key=temp_key)
+                if not self._gen_vote_topics(key=temp_key):
+                    break  # There's no more requests to be had
             prompt_input = get_web_element(web_driver, By.ID, 'input-text-textarea')
-            if prompt_input:
+            if prompt_input and self._joke_topic_dict[temp_key]:
                 answer = self._joke_topic_dict[temp_key].pop()
                 prompt_input.send_keys(answer)
                 buttons = get_buttons(web_driver)
@@ -293,8 +294,8 @@ class JbgJb(JbgAbc):
         """
         # LOCAL VARIABLES
         list_len = 10  # Number of entries to generate for key
-        prompt = f'Give me a comma-separated list of {str(list_len)} examples of this word and ' \
-                 + f'no other words: {key}.  Ensure your listed answers have comedic potential.'
+        prompt = f'Give me a comma-separated list of {str(list_len)} new examples of this word ' \
+                 + f'and no other words: {key}.  Ensure your listed answers have comedic potential.'
         # AI generated answer
         ai_answer = self.generate_ai_answer(prompt=prompt, ai_obj=self._ai_obj,
                                             length_limit=list_len * 10 * 2)
@@ -304,7 +305,7 @@ class JbgJb(JbgAbc):
         Logger.debug(f'JitbAi generated "{answers}" as bulk joke topics for the key "{key}"')
         self._add_to_joke_topic_dict(key=key, value=answers)
 
-    def _gen_vote_topics(self, key: str) -> None:
+    def _gen_vote_topics(self, key: str) -> bool:
         """Generate AI-created vote topics, and add them to the dict, in a dynamic way.
 
         The real problem is OpenAI doesn't like to be spammed.  Currently model in use restricts
@@ -312,7 +313,13 @@ class JbgJb(JbgAbc):
         number of requests.  Less than 3 requests, call self._generate_bulk_joke_topics().  Last
         request will be to _populate_joke_topic_dict().  The Joke Topic round is only 45 seconds
         so this method will stop attempting to generate Joke Topics after three JitbAi queries.
+
+        Returns:
+            True if a topic was generated, false otherise.
         """
+        # LOCAL VARIABLE
+        made_some = True  # Generated some vote topics
+
         # self._generate_bulk_joke_topics()
         if self._num_requests < 2:
             self._generate_bulk_joke_topics(key=key)  # Gen 10 answers for key
@@ -322,7 +329,11 @@ class JbgJb(JbgAbc):
             self._populate_joke_topic_dict(key=key)  # Gen 1 answer per KNOWN_JOKE_TOPICS
             self._num_requests += 1
         else:
+            made_some = False
             Logger.debug(f'Max number of Joke Topic requests have been made: {self._num_requests}')
+
+        # DONE
+        return made_some
 
     def _populate_joke_topic_dict(self, num_requests: int = 1, key: str = None) -> None:
         """Prepopulate self._joke_topic_dict with joke topic answers across the board.
@@ -340,15 +351,17 @@ class JbgJb(JbgAbc):
         joke_topics = KNOWN_JOKE_TOPICS  # List of topics to query JitbAi for
         actual_prompt = ''               # Formatted with the dynamic list of topics
         answers = []                     # AI answer split and stripped into a list
+        topic_list = ''                  # Comma-separated list of Joke Topics
 
         # SETUP
         if key and key.lower() not in [topic.lower() for topic in joke_topics]:
             Logger.debug(f'Be sure to add this key to the list of KNOWN_JOKE_TOPICS: {key}')
             joke_topics.append(key)
-        actual_prompt = base_prompt.format(', '.join(joke_topics))
+        topic_list = ', '.join(joke_topics)
+        actual_prompt = base_prompt.format(topic_list)
 
         # POPULATE IT
-        for _ in range(num_requests):
+        for num_request in range(num_requests):
             # Get topcs from JitbAi
             answer = self.generate_ai_answer(prompt=actual_prompt, ai_obj=self._ai_obj,
                                              length_limit=len(joke_topics) * 10 * 2)
@@ -356,7 +369,7 @@ class JbgJb(JbgAbc):
             answers = _split_and_strip_answers(answer)
             # Populate internal dict
             for joke_topic, answer in zip(joke_topics, answers):
-                self._add_to_joke_topic_dict(key=joke_topic, value=answer)
+                self._add_to_joke_topic_dict(key=joke_topic, value=[answer])
 
         # DONE
         self._joke_topic_init = True  # It's initialized now
