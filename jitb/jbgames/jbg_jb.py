@@ -5,7 +5,8 @@ from string import digits, punctuation, whitespace
 from typing import Final, List
 import time
 # Third Party
-from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException
+from selenium.common.exceptions import (ElementNotInteractableException, NoSuchElementException,
+                                        StaleElementReferenceException)
 from selenium.webdriver.common.by import By
 import selenium
 # Local
@@ -67,9 +68,9 @@ class JbgJb(JbgAbc):
             elif self._current_page == JbgPageIds.JB_TOPIC:
                 self.enter_vote_topics(web_driver=web_driver)
             elif self._current_page == JbgPageIds.ANSWER:
-                self.answer_prompts(web_driver=web_driver)
+                self.answer_prompts(web_driver=web_driver, num_answers=1)
             elif self._current_page == JbgPageIds.JB_PERFORM:
-                pass  # TO DO: DON'T DO NOW
+                self.skip_perform(web_driver=web_driver)
             elif self._current_page == JbgPageIds.JB_CATCH:
                 self.choose_catchphrase(web_driver=web_driver)
 
@@ -168,7 +169,11 @@ class JbgJb(JbgAbc):
 
     # Public Methods (alphabetical order)
     def choose_catchphrase(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> None:
-        """Choose the catchphrase for the game."""
+        """Choose the catchphrase for the game.
+
+        Args:
+            web_driver: The webdriver object to interact with.
+        """
         # LOCAL VARIABLES
         prompt_text = ''  # Input prompt
 
@@ -181,7 +186,11 @@ class JbgJb(JbgAbc):
                                    ai_obj=self._ai_obj, check_needles=False)
 
     def enter_vote_topics(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> None:
-        """Enter some topics until you can't anymore."""
+        """Enter some topics until you can't anymore.
+
+        Args:
+            web_driver: The webdriver object to interact with.
+        """
         # LOCAL VARIABLES
         answer = ''       # AI answer
         prompt_text = ''  # Input prompt
@@ -201,21 +210,34 @@ class JbgJb(JbgAbc):
             if prompt_input and self._joke_topic_dict[temp_key]:
                 answer = self._joke_topic_dict[temp_key].pop()
                 prompt_input.send_keys(answer)
-                buttons = get_buttons(web_driver)
-                for button in buttons:
-                    if 'SUBMIT'.lower() in button.text.lower() and button.is_enabled():
-                        button.click()
-                        clicked_it = True
-                        Logger.debug(f'Submitted joke topic "{answer}" as "{temp_key}"!')
-                        break
+                clicked_it = self._click_a_button(web_driver=web_driver, 'SUBMIT')
             time.sleep(JITB_POLL_RATE)  # Give the page a chance to update
 
         # DONE
         if not clicked_it:
             raise RuntimeError('Did not answer any vote topics')
 
+    def skip_perform(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> None:
+        """Tell Joke Bote to perform the joke for JITB.
+
+        Args:
+            web_driver: The webdriver object to interact with.
+        """
+        # LOCAL VARIABLES
+        button_name = 'Perform the joke for me'  # Look for this button
+        buttons = []                             # All the buttons from web_driver
+        clicked_it = False                       # Was anything clicked?
+
+        # INPUT VALIDATION
+        if _is_perform_page(web_driver=web_driver):
+            self._click_a_button(web_driver=web_driver, button_str=button_name)  # Don't really care
+
     def validate_status(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> None:
-        """Validates the web_driver and internal attributes."""
+        """Validates the web_driver and internal attributes.
+
+        Args:
+            web_driver: The webdriver object to interact with.
+        """
         self._check_web_driver(web_driver=web_driver)
         self._validate_core_attributes()
 
@@ -267,22 +289,49 @@ class JbgJb(JbgAbc):
                 raise err from err
 
         # ANSWER IT
-        answer = self.generate_ai_answer(prompt=prompt_text, ai_obj=self._ai_obj)
-        prompt_input = get_web_element(web_driver, By.ID, 'quiplash-answer-input')
+        answer = self.generate_ai_answer(prompt=prompt_text, ai_obj=self._ai_obj, length_limit=80)
+        prompt_input = get_web_element(web_driver, By.ID, 'input-text-textarea')
         if prompt_input:
             prompt_input.send_keys(answer)
-            buttons = get_buttons(web_driver)
-            for button in buttons:
-                if 'SEND'.lower() in button.text.lower() and button.is_enabled():
-                    button.click()
-                    clicked_it = True
-                    break
+            clicked_it = self._click_a_button(web_driver=web_driver, 'SUBMIT')
 
         # DONE
         if not clicked_it:
             raise RuntimeError('Did not answer the prompt')
         Logger.debug(f'Answered prompt "{prompt_text}" with "{answer}"!')
         return prompt_text
+
+    def _click_a_button(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
+                        button_str: str) -> None:
+        """Standardize the way buttons are clicked.
+
+        Args:
+            web_driver: The webdriver object to interact with.
+            button_str: The substring to search for within the button text.
+
+        Returns:
+            True if a button was clicked, false otherwise.
+        """
+        # LOCAL VARIABLES
+        buttons = get_buttons(web_driver=web_driver)  # All the buttons from web_driver
+        clicked_it = False                            # Return value
+
+        # CLICK IT
+        for button in buttons:
+            # Find it
+            if button_str.lower() in button.text.lower() and button.is_enabled():
+                # Click it
+                try:
+                    button.click()
+                except ElementNotInteractableException as err:
+                    Logger.debug(f'Failed to click "{button.text}" with {repr(err)}')
+                else:
+                    clicked_it = True
+                finally:
+                    break
+
+        # DONE
+        return clicked_it
 
     def _generate_bulk_joke_topics(self, key: str) -> None:
         """Generate bulk joke topic answers for the key and add them to the original dict.
@@ -776,11 +825,8 @@ def _vote_answer(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
                 choice_list.append(temp_text)
         # Ask the AI
         favorite = ai_obj.vote_favorite(prompt=prompt_text, answers=choice_list)
-        for button in buttons:
-            if button and button.text == button_dict[favorite] and button.is_enabled():
-                button.click()
-                clicked_it = True
-                break
+        # Click it
+        clicked_it = self._click_a_button(web_driver=web_driver, button_str=button_dict[favorite])
     else:
         prompt_text = ''  # Nothing got answered
 
