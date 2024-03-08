@@ -363,89 +363,89 @@ class JbgJb(JbgAbc):
         self._joke_topic_init = True  # It's initialized now
 
 
-        # num_entries = 5  # Number of initial entries per key
-        # One big prompt to get all the answers at once (to circumvent throttling timeouts)
-        # prompt = 'Give me a newline delimited list.  Each line of the list should have a ' \
-        #          + f'comma separated list of {num_entries} words.  Each of the {num_entries} ' \
-        #          + 'words per line should contain potentially comedic examples of a ' \
-        #          + 'prompt list I give ' \
-        #          + 'you.  There should be one ' \
-        #          + f'line of {num_entries} words dedicated to an entry in the prompt list.  ' \
-        #          + 'The prompt list is as follows: \n{}'
-        # prompt = 'Give me a  ' \
-        #          + f'comma separated list of {num_entries} words.  Each of the {num_entries} ' \
-        #          + 'words should contain potentially comedic examples of a phrase I give you. ' \
-        #          + 'Do not restate the phrase in your answer.  The phrase is: \n{}'
-        # prompt = f'Give me {num_entries} examples of ' \
-        #          + '{}' \
-        #          + f'in a list.  Each of the {num_entries} ' \
-        #          + 'words should have comedic potential yet still be fair examples.  ' \
-        #          + 'Do not explain your answers.'
-        # prompt = f'Give me {num_entries} potentially comedic examples of ' \
-        #          + '{} without explanation, embellishment, or definition. ' \
-        #          + 'An example of a well-formatted response would be ' \
-        #          + '"answer1\nanswer2\nanswer3\nanswer4\nanswer5"' \
-        #          + ''
-        # prompt = f'Give me {num_entries} potentially comedic examples of ' \
-        # prompt = f'Give me {num_entries} examples of ' \
-        #          + '{} without commentary, explanation, embellishment, or definition ' \
-        #          + ' separated by newline characters (\n).'
-                 # + 'An example of a well-formatted response would be ' \
-                 # + '"answer1\nanswer2\nanswer3\nanswer4\nanswer5"' \
-        # prompt = f'Give me {num_entries} examples of ' \
-        #          + '{} without commentary, explanation, embellishment, or definition ' \
-        #          + ' separated by newline characters (\n).'
-        # strip_string = punctuation + whitespace  # Strip these characters from list entries
-        # answer1 = ''     # First half of the answer for the prompt
-        # answer2 = ''     # Second half of the answer for the prompt
-        # csl_list = []    # List of comma-separated strings to parse into the dict
-        # temp_value = ''  # Cleanup the raw string
-        # temp_list = []   # The entries need to be cleaned up before stored in the dictionary
+# num_entries = 5  # Number of initial entries per key
+# One big prompt to get all the answers at once (to circumvent throttling timeouts)
+# prompt = 'Give me a newline delimited list.  Each line of the list should have a ' \
+#          + f'comma separated list of {num_entries} words.  Each of the {num_entries} ' \
+#          + 'words per line should contain potentially comedic examples of a ' \
+#          + 'prompt list I give ' \
+#          + 'you.  There should be one ' \
+#          + f'line of {num_entries} words dedicated to an entry in the prompt list.  ' \
+#          + 'The prompt list is as follows: \n{}'
+# prompt = 'Give me a  ' \
+#          + f'comma separated list of {num_entries} words.  Each of the {num_entries} ' \
+#          + 'words should contain potentially comedic examples of a phrase I give you. ' \
+#          + 'Do not restate the phrase in your answer.  The phrase is: \n{}'
+# prompt = f'Give me {num_entries} examples of ' \
+#          + '{}' \
+#          + f'in a list.  Each of the {num_entries} ' \
+#          + 'words should have comedic potential yet still be fair examples.  ' \
+#          + 'Do not explain your answers.'
+# prompt = f'Give me {num_entries} potentially comedic examples of ' \
+#          + '{} without explanation, embellishment, or definition. ' \
+#          + 'An example of a well-formatted response would be ' \
+#          + '"answer1\nanswer2\nanswer3\nanswer4\nanswer5"' \
+#          + ''
+# prompt = f'Give me {num_entries} potentially comedic examples of ' \
+# prompt = f'Give me {num_entries} examples of ' \
+#          + '{} without commentary, explanation, embellishment, or definition ' \
+#          + ' separated by newline characters (\n).'
+#         + 'An example of a well-formatted response would be ' \
+#         + '"answer1\nanswer2\nanswer3\nanswer4\nanswer5"' \
+# prompt = f'Give me {num_entries} examples of ' \
+#          + '{} without commentary, explanation, embellishment, or definition ' \
+#          + ' separated by newline characters (\n).'
+# strip_string = punctuation + whitespace  # Strip these characters from list entries
+# answer1 = ''     # First half of the answer for the prompt
+# answer2 = ''     # Second half of the answer for the prompt
+# csl_list = []    # List of comma-separated strings to parse into the dict
+# temp_value = ''  # Cleanup the raw string
+# temp_list = []   # The entries need to be cleaned up before stored in the dictionary
 
-        # if not self._joke_topic_init:
-            # PREPOPULATE IT
-            # Generate an answer
-            # answer1 = \
-            #     self.generate_ai_answer(prompt=prompt.format('\n'.join(KNOWN_JOKE_TOPICS[:3])),
-            #                             ai_obj=self._ai_obj, length_limit=10000)
-            # time.sleep(JITB_POLL_RATE)
-            # answer2 = \
-            #     self.generate_ai_answer(prompt=prompt.format('\n'.join(KNOWN_JOKE_TOPICS[3:6])),
-            #                             ai_obj=self._ai_obj, length_limit=10000)
-            # print(f'ANSWER 1:\n{answer1}')  # DEBUGGING
-            # print(f'ANSWER 2:\n{answer2}')  # DEBUGGING
-            # if not answer1 or not answer2:
-            #     raise RuntimeError(f'JitbAi failed to produce a set of joke topics')
-            # Logger.debug('JitbAi generated the following to prepopulate the joke topic dict:\n'
-            #              f'{answer1}\n{answer2}')
-            # csl_list = answer1.split('\n')[:3]
-            # csl_list.extend(answer2.split('\n')[:3])
-            # Validate results
-            # if len(csl_list) != len(KNOWN_JOKE_TOPICS):
-            #     raise RuntimeError(f'JitbAi failed to follow instructions.  {len(csl_list)} lines '
-            #                        f'were provided but {len(KNOWN_JOKE_TOPICS)} were expected')
-            # Populate dictionary
-            # for key, value in zip(KNOWN_JOKE_TOPICS, csl_list):
-            #     temp_value = value
-            #     if temp_value.upper().startswith(key.upper()):
-            #         temp_value = temp_value[len(key):]  # JitbAi can't follow instructions
-            #     if temp_value.startswith(':'):
-            #         temp_value = temp_value[1:]  # Slice it off
-            #     temp_list = [entry.rstrip(strip_string).lstrip(strip_string) for entry
-            #                  in temp_value.split(',')]
-            #     print(f'FORMED DICT ENTRY: {temp_list}')  # DEBUGGING
-            #     self._joke_topic_dict[key] = temp_list
-            # print(f'PREPOPULATED DICT:\n{self._joke_topic_dict}')  # DEBUGGING
-            # for joke_topic in KNOWN_JOKE_TOPICS:
-            #     # temp_value = self.generate_ai_answer(prompt=prompt.format(joke_topic),
-            #     #                                      ai_obj=self._ai_obj, length_limit=1000)
-            #     self._generate_bulk_topics(prompt=prompt.format(joke_topic), key=joke_topic)
-            #     # print(f'JitbAi pregenerated "{temp_value}" for "{joke_topic}"')
-            #     # temp_list = temp_value.split(',')
-            #     # temp_list = [entry.rstrip(strip_string).lstrip(strip_string) for entry in 
-            #     #              temp_list if entry]
-            #     # self._joke_topic_dict[joke_topic] = temp_list
-            #     time.sleep(12)  # OpenAI gets unhappy if you spam it
+# if not self._joke_topic_init:
+# PREPOPULATE IT
+# Generate an answer
+# answer1 = \
+#     self.generate_ai_answer(prompt=prompt.format('\n'.join(KNOWN_JOKE_TOPICS[:3])),
+#                             ai_obj=self._ai_obj, length_limit=10000)
+# time.sleep(JITB_POLL_RATE)
+# answer2 = \
+#     self.generate_ai_answer(prompt=prompt.format('\n'.join(KNOWN_JOKE_TOPICS[3:6])),
+#                             ai_obj=self._ai_obj, length_limit=10000)
+# print(f'ANSWER 1:\n{answer1}')  # DEBUGGING
+# print(f'ANSWER 2:\n{answer2}')  # DEBUGGING
+# if not answer1 or not answer2:
+#     raise RuntimeError(f'JitbAi failed to produce a set of joke topics')
+# Logger.debug('JitbAi generated the following to prepopulate the joke topic dict:\n'
+#              f'{answer1}\n{answer2}')
+# csl_list = answer1.split('\n')[:3]
+# csl_list.extend(answer2.split('\n')[:3])
+# Validate results
+# if len(csl_list) != len(KNOWN_JOKE_TOPICS):
+#     raise RuntimeError(f'JitbAi failed to follow instructions.  {len(csl_list)} lines '
+#                        f'were provided but {len(KNOWN_JOKE_TOPICS)} were expected')
+# Populate dictionary
+# for key, value in zip(KNOWN_JOKE_TOPICS, csl_list):
+#     temp_value = value
+#     if temp_value.upper().startswith(key.upper()):
+#         temp_value = temp_value[len(key):]  # JitbAi can't follow instructions
+#     if temp_value.startswith(':'):
+#         temp_value = temp_value[1:]  # Slice it off
+#     temp_list = [entry.rstrip(strip_string).lstrip(strip_string) for entry
+#                  in temp_value.split(',')]
+#     print(f'FORMED DICT ENTRY: {temp_list}')  # DEBUGGING
+#     self._joke_topic_dict[key] = temp_list
+# print(f'PREPOPULATED DICT:\n{self._joke_topic_dict}')  # DEBUGGING
+# for joke_topic in KNOWN_JOKE_TOPICS:
+#     # temp_value = self.generate_ai_answer(prompt=prompt.format(joke_topic),
+#     #                                      ai_obj=self._ai_obj, length_limit=1000)
+#     self._generate_bulk_topics(prompt=prompt.format(joke_topic), key=joke_topic)
+#     # print(f'JitbAi pregenerated "{temp_value}" for "{joke_topic}"')
+#     # temp_list = temp_value.split(',')
+#     # temp_list = [entry.rstrip(strip_string).lstrip(strip_string) for entry in
+#     #              temp_list if entry]
+#     # self._joke_topic_dict[joke_topic] = temp_list
+#     time.sleep(12)  # OpenAI gets unhappy if you spam it
 
 
 # Public Functions (alphabetical order)
