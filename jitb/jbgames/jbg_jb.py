@@ -210,7 +210,7 @@ class JbgJb(JbgAbc):
             if prompt_input and self._joke_topic_dict[temp_key]:
                 answer = self._joke_topic_dict[temp_key].pop()
                 prompt_input.send_keys(answer)
-                clicked_it = self._click_a_button(web_driver=web_driver, 'SUBMIT')
+                clicked_it = _click_a_button(web_driver=web_driver, button_str='SUBMIT')
             time.sleep(JITB_POLL_RATE)  # Give the page a chance to update
 
         # DONE
@@ -230,7 +230,7 @@ class JbgJb(JbgAbc):
 
         # INPUT VALIDATION
         if _is_perform_page(web_driver=web_driver):
-            self._click_a_button(web_driver=web_driver, button_str=button_name)  # Don't really care
+            _click_a_button(web_driver=web_driver, button_str=button_name)  # Don't really care
 
     def validate_status(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> None:
         """Validates the web_driver and internal attributes.
@@ -293,45 +293,13 @@ class JbgJb(JbgAbc):
         prompt_input = get_web_element(web_driver, By.ID, 'input-text-textarea')
         if prompt_input:
             prompt_input.send_keys(answer)
-            clicked_it = self._click_a_button(web_driver=web_driver, 'SUBMIT')
+            clicked_it = _click_a_button(web_driver=web_driver, button_str='SUBMIT')
 
         # DONE
         if not clicked_it:
             raise RuntimeError('Did not answer the prompt')
         Logger.debug(f'Answered prompt "{prompt_text}" with "{answer}"!')
         return prompt_text
-
-    def _click_a_button(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
-                        button_str: str) -> None:
-        """Standardize the way buttons are clicked.
-
-        Args:
-            web_driver: The webdriver object to interact with.
-            button_str: The substring to search for within the button text.
-
-        Returns:
-            True if a button was clicked, false otherwise.
-        """
-        # LOCAL VARIABLES
-        buttons = get_buttons(web_driver=web_driver)  # All the buttons from web_driver
-        clicked_it = False                            # Return value
-
-        # CLICK IT
-        for button in buttons:
-            # Find it
-            if button_str.lower() in button.text.lower() and button.is_enabled():
-                # Click it
-                try:
-                    button.click()
-                except ElementNotInteractableException as err:
-                    Logger.debug(f'Failed to click "{button.text}" with {repr(err)}')
-                else:
-                    clicked_it = True
-                finally:
-                    break
-
-        # DONE
-        return clicked_it
 
     def _generate_bulk_joke_topics(self, key: str) -> None:
         """Generate bulk joke topic answers for the key and add them to the original dict.
@@ -596,6 +564,38 @@ def get_vote_text(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
 
 
 # Private Functions (alphabetical order)
+def _click_a_button(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
+                    button_str: str) -> bool:
+    """Standardize the way buttons are clicked.
+
+    Args:
+        web_driver: The webdriver object to interact with.
+        button_str: The substring to search for within the button text.
+
+    Returns:
+        True if a button was clicked, false otherwise.
+    """
+    # LOCAL VARIABLES
+    buttons = get_buttons(web_driver=web_driver)  # All the buttons from web_driver
+    clicked_it = False                            # Return value
+
+    # CLICK IT
+    for button in buttons:
+        # Find it
+        if button_str.lower() in button.text.lower() and button.is_enabled():
+            # Click it
+            try:
+                button.click()
+            except ElementNotInteractableException as err:
+                Logger.debug(f'Failed to click "{button.text}" with {repr(err)}')
+            else:
+                clicked_it = True
+            finally:
+                break
+
+    # DONE
+    return clicked_it
+
 def _is_catchphrase_page(web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> bool:
     """Determine if this is a catchphrase page.
 
@@ -826,7 +826,7 @@ def _vote_answer(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
         # Ask the AI
         favorite = ai_obj.vote_favorite(prompt=prompt_text, answers=choice_list)
         # Click it
-        clicked_it = self._click_a_button(web_driver=web_driver, button_str=button_dict[favorite])
+        clicked_it = _click_a_button(web_driver=web_driver, button_str=button_dict[favorite])
     else:
         prompt_text = ''  # Nothing got answered
 
