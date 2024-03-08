@@ -40,6 +40,7 @@ class JbgJb(JbgAbc):
         super().__init__(ai_obj=ai_obj, username=username)
         self._joke_topic_dict = {}     # Dictionary of joke topics (see: KNOWN_JOKE_TOPICS)
         self._joke_topic_init = False  # Joke Topic Dict prepopulated
+        self._num_requests = 0         # Number of Joke Topic AI requests; Cap it at 3
 
     # Parent Class Abstract Methods
     def play(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> None:
@@ -56,7 +57,8 @@ class JbgJb(JbgAbc):
         # SETUP
         self._last_page = self._current_page  # Store the last page
         self._current_page = self.id_page(web_driver=web_driver)  # Get the current page
-        self._prepopulate_joke_topic_dict()
+        if not self._joke_topic_init:
+            self._populate_joke_topic_dict(num_requests=2)
 
         # PLAY
         if self._last_page != self._current_page:
@@ -181,28 +183,19 @@ class JbgJb(JbgAbc):
     def enter_vote_topics(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> None:
         """Enter some topics until you can't anymore."""
         # LOCAL VARIABLES
-        answer = ''                                                                # AI answer
-        prompt_text = ''                                                           # Input prompt
-        new_text = ''                                                              # Modified text
-        haystack_text = 'Write as many topics as you can.'                         # Replace this
-        temp_key = ''                                                              # Answer dict key
-        # With this
-        replacement_text = 'Give me a comma separated list of 10 of these words and no other ' \
-                           + 'words.  Be sure the words have comedic potential:'
+        answer = ''       # AI answer
+        prompt_text = ''  # Input prompt
+        temp_key = ''     # Answer dict key
 
         # ENTER AS MANY TOPICS AS YOU CAN
-        self._prepopulate_joke_topic_dict()  # Check at least one more time
         while _is_joke_topic_page(web_driver=web_driver):
             # GET PROMPT
             prompt_text = get_prompt(web_driver=web_driver, check_needles=False)
-            new_text = prompt_text.replace(haystack_text, replacement_text)
-            Logger.debug(f'Enter vote topics just modified "{prompt_text}" to read "{new_text}"')
             temp_key = prompt_text.split('\n')[1]
             # ANSWER IT
             if temp_key not in self._joke_topic_dict or not self._joke_topic_dict[temp_key]:
                 Logger.debug(f'{temp_key} was requested as a vote topic but not present')
-                self._generate_bulk_topics(prompt=new_text, key=temp_key)
-                time.sleep(JITB_POLL_RATE * 5)  # Let the page get updated
+                self._gen_vote_topics(key=temp_key)
             prompt_input = get_web_element(web_driver, By.ID, 'input-text-textarea')
             if prompt_input:
                 answer = self._joke_topic_dict[temp_key].pop()
@@ -212,7 +205,7 @@ class JbgJb(JbgAbc):
                     if 'SUBMIT'.lower() in button.text.lower() and button.is_enabled():
                         button.click()
                         clicked_it = True
-                        Logger.debug(f'Submitted topic "{answer}"!')
+                        Logger.debug(f'Submitted joke topic "{answer}" as "{temp_key}"!')
                         break
             time.sleep(JITB_POLL_RATE)  # Give the page a chance to update
 
@@ -226,6 +219,14 @@ class JbgJb(JbgAbc):
         self._validate_core_attributes()
 
     # Private Methods (alphabetical order)
+    def _add_to_joke_topic_dict(self, key: str, value: List[str]) -> None:
+        """Safely add key:value to self._joke_topic_dict."""
+        print(f'Adding {key} : {value} to self._joke_topic_dict')  # DEBUGGING
+        if key in self._joke_topic_dict:
+            self._joke_topic_dict[key].extend(value)
+        else:
+            self._joke_topic_dict[key] = answers
+
     def _answer_prompt(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
                        last_prompt: str) -> str:
         """Generating answers for prompts.
@@ -282,44 +283,87 @@ class JbgJb(JbgAbc):
         Logger.debug(f'Answered prompt "{prompt_text}" with "{answer}"!')
         return prompt_text
 
-    def _generate_bulk_topics(self, prompt: str, key: str) -> None:
-        """Generate bulk answers for the prompt and add them to the original dict.
+    def _generate_bulk_joke_topics(self, key: str) -> None:
+        """Generate bulk joke topic answers for the key and add them to the original dict.
 
-        Assumes the prompt matches the format of a joke topic prompt.  Will retrieve the dict
-        key from after the newline.  Adds topics to self._joke_topic_dict.
+        Adds topics to self._joke_topic_dict[key].
 
         Args:
-            prompt: The prompt to give the AI.
             key: The key to use in the dictionary.
-
-        Returns:
-            An updated dictionary.
         """
         # LOCAL VARIABLES
+        list_len = 10  # Number of entries to generate for key
+        prompt = f'Give me a comma-separated list of {str(list_len)} examples of this word and ' \
+                 + f'no other words: {key}.  Ensure your listed answers have comedic potential.'
         # AI generated answer
         ai_answer = self.generate_ai_answer(prompt=prompt, ai_obj=self._ai_obj,
-                                            length_limit=200)
-        strip_string = digits + punctuation + whitespace  # Strip these characters from list entries
-        # answers = ai_answer.split('\n')   # Answers
-        # Answer to add to the dictionary
-        answers = [entry.rstrip(strip_string).lstrip(strip_string) for entry in 
-                   ai_answer.split('\n') if entry]
+                                            length_limit=list_len * 10 * 2)
+        answers = _split_and_strip_answers(ai_answer)
 
         # STORE IT
-        Logger.debug(f'JitbAi generated "{answers}" as bulk topics for the key "{key}"')
-        # print(f'JUST GENERATED CONTENT FOR {key}')  # DEBUGGING
-        # print(f'ANSWERS: {answers}')  # DEBUGGING
-        # print(f'NEW DICT BEFORE: {new_dict}')  # DEBUGGING
-        if key in self._joke_topic_dict:
-            self._joke_topic_dict[key].extend(answers)
-        else:
-            self._joke_topic_dict[key] = answers
-        # print(f'NEW DICT AFTER:  {new_dict}')  # DEBUGGING
+        Logger.debug(f'JitbAi generated "{answers}" as bulk joke topics for the key "{key}"')
+        self._add_to_joke_topic_dict(key=key, value=answers)
 
-    def _prepopulate_joke_topic_dict(self) -> None:
-        """Prepopulate self._joke_topic_dict with joke topic answers."""
+    def _gen_vote_topics(self, key: str) -> None:
+        """Generate AI-created vote topics, and add them to the dict, in a dynamic way.
+
+        The real problem is OpenAI doesn't like to be spammed.  Currently model in use restricts
+        requests to 3 requests per minute (rpm).  There's an attribute to keep track of the
+        number of requests.  Less than 3 requests, call self._generate_bulk_topics().  Last
+        request will be to _populate_joke_topic_dict().  The Joke Topic round is only 45 seconds
+        so this method will stop attempting to generate Joke Topics after three JitbAi queries.
+        """
+        # self._generate_bulk_topics()
+        if self._num_requests < 2:
+            self._generate_bulk_topics(key=key)  # Gen 10 answers for key
+            self._num_requests += 1
+        # self._populate_joke_topic_dict()
+        elif self._num_requests == 2:
+            self._populate_joke_topic_dict(key=key)  # Gen 1 answer per KNOWN_JOKE_TOPICS
+            self._num_requests += 1
+        else:
+            Logger.debug(f'Max number of Joke Topic requests have been made: {self._num_requests}')
+
+    def _populate_joke_topic_dict(self, num_requests: int = 1, key: str = None) -> None:
+        """Prepopulate self._joke_topic_dict with joke topic answers across the board.
+
+        Args:
+            num_requests: Optional; Number of times to request topics from JitbAi.
+            key: Optional; Ensure this key is part of KNOWN_JOKE_TOPICS, otherwise lump it in.
+
+        If _generate_bulk_topics() generates many answers about one topic,
+        _populate_joke_topic_dict() one answer for each topic.
+        """
         # LOCAL VARIABLES
-        num_entries = 5  # Number of initial entries per key
+        # Let's see if we can get JitbAi to do what we want.
+        base_prompt = 'Give me one example each for each of these in a comma-separaed list: {}'
+        joke_topics = KNOWN_JOKE_TOPICS  # List of topics to query JitbAi for
+        actual_prompt = ''               # Formatted with the dynamic list of topics
+        ai_answer = ''                   # Response from JitbAi
+        answers = []                     # AI answer split and stripped into a list
+
+        # SETUP
+        if key and key.lower() not in [topic.lower() for topic in joke_topics]:
+            Logger.debug(f'Be sure to add this key to the list of KNOWN_JOKE_TOPICS: {key}')
+            joke_topics.append(key)
+        actual_prompt = base_prompt.format(', '.join(joke_topics))
+
+        # POPULATE IT
+        for _ in range(num_requests):
+            # Get topcs from JitbAi
+            answer = self.generate_ai_answer(prompt=actual_prompt, ai_obj=self._ai_obj,
+                                             length_limit=len(joke_topics) * 10 * 2)
+            Logger.debug(f'JitbAi answer "{actual_prompt}" with "{answer}"')
+            answers = _split_and_strip_answers(answer)
+            # Populate internal dict
+            for joke_topic, answer in zip(joke_topics, answers):
+                self._add_to_joke_topic_dict(key=joke_topic, value=answer)
+
+        # DONE
+        self._joke_topic_init = True  # It's initialized now
+
+
+        # num_entries = 5  # Number of initial entries per key
         # One big prompt to get all the answers at once (to circumvent throttling timeouts)
         # prompt = 'Give me a newline delimited list.  Each line of the list should have a ' \
         #          + f'comma separated list of {num_entries} words.  Each of the {num_entries} ' \
@@ -343,19 +387,22 @@ class JbgJb(JbgAbc):
         #          + '"answer1\nanswer2\nanswer3\nanswer4\nanswer5"' \
         #          + ''
         # prompt = f'Give me {num_entries} potentially comedic examples of ' \
-        prompt = f'Give me {num_entries} examples of ' \
-                 + '{} without commentary, explanation, embellishment, or definition ' \
-                 + ' separated by newline characters (\n).'
+        # prompt = f'Give me {num_entries} examples of ' \
+        #          + '{} without commentary, explanation, embellishment, or definition ' \
+        #          + ' separated by newline characters (\n).'
                  # + 'An example of a well-formatted response would be ' \
                  # + '"answer1\nanswer2\nanswer3\nanswer4\nanswer5"' \
-        strip_string = punctuation + whitespace  # Strip these characters from list entries
-        answer1 = ''     # First half of the answer for the prompt
-        answer2 = ''     # Second half of the answer for the prompt
-        csl_list = []    # List of comma-separated strings to parse into the dict
-        temp_value = ''  # Cleanup the raw string
-        temp_list = []   # The entries need to be cleaned up before stored in the dictionary
+        # prompt = f'Give me {num_entries} examples of ' \
+        #          + '{} without commentary, explanation, embellishment, or definition ' \
+        #          + ' separated by newline characters (\n).'
+        # strip_string = punctuation + whitespace  # Strip these characters from list entries
+        # answer1 = ''     # First half of the answer for the prompt
+        # answer2 = ''     # Second half of the answer for the prompt
+        # csl_list = []    # List of comma-separated strings to parse into the dict
+        # temp_value = ''  # Cleanup the raw string
+        # temp_list = []   # The entries need to be cleaned up before stored in the dictionary
 
-        if not self._joke_topic_init:
+        # if not self._joke_topic_init:
             # PREPOPULATE IT
             # Generate an answer
             # answer1 = \
@@ -389,21 +436,16 @@ class JbgJb(JbgAbc):
             #     print(f'FORMED DICT ENTRY: {temp_list}')  # DEBUGGING
             #     self._joke_topic_dict[key] = temp_list
             # print(f'PREPOPULATED DICT:\n{self._joke_topic_dict}')  # DEBUGGING
-            for joke_topic in KNOWN_JOKE_TOPICS:
-                # temp_value = self.generate_ai_answer(prompt=prompt.format(joke_topic),
-                #                                      ai_obj=self._ai_obj, length_limit=1000)
-                self._generate_bulk_topics(prompt=prompt.format(joke_topic), key=joke_topic)
-                # print(f'JitbAi pregenerated "{temp_value}" for "{joke_topic}"')
-                # temp_list = temp_value.split(',')
-                # temp_list = [entry.rstrip(strip_string).lstrip(strip_string) for entry in 
-                #              temp_list if entry]
-                # self._joke_topic_dict[joke_topic] = temp_list
-                time.sleep(12)  # OpenAI gets unhappy if you spam it
-
-            # DONE
-            print(f'PREPOPULATED DICT:\n{self._joke_topic_dict}')  # DEBUGGING
-            self._joke_topic_init = True  # It's initialized now
-
+            # for joke_topic in KNOWN_JOKE_TOPICS:
+            #     # temp_value = self.generate_ai_answer(prompt=prompt.format(joke_topic),
+            #     #                                      ai_obj=self._ai_obj, length_limit=1000)
+            #     self._generate_bulk_topics(prompt=prompt.format(joke_topic), key=joke_topic)
+            #     # print(f'JitbAi pregenerated "{temp_value}" for "{joke_topic}"')
+            #     # temp_list = temp_value.split(',')
+            #     # temp_list = [entry.rstrip(strip_string).lstrip(strip_string) for entry in 
+            #     #              temp_list if entry]
+            #     # self._joke_topic_dict[joke_topic] = temp_list
+            #     time.sleep(12)  # OpenAI gets unhappy if you spam it
 
 
 # Public Functions (alphabetical order)
@@ -643,6 +685,15 @@ def _is_vote_page(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
 
     # DONE
     return vote_page
+
+
+def _split_and_strip_answers(answer: str, delimiter: str = ',') -> List[str]:
+    """Split a comma-separated answer into a list of strings stipped of garbage."""
+    strip_string = digits + punctuation + whitespace  # Strip these characters from list entries
+    # List of split and stripped answers
+    answers = [entry.rstrip(strip_string).lstrip(strip_string) for entry in
+               ai_answer.split(delimiter) if entry]
+    return answers
 
 
 def _validate_web_driver(web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> None:
