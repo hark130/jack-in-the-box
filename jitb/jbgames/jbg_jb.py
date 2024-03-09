@@ -198,9 +198,17 @@ class JbgJb(JbgAbc):
 
         # ENTER AS MANY TOPICS AS YOU CAN
         while _is_joke_topic_page(web_driver=web_driver):
+            # RESET TEMP VARIABLES
+            answer = ''       # AI answer
+            prompt_text = ''  # Input prompt
+            temp_key = ''     # Answer dict key
             # GET PROMPT
             prompt_text = get_prompt(web_driver=web_driver, check_needles=False)
-            temp_key = prompt_text.split('\n')[1]
+            try:
+                temp_key = prompt_text.split('\n')[1]
+            except IndexError:
+                time.sleep(JITB_POLL_RATE)  # Give the page a chance to update
+                continue  # We're probably not on a Joke Topic page anymore...
             # ANSWER IT
             if temp_key not in self._joke_topic_dict or not self._joke_topic_dict[temp_key]:
                 Logger.debug(f'{temp_key} was requested as a vote topic but not present')
