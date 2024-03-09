@@ -817,9 +817,9 @@ class SpecialTestJitbOpenaiPolishAnswer(TestJitbOpenaiPolishAnswer):
         # Test input for the prompt argument
         in_prompt = 'This blank ____ is way too short'
         # Expected return value
-        exp_answer = 'blank certainly is'
+        exp_answer = 'certainly'
         # Test input for the answer argument
-        in_answer = exp_answer
+        in_answer = f'blank {exp_answer} is'
         self.run_test_success(in_prompt, in_answer, in_limit, exp_answer)
 
     def test_s10_legacy_rao_input_variable_length_fitb_barely_too_short(self):
@@ -835,9 +835,9 @@ class SpecialTestJitbOpenaiPolishAnswer(TestJitbOpenaiPolishAnswer):
         # Test input for the prompt argument
         in_prompt = 'This blank _______ is barely too short'
         # Expected return value
-        exp_answer = 'blank certainly is'
+        exp_answer = 'certainly'
         # Test input for the answer argument
-        in_answer = exp_answer
+        in_answer = f'blank {exp_answer} is'
         self.run_test_success(in_prompt, in_answer, in_limit, exp_answer)
 
     def test_s11_legacy_rao_input_variable_length_fitb_barely_too_long(self):
@@ -906,9 +906,9 @@ class SpecialTestJitbOpenaiPolishAnswer(TestJitbOpenaiPolishAnswer):
         # Test input for the prompt argument
         in_prompt = 'This blank ________________ is much too long'
         # Expected return value
-        exp_answer = 'blank certainly_______ is'
+        exp_answer = 'certainly'
         # Test input for the answer argument
-        in_answer = exp_answer
+        in_answer = f'blank {exp_answer} is'
         self.run_test_success(in_prompt, in_answer, in_limit, exp_answer)
 
     def test_s15_compound_features_multiples_of_everything(self):

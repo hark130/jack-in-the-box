@@ -10,7 +10,7 @@ import sys
 # Third Party
 from openai import OpenAI
 # Local
-from jitb.jitb_globals import FILL_IN_THE_BLANK, OPENAI_KEY_ENV_VAR
+from jitb.jitb_globals import OPENAI_KEY_ENV_VAR
 from jitb.jitb_logger import Logger
 
 
@@ -407,7 +407,7 @@ def polish_answer(prompt: str, answer: str, length_limit: int, original_answer: 
     return new_answer
 
 
-def remove_answer_overlap(prompt: str, answer: str) -> str:
+def remove_answer_overlap(prompt: str, answer: str, min_len: int = 4) -> str:
     """Remove any overlap between the prompt and answer for fill-in-the-blank prompts.
 
     OpenAI response don't do a good job of following instructions for the fill-in-the-blank
@@ -417,6 +417,7 @@ def remove_answer_overlap(prompt: str, answer: str) -> str:
     Args:
         prompt: The original prompt.
         answer: The AI-generated answer.
+        min_len: Optional; Minimum length of repeating undescores to be considered a fitb prompt.
 
     Returns:
         The answer to the prompt, modified or not.
@@ -426,19 +427,25 @@ def remove_answer_overlap(prompt: str, answer: str) -> str:
         ValueError: Empty string.
     """
     # LOCAL VARIABLES
-    opening = ''                 # Portion of the prompt preceding the blank
-    blank = FILL_IN_THE_BLANK    # Fill-in-the-blank substring
-    closing = ''                 # Portion of the prompt following the blank
-    new_answer = answer          # Trimmed up version of answer
+    opening = ''         # Portion of the prompt preceding the blank
+    closing = ''         # Portion of the prompt following the blank
+    new_answer = answer  # Trimmed up version of answer
+    broken_prompt = []   # Pieces/parts of the prompt
+    regex_pattern = r''  # Use this regex split the prompt
 
     # INPUT VALIDATION
     _validate_string(prompt, 'prompt')
     _validate_string(answer, 'answer')
+    _validate_pos_int(min_len, 'min_len')
+
+    # SPLIT IT
+    regex_pattern = r'_{%d,}' % min_len  # Matches on any min_len number of underscores anywhere
+    broken_prompt = re.split(regex_pattern, prompt)
 
     # REMOVE OVERLAP
-    if prompt.count(blank) == 1:
-        opening = prompt.split(blank)[0]   # Prompt substring before the blank
-        closing = prompt.split(blank)[1]   # Prompt substring after the blank
+    if len(broken_prompt) == 2:
+        opening = broken_prompt[0]   # Prompt substring before the blank
+        closing = broken_prompt[1]   # Prompt substring after the blank
         opening = _get_leading_overlap(opening.lower(), answer.lower())  # Opening & answer overlap
         closing = _get_trailing_overlap(closing.lower(), answer.lower())  # Closing & answer overlap
         if opening:
@@ -465,7 +472,7 @@ def remove_answer_overlap(prompt: str, answer: str) -> str:
     return new_answer
 
 
-def remove_punctuation(prompt: str, answer: str) -> str:
+def remove_punctuation(prompt: str, answer: str, min_len: int = 4) -> str:
     """Remove trailing punctuation from answer, depending on the prompt.
 
     Removes trailing punctuation from answer unless the prompt has a trailing fill-in-the-blank,
@@ -474,6 +481,7 @@ def remove_punctuation(prompt: str, answer: str) -> str:
     Args:
         prompt: The original prompt.
         answer: The AI-generated answer.
+        min_len: Optional; Minimum length of repeating undescores to be considered a fitb prompt.
 
     Returns:
         The answer to the prompt, modified or not.
@@ -483,8 +491,8 @@ def remove_punctuation(prompt: str, answer: str) -> str:
         ValueError: Empty string.
     """
     # LOCAL VARIABLES
-    new_answer = answer        # A polished up version of answer
-    blank = FILL_IN_THE_BLANK  # Fill-in-the-blank substring
+    new_answer = answer  # A polished up version of answer
+    blank = '_' * 4      # Fill-in-the-blank substring
 
     # INPUT VALIDATION
     _validate_string(prompt, 'prompt')
@@ -565,6 +573,23 @@ def _randomize_choice(choices: dict) -> str:
     return random.choice(list(choices.values()))
 
 
+def _validate_pos_int(in_int: int, name: str) -> None:
+    """Validate input on behalf of this module's API functions.
+
+    Args:
+        in_int: Input to validate.
+        name: Name of the original variable to us in crafting the Exception message.
+
+    Raises:
+        TypeError: Bad data type.
+        ValueError: Integer not positive.
+    """
+    if not isinstance(in_int, int):
+        raise TypeError(f'Invalid data type for {name} argument: {type(in_int)}')
+    if in_int < 1:
+        raise ValueError(f'{name.capitalize()} must be positive')
+
+
 def _validate_string(in_str: str, name: str) -> None:
     """Validate input on behalf of this module's API functions.
 
@@ -579,4 +604,4 @@ def _validate_string(in_str: str, name: str) -> None:
     if not isinstance(in_str, str):
         raise TypeError(f'Invalid data type for {name} argument: {type(in_str)}')
     if not in_str:
-        raise ValueError(f'{name.upper()} may not be empty')
+        raise ValueError(f'{name.capitalize()} may not be empty')
