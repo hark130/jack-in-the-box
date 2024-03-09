@@ -449,8 +449,6 @@ class JbgJb(JbgAbc):
 # answer2 = \
 #     self.generate_ai_answer(prompt=prompt.format('\n'.join(KNOWN_JOKE_TOPICS[3:6])),
 #                             ai_obj=self._ai_obj, length_limit=10000)
-# print(f'ANSWER 1:\n{answer1}')  # DEBUGGING
-# print(f'ANSWER 2:\n{answer2}')  # DEBUGGING
 # if not answer1 or not answer2:
 #     raise RuntimeError(f'JitbAi failed to produce a set of joke topics')
 # Logger.debug('JitbAi generated the following to prepopulate the joke topic dict:\n'
@@ -470,9 +468,7 @@ class JbgJb(JbgAbc):
 #         temp_value = temp_value[1:]  # Slice it off
 #     temp_list = [entry.rstrip(strip_string).lstrip(strip_string) for entry
 #                  in temp_value.split(',')]
-#     print(f'FORMED DICT ENTRY: {temp_list}')  # DEBUGGING
 #     self._joke_topic_dict[key] = temp_list
-# print(f'PREPOPULATED DICT:\n{self._joke_topic_dict}')  # DEBUGGING
 # for joke_topic in KNOWN_JOKE_TOPICS:
 #     # temp_value = self.generate_ai_answer(prompt=prompt.format(joke_topic),
 #     #                                      ai_obj=self._ai_obj, length_limit=1000)
