@@ -12,6 +12,7 @@ from openai import OpenAI
 # Local
 from jitb.jitb_globals import OPENAI_KEY_ENV_VAR
 from jitb.jitb_logger import Logger
+from jitb.jitb_misc import clean_up_string
 
 
 class JitbAi:
@@ -351,10 +352,11 @@ def polish_answer(prompt: str, answer: str, length_limit: int, original_answer: 
     """Polishes AI answers to improve the quality of responses.
 
     This function recursively performs the following until no other changes are necessary:
-        1. Removes leading and trailing quotes
-        2. Removes overlap between the prompt and answer
-        3. Removes trailing punctuation (in certain situations)
-        4. Ensures the answer is no longer than length_limit
+        1. Normalizes the encoding of the prompt to avoid encoding-shenanigans
+        2. Removes leading and trailing quotes
+        3. Removes overlap between the prompt and answer
+        4. Removes trailing punctuation (in certain situations)
+        5. Ensures the answer is no longer than length_limit
 
     Args:
         prompt: The original prompt.
@@ -371,6 +373,7 @@ def polish_answer(prompt: str, answer: str, length_limit: int, original_answer: 
         ValueError: Bad value.
     """
     # LOCAL VARIABLES
+    clean_prompt = ''    # Normalized verseion of prompt
     new_answer = answer  # A polished up version of answer
     final_run = False    # Final call in the recursive call stack
 
@@ -383,18 +386,31 @@ def polish_answer(prompt: str, answer: str, length_limit: int, original_answer: 
         raise ValueError(f'The length_limit must be a positive number instead of {length_limit}')
     if original_answer:
         _validate_string(original_answer, 'original_answer')
+    else:
+        original_answer = answer  # This is the first call
 
     # POLISH IT
+    clean_prompt = clean_up_string(prompt)
+    new_answer = clean_up_string(answer)
+    if clean_prompt != prompt:
+        Logger.debug(f'Successfully cleaned "{prompt}" to "{clean_prompt}"')
+    if new_answer != answer:
+        Logger.debug(f'Successfully cleaned "{answer}" to "{new_answer}"')
+    print(f'\nPROMPT: {clean_prompt}')  # DEBUGGING
     # 1. Removes leading and trailing quotes
     new_answer = re.sub(r'^"|"$', '', new_answer)  # Strip leading and trailing quotes
+    print(f'NEW ANSWER 1: {new_answer}')  # DEBUGGING
     # 2. Removes overlap between the prompt and answer
-    new_answer = remove_answer_overlap(prompt=prompt, answer=new_answer)
+    new_answer = remove_answer_overlap(prompt=clean_prompt, answer=new_answer)
+    print(f'NEW ANSWER 2: {new_answer}')  # DEBUGGING
     # 3. Removes trailing punctuation (in certain situations)
-    new_answer = remove_punctuation(prompt=prompt, answer=new_answer)
+    new_answer = remove_punctuation(prompt=clean_prompt, answer=new_answer)
+    print(f'NEW ANSWER 3: {new_answer}')  # DEBUGGING
     # Save truncation for last
     if new_answer != answer:
-        new_answer = polish_answer(prompt=prompt, answer=new_answer, length_limit=length_limit,
-                                   original_answer=answer)
+        new_answer = polish_answer(prompt=clean_prompt, answer=new_answer,
+                                   length_limit=length_limit, original_answer=original_answer)
+        print(f'NEW ANSWER R: {new_answer}')  # DEBUGGING
     else:
         final_run = True
     # 4. Ensures the answer is no longer than length_limit
@@ -403,7 +419,7 @@ def polish_answer(prompt: str, answer: str, length_limit: int, original_answer: 
 
     # DONE
     if new_answer != original_answer and final_run:
-        Logger.debug(f'Polished "{new_answer}" from "{original_answer}" for this: "{prompt}"')
+        Logger.debug(f'Polished "{new_answer}" from "{original_answer}" for this: "{clean_prompt}"')
     return new_answer
 
 
@@ -441,13 +457,19 @@ def remove_answer_overlap(prompt: str, answer: str, min_len: int = 4) -> str:
     # SPLIT IT
     regex_pattern = r'_{%d,}' % min_len  # Matches on any min_len number of underscores anywhere
     broken_prompt = re.split(regex_pattern, prompt)
+    print(f'BROKEN PROMPT: {broken_prompt}')  # DEBUGGING
 
     # REMOVE OVERLAP
     if len(broken_prompt) == 2:
         opening = broken_prompt[0]   # Prompt substring before the blank
         closing = broken_prompt[1]   # Prompt substring after the blank
+        print(f'OPENING: {opening}')  # DEBUGGING
+        print(f'CLOSING: {closing}')  # DEBUGGING
+        print(f'PROMPT: {prompt}')  # DEBUGGING
         opening = _get_leading_overlap(opening.lower(), answer.lower())  # Opening & answer overlap
         closing = _get_trailing_overlap(closing.lower(), answer.lower())  # Closing & answer overlap
+        print(f'OPENING: {opening}')  # DEBUGGING
+        print(f'CLOSING: {closing}')  # DEBUGGING
         if opening:
             try:
                 # Slice off leading overlap
@@ -509,10 +531,13 @@ def remove_punctuation(prompt: str, answer: str, min_len: int = 4) -> str:
 def _get_leading_overlap(haystack: str, needle: str) -> str:
     """Returns the trailing haystack and leading needle overlap sub-string."""
     overlap = ''  # Overlap between haystack and needle
+    # print(f'HAYSTACK: {haystack}')  # DEBUGGING
     for i in range(1, len(needle)):
+        # print(f'NEEDLE: {needle[:-i]}')  # DEBUGGING
         if haystack.endswith(needle[:-i]):
             overlap = needle[:-i]
             break
+    # print(f'OVERLAP: {overlap}')  # DEBUGGING
     return overlap
 
 
