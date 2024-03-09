@@ -318,10 +318,19 @@ class JbgJb(JbgAbc):
             key: The key to use in the dictionary.
         """
         # LOCAL VARIABLES
-        list_len = 10  # Number of entries to generate for key
-        prompt = f'Give me a comma-separated list of {str(list_len)} new examples of this word ' \
-                 + f'and no other words: {key}.  Ensure your listed answers have comedic potential.'
+        list_len = 10                  # Number of entries to generate for key
+        len_limit = list_len * 10 * 2  # Length limit for query to AI
+        temp_key = key                 # Gives us a chance to mangle a key, for prompt engineering
+        if key.upper().startswith('A BRAND'.upper()):
+            prompt = f'Generate a list of {str(list_len)} well-known commercial brands, ' \
+                     + 'each separated by a comma.'
+        else:
+            prompt = f'Give me a comma-separated list of {str(list_len)} new examples of this thing ' \
+                     + f'with no other commentary or explanation: {temp_key}.'
+                     # '  Ensure your listed answers have comedic potential.'
         # AI generated answer
+        if key.upper() == 'A LOCATION'.upper():
+            len_limit = list_len * 10  # Maybe limiting the answer length will help
         ai_answer = self.generate_ai_answer(prompt=prompt, ai_obj=self._ai_obj,
                                             length_limit=list_len * 10 * 2)
         answers = _split_and_strip_answers(ai_answer)
@@ -372,7 +381,8 @@ class JbgJb(JbgAbc):
         """
         # LOCAL VARIABLES
         # Let's see if we can get JitbAi to do what we want.
-        base_prompt = 'Give me one example each for each of these in a comma-separaed list: {}'
+        base_prompt = 'Give me one example each for each of these, with no other commentary ' \
+                      + 'or explanation, in a comma-separated list: {}'
         joke_topics = KNOWN_JOKE_TOPICS  # List of topics to query JitbAi for
         actual_prompt = ''               # Formatted with the dynamic list of topics
         answers = []                     # AI answer split and stripped into a list
@@ -756,9 +766,26 @@ def _split_and_strip_answers(answer: str, delimiter: str = ',') -> List[str]:
     """Split a comma-separated answer into a list of strings stipped of garbage."""
     strip_string = digits + punctuation + whitespace  # Strip these characters from list entries
     # List of split and stripped answers
-    answers = [entry.rstrip(strip_string).lstrip(strip_string) for entry in
-               answer.split(delimiter) if entry]
+    answers = [_strip_answer(entry) for entry in answer.split(delimiter) if entry]
     return answers
+
+
+def _strip_answer(answer: str) -> str:
+    """Strip answer of garbage: digits, punctuation, whitespace, 'a ', and 'an '."""
+    # LOCAL VARIABLES
+    strip_string = digits + punctuation + whitespace  # Strip these characters from list entries
+
+    # STRIP IT
+    new_answer = answer.rstrip(strip_string).lstrip(strip_string)
+    if new_answer.lower().startswith('a '.lower()):
+        new_answer = new_answer[2:]
+    if new_answer.lower().startswith('an '.lower()):
+        new_answer = new_answer[3:]
+
+    # DONE
+    if new_answer != answer:
+        new_answer = _strip_answer(new_answer)  # Keep stripping until it's clean
+    return new_answer
 
 
 def _validate_web_driver(web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> None:
