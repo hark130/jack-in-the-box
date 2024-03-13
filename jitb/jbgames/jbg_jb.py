@@ -192,9 +192,10 @@ class JbgJb(JbgAbc):
             web_driver: The webdriver object to interact with.
         """
         # LOCAL VARIABLES
-        answer = ''       # AI answer
-        prompt_text = ''  # Input prompt
-        temp_key = ''     # Answer dict key
+        answer = ''         # AI answer
+        prompt_text = ''    # Input prompt
+        temp_key = ''       # Answer dict key
+        clicked_it = False  # Button has been clicked
 
         # ENTER AS MANY TOPICS AS YOU CAN
         while _is_joke_topic_page(web_driver=web_driver):
