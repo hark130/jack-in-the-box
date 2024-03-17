@@ -25,6 +25,8 @@ JOKE_TOPIC_PROMPT_NEEDLE: Final[str] = 'Write as many topics as you can'
 # Known joke topic prompts to use as keys in the dictionary of answers
 KNOWN_JOKE_TOPICS: Final[List[str]] = ['A BRAND', 'AN OBJECT', 'A FOOD', 'A LOCATION',
                                        'A PLURAL NOUN', 'AN ANIMAL', 'A PERSON’S NAME']
+# Maximum number of Joke Topic requests
+MAX_JOKE_TOPIC_REQUESTS: Final[int] = 3
 
 
 class JbgJb(JbgAbc):
@@ -41,7 +43,7 @@ class JbgJb(JbgAbc):
         super().__init__(ai_obj=ai_obj, username=username)
         self._joke_topic_dict = {}     # Dictionary of joke topics (see: KNOWN_JOKE_TOPICS)
         self._joke_topic_init = False  # Joke Topic Dict prepopulated
-        self._num_requests = 0         # Number of Joke Topic AI requests; Cap it at 3
+        self._num_requests = 0         # Number of Joke Topic AI requests; Capped by module constant
 
     # Parent Class Abstract Methods
     def play(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> None:
@@ -63,6 +65,8 @@ class JbgJb(JbgAbc):
 
         # PLAY
         if self._last_page != self._current_page:
+            if self._last_page == JbgPageIds.JB_TOPIC:
+                self._num_requests = 0  # Reset the count in case there's another game
             if self._current_page == JbgPageIds.VOTE:
                 self.vote_answers(web_driver=web_driver)
             elif self._current_page == JbgPageIds.JB_TOPIC:
@@ -223,7 +227,7 @@ class JbgJb(JbgAbc):
             time.sleep(JITB_POLL_RATE)  # Give the page a chance to update
 
         # DONE
-        if not clicked_it:
+        if not clicked_it and self._num_requests < MAX_JOKE_TOPIC_REQUESTS:
             raise RuntimeError('Did not answer any vote topics')
 
     def skip_perform(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> None:
@@ -354,14 +358,15 @@ class JbgJb(JbgAbc):
         """
         # LOCAL VARIABLE
         made_some = True  # Generated some vote topics
+        last_request = MAX_JOKE_TOPIC_REQUESTS - 1  # Last request number
 
-        # self._generate_bulk_joke_topics()
-        if self._num_requests < 2:
-            self._generate_bulk_joke_topics(key=key)  # Gen 10 answers for key
-            self._num_requests += 1
         # self._populate_joke_topic_dict()
-        elif self._num_requests == 2:
+        if self._num_requests == last_request:
             self._populate_joke_topic_dict(key=key)  # Gen 1 answer per KNOWN_JOKE_TOPICS
+            self._num_requests += 1
+        # self._generate_bulk_joke_topics()
+        elif self._num_requests < last_request:
+            self._generate_bulk_joke_topics(key=key)  # Gen 10 answers for key
             self._num_requests += 1
         else:
             made_some = False
