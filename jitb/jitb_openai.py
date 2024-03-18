@@ -450,7 +450,8 @@ def remove_answer_overlap(prompt: str, answer: str, min_len: int = 4) -> str:
     _validate_pos_int(min_len, 'min_len')
 
     # SPLIT IT
-    regex_pattern = r'_{%d,}' % min_len  # Matches on any min_len number of underscores anywhere
+    # Matches on any min_len number of underscores anywhere
+    regex_pattern = r'_{%d,}' % min_len  # pylint: disable = consider-using-f-string)
     broken_prompt = re.split(regex_pattern, prompt)
 
     # REMOVE OVERLAP
