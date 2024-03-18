@@ -330,9 +330,8 @@ class JbgJb(JbgAbc):
             prompt = f'Generate a list of {str(list_len)} well-known commercial brands, ' \
                      + 'each separated by a comma.'
         else:
-            prompt = f'Give me a comma-separated list of {str(list_len)} new examples of this thing ' \
-                     + f'with no other commentary or explanation: {temp_key}.'
-                     # '  Ensure your listed answers have comedic potential.'
+            prompt = f'Give me a comma-separated list of {str(list_len)} new examples of this ' \
+                     + f'thing with no other commentary or explanation: {temp_key}.'
         # AI generated answer
         if key.upper() == 'A LOCATION'.upper():
             len_limit = list_len * 10  # Maybe limiting the answer length will help
@@ -615,6 +614,7 @@ def _click_a_button(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
 
     # DONE
     return clicked_it
+
 
 def _is_catchphrase_page(web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> bool:
     """Determine if this is a catchphrase page.
