@@ -88,12 +88,16 @@ class JbgAbc(ABC):
             web_driver: The webdriver object to interact with.
         """
 
-    def generate_ai_answer(self, prompt: str, ai_obj: JitbAi = None) -> str:
+    def generate_ai_answer(self, prompt: str, ai_obj: JitbAi = None, length_limit: int = 45) -> str:
         """Wraps ai_obj.generate_answer() to inject context regarding prompts about the username.
 
         Args:
             prompt: Prompt to give the AI to generate an answer for.
             ai_obj: Optional; If None, utilizes self.ai_obj instead.
+            length_limit: Optional; Maximum length of the answer.
+
+        Returns:
+            The JitbAi's answer as a string.
         """
         # LOCAL VARIABLES
         local_ai_obj = ai_obj  # Local copy of the JitbAi object
@@ -110,7 +114,7 @@ class JbgAbc(ABC):
                            + f'username {self._username.upper()}'
 
         # GENERATE IT
-        answer = local_ai_obj.generate_answer(prompt=local_prompt)
+        answer = local_ai_obj.generate_answer(prompt=local_prompt, length_limit=length_limit)
 
         # DONE
         if prompt != local_prompt:

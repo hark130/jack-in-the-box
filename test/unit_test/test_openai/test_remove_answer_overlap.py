@@ -27,13 +27,16 @@ class TestJitbOpenaiRemoveAnswerOverlap(TestJackboxGames):
     # CORE CLASS METHODS
     # Methods listed in call order
 
+    # pylint: disable = too-many-arguments
+    # I'm leaving it like this and Pylint will just have to deal.  I don't want to implement
+    # a whole NamedTuple, or some such container, just so Pylint is happy with test code.
     def run_test_success(self, in_prompt: str, in_answer: str, exp_result: str,
-                         use_kwargs: bool = False) -> None:
+                         use_kwargs: bool = False, in_min_len: int = 4) -> None:
         """Wraps the calls to self.set_test_input(), self.expect_return() and self.run_test()."""
         if use_kwargs:
-            self.set_test_input(prompt=in_prompt, answer=in_answer)
+            self.set_test_input(prompt=in_prompt, answer=in_answer, min_len=in_min_len)
         else:
-            self.set_test_input(in_prompt, in_answer)
+            self.set_test_input(in_prompt, in_answer, in_min_len)
         self.expect_return(exp_result)
         self.run_test()
 
@@ -221,6 +224,43 @@ class ErrorTestJitbOpenaiRemoveAnswerOverlap(TestJitbOpenaiRemoveAnswerOverlap):
         in_answer = ''       # Test input for the answer argument
         self.set_test_input(prompt=in_prompt, answer=in_answer)
         self.expect_exception(ValueError, 'Answer may not be empty')
+        self.run_test()
+
+    def test_e07_bad_data_type_min_len_none(self):
+        """Bad data type: min_len == None."""
+        in_prompt = 'Something ________ else'  # Test input for the prompt argument
+        in_answer = 'None'                     # Test input for the answer argument
+        in_min_len = None                      # Test input for the min_len argument
+        self.set_test_input(prompt=in_prompt, answer=in_answer, min_len=in_min_len)
+        self.expect_exception(TypeError,
+                              "Invalid data type for min_len argument: <class 'NoneType'>")
+        self.run_test()
+
+    def test_e08_bad_data_type_min_len_str(self):
+        """Bad data type: min_len == '4'."""
+        in_prompt = 'Something ________ else'  # Test input for the prompt argument
+        in_answer = 'None'                     # Test input for the answer argument
+        in_min_len = '4'                       # Test input for the min_len argument
+        self.set_test_input(prompt=in_prompt, answer=in_answer, min_len=in_min_len)
+        self.expect_exception(TypeError, 'Invalid data type')
+        self.run_test()
+
+    def test_e09_bad_value_min_len_zero(self):
+        """Bad data type: min_len == 0."""
+        in_prompt = 'Something ________ else'  # Test input for the prompt argument
+        in_answer = 'None'                     # Test input for the answer argument
+        in_min_len = 0                         # Test input for the min_len argument
+        self.set_test_input(prompt=in_prompt, answer=in_answer, min_len=in_min_len)
+        self.expect_exception(ValueError, 'Min_len must be positive')
+        self.run_test()
+
+    def test_e09_bad_value_min_len_negative(self):
+        """Bad data type: min_len == -1."""
+        in_prompt = 'Something ________ else'  # Test input for the prompt argument
+        in_answer = 'None'                     # Test input for the answer argument
+        in_min_len = -1                        # Test input for the min_len argument
+        self.set_test_input(prompt=in_prompt, answer=in_answer, min_len=in_min_len)
+        self.expect_exception(ValueError, 'Min_len must be positive')
         self.run_test()
 
 
@@ -426,13 +466,17 @@ class SpecialTestJitbOpenaiRemoveAnswerOverlap(TestJitbOpenaiRemoveAnswerOverlap
         Current implementation will likely use hard-coded prompt string.  As such, shorter strings
         will not be counted.  If this becomes a problem in the future, use this test case to
         highlight the change in behavior.
+
+        EDIT: It became a problem when I discovered that different Jackbox Games use different
+        length prompts.  Refactored to use regex to split on a repeating-underscore-string
+        of a minimum length instead of using a hard-coded value.
         """
         # Test input for the prompt argument
         in_prompt = 'This blank ____ is way too short'
         # Expected return value
-        exp_answer = 'blank certainly is'
+        exp_answer = 'certainly'
         # Test input for the answer argument
-        in_answer = exp_answer
+        in_answer = f'blank {exp_answer} is'
         self.run_test_success(in_prompt, in_answer, exp_answer)
 
     def test_s10_variable_length_fitb_barely_too_short(self):
@@ -441,13 +485,17 @@ class SpecialTestJitbOpenaiRemoveAnswerOverlap(TestJitbOpenaiRemoveAnswerOverlap
         Current implementation will likely use hard-coded prompt string.  As such, shorter strings
         will not be counted.  If this becomes a problem in the future, use this test case to
         highlight the change in behavior.
+
+        EDIT: It became a problem when I discovered that different Jackbox Games use different
+        length prompts.  Refactored to use regex to split on a repeating-underscore-string
+        of a minimum length instead of using a hard-coded value.
         """
         # Test input for the prompt argument
         in_prompt = 'This blank _______ is barely too short'
         # Expected return value
-        exp_answer = 'blank certainly is'
+        exp_answer = 'certainly'
         # Test input for the answer argument
-        in_answer = exp_answer
+        in_answer = F'blank {exp_answer} is'
         self.run_test_success(in_prompt, in_answer, exp_answer)
 
     def test_s11_variable_length_fitb_barely_too_long(self):
@@ -456,13 +504,17 @@ class SpecialTestJitbOpenaiRemoveAnswerOverlap(TestJitbOpenaiRemoveAnswerOverlap
         Current implementation will likely use hard-coded prompt string.  As such, longer
         fill-in-the-blank strings could become a problem.  If this becomes a problem in the
         future, use this test case to verify the change in behavior.
+
+        EDIT: It became a problem when I discovered that different Jackbox Games use different
+        length prompts.  Refactored to use regex to split on a repeating-underscore-string
+        of a minimum length instead of using a hard-coded value.
         """
         # Test input for the prompt argument
         in_prompt = 'This blank _________ is barely too long'
         # Expected return value
         exp_answer = 'certainly'
         # Test input for the answer argument
-        in_answer = f'blank {exp_answer}_ is'
+        in_answer = f'blank {exp_answer} is'
         self.run_test_success(in_prompt, in_answer, exp_answer)
 
     def test_s12_variable_length_fitb_way_too_short(self):
@@ -471,13 +523,17 @@ class SpecialTestJitbOpenaiRemoveAnswerOverlap(TestJitbOpenaiRemoveAnswerOverlap
         Current implementation is passing this test case as desired but future changes could
         make this a problem.  If this becomes a problem in the future, use this test case to
         verify the change in behavior.
+
+        EDIT: It became a problem when I discovered that different Jackbox Games use different
+        length prompts.  Refactored to use regex to split on a repeating-underscore-string
+        of a minimum length instead of using a hard-coded value.
         """
         # Test input for the prompt argument
         in_prompt = 'This blank _______________ is much too long'
         # Expected return value
         exp_answer = 'certainly'
         # Test input for the answer argument
-        in_answer = f'blank {exp_answer}_______ is'
+        in_answer = f'blank {exp_answer} is'
         self.run_test_success(in_prompt, in_answer, exp_answer)
 
     def test_s13_more_than_one_fitb(self):
@@ -498,14 +554,62 @@ class SpecialTestJitbOpenaiRemoveAnswerOverlap(TestJitbOpenaiRemoveAnswerOverlap
 
         The current implementation treats this as there being two fill-in-the-blanks, which is
         fine.  Even so, it just returns the original answer, unedited, which is also fine.
+
+        EDIT: The refactor necessitated an update to this test case.  The old implementation
+        became a problem when I discovered that different Jackbox Games use different
+        length prompts.  Refactored to use regex to split on a repeating-underscore-string
+        of a minimum length instead of using a hard-coded value.
         """
         # Test input for the prompt argument
         in_prompt = 'This blank ________________ is much too long'
         # Expected return value
-        exp_answer = 'blank certainly_______ is'
+        exp_answer = 'certainly'
+        # Test input for the answer argument
+        in_answer = f'blank {exp_answer} is'
+        self.run_test_success(in_prompt, in_answer, exp_answer)
+
+    def test_s15_actual_behavior_v1(self):
+        """Behavior observed during actual execution v1."""
+        # Test input for the prompt argument
+        in_prompt = 'Joke 2 (of 2) Write your punchline: i have more eggs than _______'
+        # Expected return value
+        exp_answer = 'a chicken on steroids'
+        # Test input for the answer argument
+        in_answer = f'i have more eggs than {exp_answer}'
+        self.run_test_success(in_prompt, in_answer, exp_answer)
+
+    def test_s16_min_len_test_short_v1(self):
+        """New min_len feature test: min_len == 1."""
+        # Test input for the prompt argument
+        in_prompt = 'this_will_not_trim_because_there_is_too_many_underscores'
+        # Expected return value
+        exp_answer = 'this will_not_trim'
         # Test input for the answer argument
         in_answer = exp_answer
-        self.run_test_success(in_prompt, in_answer, exp_answer)
+        in_min_len = 1  # Test input for min_len
+        self.run_test_success(in_prompt, in_answer, exp_answer, in_min_len=in_min_len)
+
+    def test_s17_min_len_test_short_v2(self):
+        """New min_len feature test: min_len == 1."""
+        # Test input for the prompt argument
+        in_prompt = 'This _ trim because it will match'
+        # Expected return value
+        exp_answer = 'will'
+        # Test input for the answer argument
+        in_answer = f'This {exp_answer} trim'
+        in_min_len = 1  # Test input for min_len
+        self.run_test_success(in_prompt, in_answer, exp_answer, in_min_len=in_min_len)
+
+    def test_s18_min_len_test_short_v3(self):
+        """New min_len feature test: min_len == 1."""
+        # Test input for the prompt argument
+        in_prompt = 'This __ trim because it will match'
+        # Expected return value
+        exp_answer = 'will'
+        # Test input for the answer argument
+        in_answer = f'This {exp_answer} trim'
+        in_min_len = 1  # Test input for min_len
+        self.run_test_success(in_prompt, in_answer, exp_answer, in_min_len=in_min_len)
 
 
 if __name__ == '__main__':

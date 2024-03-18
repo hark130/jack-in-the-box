@@ -54,6 +54,10 @@ class Logger():
     _initialized = False  # Logging subsystem status
     _filename = ''        # Absolute debug log filename
 
+    def __del__(self) -> None:
+        """Class dtor."""
+        Logger.shutdown()
+
     @staticmethod
     def initialize(debugging: bool = False) -> None:
         """Initializes the logging subsystem.
@@ -110,7 +114,7 @@ class Logger():
 
         Args:
             message: Message to log
-            logger: Logger name if needed. Defaults to pt_logger
+            logger: Logger name if needed.
         """
         Logger._check_logger()
         Logger.log(level=LogLevel.JITB, message=message, logger=logger)
@@ -120,7 +124,7 @@ class Logger():
 
         Args:
             message: Message to log
-            logger: Logger name if needed. Defaults to pt_logger
+            logger: Logger name if needed.
         """
         print(message, file=sys.stderr)
         Logger._check_logger()
@@ -131,21 +135,26 @@ class Logger():
 
         Args:
             message: Message to log
-            logger: Logger name if needed. Defaults to pt_logger
+            logger: Logger name if needed.
         """
         print(message, file=sys.stdout)
         Logger._check_logger()
         logging.getLogger(logger).info(message)
 
     def log(level: LogLevel, message: str = '', logger: str = __name__) -> None:
-        """Log on behalf of PreTool.
+        """Log on behalf of the project.
 
         Args:
             level: Priority level of message
             message: Message to log
-            logger: Logger name if needed. Defaults to pt_logger
+            logger: Logger name if needed.
         """
         logging.getLogger(logger).log(level, message)
+
+    @staticmethod
+    def shutdown() -> None:
+        """Call logging.shutdown()."""
+        logging.shutdown()
 
     # pylint: disable=no-method-argument
     def _check_logger() -> None:

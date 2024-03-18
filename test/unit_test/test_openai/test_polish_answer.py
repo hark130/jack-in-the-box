@@ -817,9 +817,9 @@ class SpecialTestJitbOpenaiPolishAnswer(TestJitbOpenaiPolishAnswer):
         # Test input for the prompt argument
         in_prompt = 'This blank ____ is way too short'
         # Expected return value
-        exp_answer = 'blank certainly is'
+        exp_answer = 'certainly'
         # Test input for the answer argument
-        in_answer = exp_answer
+        in_answer = f'blank {exp_answer} is'
         self.run_test_success(in_prompt, in_answer, in_limit, exp_answer)
 
     def test_s10_legacy_rao_input_variable_length_fitb_barely_too_short(self):
@@ -835,9 +835,9 @@ class SpecialTestJitbOpenaiPolishAnswer(TestJitbOpenaiPolishAnswer):
         # Test input for the prompt argument
         in_prompt = 'This blank _______ is barely too short'
         # Expected return value
-        exp_answer = 'blank certainly is'
+        exp_answer = 'certainly'
         # Test input for the answer argument
-        in_answer = exp_answer
+        in_answer = f'blank {exp_answer} is'
         self.run_test_success(in_prompt, in_answer, in_limit, exp_answer)
 
     def test_s11_legacy_rao_input_variable_length_fitb_barely_too_long(self):
@@ -906,9 +906,9 @@ class SpecialTestJitbOpenaiPolishAnswer(TestJitbOpenaiPolishAnswer):
         # Test input for the prompt argument
         in_prompt = 'This blank ________________ is much too long'
         # Expected return value
-        exp_answer = 'blank certainly_______ is'
+        exp_answer = 'certainly'
         # Test input for the answer argument
-        in_answer = exp_answer
+        in_answer = f'blank {exp_answer} is'
         self.run_test_success(in_prompt, in_answer, in_limit, exp_answer)
 
     def test_s15_compound_features_multiples_of_everything(self):
@@ -920,6 +920,40 @@ class SpecialTestJitbOpenaiPolishAnswer(TestJitbOpenaiPolishAnswer):
         in_answer = '""Feline Friend Fatale." is a great name?"'
         # Expected return value
         exp_answer = 'Feline Friend Fatale'[:in_limit]
+        self.run_test_success(in_prompt, in_answer, in_limit, exp_answer)
+
+    def test_s16_actual_behavior_v1(self):
+        """See: logs/jitb_20240308_200449-0-Three_BUGs.log; BUG 2.
+
+        commit d93d1bf44d983eb104a6af9d5917d7cd1d3a0219
+
+        SPOILERS: There's a dirty single quote in the prompt string.
+        """
+        in_limit = 80  # Test input for the length_limit argument
+        # Test input for the prompt argument
+        in_prompt = 'Joke 1 (of 2)\nWrite your punchline:\nhave you heard about the ' \
+                    + 'oboe challenge?\nthat’s where you _______'
+        # Expected return value
+        exp_answer = 'try to play a kazoo with your nose!'
+        # Test input for the answer argument
+        in_answer = f"that's where you {exp_answer}"
+        self.run_test_success(in_prompt, in_answer, in_limit, exp_answer)
+
+    def test_s17_actual_behavior_v2(self):
+        """See: logs/jitb_20240308_200449-0-Three_BUGs.log; BUG 3.
+
+        commit d93d1bf44d983eb104a6af9d5917d7cd1d3a0219
+
+        SPOILERS: The newline between the end of the text and the fill-in-the-blank really
+        threw polish_prompt() off its game.  Functions added to jitb_misc saved the day.
+        """
+        in_limit = 80  # Test input for the length_limit argument
+        # Test input for the prompt argument
+        in_prompt = 'Write the punchline to this joke:\ndracula looks like a cross between\n_______'
+        # Expected return value
+        exp_answer = 'a bat and a used car salesman.'
+        # Test input for the answer argument
+        in_answer = f'Dracula looks like a cross between {exp_answer}'
         self.run_test_success(in_prompt, in_answer, in_limit, exp_answer)
 # pylint: enable = too-many-arguments, too-many-public-methods
 

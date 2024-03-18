@@ -1,0 +1,274 @@
+[2024-03-18 17:23:22.764] DEBUGGING - This room code is a Joke Boat game
+[2024-03-18 17:23:27.019] DEBUGGING - This is a(n) JB_CATCH page!
+[2024-03-18 17:23:27.768] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-18 17:23:27.770] DEBUGGING - Successfully cleaned "Give me one example each for each of these, with no other commentary or explanation, in a comma-separated list: A BRAND, AN OBJECT, A FOOD, A LOCATION, A PLURAL NOUN, AN ANIMAL, A PERSON’S NAME" to "Give me one example each for each of these, with no other commentary or explanation, in a comma-separated list: A BRAND, AN OBJECT, A FOOD, A LOCATION, A PLURAL NOUN, AN ANIMAL, A PERSON'S NAME"
+[2024-03-18 17:23:27.770] DEBUGGING - Polished "Nike, toaster, pizza, beach, socks, llama, Bob" from "Nike, toaster, pizza, beach, socks, llama, Bob." for this: "Give me one example each for each of these, with no other commentary or explanation, in a comma-separated list: A BRAND, AN OBJECT, A FOOD, A LOCATION, A PLURAL NOUN, AN ANIMAL, A PERSON'S NAME"
+[2024-03-18 17:23:27.771] DEBUGGING - JitbAi answer "Give me one example each for each of these, with no other commentary or explanation, in a comma-separated list: A BRAND, AN OBJECT, A FOOD, A LOCATION, A PLURAL NOUN, AN ANIMAL, A PERSON’S NAME" with "Nike, toaster, pizza, beach, socks, llama, Bob"
+[2024-03-18 17:23:28.227] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-18 17:23:28.229] DEBUGGING - OpenAI followed instructions and kangaroo was chosen
+[2024-03-18 17:23:28.303] DEBUGGING - Chose "kangaroo" for "Select how to complete your catchphrase: try the _____!"!
+[2024-03-18 17:24:18.427] DEBUGGING - This is a(n) JB_TOPIC page!
+[2024-03-18 17:24:22.934] DEBUGGING - A BRAND was requested as a vote topic but not present
+[2024-03-18 17:24:23.522] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-18 17:24:23.523] DEBUGGING - Polished "McDonald's, Nike, Coca-Cola, Apple, Amazon, Google, Walmart, Target, Pepsi, Netflix. Now that's a shopping list for a wild party!" from ""McDonald's, Nike, Coca-Cola, Apple, Amazon, Google, Walmart, Target, Pepsi, Netflix. Now that's a shopping list for a wild party!"" for this: "Generate a list of 10 well-known commercial brands, each separated by a comma."
+[2024-03-18 17:24:23.523] DEBUGGING - JitbAi generated "["McDonald's", 'Nike', 'Coca-Cola', 'Apple', 'Amazon', 'Google', 'Walmart', 'Target', 'Pepsi', "Netflix. Now that's a shopping list for a wild party"]" as bulk joke topics for the key "A BRAND"
+[2024-03-18 17:24:24.200] DEBUGGING - A LOCATION was requested as a vote topic but not present
+[2024-03-18 17:24:25.074] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-18 17:24:25.076] DEBUGGING - Polished "Under your bed, in your fridge, on the moon, in a parallel universe, inside a burrito, on a rollerco" from ""Under your bed, in your fridge, on the moon, in a parallel universe, inside a burrito, on a rollercoaster, at a clown convention, in a pineapple, on a deserted island, in your dreams."" for this: "Give me a comma-separated list of 10 new examples of this thing with no other commentary or explanation: A LOCATION."
+[2024-03-18 17:24:25.076] DEBUGGING - JitbAi generated "['Under your bed', 'in your fridge', 'on the moon', 'in a parallel universe', 'inside a burrito', 'on a rollerco']" as bulk joke topics for the key "A LOCATION"
+[2024-03-18 17:24:25.718] DEBUGGING - A FOOD was requested as a vote topic but not present
+[2024-03-18 17:24:25.975] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-18 17:24:25.976] DEBUGGING - Successfully cleaned "Give me one example each for each of these, with no other commentary or explanation, in a comma-separated list: A BRAND, AN OBJECT, A FOOD, A LOCATION, A PLURAL NOUN, AN ANIMAL, A PERSON’S NAME" to "Give me one example each for each of these, with no other commentary or explanation, in a comma-separated list: A BRAND, AN OBJECT, A FOOD, A LOCATION, A PLURAL NOUN, AN ANIMAL, A PERSON'S NAME"
+[2024-03-18 17:24:25.976] DEBUGGING - Polished "Nike, toaster, pizza, beach, socks, llama, Bob" from "Nike, toaster, pizza, beach, socks, llama, Bob." for this: "Give me one example each for each of these, with no other commentary or explanation, in a comma-separated list: A BRAND, AN OBJECT, A FOOD, A LOCATION, A PLURAL NOUN, AN ANIMAL, A PERSON'S NAME"
+[2024-03-18 17:24:25.977] DEBUGGING - JitbAi answer "Give me one example each for each of these, with no other commentary or explanation, in a comma-separated list: A BRAND, AN OBJECT, A FOOD, A LOCATION, A PLURAL NOUN, AN ANIMAL, A PERSON’S NAME" with "Nike, toaster, pizza, beach, socks, llama, Bob"
+[2024-03-18 17:24:29.126] DEBUGGING - AN OBJECT was requested as a vote topic but not present
+[2024-03-18 17:24:29.126] DEBUGGING - Max number of Joke Topic requests have been made: 3
+[2024-03-18 17:24:33.722] DEBUGGING - This is a(n) JB_TOPIC page!
+[2024-03-18 17:24:38.316] DEBUGGING - This is a(n) JB_TOPIC page!
+[2024-03-18 17:24:42.968] DEBUGGING - This is a(n) JB_TOPIC page!
+[2024-03-18 17:24:47.587] DEBUGGING - This is a(n) JB_TOPIC page!
+[2024-03-18 17:24:52.224] DEBUGGING - This is a(n) JB_TOPIC page!
+[2024-03-18 17:24:56.833] DEBUGGING - This is a(n) JB_TOPIC page!
+[2024-03-18 17:25:14.626] DEBUGGING - This is a(n) VOTE page!
+[2024-03-18 17:25:17.209] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-18 17:25:17.210] DEBUGGING - OpenAI followed instructions and my family is like _______: was chosen
+[2024-03-18 17:25:17.266] DEBUGGING - Chose "my family is like _______:" for "Joke 1 (of 2) Choose a joke set-up:"!
+[2024-03-18 17:25:17.899] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-18 17:25:17.901] DEBUGGING - OpenAI followed instructions and your father was chosen
+[2024-03-18 17:25:17.957] DEBUGGING - Chose "your father" for "Joke 1 (of 2) Complete your set-up: my family is like _______:"!
+[2024-03-18 17:25:22.926] DEBUGGING - This is a(n) ANSWER page!
+[2024-03-18 17:25:25.416] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-18 17:25:25.417] DEBUGGING - Successfully cleaned "Joke 1 (of 2)
+Write your punchline:
+my family is like your father:
+_______" to "Joke 1 (of 2) Write your punchline: my family is like your father: _______"
+[2024-03-18 17:25:25.421] DEBUGGING - Polished "Always telling dad jokes and embarrassing me." from ""Always telling dad jokes and embarrassing me."" for this: "Joke 1 (of 2) Write your punchline: my family is like your father: _______"
+[2024-03-18 17:25:25.567] DEBUGGING - Answered prompt "Joke 1 (of 2)
+Write your punchline:
+my family is like your father:
+_______" with "Always telling dad jokes and embarrassing me."!
+[2024-03-18 17:25:30.210] DEBUGGING - This is a(n) VOTE page!
+[2024-03-18 17:25:32.649] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-18 17:25:32.651] DEBUGGING - OpenAI followed instructions and why are they called _______... was chosen
+[2024-03-18 17:25:32.711] DEBUGGING - Chose "why are they called _______..." for "Joke 2 (of 2) Choose a joke set-up:"!
+[2024-03-18 17:25:33.358] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-18 17:25:33.359] DEBUGGING - OpenAI followed instructions and hats was chosen
+[2024-03-18 17:25:33.406] DEBUGGING - Chose "hats" for "Joke 2 (of 2) Complete your set-up: why are they called _______..."!
+[2024-03-18 17:25:38.415] DEBUGGING - This is a(n) ANSWER page!
+[2024-03-18 17:25:40.937] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-18 17:25:40.938] DEBUGGING - Successfully cleaned "Joke 2 (of 2)
+Write your punchline:
+why are they called hats...
+and not “_______”?" to "Joke 2 (of 2) Write your punchline: why are they called hats... and not "_______"?"
+[2024-03-18 17:25:40.938] DEBUGGING - Polished "Head tents, because they're always pitching a good time!" from ""Head tents, because they're always pitching a good time!"" for this: "Joke 2 (of 2) Write your punchline: why are they called hats... and not "_______"?"
+[2024-03-18 17:25:41.095] DEBUGGING - Answered prompt "Joke 2 (of 2)
+Write your punchline:
+why are they called hats...
+and not “_______”?" with "Head tents, because they're always pitching a good time!"!
+[2024-03-18 17:26:02.677] DEBUGGING - This is a(n) JB_PERFORM page!
+[2024-03-18 17:27:21.193] DEBUGGING - This is a(n) JB_PERFORM page!
+[2024-03-18 17:28:33.294] DEBUGGING - This is a(n) VOTE page!
+[2024-03-18 17:28:35.788] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-18 17:28:35.790] DEBUGGING - OpenAI followed instructions and a group of band-aids walk into a bar and make everyone feel better. was chosen
+[2024-03-18 17:28:35.858] DEBUGGING - Chose "a group of band-aids walk into a bar and make everyone feel better." for "Pick your favorite joke:"!
+[2024-03-18 17:29:30.760] DEBUGGING - This is a(n) VOTE page!
+[2024-03-18 17:29:33.364] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-18 17:29:33.365] DEBUGGING - OpenAI followed instructions and when i was a kid we didn’t have _______. was chosen
+[2024-03-18 17:29:33.427] DEBUGGING - Chose "when i was a kid we didn’t have _______." for "Joke 1 (of 2) Choose a joke set-up:"!
+[2024-03-18 17:29:34.247] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-18 17:29:34.248] DEBUGGING - OpenAI added words but we extracted reality shows from B. reality shows
+[2024-03-18 17:29:34.306] DEBUGGING - Chose "reality shows" for "Joke 1 (of 2) Complete your set-up: when i was a kid we didn’t have _______."!
+[2024-03-18 17:29:39.300] DEBUGGING - This is a(n) ANSWER page!
+[2024-03-18 17:29:41.760] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-18 17:29:41.761] DEBUGGING - Successfully cleaned "Joke 1 (of 2)
+Write your punchline:
+when i was a kid we didn’t have reality shows.
+we had _______" to "Joke 1 (of 2) Write your punchline: when i was a kid we didn't have reality shows. we had _______"
+[2024-03-18 17:29:41.761] DEBUGGING - Trimmed "to make our own drama with sibling fights" from "we had to make our own drama with sibling fights" by removing overlap with this prompt: "Joke 1 (of 2) Write your punchline: when i was a kid we didn't have reality shows. we had _______"
+[2024-03-18 17:29:41.761] DEBUGGING - Polished "to make our own drama with sibling fights" from ""we had to make our own drama with sibling fights"" for this: "Joke 1 (of 2) Write your punchline: when i was a kid we didn't have reality shows. we had _______"
+[2024-03-18 17:29:41.914] DEBUGGING - Answered prompt "Joke 1 (of 2)
+Write your punchline:
+when i was a kid we didn’t have reality shows.
+we had _______" with "to make our own drama with sibling fights"!
+[2024-03-18 17:29:46.533] DEBUGGING - This is a(n) VOTE page!
+[2024-03-18 17:29:48.976] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-18 17:29:48.977] DEBUGGING - OpenAI followed instructions and god created _______ by was chosen
+[2024-03-18 17:29:49.034] DEBUGGING - Chose "god created _______ by" for "Joke 2 (of 2) Choose a joke set-up:"!
+[2024-03-18 17:29:49.836] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-18 17:29:49.837] DEBUGGING - OpenAI added words but we extracted dictators from B. dictators
+[2024-03-18 17:29:49.894] DEBUGGING - Chose "dictators" for "Joke 2 (of 2) Complete your set-up: god created _______ by"!
+[2024-03-18 17:29:54.887] DEBUGGING - This is a(n) ANSWER page!
+[2024-03-18 17:29:57.452] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-18 17:29:57.454] DEBUGGING - Successfully cleaned "Joke 2 (of 2)
+Write your punchline:
+god created dictators by
+_______" to "Joke 2 (of 2) Write your punchline: god created dictators by _______"
+[2024-03-18 17:29:57.454] DEBUGGING - Polished "accidentally spilling a bottle of power-hungry juice" from ""accidentally spilling a bottle of power-hungry juice"" for this: "Joke 2 (of 2) Write your punchline: god created dictators by _______"
+[2024-03-18 17:29:57.614] DEBUGGING - Answered prompt "Joke 2 (of 2)
+Write your punchline:
+god created dictators by
+_______" with "accidentally spilling a bottle of power-hungry juice"!
+[2024-03-18 17:30:36.027] DEBUGGING - This is a(n) JB_PERFORM page!
+[2024-03-18 17:31:14.438] DEBUGGING - This is a(n) JB_PERFORM page!
+[2024-03-18 17:32:56.815] DEBUGGING - This is a(n) VOTE page!
+[2024-03-18 17:32:59.276] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-18 17:32:59.277] DEBUGGING - OpenAI followed instructions and i have more toasts than a marriage between pieces of cooked bread. was chosen
+[2024-03-18 17:32:59.347] DEBUGGING - Chose "i have more toasts than a marriage between pieces of cooked bread." for "Pick your favorite joke:"!
+[2024-03-18 17:33:56.909] DEBUGGING - This is a(n) VOTE page!
+[2024-03-18 17:33:59.359] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-18 17:33:59.361] DEBUGGING - OpenAI followed instructions and you ever notice how peter pan looks like a silly boy scout? was chosen
+[2024-03-18 17:33:59.419] DEBUGGING - Chose "you ever notice how peter pan looks like a silly boy scout?" for "Pick the joke you want to compete against:"!
+[2024-03-18 17:34:04.375] DEBUGGING - This is a(n) ANSWER page!
+[2024-03-18 17:34:06.882] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-18 17:34:06.883] DEBUGGING - Successfully cleaned "Write the punchline to this joke:
+you ever notice how peter pan looks like
+_______?" to "Write the punchline to this joke: you ever notice how peter pan looks like _______?"
+[2024-03-18 17:34:06.884] DEBUGGING - Trimmed "a tiny, flying, green Michael Jackson" from "a tiny, flying, green Michael Jackson?" by removing overlap with this prompt: "Write the punchline to this joke: you ever notice how peter pan looks like _______?"
+[2024-03-18 17:34:06.884] DEBUGGING - Polished "a tiny, flying, green Michael Jackson" from "a tiny, flying, green Michael Jackson?" for this: "Write the punchline to this joke: you ever notice how peter pan looks like _______?"
+[2024-03-18 17:34:07.029] DEBUGGING - Answered prompt "Write the punchline to this joke:
+you ever notice how peter pan looks like
+_______?" with "a tiny, flying, green Michael Jackson"!
+[2024-03-18 17:34:58.223] DEBUGGING - This is a(n) VOTE page!
+[2024-03-18 17:35:00.669] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-18 17:35:00.670] DEBUGGING - OpenAI followed instructions and it had a lot of quick changes. was chosen
+[2024-03-18 17:35:00.733] DEBUGGING - Chose "it had a lot of quick changes." for "Pick your favorite joke: middle school for me was like superman: _______"!
+[2024-03-18 17:35:12.076] DEBUGGING - This is a(n) JB_PERFORM page!
+[2024-03-18 17:36:17.485] DEBUGGING - This is a(n) VOTE page!
+[2024-03-18 17:36:19.935] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-18 17:36:19.936] DEBUGGING - OpenAI followed instructions and and get stuck was chosen
+[2024-03-18 17:36:19.997] DEBUGGING - Chose "and get stuck" for "Pick your favorite joke: a group of band-aids walk into a bar and _______"!
+[2024-03-18 17:37:17.697] DEBUGGING - This is a(n) JB_TOPIC page!
+[2024-03-18 17:37:18.382] DEBUGGING - A PLURAL NOUN was requested as a vote topic but not present
+[2024-03-18 17:37:18.930] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-18 17:37:18.931] DEBUGGING - Polished "Bananas, unicorns, llamas, zombies, tacos, penguins, ninjas, aliens, mermaids, robots" from ""Bananas, unicorns, llamas, zombies, tacos, penguins, ninjas, aliens, mermaids, robots."" for this: "Give me a comma-separated list of 10 new examples of this thing with no other commentary or explanation: A PLURAL NOUN."
+[2024-03-18 17:37:18.931] DEBUGGING - JitbAi generated "['Bananas', 'unicorns', 'llamas', 'zombies', 'tacos', 'penguins', 'ninjas', 'aliens', 'mermaids', 'robots']" as bulk joke topics for the key "A PLURAL NOUN"
+[2024-03-18 17:37:19.560] DEBUGGING - A FOOD was requested as a vote topic but not present
+[2024-03-18 17:37:19.995] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-18 17:37:19.996] DEBUGGING - Polished "Pizza, tacos, sushi, ice cream, burgers, pasta, fried chicken, donuts, ramen, nachos" from "Pizza, tacos, sushi, ice cream, burgers, pasta, fried chicken, donuts, ramen, nachos." for this: "Give me a comma-separated list of 10 new examples of this thing with no other commentary or explanation: A FOOD."
+[2024-03-18 17:37:19.997] DEBUGGING - JitbAi generated "['Pizza', 'tacos', 'sushi', 'ice cream', 'burgers', 'pasta', 'fried chicken', 'donuts', 'ramen', 'nachos']" as bulk joke topics for the key "A FOOD"
+[2024-03-18 17:37:20.623] DEBUGGING - AN ANIMAL was requested as a vote topic but not present
+[2024-03-18 17:37:21.011] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-18 17:37:21.013] DEBUGGING - Successfully cleaned "Give me one example each for each of these, with no other commentary or explanation, in a comma-separated list: A BRAND, AN OBJECT, A FOOD, A LOCATION, A PLURAL NOUN, AN ANIMAL, A PERSON’S NAME" to "Give me one example each for each of these, with no other commentary or explanation, in a comma-separated list: A BRAND, AN OBJECT, A FOOD, A LOCATION, A PLURAL NOUN, AN ANIMAL, A PERSON'S NAME"
+[2024-03-18 17:37:21.013] DEBUGGING - Polished "Nike, toaster, pizza, beach, socks, llama, Bob" from "Nike, toaster, pizza, beach, socks, llama, Bob." for this: "Give me one example each for each of these, with no other commentary or explanation, in a comma-separated list: A BRAND, AN OBJECT, A FOOD, A LOCATION, A PLURAL NOUN, AN ANIMAL, A PERSON'S NAME"
+[2024-03-18 17:37:21.013] DEBUGGING - JitbAi answer "Give me one example each for each of these, with no other commentary or explanation, in a comma-separated list: A BRAND, AN OBJECT, A FOOD, A LOCATION, A PLURAL NOUN, AN ANIMAL, A PERSON’S NAME" with "Nike, toaster, pizza, beach, socks, llama, Bob"
+[2024-03-18 17:37:23.528] DEBUGGING - AN OBJECT was requested as a vote topic but not present
+[2024-03-18 17:37:23.528] DEBUGGING - Max number of Joke Topic requests have been made: 3
+[2024-03-18 17:37:28.128] DEBUGGING - This is a(n) JB_TOPIC page!
+[2024-03-18 17:37:32.755] DEBUGGING - This is a(n) JB_TOPIC page!
+[2024-03-18 17:37:37.412] DEBUGGING - This is a(n) JB_TOPIC page!
+[2024-03-18 17:37:42.073] DEBUGGING - This is a(n) JB_TOPIC page!
+[2024-03-18 17:37:46.727] DEBUGGING - This is a(n) JB_TOPIC page!
+[2024-03-18 17:37:51.373] DEBUGGING - This is a(n) JB_TOPIC page!
+[2024-03-18 17:37:56.010] DEBUGGING - This is a(n) JB_TOPIC page!
+[2024-03-18 17:38:00.651] DEBUGGING - This is a(n) JB_TOPIC page!
+[2024-03-18 17:38:07.284] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-03-18 17:38:09.314] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-03-18 17:38:17.236] DEBUGGING - This is a(n) VOTE page!
+[2024-03-18 17:38:19.703] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-18 17:38:19.704] DEBUGGING - OpenAI followed instructions and i want to open a store that only sells _______ was chosen
+[2024-03-18 17:38:19.766] DEBUGGING - Chose "i want to open a store that only sells _______" for "Joke 1 (of 2) Choose a joke set-up:"!
+[2024-03-18 17:38:20.437] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-18 17:38:20.438] DEBUGGING - OpenAI added words but we extracted eyeglasses from A. eyeglasses
+[2024-03-18 17:38:20.488] DEBUGGING - Chose "eyeglasses" for "Joke 1 (of 2) Complete your set-up: i want to open a store that only sells _______"!
+[2024-03-18 17:38:25.442] DEBUGGING - This is a(n) ANSWER page!
+[2024-03-18 17:38:27.894] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-18 17:38:27.895] DEBUGGING - Successfully cleaned "Joke 1 (of 2)
+Write your punchline:
+i want to open a store that only sells eyeglasses
+and call it _______" to "Joke 1 (of 2) Write your punchline: i want to open a store that only sells eyeglasses and call it _______"
+[2024-03-18 17:38:27.895] DEBUGGING - Polished "Specs-tacular!" from ""Specs-tacular!"" for this: "Joke 1 (of 2) Write your punchline: i want to open a store that only sells eyeglasses and call it _______"
+[2024-03-18 17:38:28.024] DEBUGGING - Answered prompt "Joke 1 (of 2)
+Write your punchline:
+i want to open a store that only sells eyeglasses
+and call it _______" with "Specs-tacular!"!
+[2024-03-18 17:38:32.613] DEBUGGING - This is a(n) VOTE page!
+[2024-03-18 17:38:35.062] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-18 17:38:35.064] DEBUGGING - OpenAI followed instructions and how many _______ does it take to change a light bulb? was chosen
+[2024-03-18 17:38:35.115] DEBUGGING - Chose "how many _______ does it take to change a light bulb?" for "Joke 2 (of 2) Choose a joke set-up:"!
+[2024-03-18 17:38:35.919] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-18 17:38:35.920] DEBUGGING - OpenAI added words but we extracted cults from B. cults
+[2024-03-18 17:38:35.978] DEBUGGING - Chose "cults" for "Joke 2 (of 2) Complete your set-up: how many _______ does it take to change a light bulb?"!
+[2024-03-18 17:38:40.978] DEBUGGING - This is a(n) ANSWER page!
+[2024-03-18 17:38:43.495] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-18 17:38:43.497] DEBUGGING - Successfully cleaned "Joke 2 (of 2)
+Write your punchline:
+how many cults does it take to change a light bulb?
+three. one to screw it in and two to _______" to "Joke 2 (of 2) Write your punchline: how many cults does it take to change a light bulb? three. one to screw it in and two to _______"
+[2024-03-18 17:38:43.497] DEBUGGING - Trimmed "argue over who's the true light bulb messiah." from "Two to argue over who's the true light bulb messiah." by removing overlap with this prompt: "Joke 2 (of 2) Write your punchline: how many cults does it take to change a light bulb? three. one to screw it in and two to _______"
+[2024-03-18 17:38:43.497] DEBUGGING - Polished "argue over who's the true light bulb messiah." from ""Two to argue over who's the true light bulb messiah."" for this: "Joke 2 (of 2) Write your punchline: how many cults does it take to change a light bulb? three. one to screw it in and two to _______"
+[2024-03-18 17:38:43.647] DEBUGGING - Answered prompt "Joke 2 (of 2)
+Write your punchline:
+how many cults does it take to change a light bulb?
+three. one to screw it in and two to _______" with "argue over who's the true light bulb messiah."!
+[2024-03-18 17:39:40.648] DEBUGGING - This is a(n) VOTE page!
+[2024-03-18 17:39:43.073] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-18 17:39:43.075] DEBUGGING - OpenAI followed instructions and my nickname is sunscreen because i block guys named ray. was chosen
+[2024-03-18 17:39:43.135] DEBUGGING - Chose "my nickname is sunscreen because i block guys named ray." for "Pick your favorite joke:"!
+[2024-03-18 17:39:55.129] DEBUGGING - This is a(n) JB_PERFORM page!
+[2024-03-18 17:41:06.972] DEBUGGING - This is a(n) JB_PERFORM page!
+[2024-03-18 17:42:28.070] DEBUGGING - This is a(n) VOTE page!
+[2024-03-18 17:42:30.543] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-18 17:42:30.544] DEBUGGING - OpenAI followed instructions and i’m so old i remember when _______ was was chosen
+[2024-03-18 17:42:30.605] DEBUGGING - Chose "i’m so old i remember when _______ was" for "Joke 1 (of 2) Choose a joke set-up:"!
+[2024-03-18 17:42:31.241] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-18 17:42:31.242] DEBUGGING - OpenAI added words but we extracted earl from B. earl
+[2024-03-18 17:42:31.296] DEBUGGING - Chose "earl" for "Joke 1 (of 2) Complete your set-up: i’m so old i remember when _______ was"!
+[2024-03-18 17:42:36.272] DEBUGGING - This is a(n) ANSWER page!
+[2024-03-18 17:42:38.784] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-18 17:42:38.786] DEBUGGING - Successfully cleaned "Joke 1 (of 2)
+Write your punchline:
+i’m so old i remember when earl was
+_______" to "Joke 1 (of 2) Write your punchline: i'm so old i remember when earl was _______"
+[2024-03-18 17:42:38.786] DEBUGGING - Trimmed "a baby!" from "i'm so old i remember when Earl was a baby!" by removing overlap with this prompt: "Joke 1 (of 2) Write your punchline: i'm so old i remember when earl was _______"
+[2024-03-18 17:42:38.786] DEBUGGING - Polished "a baby!" from ""i'm so old i remember when Earl was a baby!"" for this: "Joke 1 (of 2) Write your punchline: i'm so old i remember when earl was _______"
+[2024-03-18 17:42:38.899] DEBUGGING - Answered prompt "Joke 1 (of 2)
+Write your punchline:
+i’m so old i remember when earl was
+_______" with "a baby!"!
+[2024-03-18 17:42:43.505] DEBUGGING - This is a(n) VOTE page!
+[2024-03-18 17:42:46.246] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-18 17:42:46.247] DEBUGGING - OpenAI followed instructions and i like my sex like i like my _______: was chosen
+[2024-03-18 17:42:46.304] DEBUGGING - Chose "i like my sex like i like my _______:" for "Joke 2 (of 2) Choose a joke set-up:"!
+[2024-03-18 17:42:46.914] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-18 17:42:46.915] DEBUGGING - OpenAI followed instructions and pb&j was chosen
+[2024-03-18 17:42:46.966] DEBUGGING - Chose "pb&j" for "Joke 2 (of 2) Complete your set-up: i like my sex like i like my _______:"!
+[2024-03-18 17:42:51.916] DEBUGGING - This is a(n) ANSWER page!
+[2024-03-18 17:42:54.369] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-18 17:42:54.371] DEBUGGING - Successfully cleaned "Joke 2 (of 2)
+Write your punchline:
+i like my sex like i like my pb&j:
+_______" to "Joke 2 (of 2) Write your punchline: i like my sex like i like my pb&j: _______"
+[2024-03-18 17:42:54.371] DEBUGGING - Polished "Extra sticky and always satisfying." from ""Extra sticky and always satisfying."" for this: "Joke 2 (of 2) Write your punchline: i like my sex like i like my pb&j: _______"
+[2024-03-18 17:42:54.507] DEBUGGING - Answered prompt "Joke 2 (of 2)
+Write your punchline:
+i like my sex like i like my pb&j:
+_______" with "Extra sticky and always satisfying."!
+[2024-03-18 17:43:49.673] DEBUGGING - This is a(n) VOTE page!
+[2024-03-18 17:43:52.108] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-18 17:43:52.109] DEBUGGING - OpenAI followed instructions and a group of blenders walk into a bar and really mix things up. was chosen
+[2024-03-18 17:43:52.167] DEBUGGING - Chose "a group of blenders walk into a bar and really mix things up." for "Pick your favorite joke:"!
+[2024-03-18 17:44:32.769] DEBUGGING - This is a(n) JB_PERFORM page!
+[2024-03-18 17:45:11.251] DEBUGGING - This is a(n) JB_PERFORM page!
+[2024-03-18 17:46:52.610] DEBUGGING - This is a(n) VOTE page!
+[2024-03-18 17:46:55.137] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-18 17:46:55.138] DEBUGGING - OpenAI followed instructions and marriage is a lot like gucci: expensive. was chosen
+[2024-03-18 17:46:55.210] DEBUGGING - Chose "marriage is a lot like gucci: expensive." for "Pick the joke you want to compete against:"!
+[2024-03-18 17:47:00.140] DEBUGGING - This is a(n) ANSWER page!
+[2024-03-18 17:47:02.625] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-18 17:47:02.627] DEBUGGING - Successfully cleaned "Write the punchline to this joke:
+marriage is a lot like gucci:
+_______" to "Write the punchline to this joke: marriage is a lot like gucci: _______"
+[2024-03-18 17:47:02.627] DEBUGGING - Polished "Expensive and overrated, but everyone still wants it." from ""Expensive and overrated, but everyone still wants it."" for this: "Write the punchline to this joke: marriage is a lot like gucci: _______"
+[2024-03-18 17:47:02.789] DEBUGGING - Answered prompt "Write the punchline to this joke:
+marriage is a lot like gucci:
+_______" with "Expensive and overrated, but everyone still wants it."!
+[2024-03-18 17:47:24.125] DEBUGGING - This is a(n) JB_PERFORM page!
+[2024-03-18 17:48:19.287] DEBUGGING - This is a(n) VOTE page!
+[2024-03-18 17:48:21.763] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-18 17:48:21.764] DEBUGGING - OpenAI followed instructions and to write them down was chosen
+[2024-03-18 17:48:21.821] DEBUGGING - Chose "to write them down" for "Pick your favorite joke: my grandma said the best thing about passwords is _______"!
+[2024-03-18 17:48:59.741] DEBUGGING - This is a(n) VOTE page!
+[2024-03-18 17:49:02.324] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-18 17:49:02.325] DEBUGGING - OpenAI followed instructions and because hot and delicious was chosen
+[2024-03-18 17:49:02.375] DEBUGGING - Chose "because hot and delicious" for "Pick your favorite joke: i’m a nasty little panini because _______"!
+[2024-03-18 17:49:55.819] ERROR     - RuntimeError('The room was disconnected')

@@ -60,6 +60,7 @@ class TestJackboxGames(TediousUnitTest):
         super().tearDown()
         if self.web_driver:
             self.web_driver.quit()
+        Logger.shutdown()
 
     def call_callable(self) -> Any:
         """Child class defines test case callable.
