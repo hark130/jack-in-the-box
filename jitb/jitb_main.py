@@ -8,6 +8,7 @@ from jitb.jitb_openai import JitbAi
 from jitb.jitb_website import play_the_game
 
 
+# pylint: disable = broad-except
 def main() -> int:
     """Entry point function.
 
@@ -40,6 +41,7 @@ def main() -> int:
 
     # DONE
     return exit_code
+# pylint: enable = broad-except
 
 
 def _print_exception(error: Exception) -> None:

@@ -1,8 +1,10 @@
 """Miscellaneous functions used by JITB."""
-
-import unidecode
-import unicodedata
+# Standard
 import re
+import unicodedata
+import unidecode
+# Third Party
+# Local
 
 
 def char_filter(dirty_str: str):

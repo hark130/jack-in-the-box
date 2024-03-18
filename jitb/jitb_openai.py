@@ -502,8 +502,8 @@ def remove_punctuation(prompt: str, answer: str, min_len: int = 4) -> str:
         ValueError: Empty string.
     """
     # LOCAL VARIABLES
-    new_answer = answer  # A polished up version of answer
-    blank = '_' * 4      # Fill-in-the-blank substring
+    new_answer = answer    # A polished up version of answer
+    blank = '_' * min_len  # Fill-in-the-blank substring
 
     # INPUT VALIDATION
     _validate_string(prompt, 'prompt')

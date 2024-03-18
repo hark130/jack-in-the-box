@@ -238,8 +238,6 @@ class JbgJb(JbgAbc):
         """
         # LOCAL VARIABLES
         button_name = 'Perform the joke for me'  # Look for this button
-        buttons = []                             # All the buttons from web_driver
-        clicked_it = False                       # Was anything clicked?
 
         # INPUT VALIDATION
         if _is_perform_page(web_driver=web_driver):
@@ -281,7 +279,6 @@ class JbgJb(JbgAbc):
         prompt_text = ''     # Input prompt
         answer = ''          # Answer to the prompt
         prompt_input = None  # Web element for the prompt input field
-        buttons = []         # Web element for the submit button
         clicked_it = False   # Keep track of whether this prompt was answered or not
         num_loops = 5        # Number of attempts to make for a new prompt
 
@@ -336,7 +333,7 @@ class JbgJb(JbgAbc):
         if key.upper() == 'A LOCATION'.upper():
             len_limit = list_len * 10  # Maybe limiting the answer length will help
         ai_answer = self.generate_ai_answer(prompt=prompt, ai_obj=self._ai_obj,
-                                            length_limit=list_len * 10 * 2)
+                                            length_limit=len_limit)
         answers = _split_and_strip_answers(ai_answer)
 
         # STORE IT
@@ -401,7 +398,7 @@ class JbgJb(JbgAbc):
         actual_prompt = base_prompt.format(topic_list)
 
         # POPULATE IT
-        for num_request in range(num_requests):
+        for _ in range(num_requests):
             # Get topcs from JitbAi
             answer = self.generate_ai_answer(prompt=actual_prompt, ai_obj=self._ai_obj,
                                              length_limit=len(joke_topics) * 10 * 2)
@@ -610,7 +607,7 @@ def _click_a_button(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
             else:
                 clicked_it = True
             finally:
-                break
+                break  # pylint: disable = lost-exception
 
     # DONE
     return clicked_it
@@ -770,7 +767,6 @@ def _is_vote_page(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
 
 def _split_and_strip_answers(answer: str, delimiter: str = ',') -> List[str]:
     """Split a comma-separated answer into a list of strings stipped of garbage."""
-    strip_string = digits + punctuation + whitespace  # Strip these characters from list entries
     # List of split and stripped answers
     answers = [_strip_answer(entry) for entry in answer.split(delimiter) if entry]
     return answers

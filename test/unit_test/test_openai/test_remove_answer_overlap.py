@@ -27,6 +27,9 @@ class TestJitbOpenaiRemoveAnswerOverlap(TestJackboxGames):
     # CORE CLASS METHODS
     # Methods listed in call order
 
+    # pylint: disable = too-many-arguments
+    # I'm leaving it like this and Pylint will just have to deal.  I don't want to implement
+    # a whole NamedTuple, or some such container, just so Pylint is happy with test code.
     def run_test_success(self, in_prompt: str, in_answer: str, exp_result: str,
                          use_kwargs: bool = False, in_min_len: int = 4) -> None:
         """Wraps the calls to self.set_test_input(), self.expect_return() and self.run_test()."""

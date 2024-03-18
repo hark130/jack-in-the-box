@@ -151,6 +151,7 @@ class Logger():
         """
         logging.getLogger(logger).log(level, message)
 
+    @staticmethod
     def shutdown() -> None:
         """Call logging.shutdown()."""
         logging.shutdown()
