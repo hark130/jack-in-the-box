@@ -3,6 +3,7 @@
 # Standard
 from string import digits, punctuation, whitespace
 from typing import Final, List
+import random
 import time
 # Third Party
 from selenium.common.exceptions import (ElementNotInteractableException, NoSuchElementException,
@@ -219,11 +220,13 @@ class JbgJb(JbgAbc):
                 Logger.debug(f'{temp_key} was requested as a vote topic but not present')
                 if not self._gen_vote_topics(key=temp_key):
                     break  # There's no more requests to be had
-            prompt_input = get_web_element(web_driver, By.ID, 'input-text-textarea')
-            if prompt_input and self._joke_topic_dict[temp_key]:
+            # prompt_input = get_web_element(web_driver, By.ID, 'input-text-textarea')
+            # if prompt_input and self._joke_topic_dict[temp_key]:
+            if self._joke_topic_dict[temp_key]:
                 answer = self._joke_topic_dict[temp_key].pop()
-                prompt_input.send_keys(answer)
-                clicked_it = _click_a_button(web_driver=web_driver, button_str='SUBMIT')
+                if _submit_an_answer(web_driver=web_driver, field_str='input-text-textarea',
+                                     submit_text=answer):
+                    clicked_it = _click_a_button(web_driver=web_driver, button_str='SUBMIT')
             time.sleep(JITB_POLL_RATE)  # Give the page a chance to update
 
         # DONE
@@ -300,10 +303,13 @@ class JbgJb(JbgAbc):
 
         # ANSWER IT
         answer = self.generate_ai_answer(prompt=prompt_text, ai_obj=self._ai_obj, length_limit=80)
-        prompt_input = get_web_element(web_driver, By.ID, 'input-text-textarea')
-        if prompt_input:
-            prompt_input.send_keys(answer)
+        if _submit_an_answer(web_driver=web_driver, field_str='input-text-textarea',
+                             submit_text=answer):
             clicked_it = _click_a_button(web_driver=web_driver, button_str='SUBMIT')
+        # prompt_input = get_web_element(web_driver, By.ID, 'input-text-textarea')
+        # if prompt_input:
+        #     prompt_input.send_keys(answer)
+        #     clicked_it = _click_a_button(web_driver=web_driver, button_str='SUBMIT')
 
         # DONE
         if not clicked_it:
@@ -320,23 +326,32 @@ class JbgJb(JbgAbc):
             key: The key to use in the dictionary.
         """
         # LOCAL VARIABLES
-        list_len = 10                  # Number of entries to generate for key
-        len_limit = list_len * 10 * 2  # Length limit for query to AI
-        temp_key = key                 # Gives us a chance to mangle a key, for prompt engineering
+        prompt = ''     # Crafted prompt to pass to JitbAi()
+        list_len = 10   # Number of entries to generate for key
+        # len_limit = list_len * 10 * 2  # Length limit for query to AI
+        temp_key = key  # Gives us a chance to mangle a key, for prompt engineering
+        # A list of different "people" types
+        people_types = ['Famous', 'Fictional', 'Fairytale', 'Historical', 'Futuristic', 'Cartoon',
+                        'Book', 'Movie', 'Comic Book']
         if key.upper().startswith('A BRAND'.upper()):
-            prompt = f'Generate a list of {str(list_len)} well-known commercial brands, ' \
-                     + 'each separated by a comma.'
-        else:
-            prompt = f'Give me a comma-separated list of {str(list_len)} new examples of this ' \
+            prompt = f'Generate a list of {str(list_len)} well-known commercial brands.'
+        elif key.upper() == 'A PERSON’S NAME':
+            temp_key = f'A {random.choice(people_types).upper()} PERSON’S NAME'
+        if not prompt:
+            prompt = f'Give me a list of {str(list_len)} new examples of this ' \
                      + f'thing with no other commentary or explanation: {temp_key}.'
         # AI generated answer
-        if key.upper() == 'A LOCATION'.upper():
-            len_limit = list_len * 10  # Maybe limiting the answer length will help
-        ai_answer = self.generate_ai_answer(prompt=prompt, ai_obj=self._ai_obj,
-                                            length_limit=len_limit)
-        answers = _split_and_strip_answers(ai_answer)
+        # if key.upper() == 'A LOCATION'.upper():
+        #     len_limit = list_len * 10  # Maybe limiting the answer length will help
+        # ai_answer = self.generate_ai_answer(prompt=prompt, ai_obj=self._ai_obj,
+        #                                     length_limit=len_limit)
+        messages = [{'role': 'user', 'content': prompt}]
+        answer = self._ai_obj._create_content(messages=messages, add_base_msgs=False,
+                                              max_tokens=100)
+        answers = _split_and_strip_answers(answer, '\n')
 
         # STORE IT
+        print(f'JitbAi generated "{answers}" as bulk joke topics for the key "{key}"')  # DEBUGGING
         Logger.debug(f'JitbAi generated "{answers}" as bulk joke topics for the key "{key}"')
         self._add_to_joke_topic_dict(key=key, value=answers)
 
@@ -402,7 +417,7 @@ class JbgJb(JbgAbc):
             # Get topcs from JitbAi
             answer = self.generate_ai_answer(prompt=actual_prompt, ai_obj=self._ai_obj,
                                              length_limit=len(joke_topics) * 10 * 2)
-            Logger.debug(f'JitbAi answer "{actual_prompt}" with "{answer}"')
+            Logger.debug(f'JitbAi answered "{actual_prompt}" with "{answer}"')
             answers = _split_and_strip_answers(answer)
             # Populate internal dict
             for joke_topic, answer in zip(joke_topics, answers):
@@ -707,6 +722,36 @@ def _strip_answer(answer: str) -> str:
     if new_answer != answer:
         new_answer = _strip_answer(new_answer)  # Keep stripping until it's clean
     return new_answer
+
+
+def _submit_an_answer(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
+                      field_str: str, submit_text: str) -> bool:
+    """Standardize the way keys are sent to text fields.
+
+    Args:
+        web_driver: The webdriver object to interact with.
+        field_str: The name of the prompt to fill.
+
+    Returns:
+        True if successful, false otherwise.
+    """
+    # LOCAL VARIABLES
+    sent_it = False  # Return value
+
+    # SUBMIT IT
+    prompt_input = get_web_element(web_driver, By.ID, field_str)
+    if prompt_input:
+        try:
+            prompt_input.send_keys(submit_text)
+        except ElementNotInteractableException as err:
+            Logger.debug(f'Failed to submit "{submit_text}" into "{field_str}" with {repr(err)}')
+        else:
+            sent_it = True
+    else:
+        Logger.debug(f'Unable to locate "{field_str}" by ID')
+
+    # DONE
+    return sent_it
 
 
 def _validate_web_driver(web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> None:

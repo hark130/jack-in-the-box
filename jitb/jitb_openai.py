@@ -92,8 +92,12 @@ class JitbAi:
         answer = ''    # Answer to the provided prompt
         messages = []  # Local copy of messages to update with actual query
         # Base prompt to prompt OpenAI to generate a single answer to a prompt
-        content = f'Give me a funny answer, limited to {length_limit} characters, ' \
-                  + f'for the Jackbox game prompt "{prompt}".'
+        # content = f'Give me a funny answer, limited to {length_limit} characters, ' \
+        #           + f'for the Jackbox game prompt "{prompt}".'
+        # content = f'Provide a humorous response within {length_limit} characters ' \
+        #           + f'characters for the Jackbox game prompt: "{prompt}".'
+        content = f'Provide a humorous response within {length_limit} characters ' \
+                  + f'characters for this prompt: "{prompt}".'
 
         # CLASS VALIDATION
         self.setup()
@@ -200,7 +204,8 @@ class JitbAi:
         # DONE
         return favorite
 
-    def _create_content(self, messages: List, add_base_msgs: bool = True) -> str:
+    def _create_content(self, messages: List, add_base_msgs: bool = True,
+                        max_tokens: int = 50) -> str:
         """Communicate with OpenAI using the API.
 
         Args:
@@ -213,11 +218,14 @@ class JitbAi:
         local_msgs = messages  # Local copy of messages
         if add_base_msgs:
             local_msgs = self._base_messages + messages
+        print(f'LOCAL MESSAGES: {local_msgs}')  # DEBUGGING
         # chat.completion endpoint
         completion = self._client.chat.completions.create(model=self._model, messages=local_msgs,
-                                                          max_tokens=50,
+                                                          max_tokens=max_tokens,
                                                           temperature=self._base_temp)
         # Strip all leading and trailing newlines
+        print(f'COMPLETION: {completion}')  # DEBUGGING
+        print(f'RAW ANSWER: {completion.choices[0].message.content}')  # DEBUGGING
         answer = re.sub(r'^\n+|\n+$', '', completion.choices[0].message.content)
 
         # DONE
