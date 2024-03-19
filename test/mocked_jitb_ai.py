@@ -36,7 +36,7 @@ class MockedJitbAi(JitbAi):
                            'bubble gum', 'Maybe', 'Not sure', "It's possible", 'Could be.',
                            'Let me check', "Can't say", 'Likely', 'I doubt it',
                            "I'll think about it", 'Perhaps not', 'banana flavoring']
-        return random.choice(generic_answers)
+        return random.choice(generic_answers)[:length_limit]
 
     # pylint: disable = no-value-for-parameter
     def generate_thriplash(self, prompt: str, length_limit: int = 30,
@@ -44,7 +44,7 @@ class MockedJitbAi(JitbAi):
         """Get three response from generate_answer()."""
         answer_list = []
         for _ in range(3):
-            answer_list.append(self.generate_answer()[:length_limit])
+            answer_list.append(self.generate_answer(length_limit=length_limit))
 
     def vote_favorite(self, prompt: str, answers: list) -> str:
         """Randomly choose an answer."""
