@@ -26,7 +26,7 @@ def main() -> int:
     (room_code, username, debug) = parse_args()
     try:
         Logger.initialize(debugging=debug)
-        client = JitbAi(temperature=2.0)
+        client = JitbAi(temperature=1.0)
         client.setup()
         play_the_game(room_code=room_code, username=username, ai_obj=client)
     except Exception as err:
