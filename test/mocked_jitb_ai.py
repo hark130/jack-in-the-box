@@ -9,7 +9,7 @@ JitbAi methods, and even saves the sole constructor argument as an attribute.
 import random
 # Third Party Imports
 # Local Imports
-from jitb.jitb_openai import JitbAi
+from jitb.jitb_openai import JitbAi, MIN_FITB_LEN
 
 
 class MockedJitbAi(JitbAi):
@@ -29,7 +29,8 @@ class MockedJitbAi(JitbAi):
     def tear_down(self) -> None:
         """Do nothing."""
 
-    def generate_answer(self, prompt: str, length_limit: int = 45) -> str:
+    def generate_answer(self, prompt: str, length_limit: int = 45,
+                        min_len: int = MIN_FITB_LEN) -> str:
         """Randomize from a generic list of answers."""
         generic_answers = ['42', 'the meaning of life', 'nothing', 'no one remembers',
                            'bubble gum', 'Maybe', 'Not sure', "It's possible", 'Could be.',
@@ -38,7 +39,8 @@ class MockedJitbAi(JitbAi):
         return random.choice(generic_answers)
 
     # pylint: disable = no-value-for-parameter
-    def generate_thriplash(self, prompt: str, length_limit: int = 30) -> list:
+    def generate_thriplash(self, prompt: str, length_limit: int = 30,
+                           min_len: int = MIN_FITB_LEN) -> list:
         """Get three response from generate_answer()."""
         answer_list = []
         for _ in range(3):
