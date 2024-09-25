@@ -281,7 +281,6 @@ class JbgJb(JbgAbc):
         # LOCAL VARIABLES
         prompt_text = ''     # Input prompt
         answer = ''          # Answer to the prompt
-        prompt_input = None  # Web element for the prompt input field
         clicked_it = False   # Keep track of whether this prompt was answered or not
         num_loops = 5        # Number of attempts to make for a new prompt
 
@@ -306,10 +305,6 @@ class JbgJb(JbgAbc):
         if _submit_an_answer(web_driver=web_driver, field_str='input-text-textarea',
                              submit_text=answer):
             clicked_it = _click_a_button(web_driver=web_driver, button_str='SUBMIT')
-        # prompt_input = get_web_element(web_driver, By.ID, 'input-text-textarea')
-        # if prompt_input:
-        #     prompt_input.send_keys(answer)
-        #     clicked_it = _click_a_button(web_driver=web_driver, button_str='SUBMIT')
 
         # DONE
         if not clicked_it:
@@ -341,12 +336,8 @@ class JbgJb(JbgAbc):
             prompt = f'Give me a list of {str(list_len)} new examples of this ' \
                      + f'thing with no other commentary or explanation: {temp_key}.'
         # AI generated answer
-        # if key.upper() == 'A LOCATION'.upper():
-        #     len_limit = list_len * 10  # Maybe limiting the answer length will help
-        # ai_answer = self.generate_ai_answer(prompt=prompt, ai_obj=self._ai_obj,
-        #                                     length_limit=len_limit)
         messages = [{'role': 'user', 'content': prompt}]
-        answer = self._ai_obj._create_content(messages=messages, add_base_msgs=False,
+        answer = self._ai_obj.create_content(messages=messages, add_base_msgs=False,
                                               max_tokens=100)
         answers = _split_and_strip_answers(answer, '\n')
 

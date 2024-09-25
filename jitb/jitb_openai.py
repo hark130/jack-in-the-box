@@ -76,6 +76,33 @@ class JitbAi:
             self._client.close()
             self._client = None
 
+    def create_content(self, messages: List, add_base_msgs: bool = True,
+                        max_tokens: int = 50) -> str:
+        """Communicate with OpenAI using the API.
+
+        Args:
+            messages: A list of string to pass to the OpenAi API.
+            add_base_mesgs: Optional; If True, prepend messages with self._base_messages.
+
+        Returns:
+            The message content from the first choice.
+        """
+        local_msgs = messages  # Local copy of messages
+        if add_base_msgs:
+            local_msgs = self._base_messages + messages
+        print(f'LOCAL MESSAGES: {local_msgs}')  # DEBUGGING
+        # chat.completion endpoint
+        completion = self._client.chat.completions.create(model=self._model, messages=local_msgs,
+                                                          max_tokens=max_tokens,
+                                                          temperature=self._base_temp)
+        # Strip all leading and trailing newlines
+        print(f'COMPLETION: {completion}')  # DEBUGGING
+        print(f'RAW ANSWER: {completion.choices[0].message.content}')  # DEBUGGING
+        answer = re.sub(r'^\n+|\n+$', '', completion.choices[0].message.content)
+
+        # DONE
+        return answer
+
     def generate_answer(self, prompt: str, length_limit: int = 45,
                         min_len: int = MIN_FITB_LEN) -> str:
         """Prompt OpenAI to generate an answer for the given prompt.
@@ -108,7 +135,7 @@ class JitbAi:
                       + 'your answer makes sense grammatically.  Do not restate any part of ' \
                       + 'the orignal prompt in your answer.'
         messages.append({'role': 'user', 'content': content})
-        answer = self._create_content(messages=messages)
+        answer = self.create_content(messages=messages)
         answer = polish_answer(prompt=prompt, answer=answer, length_limit=length_limit)
 
         # DONE
@@ -146,7 +173,7 @@ class JitbAi:
                       + 'your answers make sense grammatically.  Do not restate any part of ' \
                       + 'the orignal prompt in your answer.'
         messages.append({'role': 'user', 'content': content})
-        raw_answer = self._create_content(messages=messages)
+        raw_answer = self.create_content(messages=messages)
         answers = [answer for answer in raw_answer.split('\n') if answer]
         # Validate results
         if not answers:
@@ -198,38 +225,11 @@ class JitbAi:
 
         # VOTE IT
         messages.append({'role': 'user', 'content': content})
-        answer = self._create_content(messages=messages)
+        answer = self.create_content(messages=messages)
         favorite = self._extract_favorite(answer, choice_dict)
 
         # DONE
         return favorite
-
-    def _create_content(self, messages: List, add_base_msgs: bool = True,
-                        max_tokens: int = 50) -> str:
-        """Communicate with OpenAI using the API.
-
-        Args:
-            messages: A list of string to pass to the OpenAi API.
-            add_base_mesgs: Optional; If True, prepend messages with self._base_messages.
-
-        Returns:
-            The message content from the first choice.
-        """
-        local_msgs = messages  # Local copy of messages
-        if add_base_msgs:
-            local_msgs = self._base_messages + messages
-        print(f'LOCAL MESSAGES: {local_msgs}')  # DEBUGGING
-        # chat.completion endpoint
-        completion = self._client.chat.completions.create(model=self._model, messages=local_msgs,
-                                                          max_tokens=max_tokens,
-                                                          temperature=self._base_temp)
-        # Strip all leading and trailing newlines
-        print(f'COMPLETION: {completion}')  # DEBUGGING
-        print(f'RAW ANSWER: {completion.choices[0].message.content}')  # DEBUGGING
-        answer = re.sub(r'^\n+|\n+$', '', completion.choices[0].message.content)
-
-        # DONE
-        return answer
 
     def _extract_favorite(self, answer: str, choices: dict) -> str:
         """Extract a favorite from created content.
