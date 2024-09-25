@@ -258,7 +258,7 @@ class JbgJb(JbgAbc):
     # Private Methods (alphabetical order)
     def _add_to_joke_topic_dict(self, key: str, value: List[str]) -> None:
         """Safely add key:value to self._joke_topic_dict."""
-        print(f'Adding {key} : {value} to self._joke_topic_dict')  # DEBUGGING
+        Logger.debug(f'Adding {key} : {value} to self._joke_topic_dict')
         if key in self._joke_topic_dict:
             self._joke_topic_dict[key].extend(value)
         else:
@@ -342,7 +342,6 @@ class JbgJb(JbgAbc):
         answers = _split_and_strip_answers(answer, '\n')
 
         # STORE IT
-        print(f'JitbAi generated "{answers}" as bulk joke topics for the key "{key}"')  # DEBUGGING
         Logger.debug(f'JitbAi generated "{answers}" as bulk joke topics for the key "{key}"')
         self._add_to_joke_topic_dict(key=key, value=answers)
 

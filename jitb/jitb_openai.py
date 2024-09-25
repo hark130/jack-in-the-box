@@ -90,14 +90,11 @@ class JitbAi:
         local_msgs = messages  # Local copy of messages
         if add_base_msgs:
             local_msgs = self._base_messages + messages
-        print(f'LOCAL MESSAGES: {local_msgs}')  # DEBUGGING
         # chat.completion endpoint
         completion = self._client.chat.completions.create(model=self._model, messages=local_msgs,
                                                           max_tokens=max_tokens,
                                                           temperature=self._base_temp)
         # Strip all leading and trailing newlines
-        print(f'COMPLETION: {completion}')  # DEBUGGING
-        print(f'RAW ANSWER: {completion.choices[0].message.content}')  # DEBUGGING
         answer = re.sub(r'^\n+|\n+$', '', completion.choices[0].message.content)
 
         # DONE
