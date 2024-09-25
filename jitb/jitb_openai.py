@@ -37,7 +37,6 @@ class JitbAi:
         self._base_messages = [
             {'role': 'system',
              'content': 'You are a funny person trying to win Jackbox Games.'},
-            # {'role': 'user', 'content': 'Tell me a funny joke.'}
         ]
         # Content message indications the OpenAI did not answer a query
         self._failure_content = [
@@ -116,10 +115,6 @@ class JitbAi:
         answer = ''    # Answer to the provided prompt
         messages = []  # Local copy of messages to update with actual query
         # Base prompt to prompt OpenAI to generate a single answer to a prompt
-        # content = f'Give me a funny answer, limited to {length_limit} characters, ' \
-        #           + f'for the Jackbox game prompt "{prompt}".'
-        # content = f'Provide a humorous response within {length_limit} characters ' \
-        #           + f'characters for the Jackbox game prompt: "{prompt}".'
         content = f'Provide a humorous response within {length_limit} characters ' \
                   + f'characters for this prompt: "{prompt}".'
 
