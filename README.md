@@ -1,6 +1,10 @@
 # jack-in-the-box
 Connecting Jackbox Games to the OpenAI API in Python3
 
+## DETAILS
+
+The current [OpenAi API](https://platform.openai.com/docs/guides/text-generation/chat-completions-api) being used.
+
 ## INSTRUCTIONS
 
 1. Clone the repo
