@@ -1,0 +1,683 @@
+[2024-09-24 21:15:24.722] DEBUGGING - This room code is a Joke Boat game
+[2024-09-24 21:15:29.018] DEBUGGING - This is a(n) JB_CATCH page!
+[2024-09-24 21:15:29.955] INFO      - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[2024-09-24 21:15:29.962] DEBUGGING - Successfully cleaned "Give me one example each for each of these, with no other commentary or explanation, in a comma-separated list: A BRAND, AN OBJECT, A FOOD, A LOCATION, A PLURAL NOUN, AN ANIMAL, A PERSON’S NAME" to "Give me one example each for each of these, with no other commentary or explanation, in a comma-separated list: A BRAND, AN OBJECT, A FOOD, A LOCATION, A PLURAL NOUN, AN ANIMAL, A PERSON'S NAME"
+[2024-09-24 21:15:29.963] DEBUGGING - Polished "Coca-Cola, Rubber Duck, Pizza, Las Vegas, Bananas, Llama, Susan" from "Coca-Cola, Rubber Duck, Pizza, Las Vegas, Bananas, Llama, Susan." for this: "Give me one example each for each of these, with no other commentary or explanation, in a comma-separated list: A BRAND, AN OBJECT, A FOOD, A LOCATION, A PLURAL NOUN, AN ANIMAL, A PERSON'S NAME"
+[2024-09-24 21:15:29.963] DEBUGGING - JitbAi answered "Give me one example each for each of these, with no other commentary or explanation, in a comma-separated list: A BRAND, AN OBJECT, A FOOD, A LOCATION, A PLURAL NOUN, AN ANIMAL, A PERSON’S NAME" with "Coca-Cola, Rubber Duck, Pizza, Las Vegas, Bananas, Llama, Susan"
+[2024-09-24 21:15:30.343] INFO      - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[2024-09-24 21:15:30.345] DEBUGGING - OpenAI followed instructions and enemy was chosen
+[2024-09-24 21:15:30.410] DEBUGGING - Chose "enemy" for "Select how to complete your catchphrase: give me _____!"!
+[2024-09-24 21:15:37.038] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:15:39.095] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:15:41.151] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:15:43.207] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:15:45.257] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:15:53.925] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:15:55.985] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:15:58.050] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:16:00.110] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:16:02.172] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:16:10.817] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:16:12.832] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:16:14.900] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:16:16.967] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:16:19.036] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:16:27.782] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:16:29.832] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:16:31.883] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:16:33.931] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:16:35.979] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:16:44.682] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:16:46.748] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:16:48.808] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:16:50.861] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:16:52.918] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:17:01.688] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:17:03.751] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:17:05.766] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:17:07.785] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:17:09.803] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:17:18.394] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:17:20.461] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:17:22.530] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:17:24.596] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:17:26.661] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:17:35.378] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:17:37.442] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:17:39.506] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:17:41.569] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:17:43.629] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:17:52.331] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:17:54.382] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:17:56.440] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:17:58.456] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:18:00.472] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:18:07.134] DEBUGGING - This is a(n) JB_TOPIC page!
+[2024-09-24 21:18:11.736] DEBUGGING - A FOOD was requested as a vote topic but not present
+[2024-09-24 21:18:12.995] INFO      - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[2024-09-24 21:18:12.997] DEBUGGING - JitbAi generated "['Grilled cheese sandwich', 'Sushi burrito', 'Cauliflower pizza crust', 'Acai bowl', 'Avocado toast', 'Kimchi fried rice', 'Watermelon pizza', 'Ramen burger', 'Cronut', 'Poke bowl']" as bulk joke topics for the key "A FOOD"
+[2024-09-24 21:18:13.654] DEBUGGING - A PLURAL NOUN was requested as a vote topic but not present
+[2024-09-24 21:18:14.409] INFO      - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[2024-09-24 21:18:14.411] DEBUGGING - JitbAi generated "['Cats', 'Trees', 'Books', 'Dogs', 'Mountains', 'Flowers', 'Rivers', 'Stars', 'Birds', 'Lakes']" as bulk joke topics for the key "A PLURAL NOUN"
+[2024-09-24 21:18:15.058] DEBUGGING - AN ANIMAL was requested as a vote topic but not present
+[2024-09-24 21:18:15.477] INFO      - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[2024-09-24 21:18:15.479] DEBUGGING - Successfully cleaned "Give me one example each for each of these, with no other commentary or explanation, in a comma-separated list: A BRAND, AN OBJECT, A FOOD, A LOCATION, A PLURAL NOUN, AN ANIMAL, A PERSON’S NAME" to "Give me one example each for each of these, with no other commentary or explanation, in a comma-separated list: A BRAND, AN OBJECT, A FOOD, A LOCATION, A PLURAL NOUN, AN ANIMAL, A PERSON'S NAME"
+[2024-09-24 21:18:15.479] DEBUGGING - JitbAi answered "Give me one example each for each of these, with no other commentary or explanation, in a comma-separated list: A BRAND, AN OBJECT, A FOOD, A LOCATION, A PLURAL NOUN, AN ANIMAL, A PERSON’S NAME" with "Nike, Spoon, Pizza, Paris, Cats, Monkey, Bob"
+[2024-09-24 21:18:18.686] DEBUGGING - A BRAND was requested as a vote topic but not present
+[2024-09-24 21:18:18.687] DEBUGGING - Max number of Joke Topic requests have been made: 3
+[2024-09-24 21:18:23.317] DEBUGGING - This is a(n) JB_TOPIC page!
+[2024-09-24 21:18:27.955] DEBUGGING - This is a(n) JB_TOPIC page!
+[2024-09-24 21:18:32.536] DEBUGGING - This is a(n) JB_TOPIC page!
+[2024-09-24 21:18:37.118] DEBUGGING - This is a(n) JB_TOPIC page!
+[2024-09-24 21:18:41.700] DEBUGGING - This is a(n) JB_TOPIC page!
+[2024-09-24 21:18:46.329] DEBUGGING - This is a(n) JB_TOPIC page!
+[2024-09-24 21:18:50.956] DEBUGGING - This is a(n) JB_TOPIC page!
+[2024-09-24 21:18:57.625] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:18:59.675] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:19:01.737] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:19:08.707] DEBUGGING - This is a(n) VOTE page!
+[2024-09-24 21:19:11.270] INFO      - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[2024-09-24 21:19:11.273] DEBUGGING - OpenAI followed instructions and my family is like _______: was chosen
+[2024-09-24 21:19:11.346] DEBUGGING - Chose "my family is like _______:" for "Joke 1 (of 2) Choose a joke set-up:"!
+[2024-09-24 21:19:12.101] INFO      - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[2024-09-24 21:19:12.104] DEBUGGING - OpenAI added words but we extracted thor from C. thor
+[2024-09-24 21:19:12.177] DEBUGGING - Chose "thor" for "Joke 1 (of 2) Complete your set-up: my family is like _______:"!
+[2024-09-24 21:19:17.158] DEBUGGING - This is a(n) ANSWER page!
+[2024-09-24 21:19:19.790] INFO      - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[2024-09-24 21:19:19.792] DEBUGGING - Successfully cleaned "Joke 1 (of 2)
+Write your punchline:
+my family is like thor:
+_______" to "Joke 1 (of 2) Write your punchline: my family is like thor: _______"
+[2024-09-24 21:19:19.951] DEBUGGING - Answered prompt "Joke 1 (of 2)
+Write your punchline:
+my family is like thor:
+_______" with "They are always hammering me with questions!"!
+[2024-09-24 21:19:24.606] DEBUGGING - This is a(n) VOTE page!
+[2024-09-24 21:19:27.152] INFO      - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[2024-09-24 21:19:27.155] DEBUGGING - OpenAI followed instructions and what’s the difference between most people and _______? was chosen
+[2024-09-24 21:19:27.227] DEBUGGING - Chose "what’s the difference between most people and _______?" for "Joke 2 (of 2) Choose a joke set-up:"!
+[2024-09-24 21:19:28.670] INFO      - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[2024-09-24 21:19:28.672] DEBUGGING - OpenAI added words but we extracted toys from B. toys
+[2024-09-24 21:19:28.742] DEBUGGING - Chose "toys" for "Joke 2 (of 2) Complete your set-up: what’s the difference between most people and _______?"!
+[2024-09-24 21:19:33.689] DEBUGGING - This is a(n) ANSWER page!
+[2024-09-24 21:19:36.361] INFO      - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[2024-09-24 21:19:36.363] DEBUGGING - Successfully cleaned "Joke 2 (of 2)
+Write your punchline:
+what’s the difference between most people and toys?
+_______" to "Joke 2 (of 2) Write your punchline: what's the difference between most people and toys? _______"
+[2024-09-24 21:19:36.523] DEBUGGING - Answered prompt "Joke 2 (of 2)
+Write your punchline:
+what’s the difference between most people and toys?
+_______" with "One is easily forgotten, the other is toys."!
+[2024-09-24 21:19:43.225] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:19:45.288] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:19:47.353] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:19:49.419] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:19:51.484] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:20:00.134] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:20:02.158] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:20:04.181] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:20:06.204] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:20:08.227] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:20:14.923] DEBUGGING - This is a(n) JB_PERFORM page!
+[2024-09-24 21:20:21.711] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:20:23.781] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:20:25.844] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:20:27.911] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:20:29.927] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:20:38.506] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:20:40.576] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:20:42.592] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:20:44.607] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:20:46.678] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:20:55.280] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:20:57.343] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:20:59.404] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:21:01.465] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:21:03.528] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:21:12.218] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:21:14.287] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:21:16.357] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:21:18.425] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:21:20.495] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:21:27.139] DEBUGGING - This is a(n) JB_PERFORM page!
+[2024-09-24 21:21:33.785] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:21:35.802] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:21:37.817] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:21:39.836] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:21:41.852] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:21:50.445] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:21:52.514] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:21:54.578] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:21:56.644] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:21:58.710] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:22:07.369] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:22:09.395] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:22:11.419] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:22:13.490] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:22:15.506] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:22:24.100] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:22:26.118] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:22:28.136] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:22:30.206] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:22:32.274] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:22:38.918] DEBUGGING - This is a(n) VOTE page!
+[2024-09-24 21:22:42.576] INFO      - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[2024-09-24 21:22:42.578] DEBUGGING - OpenAI added words but we extracted why did the spoon cross the road? it’s silver from B.
+[2024-09-24 21:22:42.661] DEBUGGING - Chose "why did the spoon cross the road? it’s silver" for "Pick your favorite joke:"!
+[2024-09-24 21:22:45.016] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:22:51.649] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:22:53.665] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:22:55.735] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:22:57.753] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:22:59.817] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:23:08.466] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:23:10.489] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:23:12.511] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:23:14.532] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:23:16.556] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:23:25.175] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:23:27.200] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:23:29.227] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:23:36.200] DEBUGGING - This is a(n) VOTE page!
+[2024-09-24 21:23:38.834] INFO      - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[2024-09-24 21:23:38.836] DEBUGGING - OpenAI added words but we extracted i’m so old i remember when _______ was from B.
+[2024-09-24 21:23:38.915] DEBUGGING - Chose "i’m so old i remember when _______ was" for "Joke 1 (of 2) Choose a joke set-up:"!
+[2024-09-24 21:23:39.713] INFO      - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[2024-09-24 21:23:39.715] DEBUGGING - OpenAI added words but we extracted bubbah from A. bubbah
+[2024-09-24 21:23:39.777] DEBUGGING - Chose "bubbah" for "Joke 1 (of 2) Complete your set-up: i’m so old i remember when _______ was"!
+[2024-09-24 21:23:44.731] DEBUGGING - This is a(n) ANSWER page!
+[2024-09-24 21:23:47.312] INFO      - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[2024-09-24 21:23:47.314] DEBUGGING - Successfully cleaned "Joke 1 (of 2)
+Write your punchline:
+i’m so old i remember when bubbah was
+_______" to "Joke 1 (of 2) Write your punchline: i'm so old i remember when bubbah was _______"
+[2024-09-24 21:23:47.468] DEBUGGING - Answered prompt "Joke 1 (of 2)
+Write your punchline:
+i’m so old i remember when bubbah was
+_______" with "a mere baby bean sprout."!
+[2024-09-24 21:23:52.104] DEBUGGING - This is a(n) VOTE page!
+[2024-09-24 21:23:55.289] INFO      - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[2024-09-24 21:23:55.291] DEBUGGING - OpenAI added words but we extracted i call my bedroom the _______ from B. i call my bedroom the _______.
+[2024-09-24 21:23:55.366] DEBUGGING - Chose "i call my bedroom the _______" for "Joke 2 (of 2) Choose a joke set-up:"!
+[2024-09-24 21:23:56.103] INFO      - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[2024-09-24 21:23:56.105] DEBUGGING - OpenAI added words but we extracted barn from B. barn
+[2024-09-24 21:23:56.165] DEBUGGING - Chose "barn" for "Joke 2 (of 2) Complete your set-up: i call my bedroom the _______"!
+[2024-09-24 21:24:01.113] DEBUGGING - This is a(n) ANSWER page!
+[2024-09-24 21:24:03.768] INFO      - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[2024-09-24 21:24:03.770] DEBUGGING - Successfully cleaned "Joke 2 (of 2)
+Write your punchline:
+i call my bedroom the barn
+because _______" to "Joke 2 (of 2) Write your punchline: i call my bedroom the barn because _______"
+[2024-09-24 21:24:03.928] DEBUGGING - Answered prompt "Joke 2 (of 2)
+Write your punchline:
+i call my bedroom the barn
+because _______" with "that's where all the pigs in blankets sleep!"!
+[2024-09-24 21:24:10.592] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:24:12.660] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:24:14.726] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:24:16.791] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:24:18.856] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:24:27.497] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:24:29.562] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:24:31.623] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:24:33.680] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:24:35.738] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:24:44.369] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:24:46.435] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:24:48.500] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:24:50.565] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:24:52.631] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:25:01.320] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:25:03.388] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:25:05.454] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:25:07.518] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:25:09.583] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:25:18.299] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:25:20.354] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:25:22.411] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:25:22.925] DEBUGGING - This is a(n) JB_PERFORM page!
+[2024-09-24 21:25:29.643] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:25:31.685] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:25:33.726] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:25:35.768] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:25:37.808] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:25:46.482] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:25:48.550] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:25:50.615] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:25:52.679] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:26:01.006] DEBUGGING - This is a(n) JB_PERFORM page!
+[2024-09-24 21:26:07.752] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:26:09.820] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:26:11.887] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:26:13.958] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:26:16.028] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:26:24.690] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:26:26.717] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:26:28.743] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:26:30.769] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:26:32.790] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:26:41.384] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:26:43.451] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:26:45.521] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:26:47.583] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:26:49.635] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:26:58.268] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:27:00.291] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:27:02.313] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:27:04.383] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:27:06.451] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:27:15.102] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:27:17.120] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:27:19.137] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:27:21.203] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:27:23.272] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:27:29.945] DEBUGGING - This is a(n) VOTE page!
+[2024-09-24 21:27:32.546] INFO      - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[2024-09-24 21:27:32.548] DEBUGGING - OpenAI added words but we extracted i’m so dumb i thought lakes were big puddles from B.
+[2024-09-24 21:27:32.620] DEBUGGING - Chose "i’m so dumb i thought lakes were big puddles" for "Pick your favorite joke:"!
+[2024-09-24 21:27:34.990] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:27:41.560] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:27:43.577] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:27:45.596] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:27:47.616] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:27:49.683] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:27:58.396] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:28:00.454] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:28:02.513] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:28:04.574] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:28:06.631] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:28:15.360] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:28:17.426] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:28:19.494] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:28:21.553] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:28:29.484] DEBUGGING - This is a(n) VOTE page!
+[2024-09-24 21:28:32.101] INFO      - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[2024-09-24 21:28:32.104] DEBUGGING - OpenAI followed instructions and middle school for me was like guy fieri: loud and obnoxious was chosen
+[2024-09-24 21:28:32.172] DEBUGGING - Chose "middle school for me was like guy fieri: loud and obnoxious" for "Pick the joke you want to compete against:"!
+[2024-09-24 21:28:37.140] DEBUGGING - This is a(n) ANSWER page!
+[2024-09-24 21:28:39.779] INFO      - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[2024-09-24 21:28:39.781] DEBUGGING - Successfully cleaned "Write the punchline to this joke:
+middle school for me was like guy fieri:
+_______" to "Write the punchline to this joke: middle school for me was like guy fieri: _______"
+[2024-09-24 21:28:39.945] DEBUGGING - Answered prompt "Write the punchline to this joke:
+middle school for me was like guy fieri:
+_______" with "...a wild and flavor-packed ride of questionable choices!"!
+[2024-09-24 21:28:46.622] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:28:48.667] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:28:50.712] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:28:52.756] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:28:54.802] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:29:03.468] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:29:05.536] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:29:07.605] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:29:09.671] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:29:11.736] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:29:18.409] DEBUGGING - This is a(n) JB_PERFORM page!
+[2024-09-24 21:29:25.172] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:29:27.233] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:29:29.286] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:29:31.339] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:29:33.392] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:29:42.062] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:29:44.120] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:29:46.178] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:29:48.233] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:29:50.291] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:29:59.033] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:30:01.089] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:30:03.151] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:30:05.212] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:30:07.270] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:30:16.007] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:30:18.067] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:30:20.124] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:30:22.183] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:30:24.243] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:30:32.970] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:30:35.017] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:30:37.064] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:30:39.114] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:30:46.632] DEBUGGING - This is a(n) VOTE page!
+[2024-09-24 21:30:49.172] INFO      - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[2024-09-24 21:30:49.174] DEBUGGING - OpenAI followed instructions and it’s fruity was chosen
+[2024-09-24 21:30:49.252] DEBUGGING - Chose "it’s fruity" for "Pick your favorite joke: marriage is a lot like bananas: _______"!
+[2024-09-24 21:30:51.624] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:30:58.226] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:31:00.290] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:31:02.357] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:31:04.422] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:31:06.489] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:31:15.261] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:31:17.327] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:31:19.347] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:31:21.416] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:31:23.433] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:31:32.078] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:31:34.146] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:31:36.213] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:31:38.230] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:31:40.250] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:31:46.868] DEBUGGING - This is a(n) JB_TOPIC page!
+[2024-09-24 21:31:46.916] DEBUGGING - A LOCATION was requested as a vote topic but not present
+[2024-09-24 21:31:48.086] INFO      - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[2024-09-24 21:31:48.088] DEBUGGING - JitbAi generated "['Abandoned amusement park', 'Underground cave system', 'Floating city', 'Deserted island', 'Haunted mansion', 'Secret underwater city', 'Bio-dome on another planet', 'Ancient temple in the jungle', 'Futuristic urban metropolis', 'Mountain peak sanctuary']" as bulk joke topics for the key "A LOCATION"
+[2024-09-24 21:31:48.778] DEBUGGING - A PERSON’S NAME was requested as a vote topic but not present
+[2024-09-24 21:31:49.791] INFO      - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[2024-09-24 21:31:49.793] DEBUGGING - JitbAi generated "['Alice Bennett', 'Oliver Matthews', 'Emily Johnson', 'Samuel Clarke', 'Sophia Parker', 'Jacob Wilson', 'Lily Morgan', 'Isaac Reed', 'Charlotte Allen', 'Lucas Thompson']" as bulk joke topics for the key "A PERSON’S NAME"
+[2024-09-24 21:31:50.451] DEBUGGING - AN ANIMAL was requested as a vote topic but not present
+[2024-09-24 21:31:51.464] INFO      - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[2024-09-24 21:31:51.466] DEBUGGING - Successfully cleaned "Give me one example each for each of these, with no other commentary or explanation, in a comma-separated list: A BRAND, AN OBJECT, A FOOD, A LOCATION, A PLURAL NOUN, AN ANIMAL, A PERSON’S NAME" to "Give me one example each for each of these, with no other commentary or explanation, in a comma-separated list: A BRAND, AN OBJECT, A FOOD, A LOCATION, A PLURAL NOUN, AN ANIMAL, A PERSON'S NAME"
+[2024-09-24 21:31:51.467] DEBUGGING - JitbAi answered "Give me one example each for each of these, with no other commentary or explanation, in a comma-separated list: A BRAND, AN OBJECT, A FOOD, A LOCATION, A PLURAL NOUN, AN ANIMAL, A PERSON’S NAME" with "Nike, toaster, pizza, Paris, cats, llama, Larry"
+[2024-09-24 21:31:54.683] DEBUGGING - AN OBJECT was requested as a vote topic but not present
+[2024-09-24 21:31:54.683] DEBUGGING - Max number of Joke Topic requests have been made: 3
+[2024-09-24 21:31:59.313] DEBUGGING - This is a(n) JB_TOPIC page!
+[2024-09-24 21:32:03.987] DEBUGGING - This is a(n) JB_TOPIC page!
+[2024-09-24 21:32:08.625] DEBUGGING - This is a(n) JB_TOPIC page!
+[2024-09-24 21:32:13.269] DEBUGGING - This is a(n) JB_TOPIC page!
+[2024-09-24 21:32:17.873] DEBUGGING - This is a(n) JB_TOPIC page!
+[2024-09-24 21:32:22.495] DEBUGGING - This is a(n) JB_TOPIC page!
+[2024-09-24 21:32:27.105] DEBUGGING - This is a(n) JB_TOPIC page!
+[2024-09-24 21:32:31.714] DEBUGGING - This is a(n) JB_TOPIC page!
+[2024-09-24 21:32:38.391] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:32:46.649] DEBUGGING - This is a(n) VOTE page!
+[2024-09-24 21:32:49.165] INFO      - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[2024-09-24 21:32:49.167] DEBUGGING - OpenAI followed instructions and why did the _______ cross the road? was chosen
+[2024-09-24 21:32:49.235] DEBUGGING - Chose "why did the _______ cross the road?" for "Joke 1 (of 2) Choose a joke set-up:"!
+[2024-09-24 21:32:50.183] INFO      - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[2024-09-24 21:32:50.185] DEBUGGING - OpenAI added words but we extracted socks from A. socks
+[2024-09-24 21:32:50.241] DEBUGGING - Chose "socks" for "Joke 1 (of 2) Complete your set-up: why did the _______ cross the road?"!
+[2024-09-24 21:32:55.236] DEBUGGING - This is a(n) ANSWER page!
+[2024-09-24 21:32:57.776] INFO      - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[2024-09-24 21:32:57.779] DEBUGGING - Successfully cleaned "Joke 1 (of 2)
+Write your punchline:
+why did the socks cross the road?
+_______" to "Joke 1 (of 2) Write your punchline: why did the socks cross the road? _______"
+[2024-09-24 21:32:57.903] DEBUGGING - Answered prompt "Joke 1 (of 2)
+Write your punchline:
+why did the socks cross the road?
+_______" with "To get to the other foot!"!
+[2024-09-24 21:33:02.511] DEBUGGING - This is a(n) VOTE page!
+[2024-09-24 21:33:05.112] INFO      - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[2024-09-24 21:33:05.114] DEBUGGING - OpenAI followed instructions and my hometown’s nickname is the _______ was chosen
+[2024-09-24 21:33:05.177] DEBUGGING - Chose "my hometown’s nickname is the _______" for "Joke 2 (of 2) Choose a joke set-up:"!
+[2024-09-24 21:33:06.025] INFO      - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[2024-09-24 21:33:06.027] DEBUGGING - OpenAI added words but we extracted backstage from C. backstage
+[2024-09-24 21:33:06.094] DEBUGGING - Chose "backstage" for "Joke 2 (of 2) Complete your set-up: my hometown’s nickname is the _______"!
+[2024-09-24 21:33:11.078] DEBUGGING - This is a(n) ANSWER page!
+[2024-09-24 21:33:13.647] INFO      - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[2024-09-24 21:33:13.649] DEBUGGING - Successfully cleaned "Joke 2 (of 2)
+Write your punchline:
+my hometown’s nickname is the backstage
+because _______" to "Joke 2 (of 2) Write your punchline: my hometown's nickname is the backstage because _______"
+[2024-09-24 21:33:13.791] DEBUGGING - Answered prompt "Joke 2 (of 2)
+Write your punchline:
+my hometown’s nickname is the backstage
+because _______" with "that's where you'll find all the drama!"!
+[2024-09-24 21:33:20.414] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:33:22.450] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:33:24.485] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:33:26.529] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:33:28.571] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:33:37.229] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:33:39.279] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:33:41.330] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:33:43.381] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:33:45.431] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:33:54.072] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:33:56.123] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:33:58.173] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:34:00.223] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:34:02.275] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:34:11.014] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:34:13.064] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:34:15.111] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:34:17.159] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:34:19.208] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:34:27.948] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:34:30.009] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:34:30.708] DEBUGGING - This is a(n) JB_PERFORM page!
+[2024-09-24 21:34:37.462] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:34:39.510] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:34:41.553] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:34:43.600] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:34:45.642] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:34:54.365] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:34:56.405] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:34:58.446] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:35:00.486] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:35:02.529] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:35:11.213] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:35:13.262] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:35:15.315] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:35:17.367] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:35:19.419] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:35:28.163] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:35:30.217] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:35:32.268] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:35:34.322] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:35:36.378] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:35:44.860] DEBUGGING - This is a(n) VOTE page!
+[2024-09-24 21:35:47.421] INFO      - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[2024-09-24 21:35:47.423] DEBUGGING - OpenAI went crazy with I choose B. so i want to open a store that only sells condoms and call it reused rubbers was chosen randomly
+[2024-09-24 21:35:47.491] DEBUGGING - Chose "i want to open a store that only sells condoms and call it reused rubbers" for "Pick your favorite joke:"!
+[2024-09-24 21:35:49.841] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:35:56.486] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:35:58.527] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:36:00.568] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:36:01.239] DEBUGGING - This is a(n) JB_PERFORM page!
+[2024-09-24 21:36:07.977] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:36:10.031] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:36:12.086] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:36:14.143] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:36:16.194] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:36:24.896] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:36:26.936] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:36:28.976] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:36:31.016] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:36:33.058] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:36:41.786] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:36:43.840] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:36:45.898] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:36:47.959] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:36:50.019] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:36:58.752] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:37:00.798] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:37:02.844] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:37:04.890] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:37:06.935] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:37:15.647] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:37:17.701] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:37:19.755] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:37:21.807] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:37:23.866] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:37:30.552] DEBUGGING - This is a(n) VOTE page!
+[2024-09-24 21:37:33.041] INFO      - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[2024-09-24 21:37:33.043] DEBUGGING - OpenAI added words but we extracted you ever notice how _______ are just a fancy version of from B.
+[2024-09-24 21:37:33.119] DEBUGGING - Chose "you ever notice how _______ are just a fancy version of" for "Joke 1 (of 2) Choose a joke set-up:"!
+[2024-09-24 21:37:33.883] INFO      - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[2024-09-24 21:37:33.885] DEBUGGING - OpenAI added words but we extracted shirts from A. shirts
+[2024-09-24 21:37:33.939] DEBUGGING - Chose "shirts" for "Joke 1 (of 2) Complete your set-up: you ever notice how _______ are just a fancy version of"!
+[2024-09-24 21:37:38.949] DEBUGGING - This is a(n) ANSWER page!
+[2024-09-24 21:37:43.164] INFO      - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[2024-09-24 21:37:43.170] DEBUGGING - Successfully cleaned "Joke 1 (of 2)
+Write your punchline:
+you ever notice how shirts are just a fancy version of
+_______?" to "Joke 1 (of 2) Write your punchline: you ever notice how shirts are just a fancy version of _______?"
+[2024-09-24 21:37:43.324] DEBUGGING - Answered prompt "Joke 1 (of 2)
+Write your punchline:
+you ever notice how shirts are just a fancy version of
+_______?" with "nakedness on the top half"!
+[2024-09-24 21:37:47.941] DEBUGGING - This is a(n) VOTE page!
+[2024-09-24 21:37:50.525] INFO      - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[2024-09-24 21:37:50.527] DEBUGGING - OpenAI followed instructions and marriage is a lot like _______: was chosen
+[2024-09-24 21:37:50.591] DEBUGGING - Chose "marriage is a lot like _______:" for "Joke 2 (of 2) Choose a joke set-up:"!
+[2024-09-24 21:37:51.391] INFO      - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[2024-09-24 21:37:51.393] DEBUGGING - OpenAI added words but we extracted professional wrestlers from B. professional wrestlers
+[2024-09-24 21:37:51.455] DEBUGGING - Chose "professional wrestlers" for "Joke 2 (of 2) Complete your set-up: marriage is a lot like _______:"!
+[2024-09-24 21:37:56.420] DEBUGGING - This is a(n) ANSWER page!
+[2024-09-24 21:37:59.068] INFO      - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[2024-09-24 21:37:59.070] DEBUGGING - Successfully cleaned "Joke 2 (of 2)
+Write your punchline:
+marriage is a lot like professional wrestlers:
+_______" to "Joke 2 (of 2) Write your punchline: marriage is a lot like professional wrestlers: _______"
+[2024-09-24 21:37:59.070] DEBUGGING - Successfully cleaned "Sometimes it’s fake, but the entertainment is always real!" to "Sometimes it's fake, but the entertainment is always real!"
+[2024-09-24 21:37:59.071] DEBUGGING - Polished "Sometimes it's fake, but the entertainment is always real!" from "Sometimes it’s fake, but the entertainment is always real!" for this: "Joke 2 (of 2) Write your punchline: marriage is a lot like professional wrestlers: _______"
+[2024-09-24 21:37:59.236] DEBUGGING - Answered prompt "Joke 2 (of 2)
+Write your punchline:
+marriage is a lot like professional wrestlers:
+_______" with "Sometimes it's fake, but the entertainment is always real!"!
+[2024-09-24 21:38:05.878] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:38:07.921] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:38:09.964] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:38:12.006] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:38:14.048] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:38:22.760] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:38:24.809] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:38:26.863] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:38:28.916] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:38:30.968] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:38:39.717] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:38:41.779] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:38:43.840] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:38:45.901] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:38:47.964] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:38:56.725] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:38:58.264] DEBUGGING - This is a(n) JB_PERFORM page!
+[2024-09-24 21:39:05.015] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:39:07.063] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:39:09.113] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:39:11.163] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:39:13.212] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:39:21.834] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:39:23.850] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:39:25.913] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:39:27.977] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:39:30.040] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:39:38.815] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:39:40.877] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:39:42.940] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:39:45.002] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:39:47.060] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:39:55.753] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:39:57.817] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:39:59.877] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:40:01.940] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:40:04.006] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:40:12.682] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:40:14.746] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:40:16.807] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:40:18.866] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:40:20.926] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:40:29.637] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:40:31.694] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:40:33.752] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:40:35.812] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:40:37.869] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:40:44.580] DEBUGGING - This is a(n) VOTE page!
+[2024-09-24 21:40:47.152] INFO      - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[2024-09-24 21:40:47.154] DEBUGGING - OpenAI followed instructions and a group of hashtags walk into a bar and #yolo was chosen
+[2024-09-24 21:40:47.232] DEBUGGING - Chose "a group of hashtags walk into a bar and #yolo" for "Pick your favorite joke:"!
+[2024-09-24 21:40:49.572] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:40:56.259] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:40:58.305] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:41:00.348] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:41:02.391] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:41:04.435] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:41:13.116] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:41:15.163] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:41:17.212] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:41:19.263] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:41:26.038] DEBUGGING - This is a(n) JB_PERFORM page!
+[2024-09-24 21:41:32.788] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:41:34.838] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:41:36.888] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:41:38.942] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:41:40.990] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:41:49.735] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:41:51.793] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:41:53.852] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:41:55.911] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:41:57.949] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:42:06.654] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:42:08.711] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:42:10.771] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:42:12.808] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:42:14.845] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:42:23.548] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:42:25.613] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:42:27.669] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:42:29.712] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:42:31.756] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:42:38.992] DEBUGGING - This is a(n) VOTE page!
+[2024-09-24 21:42:41.656] INFO      - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[2024-09-24 21:42:41.659] DEBUGGING - OpenAI followed instructions and how many streaming services does it take to change a light bulb? three. one to screw it in and two to charge you for the service was chosen
+[2024-09-24 21:42:41.728] DEBUGGING - Chose "how many streaming services does it take to change a light bulb? three. one to screw it in and two to charge you for the service" for "Pick the joke you want to compete against:"!
+[2024-09-24 21:42:46.712] DEBUGGING - This is a(n) ANSWER page!
+[2024-09-24 21:42:49.598] INFO      - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[2024-09-24 21:42:49.600] DEBUGGING - Successfully cleaned "Write the punchline to this joke:
+how many streaming services does it take to change a light bulb?
+three. one to screw it in and two to _______" to "Write the punchline to this joke: how many streaming services does it take to change a light bulb? three. one to screw it in and two to _______"
+[2024-09-24 21:42:49.761] DEBUGGING - Answered prompt "Write the punchline to this joke:
+how many streaming services does it take to change a light bulb?
+three. one to screw it in and two to _______" with "argue over who has the best original content."!
+[2024-09-24 21:42:56.381] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:42:58.421] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:43:00.465] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:43:02.510] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:43:04.553] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:43:13.294] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:43:15.357] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:43:17.420] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:43:19.490] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:43:21.555] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:43:28.285] DEBUGGING - This is a(n) JB_PERFORM page!
+[2024-09-24 21:43:35.019] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:43:37.067] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:43:39.111] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:43:41.154] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:43:43.197] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:43:51.912] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:43:53.958] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:43:56.002] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:43:58.045] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:44:00.065] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:44:08.799] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:44:10.845] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:44:12.884] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:44:14.924] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:44:16.969] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:44:25.651] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:44:32.859] DEBUGGING - This is a(n) VOTE page!
+[2024-09-24 21:44:35.390] INFO      - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[2024-09-24 21:44:35.392] DEBUGGING - OpenAI followed instructions and because i sleep all day and demand to be fed was chosen
+[2024-09-24 21:44:35.471] DEBUGGING - Chose "because i sleep all day and demand to be fed" for "Pick your favorite joke: my doctor said i have a bad case of the cats because _______"!
+[2024-09-24 21:44:37.831] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:44:44.508] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:44:46.578] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:44:48.640] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:44:50.697] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:44:52.755] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:45:01.498] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:45:03.558] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:45:11.600] DEBUGGING - This is a(n) VOTE page!
+[2024-09-24 21:45:14.138] INFO      - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[2024-09-24 21:45:14.140] DEBUGGING - OpenAI followed instructions and close, but not too close was chosen
+[2024-09-24 21:45:14.206] DEBUGGING - Chose "close, but not too close" for "Pick your favorite joke: i like my friends like i like my planets: _______"!
+[2024-09-24 21:45:16.553] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:45:23.216] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:45:25.281] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:45:27.346] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:45:29.410] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:45:31.480] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:45:40.109] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:45:42.131] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:45:44.194] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:45:46.258] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:45:48.320] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:45:57.037] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:45:59.090] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:46:01.146] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:46:03.203] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:46:05.257] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-09-24 21:46:07.960] ERROR     - RuntimeError('The room was disconnected')
