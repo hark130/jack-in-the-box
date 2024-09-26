@@ -1,0 +1,46 @@
+# This configuration file is used to release JITB as a wheel.
+#
+# Usage:
+#   pip install --upgrade build python3.10-venv
+#   python -m build  # From the jack-in-the-box directory
+
+[build-system]
+requires = [ 'setuptools>=61.0' ]
+build-backend = 'setuptools.build_meta'
+
+[project]
+name = 'jitb'
+version = '1.0.0'
+authors = [
+    { name='Joseph Harkleroad', email='hark130@yahoo.com' },
+]
+description = 'Connecting Jackbox Games to the OpenAI API using Python'
+readme = 'README.md'
+requires-python = '>=3.10'
+dynamic = [ 'dependencies' ]
+classifiers = [
+    # Taken from: https://pypi.org/pypi?%3Aaction=list_classifiers
+    'Programming Language :: Python :: 3',
+    'Intended Audience :: Science/Research',
+    'Natural Language :: English',
+    'Operating System :: OS Independent',
+    'Topic :: Games/Entertainment',
+    'Topic :: Scientific/Engineering :: Artificial Intelligence'
+]
+keywords = [ 'Jackbox', 'Games', 'Jack in the Box', 'OpenAI', 'ChatGPT' ]
+
+[project.scripts]
+jitb = 'jitb.__main__:run_jitb'
+
+[project.urls]
+Homepage = 'https://github.com/hark130/jack-in-the-box/tree/main'
+Documentation = 'https://github.com/hark130/jack-in-the-box/wiki'
+Repository = 'https://github.com/hark130/jack-in-the-box'
+Issues = 'https://github.com/hark130/jack-in-the-box/issues'
+Changelog = 'https://github.com/hark130/jack-in-the-box/blob/main/CHANGELOG.md'
+
+[tool.setuptools.dynamic]
+dependencies = { file = ['requirements.txt'] }
+
+[tool.setuptools.packages.find]
+include = [ 'jitb', 'jitb.jbgames' ]

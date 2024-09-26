@@ -11,8 +11,9 @@ def parse_args() -> tuple:
     Returns:
         A tuple containing the (room_code, username, debug).
     """
-    parser = argparse.ArgumentParser(prog='Jack in the Box',
-                                     description='Connecting Jackbox Games to the OpenAI API')
+    parser = argparse.ArgumentParser(prog='jitb',
+                                     description='Jack in the Box (JITB): Connecting Jackbox '
+                                                 'Games to the OpenAI API.')
     parser.add_argument('-r', '--room', action='store', help='The Jackbox Games room code',
                         required=True)
     parser.add_argument('-u', '--user', action='store', help='The Jackbox Games name',

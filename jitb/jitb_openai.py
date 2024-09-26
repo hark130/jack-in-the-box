@@ -76,7 +76,7 @@ class JitbAi:
             self._client = None
 
     def create_content(self, messages: List, add_base_msgs: bool = True,
-                        max_tokens: int = 50) -> str:
+                       max_tokens: int = 50) -> str:
         """Communicate with OpenAI using the API.
 
         Args:

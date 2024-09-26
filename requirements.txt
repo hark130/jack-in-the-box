@@ -1,0 +1,3 @@
+openai>=1.3     # OpenAI API
+selenium>=4.16  # Controls the Chrome browser launched by JITB
+Unidecode>=1.3  # Used to clean response strings from OpenAI's API
