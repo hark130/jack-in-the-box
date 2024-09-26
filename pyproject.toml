@@ -37,7 +37,7 @@ Homepage = 'https://github.com/hark130/jack-in-the-box/tree/main'
 Documentation = 'https://github.com/hark130/jack-in-the-box/wiki'
 Repository = 'https://github.com/hark130/jack-in-the-box'
 Issues = 'https://github.com/hark130/jack-in-the-box/issues'
-#Changelog = ''  # TO DO: DON'T DO NOW... Make it soon
+Changelog = 'https://github.com/hark130/jack-in-the-box/blob/main/CHANGELOG.md'
 
 [tool.setuptools.dynamic]
 dependencies = { file = ['requirements.txt'] }
