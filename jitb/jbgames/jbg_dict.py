@@ -15,6 +15,7 @@ from jitb.jbgames.jbg_abc import JbgAbc
 from jitb.jbgames.jbg_page_ids import JbgPageIds
 from jitb.jitb_globals import JITB_POLL_RATE
 from jitb.jitb_logger import Logger
+from jitb.jitb_misc import clean_up_string
 from jitb.jitb_openai import JitbAi
 from jitb.jitb_selenium import get_buttons, get_web_element, get_web_element_text
 
@@ -47,8 +48,6 @@ class JbgDict(JbgAbc):
         # SETUP
         self._last_page = self._current_page  # Store the last page
         self._current_page = self.id_page(web_driver=web_driver)  # Get the current page
-        if not self._joke_topic_init:
-            self._populate_joke_topic_dict(num_requests=1)  # Make this 2 when JitbAi has context
 
         # PLAY
         if self._last_page != self._current_page:
@@ -138,6 +137,8 @@ class JbgDict(JbgAbc):
             current_page = JbgPageIds.ANSWER
         elif self._is_login_page(web_driver=web_driver):
             current_page = JbgPageIds.LOGIN
+        elif _is_waiting_likes_page(web_driver=web_driver):
+            current_page = JbgPageIds.DICT_WAIT_LIKE
 
         # DONE
         if current_page != JbgPageIds.UNKNOWN:
@@ -184,6 +185,7 @@ class JbgDict(JbgAbc):
             try:
                 prompt_text = get_prompt(web_driver=web_driver)
                 if prompt_text and prompt_text != last_prompt:
+                    print(f'THE PROMPT IS: {prompt_text}')  # DEBUGGING
                     break
                 time.sleep(JITB_POLL_RATE)  # Give the prompt a chance to update from the last one
             except RuntimeError as err:
@@ -192,7 +194,7 @@ class JbgDict(JbgAbc):
                 raise err from err
 
         # ANSWER IT
-        answer = self.generate_ai_answer(prompt=prompt_text, ai_obj=self._ai_obj, length_limit=80)
+        answer = self.generate_ai_answer(prompt=prompt_text, ai_obj=self._ai_obj, length_limit=150)
         if _submit_an_answer(web_driver=web_driver, field_str='input-text-textarea',
                              submit_text=answer):
             clicked_it = _click_a_button(web_driver=web_driver, button_str='SUBMIT')
@@ -209,8 +211,7 @@ def get_prompt(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
                check_needles: bool = True) -> str:
     """Get the prompt text from the question-text web element.
 
-    Do not use this for the Round 3 Last Lash prompt because the Last Lash prompt
-    commonly has multiple lines.
+    Strips newlines from the prompt text.
 
     Args:
         web_driver: The web driver to get the prompt from.
@@ -246,7 +247,7 @@ def get_prompt(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
             raise RuntimeError(f'Did not detect any text using the {needle} element value')
 
     # DONE
-    return prompt_text
+    return clean_up_string(prompt_text)
 
 
 def get_vote_text(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
@@ -340,7 +341,7 @@ def _is_prompt_page(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
     prompt_page = False      # Prove this true
     temp_text = ''           # Text from the web element
     # List of prompt needles from various Joke Boat voting screens
-    prompts = ['Write your punchline', 'Write the punchline to this joke']
+    prompts = ['Write a definition for', 'Write a synonym for', 'Write a sentence using']
 
     # IS IT?
     try:
@@ -362,7 +363,7 @@ def _is_prompt_page(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
 
 def _is_vote_page(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
                   check_needles: bool = True) -> bool:
-    """Determine if this is this a round 1 or 2 vote page.
+    """Determine if this is this a vote page.
 
     Args:
         web_driver: The web driver to check.
@@ -376,13 +377,14 @@ def _is_vote_page(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
     vote_page = False        # Prove this true
     temp_text = ''           # Temp prompt text
     # List of prompt needles from various Joke Boat voting screens
-    prompts = ['Choose a joke set-up', 'Complete your set-up', 'Pick your favorite joke',
-               'Pick the joke you want to compete against']
+    prompts = ['Vote for your favorite definition of', 'Vote for your favorite synonym',
+               'Vote for your favorite sentence using']
 
     # IS IT?
     try:
         temp_text = get_web_element_text(web_driver, By.ID, element_name)
         if temp_text:
+            temp_text = clean_up_string(dirty_string = temp_text)  # Remove newlines
             if check_needles:
                 for prompt in prompts:
                     if prompt.lower() in temp_text.lower():
@@ -395,6 +397,43 @@ def _is_vote_page(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
 
     # DONE
     return vote_page
+
+
+def _is_waiting_likes_page(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
+                           check_needles: bool = True) -> bool:
+    """Determine if this is this a award-likes-while-you-are-waiting page.
+
+    Args:
+        web_driver: The web driver to check.
+        check_needles: Optional; If True, will verify vote needles are found.
+
+    Returns:
+        True if this is a 'distribute likes' waiting screen, False otherwise.
+    """
+    # LOCAL VARIABLES
+    element_name = 'prompt'  # The web element value to search for
+    likes_page = False       # Prove this true
+    temp_text = ''           # Temp prompt text
+    # List of prompt needles from various Joke Boat voting screens
+    prompts = ['distribute likes']
+
+    # IS IT?
+    try:
+        temp_text = get_web_element_text(web_driver, By.ID, element_name)
+        if temp_text:
+            temp_text = clean_up_string(dirty_string = temp_text)  # Remove newlines
+            if check_needles:
+                for prompt in prompts:
+                    if prompt.lower() in temp_text.lower():
+                        likes_page = True  # If we made it here, it's a vote page
+                        break  # Found one.  Stop looking.
+            else:
+                likes_page = True  # Far enough
+    except (NoSuchElementException, StaleElementReferenceException, TypeError, ValueError):
+        pass  # Not a vote page
+
+    # DONE
+    return likes_page
 
 
 def _split_and_strip_answers(answer: str, delimiter: str = ',') -> List[str]:
