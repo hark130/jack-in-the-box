@@ -338,7 +338,7 @@ class JbgJb(JbgAbc):
         # AI generated answer
         messages = [{'role': 'user', 'content': prompt}]
         answer = self._ai_obj.create_content(messages=messages, add_base_msgs=False,
-                                              max_tokens=100)
+                                             max_tokens=100)
         answers = _split_and_strip_answers(answer, '\n')
 
         # STORE IT
