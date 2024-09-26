@@ -6,18 +6,22 @@ import argparse
 
 
 def parse_args() -> tuple:
-    """Parse the command line arguments and return the room code and username.
+    """Parse the command line arguments.
 
     Returns:
-        A tuple containing the (room_code, username).
+        A tuple containing the (room_code, username, debug).
     """
-    parser = argparse.ArgumentParser(prog='Jack in the Box',
-                                     description='Connecting Jackbox Games to the OpenAI API')
+    parser = argparse.ArgumentParser(prog='jitb',
+                                     description='Jack in the Box (JITB): Connecting Jackbox '
+                                                 'Games to the OpenAI API.')
     parser.add_argument('-r', '--room', action='store', help='The Jackbox Games room code',
                         required=True)
     parser.add_argument('-u', '--user', action='store', help='The Jackbox Games name',
                         required=True)
+    parser.add_argument('-d', '--debug', action='store_true',
+                        help='Log debug messages to /tmp/jitb_YYYYMMDD_HHMMSS-#.log',
+                        required=False)
     args = parser.parse_args()
 
     # DONE
-    return tuple((args.room, args.user))
+    return tuple((args.room, args.user, args.debug))

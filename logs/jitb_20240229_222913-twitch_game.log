@@ -1,0 +1,51 @@
+[2024-02-29 22:29:18.013] DEBUGGING - This room code is a Quiplash 2 game
+[2024-02-29 22:31:17.873] DEBUGGING - This is a(n) ANSWER page!
+[2024-02-29 22:31:20.393] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-02-29 22:31:20.626] DEBUGGING - Answered prompt "The technical medical term for “swamp ass”" with "Marshy derriere disorder"!
+[2024-02-29 22:31:21.473] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-02-29 22:31:21.655] DEBUGGING - Answered prompt "A weird dad keeps all of his children’s ________ as memories" with "Boogers"!
+[2024-02-29 22:33:21.975] DEBUGGING - This is a(n) VOTE page!
+[2024-02-29 22:33:24.435] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-02-29 22:33:24.437] DEBUGGING - OpenAI followed instructions and THAT WAP was chosen
+[2024-02-29 22:33:24.496] DEBUGGING - Voted "THAT WAP" for "What the Statue of Liberty needs added to her, to better represent 21st-century America WHICH ONE DO YOU LIKE MORE? THAT WAP JV LACROSSE PRACTICE"!
+[2024-02-29 22:34:11.858] DEBUGGING - This is a(n) VOTE page!
+[2024-02-29 22:34:14.325] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-02-29 22:34:14.327] DEBUGGING - OpenAI followed instructions and DOOM SCROLLING was chosen
+[2024-02-29 22:34:14.374] DEBUGGING - Voted "DOOM SCROLLING" for "Why Santa doesn’t hire Millennial elves WHICH ONE DO YOU LIKE MORE? DOOM SCROLLING HE WANTS TO F THEM"!
+[2024-02-29 22:35:01.797] DEBUGGING - This is a(n) VOTE page!
+[2024-02-29 22:35:04.253] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-02-29 22:35:04.254] DEBUGGING - OpenAI followed instructions and CAN I GET TREE FIDDY? was chosen
+[2024-02-29 22:35:04.302] DEBUGGING - Voted "CAN I GET TREE FIDDY?" for "The hardest question a bridge troll could ask you WHICH ONE DO YOU LIKE MORE? CAN I GET TREE FIDDY? YOU GOT 3.50?"!
+[2024-02-29 22:36:38.473] DEBUGGING - This is a(n) VOTE page!
+[2024-02-29 22:36:40.972] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-02-29 22:36:40.973] DEBUGGING - OpenAI followed instructions and NOT ORGASMING was chosen
+[2024-02-29 22:36:41.038] DEBUGGING - Voted "NOT ORGASMING" for "The only thing we have to fear is fear itself. Oh, and also ________ WHICH ONE DO YOU LIKE MORE? MY EX NOT ORGASMING"!
+[2024-02-29 22:37:41.649] DEBUGGING - This is a(n) ANSWER page!
+[2024-02-29 22:37:44.159] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-02-29 22:37:44.375] DEBUGGING - Answered prompt "A sign you may be a terrible babysitter" with "Lost the baby...again."!
+[2024-02-29 22:37:45.436] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-02-29 22:37:45.621] DEBUGGING - Answered prompt "A terrible name for a morning talk show" with "Yawn and Gossip"!
+[2024-02-29 22:39:19.107] DEBUGGING - This is a(n) VOTE page!
+[2024-02-29 22:39:21.611] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-02-29 22:39:21.613] DEBUGGING - OpenAI added words but we extracted MILK from A. MILK
+[2024-02-29 22:39:21.670] DEBUGGING - Voted "MILK" for "A really crappy nude calendar: The Men of ________ WHICH ONE DO YOU LIKE MORE? MILK DRAKE THE SNAKES"!
+[2024-02-29 22:40:08.954] DEBUGGING - This is a(n) VOTE page!
+[2024-02-29 22:40:11.404] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-02-29 22:40:11.405] DEBUGGING - OpenAI followed instructions and MOST OF US SLEEPIN AT NIGHT was chosen
+[2024-02-29 22:40:11.460] DEBUGGING - Voted "MOST OF US SLEEPIN AT NIGHT" for "Why do owls not kill us? WHICH ONE DO YOU LIKE MORE? WHOOOO?? MOST OF US SLEEPIN AT NIGHT"!
+[2024-02-29 22:40:58.680] DEBUGGING - This is a(n) VOTE page!
+[2024-02-29 22:41:01.171] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-02-29 22:41:01.172] DEBUGGING - OpenAI followed instructions and TO GET MILK was chosen
+[2024-02-29 22:41:01.217] DEBUGGING - Voted "TO GET MILK" for "Why did Jack and Jill go up to Canada? WHICH ONE DO YOU LIKE MORE? TO GET MILK TO F LEGALLY"!
+[2024-02-29 22:41:48.524] DEBUGGING - This is a(n) VOTE page!
+[2024-02-29 22:41:50.966] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-02-29 22:41:50.968] DEBUGGING - OpenAI followed instructions and WOMEN’S RIGHTS was chosen
+[2024-02-29 22:41:51.016] DEBUGGING - Voted "WOMEN’S RIGHTS" for "The worst crime in Middle-earth WHICH ONE DO YOU LIKE MORE? WOMEN’S RIGHTS WHEN ONE DOES SIMPLY"!
+[2024-02-29 22:44:38.954] DEBUGGING - This is a(n) Q2_LAST page!
+[2024-02-29 22:44:41.444] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-02-29 22:44:41.668] DEBUGGING - Answered Last Lash prompt "Come up with a new TV show with this word in the title: CORN" with: "Corn-tastic Adventures!"!
+[2024-02-29 22:45:41.878] DEBUGGING - This is a(n) VOTE page!
+[2024-02-29 22:45:44.415] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-02-29 22:45:44.417] DEBUGGING - OpenAI followed instructions and CORN HUB was chosen
+[2024-02-29 22:45:44.525] DEBUGGING - Voted "CORN HUB" for "Come up with a new TV show with this word in the title: CORN WHICH ONE DO YOU LIKE MORE? WATCHING 2 MUCH CORN CORN HUB CORNY TONY THE OTHER QUESTIONS PROLLY GONNA SAY CORNHUB AVATAR THE LAST CORNBENDER"!
+[2024-02-29 22:49:32.794] ERROR     - RuntimeError('The room was disconnected')

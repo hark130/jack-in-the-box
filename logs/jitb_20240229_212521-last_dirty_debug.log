@@ -1,0 +1,86 @@
+[2024-02-29 21:25:24.665] DEBUGGING - This room code is a Quiplash 2 game
+[2024-02-29 21:27:17.341] DEBUGGING - This is a(n) ANSWER page!
+[2024-02-29 21:27:19.811] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-02-29 21:27:20.039] DEBUGGING - Answered prompt "The name of a conference where internet trolls gather" with "RoastCon 2020"!
+[2024-02-29 21:27:21.058] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-02-29 21:27:21.239] DEBUGGING - Answered prompt "What Victoria’s Secret models probably do right after a fashion show" with "Take off their wings"!
+[2024-02-29 21:28:34.636] DEBUGGING - This is a(n) VOTE page!
+[2024-02-29 21:28:37.084] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-02-29 21:28:37.086] DEBUGGING - OpenAI followed instructions and SCUBA MISHAP was chosen
+[2024-02-29 21:28:37.142] DEBUGGING - Voted "SCUBA MISHAP" for "An odd thing to discover upon arriving in Heaven: Tuesday nights are ________ night WHICH ONE DO YOU LIKE MORE? SCUBA MISHAP TRICK-OR-TREAT FOR UNICEF"!
+[2024-02-29 21:29:10.826] DEBUGGING - This is a(n) ANSWER page!
+[2024-02-29 21:29:13.279] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-02-29 21:29:13.469] DEBUGGING - Answered prompt "Why you’re not allowed back at Jurassic Park" with "Dinosaur ate my homework."!
+[2024-02-29 21:29:14.417] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-02-29 21:29:14.611] DEBUGGING - Answered prompt "A movie that needed more nudity" with "Skin-tastic: The Sequel"!
+[2024-02-29 21:30:28.014] DEBUGGING - This is a(n) VOTE page!
+[2024-02-29 21:30:30.682] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-02-29 21:30:30.683] DEBUGGING - OpenAI followed instructions and UNATTRACTIVE FIREMEN was chosen
+[2024-02-29 21:30:30.735] DEBUGGING - Voted "UNATTRACTIVE FIREMEN" for "Snow White’s biggest complaint about living with the Seven Dwarfs WHICH ONE DO YOU LIKE MORE? UNATTRACTIVE FIREMEN AN ARMY OF PLUCKY CHIMNEY SWEEPS"!
+[2024-02-29 21:31:18.031] DEBUGGING - This is a(n) Q2_LAST page!
+[2024-02-29 21:31:20.471] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-02-29 21:31:20.686] DEBUGGING - Answered Last Lash prompt "Come up with a classic novel with this word in the title: FUDGE" with: "Fudge-tastic Adventures"!
+[2024-02-29 21:31:53.667] DEBUGGING - This is a(n) VOTE page!
+[2024-02-29 21:31:56.339] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-02-29 21:31:56.341] DEBUGGING - OpenAI added words but we extracted FUDGE SOUP FOR THE SOUL from A. FUDGE SOUP FOR THE SOUL
+[2024-02-29 21:31:56.387] DEBUGGING - Voted "FUDGE SOUP FOR THE SOUL" for "Come up with a classic novel with this word in the title: FUDGE WHICH ONE DO YOU LIKE MORE? FUDGE SOUP FOR THE SOUL WUTHERING FUDGES"!
+[2024-02-29 21:32:05.778] DEBUGGING - This is a(n) VOTE page!
+[2024-02-29 21:32:12.470] DEBUGGING - This is a(n) VOTE page!
+[2024-02-29 21:32:19.156] DEBUGGING - This is a(n) VOTE page!
+[2024-02-29 21:32:25.822] DEBUGGING - This is a(n) VOTE page!
+[2024-02-29 21:32:32.471] DEBUGGING - This is a(n) VOTE page!
+[2024-02-29 21:32:39.126] DEBUGGING - This is a(n) VOTE page!
+[2024-02-29 21:32:45.785] DEBUGGING - This is a(n) VOTE page!
+[2024-02-29 21:32:52.462] DEBUGGING - This is a(n) VOTE page!
+[2024-02-29 21:34:19.472] DEBUGGING - This is a(n) ANSWER page!
+[2024-02-29 21:34:21.907] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-02-29 21:34:22.117] DEBUGGING - Answered prompt "A rejected superhero vehicle: the ________mobile" with "The Fartmobile"!
+[2024-02-29 21:34:22.945] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-02-29 21:34:23.121] DEBUGGING - Answered prompt "A terrible name for a panini restaurant" with "Pressed Regret"!
+[2024-02-29 21:35:29.473] DEBUGGING - This is a(n) VOTE page!
+[2024-02-29 21:35:31.895] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-02-29 21:35:31.897] DEBUGGING - OpenAI followed instructions and PORPOISE ROMANCE was chosen
+[2024-02-29 21:35:31.951] DEBUGGING - Voted "PORPOISE ROMANCE" for "What a rich jerk drinks champagne out of WHICH ONE DO YOU LIKE MORE? PORPOISE ROMANCE PAN DRIPPINGS"!
+[2024-02-29 21:36:05.489] DEBUGGING - This is a(n) ANSWER page!
+[2024-02-29 21:36:08.113] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-02-29 21:36:08.324] DEBUGGING - Answered prompt "The devil’s biggest complaint about Hell" with "Too many fire hazards"!
+[2024-02-29 21:36:09.160] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-02-29 21:36:09.347] DEBUGGING - Answered prompt "The most common item in the Lost and Found box in Hell" with "Devil's pitchforks"!
+[2024-02-29 21:37:42.242] DEBUGGING - This is a(n) VOTE page!
+[2024-02-29 21:37:44.730] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-02-29 21:37:44.732] DEBUGGING - OpenAI followed instructions and FART was chosen
+[2024-02-29 21:37:44.798] DEBUGGING - Voted "FART" for "The way to really embarrass yourself on Jeopardy! WHICH ONE DO YOU LIKE MORE? ASK FOR A PHONE-A-FRIEND FART"!
+[2024-02-29 21:38:32.383] DEBUGGING - This is a(n) Q2_LAST page!
+[2024-02-29 21:38:34.534] DEBUGGING - It appears we have encountered a Comic Last because the "Complete the Comic!   SEND" is being repaced with "The other players are being shown a picture you can not see. It is a generic web comic with the text removed from the speech bubble of the last panel.  Give an answer that is generic enough to work as funny/quirky text for such an empty speech bubble."
+[2024-02-29 21:38:34.896] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-02-29 21:38:35.129] DEBUGGING - Answered Last Lash prompt "The other players are being shown a picture you can not see. It is a generic web comic with the text removed from the speech bubble of the last panel.  Give an answer that is generic enough to work as funny/quirky text for such an empty speech bubble." with: "Insert witty punchline here."!
+[2024-02-29 21:39:08.374] DEBUGGING - This is a(n) VOTE page!
+[2024-02-29 21:39:10.803] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-02-29 21:39:10.805] DEBUGGING - OpenAI followed instructions and DINNER AND A MOVIE was chosen
+[2024-02-29 21:39:10.867] DEBUGGING - Voted "DINNER AND A MOVIE" for "Complete the Comic! WHICH ONE DO YOU LIKE MORE? YOUR MOM’S HOUSE DINNER AND A MOVIE"!
+[2024-02-29 21:40:31.294] DEBUGGING - This is a(n) ANSWER page!
+[2024-02-29 21:40:33.699] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-02-29 21:40:33.932] DEBUGGING - Answered prompt "The next big reality show: America’s Got ________" with "America's Got Farts"!
+[2024-02-29 21:40:34.879] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-02-29 21:40:35.081] DEBUGGING - Answered prompt "The worst thing to see while wearing x-ray glasses" with "Your own skeleton twerking"!
+[2024-02-29 21:40:54.982] DEBUGGING - This is a(n) VOTE page!
+[2024-02-29 21:40:57.436] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-02-29 21:40:57.438] DEBUGGING - OpenAI followed instructions and MARK RUFFALO was chosen
+[2024-02-29 21:40:57.486] DEBUGGING - Voted "MARK RUFFALO" for "Don’t talk to me before I’ve had my coffee and don’t touch me until I’ve had my ________ WHICH ONE DO YOU LIKE MORE? MARK RUFFALO THE CALIFORNIA RAISINS"!
+[2024-02-29 21:42:24.520] DEBUGGING - This is a(n) ANSWER page!
+[2024-02-29 21:42:26.950] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-02-29 21:42:27.181] DEBUGGING - Answered prompt "What would happen if you removed all of Johnny Depp’s many scarves?" with "Depp-throat cold!"!
+[2024-02-29 21:42:27.950] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-02-29 21:42:28.145] DEBUGGING - Answered prompt "What Johnny Depp would probably bring to your party" with "A pirate's booty."!
+[2024-02-29 21:42:48.047] DEBUGGING - This is a(n) VOTE page!
+[2024-02-29 21:42:50.609] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-02-29 21:42:50.611] DEBUGGING - OpenAI followed instructions and MY VEST COLLECTION was chosen
+[2024-02-29 21:42:50.661] DEBUGGING - Voted "MY VEST COLLECTION" for "The name of a really boring sex position is the Reverse ________ WHICH ONE DO YOU LIKE MORE? MY VEST COLLECTION UNWANTED FACEBOOK INVITES"!
+[2024-02-29 21:44:24.388] DEBUGGING - This is a(n) Q2_LAST page!
+[2024-02-29 21:44:26.912] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-02-29 21:44:27.145] DEBUGGING - Answered Last Lash prompt "Come up with a hot new Broadway musical with this word in its name: NUT" with: "Nutty Nutcracker: The Musical"!
+[2024-02-29 21:44:53.842] DEBUGGING - This is a(n) VOTE page!
+[2024-02-29 21:44:56.346] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-02-29 21:44:56.348] DEBUGGING - OpenAI added words but we extracted NUT DETECTIVE from A. NUT DETECTIVE
+[2024-02-29 21:44:56.393] DEBUGGING - Voted "NUT DETECTIVE" for "Come up with a hot new Broadway musical with this word in its name: NUT WHICH ONE DO YOU LIKE MORE? NUT DETECTIVE NUTTY LIBRARIANS"!
+[2024-02-29 21:45:57.559] ERROR     - RuntimeError('The room was disconnected')

@@ -1,0 +1,7 @@
+[2024-03-03 16:02:44.062] DEBUGGING - This room code is a Quiplash 2 game
+[2024-03-03 16:02:57.362] DEBUGGING - _get_element() id:state-answer-question raised NoSuchElementException()!
+[2024-03-03 16:02:59.371] DEBUGGING - _get_element() id:state-answer-question raised NoSuchElementException()!
+[2024-03-03 16:03:01.425] DEBUGGING - _get_element() id:vote-text raised NoSuchElementException()!
+[2024-03-03 16:03:10.139] DEBUGGING - _get_element() id:state-answer-question raised NoSuchElementException()!
+[2024-03-03 16:03:12.184] DEBUGGING - _get_element() id:state-answer-question raised NoSuchElementException()!
+[2024-03-03 16:03:14.222] DEBUGGING - _get_element() id:vote-text raised NoSuchElementException()!

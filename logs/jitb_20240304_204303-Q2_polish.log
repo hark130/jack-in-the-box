@@ -1,0 +1,33 @@
+[2024-03-04 20:43:07.240] DEBUGGING - This room code is a Quiplash 2 game
+[2024-03-04 20:43:51.729] DEBUGGING - This is a(n) ANSWER page!
+[2024-03-04 20:43:54.228] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-04 20:43:54.230] DEBUGGING - Polished "Objection, you're too adorable!" from ""Objection, you're too adorable!"" for this: "A cute thing a lawyer would say as he cuddles you"
+[2024-03-04 20:43:54.457] DEBUGGING - Answered prompt "A cute thing a lawyer would say as he cuddles you" with "Objection, you're too adorable!"!
+[2024-03-04 20:43:55.284] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-04 20:43:55.286] DEBUGGING - Polished "Quacked in disbelief" from ""Quacked in disbelief"" for this: "The first thing the ugly duckling did after turning into a beautiful swan"
+[2024-03-04 20:43:55.467] DEBUGGING - Answered prompt "The first thing the ugly duckling did after turning into a beautiful swan" with "Quacked in disbelief"!
+[2024-03-04 20:45:47.135] DEBUGGING - This is a(n) VOTE page!
+[2024-03-04 20:45:49.613] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-04 20:45:49.616] DEBUGGING - OpenAI followed instructions and WHAT A FIND! was chosen
+[2024-03-04 20:45:49.682] DEBUGGING - Voted "WHAT A FIND!" for "What the raccoons digging in your garbage say about you WHICH ONE DO YOU LIKE MORE? WHAT A FAT ASS WHAT A FIND!"!
+[2024-03-04 20:46:28.067] DEBUGGING - This is a(n) ANSWER page!
+[2024-03-04 20:46:30.495] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-04 20:46:30.497] DEBUGGING - Polished "Unluckyember" from ""Unluckyember"" for this: "What the 13th month would be called"
+[2024-03-04 20:46:30.707] DEBUGGING - Answered prompt "What the 13th month would be called" with "Unluckyember"!
+[2024-03-04 20:46:31.527] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-04 20:46:31.529] DEBUGGING - Removed trailing punctuation from "A clown with a chainsaw." into "A clown with a chainsaw" for this prompt: "The last person you’d want to be on a lifeboat with"
+[2024-03-04 20:46:31.529] DEBUGGING - Polished "A clown with a chainsaw" from "A clown with a chainsaw." for this: "The last person you’d want to be on a lifeboat with"
+[2024-03-04 20:46:31.714] DEBUGGING - Answered prompt "The last person you’d want to be on a lifeboat with" with "A clown with a chainsaw"!
+[2024-03-04 20:48:09.796] DEBUGGING - This is a(n) VOTE page!
+[2024-03-04 20:48:12.260] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-04 20:48:12.262] DEBUGGING - OpenAI followed instructions and PSSH was chosen
+[2024-03-04 20:48:12.316] DEBUGGING - Voted "PSSH" for "The most awesome thing to say before you dramatically flip a scarf over your shoulder WHICH ONE DO YOU LIKE MORE? PSSH SMELL YA L8TR SK8TR"!
+[2024-03-04 20:48:57.353] DEBUGGING - This is a(n) Q2_LAST page!
+[2024-03-04 20:48:59.799] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-04 20:48:59.800] DEBUGGING - Polished "Penguin Party Patrol" from ""Penguin Party Patrol"" for this: "Come up with a full name for this acronym! P.P.P."
+[2024-03-04 20:49:00.010] DEBUGGING - Answered Last Lash prompt "Come up with a full name for this acronym! P.P.P." with: "Penguin Party Patrol"!
+[2024-03-04 20:49:31.316] DEBUGGING - This is a(n) VOTE page!
+[2024-03-04 20:49:33.779] INFO      - HTTP Request: POST https://api.openai.com/v1/completions "HTTP/1.1 200 OK"
+[2024-03-04 20:49:33.781] DEBUGGING - OpenAI followed instructions and PLEASE PLEASE PEOPLE was chosen
+[2024-03-04 20:49:33.837] DEBUGGING - Voted "PLEASE PLEASE PEOPLE" for "Come up with a full name for this acronym! P.P.P. WHICH ONE DO YOU LIKE MORE? PORTABLE PENILE PUMP PLEASE PLEASE PEOPLE"!
+[2024-03-04 20:50:21.592] ERROR     - RuntimeError('The room was disconnected')

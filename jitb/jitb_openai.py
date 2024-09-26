@@ -1,6 +1,8 @@
 """The package's interface to OpenAI's API."""
 # Standard
 from collections import OrderedDict
+from string import punctuation
+from typing import Final, List
 import os
 import re
 import random
@@ -10,24 +12,31 @@ import sys
 from openai import OpenAI
 # Local
 from jitb.jitb_globals import OPENAI_KEY_ENV_VAR
+from jitb.jitb_logger import Logger
+from jitb.jitb_misc import clean_up_string
+
+
+MIN_FITB_LEN: Final[int] = 4  # Minimum number of underscores to be considered a fill-in-the-blank
 
 
 class JitbAi:
     """Implements the interface to the OpenAI API."""
 
-    def __init__(self, model: str = 'gpt-3.5-turbo') -> None:
+    def __init__(self, model: str = 'gpt-3.5-turbo', temperature: float = 1.0) -> None:
         """Class ctor.
 
         Args:
             model: Optional; OpenAI model to use.  See: https://platform.openai.com/docs/models
+            temperature: Optional; What sampling temperature to use, between 0.0 and 2.0. Higher
+                values like 0.8 will make the output more random, while lower values like 0.2
+                will make it more focused and deterministic.
         """
-        self._client = None    # OpenAI() object
-        self._model = model    # OpenAI model
-        self._base_temp = 0.0  # Base temperature.  See: help(OpenAI().chat.completions.create)
+        self._client = None            # OpenAI() object
+        self._model = model            # OpenAI model
+        self._base_temp = temperature  # Temperature (see: help(OpenAI().chat.completions.create))
         self._base_messages = [
             {'role': 'system',
-             'content': 'You are a funny person playing Jackbox Games Quiplash 3.'},
-            # {'role': 'user', 'content': 'Tell me a funny joke.'}
+             'content': 'You are a funny person trying to win Jackbox Games.'},
         ]
         # Content message indications the OpenAI did not answer a query
         self._failure_content = [
@@ -41,13 +50,20 @@ class JitbAi:
             "Sorry, but I can't generate that story for you.",
         ]
 
+    def __del__(self) -> None:
+        """Ensure the OpenAi object is closed."""
+        self.tear_down()
+
     def setup(self) -> None:
-        """Prepare everything just once."""
+        """Validate everything but prepare just once."""
         # LOCAL VARIABLES
-        api_key = os.environ.get(OPENAI_KEY_ENV_VAR)
+        api_key = os.environ.get(OPENAI_KEY_ENV_VAR)  # OpenAi API key
         if not api_key:
             raise RuntimeError('Be sure to export your OpenAI API key into the '
                                f'{OPENAI_KEY_ENV_VAR} environment variable')
+
+        # VALIDATION
+        self._validate_attributes()
 
         # SETUP
         if not self._client:
@@ -59,52 +75,82 @@ class JitbAi:
             self._client.close()
             self._client = None
 
-    def generate_answer(self, prompt: str, length_limit: int = 45) -> str:
+    def create_content(self, messages: List, add_base_msgs: bool = True,
+                       max_tokens: int = 50) -> str:
+        """Communicate with OpenAI using the API.
+
+        Args:
+            messages: A list of string to pass to the OpenAi API.
+            add_base_mesgs: Optional; If True, prepend messages with self._base_messages.
+
+        Returns:
+            The message content from the first choice.
+        """
+        local_msgs = messages  # Local copy of messages
+        if add_base_msgs:
+            local_msgs = self._base_messages + messages
+        # chat.completion endpoint
+        completion = self._client.chat.completions.create(model=self._model, messages=local_msgs,
+                                                          max_tokens=max_tokens,
+                                                          temperature=self._base_temp)
+        # Strip all leading and trailing newlines
+        answer = re.sub(r'^\n+|\n+$', '', completion.choices[0].message.content)
+
+        # DONE
+        return answer
+
+    def generate_answer(self, prompt: str, length_limit: int = 45,
+                        min_len: int = MIN_FITB_LEN) -> str:
         """Prompt OpenAI to generate an answer for the given prompt.
+
+        Args:
+            prompt: Prompt to give the AI to generate an answer for.
+            length_limit: Optional; Maximum length of the answer.
+            min_len: Optional; Min length of repeating undescores to be considered a fitb prompt.
 
         Returns:
             The generated answer as a string.
         """
         # LOCAL VARIABLES
-        answer = ''                     # Answer to the provided prompt
-        messages = self._base_messages  # Local copy of messages to update with actual query
+        answer = ''    # Answer to the provided prompt
+        messages = []  # Local copy of messages to update with actual query
         # Base prompt to prompt OpenAI to generate a single answer to a prompt
-        content = f'Give me a funny answer, limited to {length_limit} characters, ' \
-                  + f'for the Quiplash 3 prompt "{prompt}" without using any previous context.'
+        content = f'Provide a humorous response within {length_limit} characters ' \
+                  + f'characters for this prompt: "{prompt}".'
 
         # CLASS VALIDATION
         self.setup()
 
         # GENERATE IT
-        if '____' in prompt:
+        if '_' * min_len in prompt:
             content = content + '  The prompt has a fill-in-the-blank placeholder so ensure ' \
                       + 'your answer makes sense grammatically.  Do not restate any part of ' \
                       + 'the orignal prompt in your answer.'
         messages.append({'role': 'user', 'content': content})
-        answer = self._create_content(messages=messages)
-        answer = re.sub(r'^"|"$', '', answer)  # Strip leading and trailing quotes
-        if len(answer) > length_limit:
-            answer = answer[:length_limit]
+        answer = self.create_content(messages=messages)
+        answer = polish_answer(prompt=prompt, answer=answer, length_limit=length_limit)
 
         # DONE
         return answer
 
-    def generate_thriplash(self, prompt: str, length_limit: int = 30) -> list:
+    def generate_thriplash(self, prompt: str, length_limit: int = 30,
+                           min_len: int = MIN_FITB_LEN) -> list:
         """Prompt OpenAI to generate three separate answers for the given Thriplash prompt.
+
+        Args:
+            prompt: Prompt to give the AI to generate an answer for.
+            length_limit: Optional; Maximum length of the answer.
+            min_len: Optional; Min length of repeating undescores to be considered a fitb prompt.
 
         Returns:
             A tuple of length 3 which contains three strings.  One or more of the three strings
             may be empty.
         """
         # LOCAL VARIABLES
-        raw_answer = ''                 # Answer to the provided prompt
-        answers = []                    # Parse the raw answer into a list of length 3
-        messages = self._base_messages  # Local copy of messages to update with actual query
+        raw_answer = ''  # Answer to the provided prompt
+        answers = []     # Parse the raw answer into a list of length 3
+        messages = []    # Local copy of messages to update with actual query
         # Base prompt to prompt OpenAI to generate a single answer to a prompt
-        # content = 'Give me three funny answers, separated by newline characters, for the ' \
-        #           + f'following Quiplash 3 Thriplash prompt: "{prompt}".  ' \
-        #           + f'Each individual funny answer should be less than {length_limit} ' \
-        #           + 'characters.'
         content = f'Answer the following Quiplash 3 Thriplash prompt: "{prompt}".  ' \
                   + f'Each individual funny answer should be less than {length_limit} ' \
                   + 'characters and should be on its own line.'
@@ -114,12 +160,12 @@ class JitbAi:
 
         # GENERATE IT
         # Generate
-        if '____' in prompt:
+        if '_' * min_len in prompt:
             content = content + '  The prompt has some fill-in-the-blank placeholders so ensure ' \
                       + 'your answers make sense grammatically.  Do not restate any part of ' \
                       + 'the orignal prompt in your answer.'
         messages.append({'role': 'user', 'content': content})
-        raw_answer = self._create_content(messages=messages)
+        raw_answer = self.create_content(messages=messages)
         answers = [answer for answer in raw_answer.split('\n') if answer]
         # Validate results
         if not answers:
@@ -128,7 +174,7 @@ class JitbAi:
             for _ in range(3 - len(answers)):
                 answers.append('')
         elif len(answers) > 3:
-            print(f'OpenAI generated more than just three lines here {answers}')  # DEBUGGING
+            Logger.debug(f'OpenAI generated more than just three lines here {answers}')
             answers = self._extract_thriplash_answer(answers=answers, length_limit=length_limit)
         # Polish the format
         answers = self._polish_thriplash_answers(answers=answers, length_limit=length_limit)
@@ -147,13 +193,13 @@ class JitbAi:
             One of the answers entries.
         """
         # LOCAL VARIABLES
-        favorite = ''                   # Favorite from the answers list
-        messages = self._base_messages  # Local copy of messages to update with actual query
-        choice_dict = OrderedDict()     # Ordered dictionary of choices
-        choices = ''                    # Human-readable list formed from choice_dict
+        favorite = ''                # Favorite from the answers list
+        messages = []                # Local copy of messages to update with actual query
+        choice_dict = OrderedDict()  # Ordered dictionary of choices
+        choices = ''                 # Human-readable list formed from choice_dict
         # Base prompt to prompt OpenAI to generate a single answer to a prompt
-        content = f'I am going to give you some answers for the Quiplash 3 prompt "{prompt}".  ' \
-                  + 'Pick the funniest answer from the choice list I give you.  ' \
+        content = 'I am going to give you some answers for the Jackbox Games prompt ' \
+                  + f'"{prompt}".  Pick the funniest answer from the choice list I give you.  ' \
                   + 'Your comma-separated choice list is: {}.  ' \
                   + 'Choose an answer from the choice list but only give me the letter.  ' \
                   + 'Do not create new content.  Do not create any additional answers.  ' \
@@ -171,36 +217,11 @@ class JitbAi:
 
         # VOTE IT
         messages.append({'role': 'user', 'content': content})
-        answer = self._create_content(messages=messages)
+        answer = self.create_content(messages=messages)
         favorite = self._extract_favorite(answer, choice_dict)
 
         # DONE
         return favorite
-
-    def _create_content(self, messages=list) -> str:
-        """Communicate with OpenAI using the API.
-
-        Returns:
-            The message content from the first choice.
-        """
-        # chat.completion endpoint
-        #   GOOD NEWS: Maintained support
-        # completion = self._client.chat.completions.create(model=self._model, messages=messages,
-        #                                                   temperature=self._base_temp)
-        # answer = completion.choices[0].message.content
-
-        # completion endpoint
-        #   BAD NEWS: Most models that support the legacy Completions endpoint will be shut off
-        #       on January 4th, 2024.
-        completion = self._client.completions.create(model='gpt-3.5-turbo-instruct',
-                                                     prompt=messages[-1]['content'],
-                                                     max_tokens=50,
-                                                     temperature=self._base_temp)
-        # Strip all leading and trailing newlines
-        answer = re.sub(r'^\n+|\n+$', '', completion.choices[0].text)
-
-        # DONE
-        return answer
 
     def _extract_favorite(self, answer: str, choices: dict) -> str:
         """Extract a favorite from created content.
@@ -222,18 +243,18 @@ class JitbAi:
         # INPUT VALIDATION
         if self._failed_request(answer):
             favorite = _randomize_choice(choices=choices)
-            print(f'OpenAI failed with {answer} so {favorite} was chosen randomly')  # DEBUGGING
+            Logger.debug(f'OpenAI failed with {answer} so {favorite} was chosen randomly')
         # EXTRACT IT
         elif answer in choices.keys():
             favorite = choices[answer]  # Sometimes OpenAI follows instructions
-            print(f'OpenAI followed instructions and {favorite} was chosen')  # DEBUGGING
+            Logger.debug(f'OpenAI followed instructions and {favorite} was chosen')
         elif len(answer) != len(list(choices.keys())[0]) and answer[0] in choices.keys():
             favorite = choices[answer[0]]  # Sometimes OpenAI likes to add words
-            print(f'OpenAI added words but we extracted {favorite} from {answer}')  # DEBUGGING
+            Logger.debug(f'OpenAI added words but we extracted {favorite} from {answer}')
         else:
             # Did OpenAI give a response that wasn't a choice without failing the request?!
             favorite = _randomize_choice(choices=choices)
-            print(f'OpenAI went crazy with {answer} so {favorite} was chosen randomly')  # DEBUGGING
+            Logger.debug(f'OpenAI went crazy with {answer} so {favorite} was chosen randomly')
 
         # DONE
         return favorite
@@ -342,6 +363,204 @@ class JitbAi:
         # DONE
         return new_answers
 
+    def _validate_attributes(self) -> None:
+        """Validate internal attributes."""
+        # Temperature
+        if not isinstance(self._base_temp, int) and not isinstance(self._base_temp, float):
+            raise TypeError(f'Invalid temperature type of {type(self._base_temp)}')
+        if self._base_temp < 0.0 or self._base_temp > 2.0:
+            raise ValueError(f'Invalid temperature of {self._base_temp} (must be between 0 and 2)')
+
+
+def polish_answer(prompt: str, answer: str, length_limit: int, original_answer: str = None) -> str:
+    """Polishes AI answers to improve the quality of responses.
+
+    This function recursively performs the following until no other changes are necessary:
+        1. Normalizes the encoding of the prompt to avoid encoding-shenanigans
+        2. Removes leading and trailing quotes
+        3. Removes overlap between the prompt and answer
+        4. Removes trailing punctuation (in certain situations)
+        5. Ensures the answer is no longer than length_limit
+
+    Args:
+        prompt: The original prompt.
+        answer: The AI-generated answer.
+        length_limit: Upper end limit for the length of the answer.
+        original_answer: Optional; Keep track of the original through all the recursion.  If you
+            *must* include a value for this argument, choose the same value as answer.
+
+    Returns:
+        An answer, which may or may not be modified.
+
+    Raises:
+        TypeError: Bad data type.
+        ValueError: Bad value.
+    """
+    # LOCAL VARIABLES
+    clean_prompt = ''    # Normalized verseion of prompt
+    new_answer = answer  # A polished up version of answer
+    final_run = False    # Final call in the recursive call stack
+
+    # INPUT VALIDATION
+    _validate_string(prompt, 'prompt')
+    _validate_string(answer, 'answer')
+    if not isinstance(length_limit, int):
+        raise TypeError(f'The length_limit argument must be an int instead of {type(length_limit)}')
+    if length_limit < 1:
+        raise ValueError(f'The length_limit must be a positive number instead of {length_limit}')
+    if original_answer:
+        _validate_string(original_answer, 'original_answer')
+    else:
+        original_answer = answer  # This is the first call
+
+    # POLISH IT
+    clean_prompt = clean_up_string(prompt)
+    new_answer = clean_up_string(answer)
+    if clean_prompt != prompt:
+        Logger.debug(f'Successfully cleaned "{prompt}" to "{clean_prompt}"')
+    if new_answer != answer:
+        Logger.debug(f'Successfully cleaned "{answer}" to "{new_answer}"')
+    # 1. Removes leading and trailing quotes
+    new_answer = re.sub(r'^"|"$', '', new_answer)  # Strip leading and trailing quotes
+    # 2. Removes overlap between the prompt and answer
+    new_answer = remove_answer_overlap(prompt=clean_prompt, answer=new_answer)
+    # 3. Removes trailing punctuation (in certain situations)
+    new_answer = remove_punctuation(prompt=clean_prompt, answer=new_answer)
+    # Save truncation for last
+    if new_answer != answer:
+        new_answer = polish_answer(prompt=clean_prompt, answer=new_answer,
+                                   length_limit=length_limit, original_answer=original_answer)
+    else:
+        final_run = True
+    # 4. Ensures the answer is no longer than length_limit
+    if len(new_answer) > length_limit:
+        new_answer = new_answer[:length_limit]
+
+    # DONE
+    if new_answer != original_answer and final_run:
+        Logger.debug(f'Polished "{new_answer}" from "{original_answer}" for this: "{clean_prompt}"')
+    return new_answer
+
+
+def remove_answer_overlap(prompt: str, answer: str, min_len: int = MIN_FITB_LEN) -> str:
+    """Remove any overlap between the prompt and answer for fill-in-the-blank prompts.
+
+    OpenAI response don't do a good job of following instructions for the fill-in-the-blank
+    prompts so we're going to help them.  This function will not change an answer for a prompt
+    that does *not* include a fill-in-the-blank.
+
+    Args:
+        prompt: The original prompt.
+        answer: The AI-generated answer.
+        min_len: Optional; Minimum length of repeating undescores to be considered a fitb prompt.
+
+    Returns:
+        The answer to the prompt, modified or not.
+
+    Raises:
+        TypeError: Bad data type.
+        ValueError: Empty string.
+    """
+    # LOCAL VARIABLES
+    opening = ''         # Portion of the prompt preceding the blank
+    closing = ''         # Portion of the prompt following the blank
+    new_answer = answer  # Trimmed up version of answer
+    broken_prompt = []   # Pieces/parts of the prompt
+    regex_pattern = r''  # Use this regex split the prompt
+
+    # INPUT VALIDATION
+    _validate_string(prompt, 'prompt')
+    _validate_string(answer, 'answer')
+    _validate_pos_int(min_len, 'min_len')
+
+    # SPLIT IT
+    # Matches on any min_len number of underscores anywhere
+    regex_pattern = r'_{%d,}' % min_len  # pylint: disable = consider-using-f-string)
+    broken_prompt = re.split(regex_pattern, prompt)
+
+    # REMOVE OVERLAP
+    if len(broken_prompt) == 2:
+        opening = broken_prompt[0]   # Prompt substring before the blank
+        closing = broken_prompt[1]   # Prompt substring after the blank
+        opening = _get_leading_overlap(opening.lower(), answer.lower())  # Opening & answer overlap
+        closing = _get_trailing_overlap(closing.lower(), answer.lower())  # Closing & answer overlap
+        if opening:
+            try:
+                # Slice off leading overlap
+                new_answer = new_answer[new_answer.lower().index(opening.lower()) + len(opening):]
+            except ValueError as err:
+                Logger.debug('remove_answer_overlap() failed slicing the opening overlap of '
+                             + f'"{opening}" off of the current working answer of '
+                             + f'"{new_answer}" with {repr(err)}!')
+        if closing:
+            try:
+                # Slice off trailing overlap
+                new_answer = new_answer[:new_answer.lower().index(closing.lower())]
+            except ValueError as err:
+                Logger.debug('remove_answer_overlap() failed slicing the trailing overlap of '
+                             + f'"{closing}" off of the current working answer of '
+                             + f'"{new_answer}" with {repr(err)}!')
+
+    # DONE
+    if new_answer != answer:
+        Logger.debug(f'Trimmed "{new_answer}" from "{answer}" by removing overlap with '
+                     f'this prompt: "{prompt}"')
+    return new_answer
+
+
+def remove_punctuation(prompt: str, answer: str, min_len: int = MIN_FITB_LEN) -> str:
+    """Remove trailing punctuation from answer, depending on the prompt.
+
+    Removes trailing punctuation from answer unless the prompt has a trailing fill-in-the-blank,
+    sans prompt punctuation.  Never removes punctuation marks.
+
+    Args:
+        prompt: The original prompt.
+        answer: The AI-generated answer.
+        min_len: Optional; Minimum length of repeating undescores to be considered a fitb prompt.
+
+    Returns:
+        The answer to the prompt, modified or not.
+
+    Raises:
+        TypeError: Bad data type.
+        ValueError: Empty string.
+    """
+    # LOCAL VARIABLES
+    new_answer = answer    # A polished up version of answer
+    blank = '_' * min_len  # Fill-in-the-blank substring
+
+    # INPUT VALIDATION
+    _validate_string(prompt, 'prompt')
+    _validate_string(answer, 'answer')
+
+    # REMOVE IT
+    if not answer.endswith('!') and not prompt.endswith(blank):
+        new_answer = new_answer.rstrip(punctuation)
+
+    # DONE
+    return new_answer
+
+
+def _get_leading_overlap(haystack: str, needle: str) -> str:
+    """Returns the trailing haystack and leading needle overlap sub-string."""
+    overlap = ''  # Overlap between haystack and needle
+    for i in range(1, len(needle)):
+        if haystack.endswith(needle[:-i]):
+            overlap = needle[:-i]
+            break
+    return overlap
+
+
+def _get_trailing_overlap(haystack: str, needle: str) -> str:
+    """Returns the leading haystack and trailing needle overlap sub-string."""
+    overlap = ''  # Overlap between haystack and needle
+    for i in range(1, len(needle)):
+        if haystack.startswith(needle[i:]):
+            overlap = needle[i:]
+            break
+    return overlap
+
 
 def _match_phrase(needle: str, haystack: str, threshold: float = 0.75) -> bool:
     """Loosely match a needle and a haystack to an established threshold.
@@ -388,3 +607,37 @@ def _match_phrase(needle: str, haystack: str, threshold: float = 0.75) -> bool:
 def _randomize_choice(choices: dict) -> str:
     """Randomize one of the values from choices."""
     return random.choice(list(choices.values()))
+
+
+def _validate_pos_int(in_int: int, name: str) -> None:
+    """Validate input on behalf of this module's API functions.
+
+    Args:
+        in_int: Input to validate.
+        name: Name of the original variable to us in crafting the Exception message.
+
+    Raises:
+        TypeError: Bad data type.
+        ValueError: Integer not positive.
+    """
+    if not isinstance(in_int, int):
+        raise TypeError(f'Invalid data type for {name} argument: {type(in_int)}')
+    if in_int < 1:
+        raise ValueError(f'{name.capitalize()} must be positive')
+
+
+def _validate_string(in_str: str, name: str) -> None:
+    """Validate input on behalf of this module's API functions.
+
+    Args:
+        in_str: Input to validate.
+        name: Name of the original variable to us in crafting the Exception message.
+
+    Raises:
+        TypeError: Bad data type.
+        ValueError: Empty string.
+    """
+    if not isinstance(in_str, str):
+        raise TypeError(f'Invalid data type for {name} argument: {type(in_str)}')
+    if not in_str:
+        raise ValueError(f'{name.capitalize()} may not be empty')
