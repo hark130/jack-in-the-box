@@ -67,7 +67,7 @@ def determine_tmp_dir() -> str:
 
     # VALIDATE
     if not tmp_dir:
-        if platform.lower() in ('darwin', 'linux', 'linux2'):
+        if platform.lower() in ('cygwin', 'darwin', 'linux', 'linux2'):
             tmp_dir = TEMP_DIR_DEF_NIX
         elif platform.lower() == 'win32':
             tmp_dir = TEMP_DIR_DEF_WIN
