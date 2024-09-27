@@ -11,12 +11,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Support for Jackbox Party Pack 6 - Dictionarium
 - `JitbAi.change_system_content()` to allow game-specific AI content control
+- The user may control the `--debug` log file directory using the `TMPDIR` environment variable
 
 ### Changed
 
 ### Deprecated
 
 ### Fixed
+
+- `--debug` log file location is now (reasonably) OS-agnostic
 
 ### Removed
 
