@@ -3,7 +3,7 @@ Jack in the Box (JITB): Connecting Jackbox Games to the OpenAI API in Python3
 
 ## DETAILS
 
-JITB uses this [OpenAi API](https://platform.openai.com/docs/guides/text-generation/chat-completions-api) to generate content and uses a [Google Chrome](https://www.google.com/chrome/) browser, by way of [Selenium](https://www.selenium.dev/documentation/webdriver/), to interact with the game.
+JITB uses this [OpenAi API](https://platform.openai.com/docs/guides/text-generation/chat-completions-api) with the [gpt-4o-mini](https://platform.openai.com/docs/models/gpt-4o-mini) model to generate content and a [Google Chrome](https://www.google.com/chrome/) browser, by way of [Selenium](https://www.selenium.dev/documentation/webdriver/), to interact with the [Jackbox Games](https://www.jackboxgames.com/).
 
 ### Supported Jackbox Games
 
