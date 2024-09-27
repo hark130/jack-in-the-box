@@ -14,6 +14,7 @@ JITB uses this [OpenAi API](https://platform.openai.com/docs/guides/text-generat
 
 ## INSTRUCTIONS
 
+1. [Install Python](https://www.python.org/downloads/) 3.10 (or later)
 1. [Download and install Google Chrome](https://support.google.com/chrome/answer/95346?hl=en-GB&co=GENIE.Platform%3DDesktop)
 1. Download a release wheel from [releases](https://github.com/hark130/jack-in-the-box/releases)
 1. `pip install jitb-X.Y.Z-py3-none-any.whl`
