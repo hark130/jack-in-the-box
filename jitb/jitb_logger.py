@@ -1,7 +1,7 @@
 """Standardize logging on behalf of the package.
 
 Using the --debug command line argument will duplicate any log output, and add debug messages,
-to /tmp/jitb_YYYYMMDD_HHMMSS.log.
+to jitb_YYYYMMDD_HHMMSS.log in the temporary directory.
 
 clear; tail -f `ls /tmp/jitb_* | tail -n 1`
 """
@@ -13,6 +13,7 @@ import os
 import sys
 # Third Party
 # Local
+from jitb.jitb_misc import determine_tmp_dir
 
 
 # pylint: disable=too-few-public-methods, no-self-argument
@@ -64,7 +65,7 @@ class Logger():
 
         Args:
             debug: [Optional] If True, sets the logging level to DEBUG and logs to
-                /tmp/jitb_YYYYMMDD_HHMMSS.log.
+                jitb_YYYYMMDD_HHMMSS.log in the temporary directory.
 
         Function is optional as the logging class auto-initializes if called without initialization
         """
@@ -172,7 +173,7 @@ def _create_filename() -> str:
 
     # CREATE IT
     while True:
-        abs_log_filename = os.path.join('/tmp',
+        abs_log_filename = os.path.join(determine_tmp_dir(),
                                         f'jitb_{now.strftime("%Y%m%d_%H%M%S")}-{str(number)}.log')
         if os.path.isfile(abs_log_filename):
             number += 1
