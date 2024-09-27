@@ -30,6 +30,12 @@ class JbgDict(JbgAbc):
             ai_obj:  OpenAI API interface to use in this game.
             username:  The screen name used in this game.
         """
+        ai_obj.change_system_content('You are a witty person trying to win the Jackbox Game'
+                                     'Dictionarium. When giving definitions or synonyms, do not '
+                                     'repeat the original word, '
+                                     'do not provide the part of speech, do not add extra context, '
+                                     'and not not add extraneous commentary. '
+                                     'Respond with just the definition or synonym.')
         super().__init__(ai_obj=ai_obj, username=username)
 
     # Parent Class Abstract Methods
@@ -184,7 +190,6 @@ class JbgDict(JbgAbc):
             try:
                 prompt_text = get_prompt(web_driver=web_driver)
                 if prompt_text and prompt_text != last_prompt:
-                    print(f'THE PROMPT IS: {prompt_text}')  # DEBUGGING
                     break
                 time.sleep(JITB_POLL_RATE)  # Give the prompt a chance to update from the last one
             except RuntimeError as err:

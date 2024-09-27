@@ -41,6 +41,8 @@ class JbgJb(JbgAbc):
             ai_obj:  OpenAI API interface to use in this game.
             username:  The screen name used in this game.
         """
+        ai_obj.change_system_content('You are a witty person trying to win the Jackbox Game '
+                                     'Joke Boat')
         super().__init__(ai_obj=ai_obj, username=username)
         self._joke_topic_dict = {}     # Dictionary of joke topics (see: KNOWN_JOKE_TOPICS)
         self._joke_topic_init = False  # Joke Topic Dict prepopulated
