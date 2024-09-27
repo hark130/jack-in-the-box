@@ -34,9 +34,17 @@ class JitbAi:
         self._client = None            # OpenAI() object
         self._model = model            # OpenAI model
         self._base_temp = temperature  # Temperature (see: help(OpenAI().chat.completions.create))
+        # self._base_messages = [
+        #     {'role': 'system',
+        #      'content': 'You are a funny person trying to win Jackbox Games.'},
+        # ]
+        # MANUAL TESTING FOR DICTIONARIUM
         self._base_messages = [
             {'role': 'system',
-             'content': 'You are a funny person trying to win Jackbox Games.'},
+             'content': 'You are a witty person trying to win Jackbox Games. When giving '
+                        'definitions or synonyms, do not repeat the word, provide the part of '
+                        'speech, or add extra context. Respond with just the definition or '
+                        'synonym.'},
         ]
         # Content message indications the OpenAI did not answer a query
         self._failure_content = [

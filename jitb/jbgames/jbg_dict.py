@@ -384,7 +384,7 @@ def _is_vote_page(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
     try:
         temp_text = get_web_element_text(web_driver, By.ID, element_name)
         if temp_text:
-            temp_text = clean_up_string(dirty_string = temp_text)  # Remove newlines
+            temp_text = clean_up_string(dirty_string=temp_text)  # Remove newlines
             if check_needles:
                 for prompt in prompts:
                     if prompt.lower() in temp_text.lower():
@@ -421,7 +421,7 @@ def _is_waiting_likes_page(web_driver: selenium.webdriver.chrome.webdriver.WebDr
     try:
         temp_text = get_web_element_text(web_driver, By.ID, element_name)
         if temp_text:
-            temp_text = clean_up_string(dirty_string = temp_text)  # Remove newlines
+            temp_text = clean_up_string(dirty_string=temp_text)  # Remove newlines
             if check_needles:
                 for prompt in prompts:
                     if prompt.lower() in temp_text.lower():
