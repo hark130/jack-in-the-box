@@ -7,6 +7,7 @@ The current [OpenAi API](https://platform.openai.com/docs/guides/text-generation
 
 ### Supported Jackbox Games
 
+* [Dictionarium](https://www.jackboxgames.com/games/dictionarium)
 * [Joke Boat](https://www.jackboxgames.com/games/joke-boat)
 * [Quiplash 2](https://www.jackboxgames.com/games/quiplash-2-interlashional)
 * [Quiplash 3](https://www.jackboxgames.com/games/quiplash-3)

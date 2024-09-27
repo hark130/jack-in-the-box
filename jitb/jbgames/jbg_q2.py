@@ -25,6 +25,18 @@ COMIC_LAST_NEEDLE: Final[str] = '   SEND'  # Only the Comic Last Lash seems to g
 class JbgQ2(JbgAbc):
     """Jackbox Games (JBG) Quiplash 2 (Q2) class."""
 
+    # Methods are listed in expected 'call order'.
+    def __init__(self, ai_obj: JitbAi, username: str) -> None:
+        """JbgJb ctor.
+
+        Args:
+            ai_obj:  OpenAI API interface to use in this game.
+            username:  The screen name used in this game.
+        """
+        ai_obj.change_system_content('You are a witty person trying to win the Jackbox Game '
+                                     'Quiplash 2')
+        super().__init__(ai_obj=ai_obj, username=username)
+
     # Parent Class Abstract Methods
     def play(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> None:
         """Determine web_driver's page id and call the relevant method.

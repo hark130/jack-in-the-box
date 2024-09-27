@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Support for Jackbox Party Pack 6 - Dictionarium
+- `JitbAi.change_system_content()` to allow game-specific AI content control
+
 ### Changed
 
 ### Deprecated
