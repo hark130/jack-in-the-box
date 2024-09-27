@@ -2,8 +2,7 @@
 
 # Standard
 from string import digits, punctuation, whitespace
-from typing import Final, List
-import random
+from typing import List
 import time
 # Third Party
 from selenium.common.exceptions import (ElementNotInteractableException, NoSuchElementException,
