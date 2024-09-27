@@ -12,13 +12,14 @@ from jitb.jitb_globals import JITB_POLL_RATE
 from jitb.jitb_logger import Logger
 from jitb.jitb_openai import JitbAi
 from jitb.jbgames.jbg_abc import JbgAbc
+from jitb.jbgames.jbg_dict import JbgDict
 from jitb.jbgames.jbg_jb import JbgJb
 from jitb.jbgames.jbg_q2 import JbgQ2
 from jitb.jbgames.jbg_q3 import JbgQ3
 
 
 # List of Jackbox Games that JITB supports
-JITB_SUPPORTED_GAMES: Final[Dict[str, JbgAbc]] = {'Joke Boat': JbgJb,
+JITB_SUPPORTED_GAMES: Final[Dict[str, JbgAbc]] = {'Dictionarium': JbgDict, 'Joke Boat': JbgJb,
                                                   'Quiplash 2': JbgQ2, 'Quiplash 3': JbgQ3}
 
 
