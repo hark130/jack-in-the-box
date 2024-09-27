@@ -312,10 +312,9 @@ class SpecialTestJbgDictIdPage(TestJbgDictIdPage):
         self.expect_return(JbgPageIds.LOGIN)
         self.run_test()
 
-    @skip('Save a Dictionarium disconnected page')
     def test_s03_game_over_disconnected(self):
         """Dictionarium game over page; disconnected."""
-        self.create_test_input('JackboxTV-JB-Game_Done-disconnected.html')
+        self.create_test_input('JackboxTV-Dict-Disconnected.html')
         self.expect_exception(RuntimeError, 'The room was disconnected')
         self.run_test()
 # pylint: enable = too-many-public-methods
