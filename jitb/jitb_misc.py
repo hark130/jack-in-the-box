@@ -1,10 +1,13 @@
 """Miscellaneous functions used by JITB."""
 # Standard
+from sys import platform
+import os
 import re
 import unicodedata
 import unidecode
 # Third Party
 # Local
+from jitb.jitb_globals import TEMP_DIR_DEF_NIX, TEMP_DIR_DEF_WIN, TEMP_DIR_ENV_VARS
 
 
 def char_filter(dirty_str: str):
@@ -42,3 +45,89 @@ def clean_up_string(dirty_string: str) -> str:
     clean_str = clean_string(dirty_string)
     clean_str = clean_str.replace('\n', ' ')
     return clean_str
+
+
+def determine_tmp_dir() -> str:
+    """Determine the temporary directory in which to store --debug log files.
+
+    Attempts to resolve the temp directory name in the following priority:
+    1. TMPDIR environment variable
+    2. TEMP environment variable
+    3. TEMPDIR environment variable
+    4. TMP environment variable
+    5. Hard-coded last resort:
+        - /tmp for *nix
+        - C:\\Temp for Windows
+
+    Returns:
+        A string representing the temporary directory to use for the debug log files.
+    """
+    # LOCAL VARIABLES
+    tmp_dir = _read_env_vars(TEMP_DIR_ENV_VARS)  # Temporary directory
+
+    # VALIDATE
+    if not tmp_dir:
+        if platform.lower() in ('cygwin', 'darwin', 'linux', 'linux2'):
+            tmp_dir = TEMP_DIR_DEF_NIX
+        elif platform.lower() == 'win32':
+            tmp_dir = TEMP_DIR_DEF_WIN
+        else:
+            raise RuntimeError('Unable to locate environment variables '
+                               f'({", ".join(TEMP_DIR_ENV_VARS)}) or determine host OS from '
+                               f'"{platform}" to ascertain the temporary directory.')
+
+    # DONE
+    return tmp_dir
+
+
+def _read_env_var(env_var: str) -> str:
+    """Read an environment variable and return the value read.
+
+    Args:
+        env_var: An environment variable to read.
+
+    Raises:
+        None.  KeyErrors are ignored and all other exceptions result in an empty string.
+
+    Returns:
+        A string containing the value read.  Returns an empty string if no value was read
+        or an exception occurred.
+    """
+    # LOCAL VARIABLES
+    env_value = ''  # The value read from env_var
+
+    # INPUT VALIDATION
+    try:
+        env_value = os.environ[env_var]
+    except (KeyError, TypeError, ValueError):
+        pass  # Must not exist
+
+    # DONE
+    return env_value
+
+
+def _read_env_vars(env_vars: list) -> str:
+    """Read each environment variable from the list, returning the first value read.
+
+    Args:
+        env_vars: A list of environment variables to attempt to read.
+
+    Raises:
+        None.  KeyErrors are ignored and all other exceptions result in an empty string.
+
+    Returns:
+        A string containing the first value read from the list.  Returns an empty string
+        if no values were read or an exception occurred.
+    """
+    # LOCAL VARIABLES
+    env_value = ''  # The first value read from a valid env_vars list entry
+
+    # INPUT VALIDATION
+    if isinstance(env_vars, list):
+        for env_var in env_vars:
+            env_value = _read_env_var(env_var)
+            if env_value:
+                break  # Found one!
+
+    # DONE
+    return env_value

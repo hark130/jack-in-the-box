@@ -1,5 +1,6 @@
 """Defines the entry-point function for this package."""
 # Standard
+import sys
 # Third Party
 # Local
 from jitb.jitb_args import parse_args
@@ -37,7 +38,8 @@ def main() -> int:
         if debug:
             input('[DEBUG] Game is over.  If there is an Exception, consider saving the log and '
                   'webpage for testing.  Press [Enter] to exit.')
-        client.tear_down()
+        if client:
+            client.tear_down()
 
     # DONE
     return exit_code
@@ -46,4 +48,8 @@ def main() -> int:
 
 def _print_exception(error: Exception) -> None:
     """Print an exception message to stderr."""
-    Logger.error(repr(error))
+    try:
+        Logger.error(repr(error))
+    except RuntimeError:
+        # Failed arg parsing can result in a failure to initialize the logger
+        print(repr(error), file=sys.stderr, flush=True)  # Just print it to stderr

@@ -22,6 +22,9 @@ The current [OpenAi API](https://platform.openai.com/docs/guides/text-generation
 6. `jitb --user JITB --room <ROOM_CODE>`
 7. Start the game
 
+
 ## USAGE
 
 `jitb --help`
+
+OPTIONAL: Use the `TMPDIR` environment variable to control the debug log file location.
