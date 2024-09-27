@@ -75,37 +75,37 @@ class NormalTestJbgDictGetPrompt(TestJbgDictGetPrompt):
     def test_n01_word_game_round_1_definition_prompt(self):
         """Dictionarium Word Game Round 1 defintion prompt."""
         self.create_wd_input('JackboxTV-Dict-Word_Game-Round_1-2-Definition_prompt.html')
-        self.expect_return('write a definition for\npurfoost')
+        self.expect_return('write a definition for purfoost')
         self.run_test()
 
     def test_n02_word_game_round_2_synonym_prompt(self):
         """Dictionarium Word Game Round 2 synonym prompt."""
         self.create_wd_input('JackboxTV-Dict-Word_Game-Round_2-1-Synonym_prompt.html')
-        self.expect_return('write a synonym for\npurfoost:\nsilly')
+        self.expect_return('write a synonym for purfoost: silly')
         self.run_test()
 
     def test_n03_word_game_round_3_sentence_prompt(self):
         """Dictionarium Word Game Round 3 sentence prompt."""
         self.create_wd_input('JackboxTV-Dict-Word_Game-Round_3-1-Sentence_prompt.html')
-        self.expect_return('write a sentence using\nFunny')
+        self.expect_return('write a sentence using Funny')
         self.run_test()
 
     def test_n04_slang_phrase_round_1_definition_prompt(self):
         """Dictionarium Slang Phrase Round 1 defintion prompt."""
         self.create_wd_input('JackboxTV-Dict-Slang_Phrase-Round_1-2-Definition_prompt.html')
-        self.expect_return('write a definition for\n“hors d’eserves”')  # Specific characters
+        self.expect_return('write a definition for "hors d\'eserves"')
         self.run_test()
 
     def test_n05_slang_phrase_round_2_synonym_prompt(self):
         """Dictionarium Slang Phrase Round 2 synonym prompt."""
         self.create_wd_input('JackboxTV-Dict-Slang_Phrase-Round_2-1-Synonym_prompt.html')
-        self.expect_return('write a synonym for\n“hors d’eserves”:\nWhores Deserts')  # Unique chars
+        self.expect_return('write a synonym for "hors d\'eserves": Whores Deserts')
         self.run_test()
 
     def test_n06_slang_phrase_round_3_sentence_prompt(self):
         """Dictionarium Slang Phrase Round 3 sentence prompt."""
         self.create_wd_input('JackboxTV-Dict-Slang_Phrase-Round_3-1-Sentence_prompt.html')
-        self.expect_return('write a sentence using\nSlut Treats')
+        self.expect_return('write a sentence using Slut Treats')
         self.run_test()
 
 
@@ -335,6 +335,12 @@ class SpecialTestJbgDictGetPrompt(TestJbgDictGetPrompt):
     def test_s34_game_done_waiting(self):
         """Dictionarium game done; waiting page."""
         self.create_wd_input('JackboxTV-Dict-End_of_game.html')
+        self.expect_exception(RuntimeError, 'This is not a prompt page')
+        self.run_test()
+
+    def test_s35_game_over_disconnected(self):
+        """Dictionarium game over page; disconnected."""
+        self.create_test_input('JackboxTV-Dict-Disconnected.html')
         self.expect_exception(RuntimeError, 'This is not a prompt page')
         self.run_test()
 # pylint: enable = too-many-public-methods
