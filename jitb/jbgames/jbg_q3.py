@@ -22,7 +22,7 @@ class JbgQ3(JbgAbc):
 
     # Methods are listed in expected 'call order'.
     def __init__(self, ai_obj: JitbAi, username: str) -> None:
-        """JbgJb ctor.
+        """JbgQ3 ctor.
 
         Args:
             ai_obj:  OpenAI API interface to use in this game.
