@@ -16,6 +16,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- `JitbAi`'s default model changed to [gpt-4o-mini](https://platform.openai.com/docs/models/gpt-4o-mini)
+
 ### Deprecated
 
 ### Fixed
