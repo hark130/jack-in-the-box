@@ -14,3 +14,6 @@ OPENAI_KEY_ENV_VAR: Final[str] = 'OPENAI_API_KEY'
 JBG_QUIP3_CHAR_NAMES: Final[List] = ['Purple', 'Blue', 'Teal', 'Green', 'Yellow', 'Orange',
                                      'Red', 'Pink', 'Star', 'Triclops', 'Kitten', 'Coffin',
                                      'Cactus', 'Moon', 'Tear', 'Poop']
+
+# Default {'role': 'system', 'content': DEFAULT_SYSTEM_CONTENT}
+DEFAULT_SYSTEM_CONTENT: Final[str] = 'You are a funny person trying to win Jackbox Games.'
