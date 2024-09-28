@@ -2,7 +2,7 @@
 
 # Standard
 from string import digits, punctuation, whitespace
-from typing import List
+from typing import Final, List
 import time
 # Third Party
 from selenium.common.exceptions import (ElementNotInteractableException, NoSuchElementException,
@@ -19,6 +19,9 @@ from jitb.jitb_openai import JitbAi
 from jitb.jitb_selenium import get_buttons, get_web_element, get_web_element_text
 
 
+DEFAULT_CHAR_LIMIT: Final[int] = 150  # Default maximum character limit
+
+
 class JbgDict(JbgAbc):
     """Jackbox Games (JBG) Dictionarium (Dict) class."""
 
@@ -30,6 +33,14 @@ class JbgDict(JbgAbc):
             ai_obj:  OpenAI API interface to use in this game.
             username:  The screen name used in this game.
         """
+        # Pass these values as prompt_clues arguments to jitb_webdriver functions
+        self._prompt_clues = ['Write a definition for', 'Write a synonym for',
+                              'Write a sentence using']
+        # Pass these values as vote_clues arguments to jitb_webdriver functions
+        self._vote_clues = ['Vote for your favorite definition of',
+                            'Vote for your favorite synonym',
+                            'Vote for your favorite sentence using']
+        # Update AI system: content message
         ai_obj.change_system_content('You are a witty person trying to win the Jackbox Game'
                                      'Dictionarium. When giving definitions or synonyms, do not '
                                      'repeat the original word, '
@@ -105,16 +116,15 @@ class JbgDict(JbgAbc):
 
         # INPUT VALIDATION
         self.validate_status(web_driver=web_driver)
-        if not _is_vote_page(web_driver=web_driver):
-            raise RuntimeError('This is not a voting page.')
 
         # VOTE IT
         while True:
-            prompt_text = _vote_answer(web_driver=web_driver, last_prompt=prompt_text,
-                                       ai_obj=self._ai_obj)
+            prompt_text = vote_answer(web_driver=web_driver, element_name='prompt',
+                                      element_type=By.ID, last_prompt=prompt_text,
+                                      ai_obj=self._ai_obj, vote_clues=self._vote_clues)
             if not prompt_text:
                 break
-            if not _is_vote_page(web_driver):
+            if not self.is_vote_page(web_driver=web_driver):
                 break
 
     def id_page(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> JbgPageIds:
@@ -136,9 +146,9 @@ class JbgDict(JbgAbc):
         self.validate_status(web_driver=web_driver)
 
         # DETERMINE PAGE
-        if _is_vote_page(web_driver=web_driver):
+        if self.is_vote_page(web_driver=web_driver):
             current_page = JbgPageIds.VOTE
-        elif _is_prompt_page(web_driver=web_driver):
+        elif self.is_prompt_page(web_driver=web_driver):
             current_page = JbgPageIds.ANSWER
         elif self._is_login_page(web_driver=web_driver):
             current_page = JbgPageIds.LOGIN
@@ -151,17 +161,7 @@ class JbgDict(JbgAbc):
         return current_page
 
     # Public Methods (alphabetical order)
-    def validate_status(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> None:
-        """Validates the web_driver and internal attributes.
-
-        Args:
-            web_driver: The webdriver object to interact with.
-        """
-        self._check_web_driver(web_driver=web_driver)
-        self._validate_core_attributes()
-
-    # Private Methods (alphabetical order)
-    def _answer_prompt(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
+    def answer_prompt(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
                        last_prompt: str) -> str:
         """Generating answers for prompts.
 
@@ -176,19 +176,20 @@ class JbgDict(JbgAbc):
             RuntimeError: The prompt wasn't answered.
         """
         # LOCAL VARIABLES
-        prompt_text = ''     # Input prompt
-        answer = ''          # Answer to the prompt
-        clicked_it = False   # Keep track of whether this prompt was answered or not
-        num_loops = 5        # Number of attempts to make for a new prompt
+        prompt_text = ''                 # Input prompt
+        answer = ''                      # Answer to the prompt
+        clicked_it = False               # Keep track of whether this prompt was answered or not
+        num_loops = 5                    # Number of attempts to make for a new prompt
+        char_limit = DEFAULT_CHAR_LIMIT  # Maximum character limit
 
         # INPUT VALIDATION
-        if not _is_prompt_page(web_driver):
+        if not self.is_prompt_page(web_driver=web_driver):
             raise RuntimeError('This is not a prompt page')
 
         # WAIT FOR IT
         for _ in range(num_loops):
             try:
-                prompt_text = get_prompt(web_driver=web_driver)
+                prompt_text = self.get_prompt(web_driver=web_driver)
                 if prompt_text and prompt_text != last_prompt:
                     break
                 time.sleep(JITB_POLL_RATE)  # Give the prompt a chance to update from the last one
@@ -198,10 +199,9 @@ class JbgDict(JbgAbc):
                 raise err from err
 
         # ANSWER IT
-        answer = self.generate_ai_answer(prompt=prompt_text, ai_obj=self._ai_obj, length_limit=150)
-        if _submit_an_answer(web_driver=web_driver, field_str='input-text-textarea',
-                             submit_text=answer):
-            clicked_it = _click_a_button(web_driver=web_driver, button_str='SUBMIT')
+        answer = self.generate_ai_answer(prompt=prompt_text, ai_obj=self._ai_obj,
+                                         length_limit=self.get_char_limit(web_driver=web_driver))
+        clicked_it = self.submit_an_answer(web_driver=web_driver, submit_text=answer)
 
         # DONE
         if not clicked_it:
@@ -209,370 +209,411 @@ class JbgDict(JbgAbc):
         Logger.debug(f'Answered prompt "{prompt_text}" with "{answer}"!')
         return prompt_text
 
+    def get_char_limit(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> int:
+        """Wraps jitb_webdriver.get_char_limit with game-specific details."""
+        # LOCAL VARIABLES
+        char_limit = None  # Character limit for the prompt
+
+        # GET IT
+        char_limit = get_char_limit(web_driver=web_driver, element_name='charRemaining',
+                                    element_type=By.CLASS_NAME)
+        if char_limit is none:
+            char_limit = DEFAULT_CHAR_LIMIT
+
+        # DONE
+        return char_limit
+
+    def get_prompt(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> str:
+        """Wraps jitb_webdriver.get_prompt with game-specific details."""
+        return get_prompt(web_driver=web_driver, element_name='prompt', element_type=By.ID,
+                          prompt_clues=self._prompt_clues)
+
+    def is_prompt_page(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> bool:
+        """Wraps jitb_webdirver.is_prompt_page with game-specific details."""
+        return is_prompt_page(web_driver=web_driver, element_name='prompt', element_type=By.ID,
+                              prompt_clues=self._prompt_clues)
+
+    def is_vote_page(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> bool:
+        """Wraps jitb_webdirver.is_vote_page with game-specific details."""
+        return is_vote_page(web_driver=web_driver, element_name='prompt', element_type=By.ID,
+                            prompt_clues=self._vote_clues)
+
+    def submit_an_answer(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
+                        submit_text: str) -> bool:
+        """Write an answer and click the submit button.
+
+        Returns:
+            True if an answer was written and the button was clicked, False otherwise.
+        """
+        # LOCAL VARIABLES
+        clicked_it = False  # Indicates whether the button was clicked or not
+
+        # SUBMIT IT
+        if self.write_an_answer(web_driver=web_driver, submit_text=submit_text):
+            clicked_it = click_a_button(web_driver=web_driver, button_str='SUBMIT')
+
+        # DONE
+        return clicked_it
+
+    def validate_status(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> None:
+        """Validates the web_driver and internal attributes.
+
+        Args:
+            web_driver: The webdriver object to interact with.
+        """
+        self._check_web_driver(web_driver=web_driver)
+        self._validate_core_attributes()
+
+    def write_an_answer(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
+                        submit_text: str) -> bool:
+        """Wraps jitb_webdriver.write_an_answer with game-specific details."""
+        return write_an_answer(web_driver=web_driver, element_name='input-text-textarea',
+                               element_type=By.ID, submit_text=submit_text)
+
 
 # Public Functions (alphabetical order)
-def get_prompt(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
-               check_needles: bool = True) -> str:
-    """Get the prompt text from the question-text web element.
+# def get_prompt(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
+#                check_needles: bool = True) -> str:
+#     """Get the prompt text from the question-text web element.
 
-    Strips newlines from the prompt text.
+#     Strips newlines from the prompt text.
 
-    Args:
-        web_driver: The web driver to get the prompt from.
-        check_needles: Optional; If True, will verify prompt needles are found.
+#     Args:
+#         web_driver: The web driver to get the prompt from.
+#         check_needles: Optional; If True, will verify prompt needles are found.
 
-    Returns:
-        The game prompt text.
+#     Returns:
+#         The game prompt text.
 
-    Raises:
-        RuntimeError: No prompts found or web_driver isn't a prompt page.
-        TypeError: Bad data type.
-        ValueError: Invalid by value.
-    """
-    # LOCAL VARIABLES
-    needle = 'prompt'  # Web element id to find in web_driver
-    prompt_text = ''   # The prompt's text as a string
+#     Raises:
+#         RuntimeError: No prompts found or web_driver isn't a prompt page.
+#         TypeError: Bad data type.
+#         ValueError: Invalid by value.
+#     """
+#     # LOCAL VARIABLES
+#     needle = 'prompt'  # Web element id to find in web_driver
+#     prompt_text = ''   # The prompt's text as a string
 
-    # INPUT VALIDATION
-    _validate_web_driver(web_driver=web_driver)
-    if not _is_prompt_page(web_driver, check_needles=check_needles):
-        raise RuntimeError('This is not a prompt page')
+#     # INPUT VALIDATION
+#     _validate_web_driver(web_driver=web_driver)
+#     if not  _is_prompt_page(web_driver, check_needles=check_needles):
+#         raise RuntimeError('This is not a prompt page')
 
-    # GET IT
-    try:
-        prompt_text = get_web_element_text(web_driver=web_driver, by_arg=By.ID, value=needle)
-    except (RuntimeError, TypeError, ValueError) as err:
-        raise RuntimeError(f'The call to get_web_element_text() for the {needle} element value '
-                           f'failed with {repr(err)}') from err
-    else:
-        if prompt_text is None:
-            raise RuntimeError(f'Unable to locate the {needle} element value')
-        if not prompt_text:
-            raise RuntimeError(f'Did not detect any text using the {needle} element value')
+#     # GET IT
+#     try:
+#         prompt_text = get_web_element_text(web_driver=web_driver, by_arg=By.ID, value=needle)
 
-    # DONE
-    return clean_up_string(prompt_text)
+#         # TESTING
+#         test_value = get_web_element_text(web_driver=web_driver, by_arg=By.CLASS_NAME,
+#                                           value='charRemaining')
+#         print(f'TEST VALUE: {test_value} (of type {type(test_value)})')  # DEBUGGING
+#     except (RuntimeError, TypeError, ValueError) as err:
+#         raise RuntimeError(f'The call to get_web_element_text() for the {needle} element value '
+#                            f'failed with {repr(err)}') from err
+#     else:
+#         if prompt_text is None:
+#             raise RuntimeError(f'Unable to locate the {needle} element value')
+#         if not prompt_text:
+#             raise RuntimeError(f'Did not detect any text using the {needle} element value')
 
-
-def get_vote_text(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
-                  check_needles: bool = True) -> str:
-    """Get the vote text from various web elements, assemble them, and return it.
-
-    Args:
-        web_driver: The web driver to get the prompt from.
-        check_needles: Optional; If True, will verify prompt needles are found.
-
-    Returns:
-        The game vote text.
-
-    Raises:
-        RuntimeError: No prompts found or web_driver isn't a vote page.
-        TypeError: Bad data type.
-        ValueError: Invalid by value.
-    """
-    # LOCAL VARIABLES
-    needle = 'prompt'  # Web element to look for
-    vote_text = ''     # The full vote prompt
-
-    # INPUT VALIDATION
-    _validate_web_driver(web_driver=web_driver)
-    if not _is_vote_page(web_driver, check_needles=check_needles):
-        raise RuntimeError('This is not a vote page')
-
-    # GET THEM
-    try:
-        vote_text = get_web_element_text(web_driver=web_driver, by_arg=By.ID, value=needle)
-    except (RuntimeError, TypeError, ValueError) as err:
-        raise RuntimeError(f'The call to get_web_element_text() for the {needle} element value '
-                           f'failed with {repr(err)}') from err
-    else:
-        if vote_text is None:
-            raise RuntimeError(f'Unable to locate the {needle} element value')
-        if not vote_text:
-            raise RuntimeError(f'Did not detect any text using the {needle} element value')
-
-    # DONE
-    return vote_text
+#     # DONE
+#     return clean_up_string(prompt_text)
 
 
-# Private Functions (alphabetical order)
-def _click_a_button(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
-                    button_str: str) -> bool:
-    """Standardize the way buttons are clicked.
+# def get_vote_text(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
+#                   check_needles: bool = True) -> str:
+#     """Get the vote text from various web elements, assemble them, and return it.
 
-    Args:
-        web_driver: The webdriver object to interact with.
-        button_str: The substring to search for within the button text.
+#     Args:
+#         web_driver: The web driver to get the prompt from.
+#         check_needles: Optional; If True, will verify prompt needles are found.
 
-    Returns:
-        True if a button was clicked, false otherwise.
-    """
-    # LOCAL VARIABLES
-    buttons = get_buttons(web_driver=web_driver)  # All the buttons from web_driver
-    clicked_it = False                            # Return value
+#     Returns:
+#         The game vote text.
 
-    # CLICK IT
-    for button in buttons:
-        # Find it
-        if button_str.lower() in button.text.lower() and button.is_enabled():
-            # Click it
-            try:
-                button.click()
-            except ElementNotInteractableException as err:
-                Logger.debug(f'Failed to click "{button.text}" with {repr(err)}')
-            else:
-                clicked_it = True
-            finally:
-                break  # pylint: disable = lost-exception
+#     Raises:
+#         RuntimeError: No prompts found or web_driver isn't a vote page.
+#         TypeError: Bad data type.
+#         ValueError: Invalid by value.
+#     """
+#     # LOCAL VARIABLES
+#     needle = 'prompt'  # Web element to look for
+#     vote_text = ''     # The full vote prompt
 
-    # DONE
-    return clicked_it
+#     # INPUT VALIDATION
+#     _validate_web_driver(web_driver=web_driver)
+#     if not _is_vote_page(web_driver, check_needles=check_needles):
+#         raise RuntimeError('This is not a vote page')
 
+#     # GET THEM
+#     try:
+#         vote_text = get_web_element_text(web_driver=web_driver, by_arg=By.ID, value=needle)
+#     except (RuntimeError, TypeError, ValueError) as err:
+#         raise RuntimeError(f'The call to get_web_element_text() for the {needle} element value '
+#                            f'failed with {repr(err)}') from err
+#     else:
+#         if vote_text is None:
+#             raise RuntimeError(f'Unable to locate the {needle} element value')
+#         if not vote_text:
+#             raise RuntimeError(f'Did not detect any text using the {needle} element value')
 
-def _is_prompt_page(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
-                    check_needles: bool = True) -> bool:
-    """Determine if this is a prompt page.
-
-    Args:
-        web_driver: The web driver to check.
-        check_needles: Optional; If True, will verify prompt needles are found.
-
-    Returns:
-        True if this is a regular prompt screen, False otherwise.
-    """
-    # LOCAL VARIABLES
-    element_name = 'prompt'  # The web element value to search for
-    prompt_page = False      # Prove this true
-    temp_text = ''           # Text from the web element
-    # List of prompt needles from various Joke Boat voting screens
-    prompts = ['Write a definition for', 'Write a synonym for', 'Write a sentence using']
-
-    # IS IT?
-    try:
-        temp_text = get_web_element_text(web_driver, By.ID, element_name)
-        if temp_text:
-            if check_needles:
-                for prompt in prompts:
-                    if prompt.lower() in temp_text.lower():
-                        prompt_page = True  # If we made it here, it's a prompt page
-                        break  # Found one.  Stop looking.
-            else:
-                prompt_page = True  # Far enough
-    except (NoSuchElementException, StaleElementReferenceException, TypeError, ValueError):
-        pass  # Not a prompt page
-
-    # DONE
-    return prompt_page
+#     # DONE
+#     return vote_text
 
 
-def _is_vote_page(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
-                  check_needles: bool = True) -> bool:
-    """Determine if this is this a vote page.
+# # Private Functions (alphabetical order)
+# def _click_a_button(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
+#                     button_str: str) -> bool:
+#     """Standardize the way buttons are clicked.
 
-    Args:
-        web_driver: The web driver to check.
-        check_needles: Optional; If True, will verify vote needles are found.
+#     Args:
+#         web_driver: The webdriver object to interact with.
+#         button_str: The substring to search for within the button text.
 
-    Returns:
-        True if this is a regular vote screen, False otherwise.
-    """
-    # LOCAL VARIABLES
-    element_name = 'prompt'  # The web element value to search for
-    vote_page = False        # Prove this true
-    temp_text = ''           # Temp prompt text
-    # List of prompt needles from various Joke Boat voting screens
-    prompts = ['Vote for your favorite definition of', 'Vote for your favorite synonym',
-               'Vote for your favorite sentence using']
+#     Returns:
+#         True if a button was clicked, false otherwise.
+#     """
+#     # LOCAL VARIABLES
+#     buttons = get_buttons(web_driver=web_driver)  # All the buttons from web_driver
+#     clicked_it = False                            # Return value
 
-    # IS IT?
-    try:
-        temp_text = get_web_element_text(web_driver, By.ID, element_name)
-        if temp_text:
-            temp_text = clean_up_string(dirty_string=temp_text)  # Remove newlines
-            if check_needles:
-                for prompt in prompts:
-                    if prompt.lower() in temp_text.lower():
-                        vote_page = True  # If we made it here, it's a vote page
-                        break  # Found one.  Stop looking.
-            else:
-                vote_page = True  # Far enough
-    except (NoSuchElementException, StaleElementReferenceException, TypeError, ValueError):
-        pass  # Not a vote page
+#     # CLICK IT
+#     for button in buttons:
+#         # Find it
+#         if button_str.lower() in button.text.lower() and button.is_enabled():
+#             # Click it
+#             try:
+#                 button.click()
+#             except ElementNotInteractableException as err:
+#                 Logger.debug(f'Failed to click "{button.text}" with {repr(err)}')
+#             else:
+#                 clicked_it = True
+#             finally:
+#                 break  # pylint: disable = lost-exception
 
-    # DONE
-    return vote_page
+#     # DONE
+#     return clicked_it
 
 
-def _is_waiting_likes_page(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
-                           check_needles: bool = True) -> bool:
-    """Determine if this is this a award-likes-while-you-are-waiting page.
+# def _is_prompt_page(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
+#                     check_needles: bool = True) -> bool:
+#     """Determine if this is a prompt page.
 
-    Args:
-        web_driver: The web driver to check.
-        check_needles: Optional; If True, will verify vote needles are found.
+#     Args:
+#         web_driver: The web driver to check.
+#         check_needles: Optional; If True, will verify prompt needles are found.
 
-    Returns:
-        True if this is a 'distribute likes' waiting screen, False otherwise.
-    """
-    # LOCAL VARIABLES
-    element_name = 'prompt'  # The web element value to search for
-    likes_page = False       # Prove this true
-    temp_text = ''           # Temp prompt text
-    # List of prompt needles from various Joke Boat voting screens
-    prompts = ['distribute likes']
+#     Returns:
+#         True if this is a regular prompt screen, False otherwise.
+#     """
+#     # LOCAL VARIABLES
+#     element_name = 'prompt'  # The web element value to search for
+#     prompt_page = False      # Prove this true
+#     temp_text = ''           # Text from the web element
+#     # List of prompt needles from various Joke Boat voting screens
+#     prompts = ['Write a definition for', 'Write a synonym for', 'Write a sentence using']
 
-    # IS IT?
-    try:
-        temp_text = get_web_element_text(web_driver, By.ID, element_name)
-        if temp_text:
-            temp_text = clean_up_string(dirty_string=temp_text)  # Remove newlines
-            if check_needles:
-                for prompt in prompts:
-                    if prompt.lower() in temp_text.lower():
-                        likes_page = True  # If we made it here, it's a vote page
-                        break  # Found one.  Stop looking.
-            else:
-                likes_page = True  # Far enough
-    except (NoSuchElementException, StaleElementReferenceException, TypeError, ValueError):
-        pass  # Not a vote page
+#     # IS IT?
+#     try:
+#         temp_text = get_web_element_text(web_driver, By.ID, element_name)
+#         if temp_text:
+#             if check_needles:
+#                 for prompt in prompts:
+#                     if prompt.lower() in temp_text.lower():
+#                         prompt_page = True  # If we made it here, it's a prompt page
+#                         break  # Found one.  Stop looking.
+#             else:
+#                 prompt_page = True  # Far enough
+#     except (NoSuchElementException, StaleElementReferenceException, TypeError, ValueError):
+#         pass  # Not a prompt page
 
-    # DONE
-    return likes_page
-
-
-def _split_and_strip_answers(answer: str, delimiter: str = ',') -> List[str]:
-    """Split a comma-separated answer into a list of strings stipped of garbage."""
-    # List of split and stripped answers
-    answers = [_strip_answer(entry) for entry in answer.split(delimiter) if entry]
-    return answers
+#     # DONE
+#     return prompt_page
 
 
-def _strip_answer(answer: str) -> str:
-    """Strip answer of garbage: digits, punctuation, whitespace, 'a ', and 'an '."""
-    # LOCAL VARIABLES
-    strip_string = digits + punctuation + whitespace  # Strip these characters from list entries
+# def _is_vote_page(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
+#                   check_needles: bool = True) -> bool:
+#     """Determine if this is this a vote page.
 
-    # STRIP IT
-    new_answer = answer.rstrip(strip_string).lstrip(strip_string)
-    if new_answer.lower().startswith('a '.lower()):
-        new_answer = new_answer[2:]
-    if new_answer.lower().startswith('an '.lower()):
-        new_answer = new_answer[3:]
+#     Args:
+#         web_driver: The web driver to check.
+#         check_needles: Optional; If True, will verify vote needles are found.
 
-    # DONE
-    if new_answer != answer:
-        new_answer = _strip_answer(new_answer)  # Keep stripping until it's clean
-    return new_answer
+#     Returns:
+#         True if this is a regular vote screen, False otherwise.
+#     """
+#     # LOCAL VARIABLES
+#     element_name = 'prompt'  # The web element value to search for
+#     vote_page = False        # Prove this true
+#     temp_text = ''           # Temp prompt text
+#     # List of prompt needles from various Joke Boat voting screens
+#     prompts = ['Vote for your favorite definition of', 'Vote for your favorite synonym',
+#                'Vote for your favorite sentence using']
 
+#     # IS IT?
+#     try:
+#         temp_text = get_web_element_text(web_driver, By.ID, element_name)
+#         if temp_text:
+#             temp_text = clean_up_string(dirty_string=temp_text)  # Remove newlines
+#             if check_needles:
+#                 for prompt in prompts:
+#                     if prompt.lower() in temp_text.lower():
+#                         vote_page = True  # If we made it here, it's a vote page
+#                         break  # Found one.  Stop looking.
+#             else:
+#                 vote_page = True  # Far enough
+#     except (NoSuchElementException, StaleElementReferenceException, TypeError, ValueError):
+#         pass  # Not a vote page
 
-def _submit_an_answer(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
-                      field_str: str, submit_text: str) -> bool:
-    """Standardize the way keys are sent to text fields.
-
-    Args:
-        web_driver: The webdriver object to interact with.
-        field_str: The name of the prompt to fill.
-
-    Returns:
-        True if successful, false otherwise.
-    """
-    # LOCAL VARIABLES
-    sent_it = False  # Return value
-
-    # SUBMIT IT
-    prompt_input = get_web_element(web_driver, By.ID, field_str)
-    if prompt_input:
-        try:
-            prompt_input.send_keys(submit_text)
-        except ElementNotInteractableException as err:
-            Logger.debug(f'Failed to submit "{submit_text}" into "{field_str}" with {repr(err)}')
-        else:
-            sent_it = True
-    else:
-        Logger.debug(f'Unable to locate "{field_str}" by ID')
-
-    # DONE
-    return sent_it
+#     # DONE
+#     return vote_page
 
 
-def _validate_web_driver(web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> None:
-    """Validate a web driver."""
-    if not web_driver:
-        raise TypeError('Web driver can not be of type None')
-    if not isinstance(web_driver, selenium.webdriver.chrome.webdriver.WebDriver):
-        raise TypeError(f'Invalid web_driver data type of {type(web_driver)}')
+# def _is_waiting_likes_page(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
+#                            check_needles: bool = True) -> bool:
+#     """Determine if this is this a award-likes-while-you-are-waiting page.
+
+#     Args:
+#         web_driver: The web driver to check.
+#         check_needles: Optional; If True, will verify vote needles are found.
+
+#     Returns:
+#         True if this is a 'distribute likes' waiting screen, False otherwise.
+#     """
+#     # LOCAL VARIABLES
+#     element_name = 'prompt'  # The web element value to search for
+#     likes_page = False       # Prove this true
+#     temp_text = ''           # Temp prompt text
+#     # List of prompt needles from various Joke Boat voting screens
+#     prompts = ['distribute likes']
+
+#     # IS IT?
+#     try:
+#         temp_text = get_web_element_text(web_driver, By.ID, element_name)
+#         if temp_text:
+#             temp_text = clean_up_string(dirty_string=temp_text)  # Remove newlines
+#             if check_needles:
+#                 for prompt in prompts:
+#                     if prompt.lower() in temp_text.lower():
+#                         likes_page = True  # If we made it here, it's a vote page
+#                         break  # Found one.  Stop looking.
+#             else:
+#                 likes_page = True  # Far enough
+#     except (NoSuchElementException, StaleElementReferenceException, TypeError, ValueError):
+#         pass  # Not a vote page
+
+#     # DONE
+#     return likes_page
 
 
-# pylint: disable = too-many-branches
-def _vote_answer(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
-                 last_prompt: str, ai_obj: JitbAi, check_needles: bool = True) -> str:
-    """Generate votes for other players prompts.
+# def _submit_an_answer(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
+#                       field_str: str, submit_text: str) -> bool:
+#     """Standardize the way keys are sent to text fields.
 
-    Args:
-        web_driver: The web driver to check.
-        last_prompt: The last prompt that was answered.  Helps this function avoid trying to
-            answer the same prompt twice.
-        ai_obj: The JitbAi object to use.
-        check_needles: Optional; If True, will verify vote needles are found.
+#     Args:
+#         web_driver: The webdriver object to interact with.
+#         field_str: The name of the prompt to fill.
 
-    Returns:
-        The prompt that was answered as a string.
+#     Returns:
+#         True if successful, false otherwise.
+#     """
+#     # LOCAL VARIABLES
+#     sent_it = False  # Return value
 
-    Raises:
-        RuntimeError: The prompt wasn't answered.
-    """
-    # LOCAL VARIABLES
-    prompt_text = ''    # Input prompt
-    buttons = []        # List of web elements for the buttons
-    button = None       # The web element of the button to click
-    clicked_it = False  # Keep track of whether this prompt was answered or not
-    num_loops = 5       # Number of attempts to wait for a new prompt
-    choice_list = []    # List of possible answers
-    favorite = ''       # OpenAI's favorite answer
-    button_dict = {}    # Sanitized text are the keys and actual button text are the values
-    temp_text = ''      # Temp sanitized button text
+#     # SUBMIT IT
+#     prompt_input = get_web_element(web_driver, By.ID, field_str)
+#     if prompt_input:
+#         try:
+#             prompt_input.send_keys(submit_text)
+#         except ElementNotInteractableException as err:
+#             Logger.debug(f'Failed to submit "{submit_text}" into "{field_str}" with {repr(err)}')
+#         else:
+#             sent_it = True
+#     else:
+#         Logger.debug(f'Unable to locate "{field_str}" by ID')
 
-    # WAIT FOR IT
-    for _ in range(num_loops):
-        try:
-            # prompt_text = get_prompt(web_driver=web_driver)[0]
-            prompt_text = get_vote_text(web_driver=web_driver, check_needles=check_needles)
-            if prompt_text and prompt_text != last_prompt:
-                break
-            if not _is_vote_page(web_driver, check_needles=check_needles):
-                prompt_text = ''
-                break
-            time.sleep(JITB_POLL_RATE / 2)  # Less sleep, faster voting
-        except NoSuchElementException:
-            prompt_text = ''  # Must have been the last prompt to vote
-        except RuntimeError as err:
-            if err.args[0] == 'This is not a vote page':
-                break  # It was(?) but now it's not...
-            raise err from err
+#     # DONE
+#     return sent_it
 
-    # ANSWER IT
-    if prompt_text and prompt_text != last_prompt:
-        # buttons = get_sub_buttons(web_driver=web_driver, sub_by=By.ID, sub_value='quiplash-vote')
-        buttons = get_buttons(web_driver=web_driver)
-        buttons = [button for button in buttons if button.is_enabled()]
-        # Form the selection list
-        for button in buttons:
-            if button.text:
-                temp_text = button.text.strip('\n')
-                button_dict[temp_text] = button.text
-                choice_list.append(temp_text)
-        # Ask the AI
-        favorite = ai_obj.vote_favorite(prompt=prompt_text, answers=choice_list)
-        # Click it
-        clicked_it = _click_a_button(web_driver=web_driver, button_str=button_dict[favorite])
-    else:
-        prompt_text = ''  # Nothing got answered
 
-    # DONE
-    if prompt_text and prompt_text != last_prompt and not clicked_it:
-        raise RuntimeError('Did not vote an answer')
-    if clicked_it:
-        temp_text = prompt_text.replace('\n', ' ')
-        Logger.debug(f'Chose "{favorite}" for "{temp_text}"!')
-    return prompt_text
-# pylint: enable = too-many-branches
+# def _validate_web_driver(web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> None:
+#     """Validate a web driver."""
+#     if not web_driver:
+#         raise TypeError('Web driver can not be of type None')
+#     if not isinstance(web_driver, selenium.webdriver.chrome.webdriver.WebDriver):
+#         raise TypeError(f'Invalid web_driver data type of {type(web_driver)}')
+
+
+# # pylint: disable = too-many-branches
+# def _vote_answer(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
+#                  last_prompt: str, ai_obj: JitbAi, check_needles: bool = True) -> str:
+#     """Generate votes for other players prompts.
+
+#     Args:
+#         web_driver: The web driver to check.
+#         last_prompt: The last prompt that was answered.  Helps this function avoid trying to
+#             answer the same prompt twice.
+#         ai_obj: The JitbAi object to use.
+#         check_needles: Optional; If True, will verify vote needles are found.
+
+#     Returns:
+#         The prompt that was answered as a string.
+
+#     Raises:
+#         RuntimeError: The prompt wasn't answered.
+#     """
+#     # LOCAL VARIABLES
+#     prompt_text = ''    # Input prompt
+#     buttons = []        # List of web elements for the buttons
+#     button = None       # The web element of the button to click
+#     clicked_it = False  # Keep track of whether this prompt was answered or not
+#     num_loops = 5       # Number of attempts to wait for a new prompt
+#     choice_list = []    # List of possible answers
+#     favorite = ''       # OpenAI's favorite answer
+#     button_dict = {}    # Sanitized text are the keys and actual button text are the values
+#     temp_text = ''      # Temp sanitized button text
+
+#     # WAIT FOR IT
+#     for _ in range(num_loops):
+#         try:
+#             # prompt_text = get_prompt(web_driver=web_driver)[0]
+#             prompt_text = get_vote_text(web_driver=web_driver, check_needles=check_needles)
+#             if prompt_text and prompt_text != last_prompt:
+#                 break
+#             if not _is_vote_page(web_driver, check_needles=check_needles):
+#                 prompt_text = ''
+#                 break
+#             time.sleep(JITB_POLL_RATE / 2)  # Less sleep, faster voting
+#         except NoSuchElementException:
+#             prompt_text = ''  # Must have been the last prompt to vote
+#         except RuntimeError as err:
+#             if err.args[0] == 'This is not a vote page':
+#                 break  # It was(?) but now it's not...
+#             raise err from err
+
+#     # ANSWER IT
+#     if prompt_text and prompt_text != last_prompt:
+#         # buttons = get_sub_buttons(web_driver=web_driver, sub_by=By.ID, sub_value='quiplash-vote')
+#         buttons = get_buttons(web_driver=web_driver)
+#         buttons = [button for button in buttons if button.is_enabled()]
+#         # Form the selection list
+#         for button in buttons:
+#             if button.text:
+#                 temp_text = button.text.strip('\n')
+#                 button_dict[temp_text] = button.text
+#                 choice_list.append(temp_text)
+#         # Ask the AI
+#         favorite = ai_obj.vote_favorite(prompt=prompt_text, answers=choice_list)
+#         # Click it
+#         clicked_it = _click_a_button(web_driver=web_driver, button_str=button_dict[favorite])
+#     else:
+#         prompt_text = ''  # Nothing got answered
+
+#     # DONE
+#     if prompt_text and prompt_text != last_prompt and not clicked_it:
+#         raise RuntimeError('Did not vote an answer')
+#     if clicked_it:
+#         temp_text = prompt_text.replace('\n', ' ')
+#         Logger.debug(f'Chose "{favorite}" for "{temp_text}"!')
+#     return prompt_text
+# # pylint: enable = too-many-branches
