@@ -14,6 +14,7 @@ from selenium.common.exceptions import (ElementNotInteractableException, NoSuchE
 from selenium.webdriver.common.by import By
 import selenium
 # Local
+from jitb.jitb_globals import JITB_POLL_RATE
 from jitb.jitb_logger import Logger
 from jitb.jitb_misc import clean_up_string
 from jitb.jitb_openai import JitbAi
@@ -48,8 +49,7 @@ def click_a_button(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
                 Logger.debug(f'Failed to click "{button.text}" with {repr(err)}')
             else:
                 clicked_it = True
-            finally:
-                break
+            break
 
     # DONE
     return clicked_it
@@ -328,6 +328,7 @@ def vote_answers(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
     choice_list = []    # List of possible answers
     favorite = ''       # OpenAI's favorite answer
     button_dict = {}    # Sanitized text are the keys and actual button text are the values
+    temp_text = ''      # Temp veriable
 
     # INPUT VALIDATION
     # All other arguments validated by calls to other module functions
@@ -359,7 +360,7 @@ def vote_answers(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
     if prompt_text and prompt_text != last_prompt:
         button_dict = get_button_choices(web_driver=web_driver)
         if button_dict:
-            choice_list = [button for button in button_dict.keys() if button]
+            choice_list = [button for button, _ in button_dict.items() if button]
             # Ask the AI
             favorite = ai_obj.vote_favorite(prompt=prompt_text, answers=choice_list)
             # Click it
@@ -442,9 +443,7 @@ def _is_page(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
     _validate_string(element_name, 'element_name', may_be_empty=False)
     _validate_element_type(element_type=element_type)
     _validate_clues(clues=clues)
-    if not isinstance(clean_string, bool):
-        raise TypeError('The clean_string argument must be a bool instead of type '
-                        f'{type(clean_string)}')
+    _validate_bool(clean_string, 'clean_string')
 
     # IS IT?
     try:
@@ -468,15 +467,14 @@ def _is_page(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
 
 
 def _validate_bool(value: str, name: str) -> None:
-    """Validates boolean va on behalf of this module.
+    """Validates boolean values on behalf of this module.
 
     Args:
-        string: The value of the string to check.
+        value: The variable to check.
         name: The name of the original arugment being validated (used in exception messages).
-        may_be_empty: Optional; If True, string may not be empty.
     """
-    if not isinstance(string, str):
-        raise TypeError(f'The {name} value must be a string instead of type {type(string)}')
+    if not isinstance(value, bool):
+        raise TypeError(f'The {name} value must be a string instead of type {type(value)}')
 
 
 def _validate_clues(clues: List[str] = None) -> None:
@@ -513,7 +511,7 @@ def _validate_string(string: str, name: str, may_be_empty: bool = False) -> None
     """
     if not isinstance(string, str):
         raise TypeError(f'The {name} value must be a string instead of type {type(string)}')
-    elif not string and not may_be_empty:
+    if not string and not may_be_empty:
         raise ValueError(f'The {name} may not be empty')
 
 

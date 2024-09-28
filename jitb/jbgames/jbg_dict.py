@@ -1,12 +1,9 @@
 """Defines the package's Jackbox Games Dictionarium class."""
 
 # Standard
-from string import digits, punctuation, whitespace
-from typing import Final, List
+from typing import Final
 import time
 # Third Party
-from selenium.common.exceptions import (ElementNotInteractableException, NoSuchElementException,
-                                        StaleElementReferenceException)
 from selenium.webdriver.common.by import By
 import selenium
 # Local
@@ -14,11 +11,9 @@ from jitb.jbgames.jbg_abc import JbgAbc
 from jitb.jbgames.jbg_page_ids import JbgPageIds
 from jitb.jitb_globals import JITB_POLL_RATE
 from jitb.jitb_logger import Logger
-from jitb.jitb_misc import clean_up_string
 from jitb.jitb_openai import JitbAi
-from jitb.jitb_selenium import get_buttons, get_web_element, get_web_element_text
-from jitb.jitb_webdriver import (click_a_button, get_button_choices, get_char_limit, get_prompt,
-                                 get_vote_text, is_prompt_page, is_vote_page, vote_answers,
+from jitb.jitb_webdriver import (click_a_button, get_char_limit, get_prompt,
+                                 is_prompt_page, is_vote_page, vote_answers,
                                  write_an_answer)
 
 
@@ -186,7 +181,6 @@ class JbgDict(JbgAbc):
         answer = ''                      # Answer to the prompt
         clicked_it = False               # Keep track of whether this prompt was answered or not
         num_loops = 5                    # Number of attempts to make for a new prompt
-        char_limit = DEFAULT_CHAR_LIMIT  # Maximum character limit
 
         # INPUT VALIDATION
         if not self.is_prompt_page(web_driver=web_driver):

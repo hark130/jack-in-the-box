@@ -15,7 +15,6 @@ from typing import Any
 from test.unit_test.test_jbgdict.test_jbgdict import TestJbgDict
 from tediousstart.tediousstart import execute_test_cases
 # Local Imports
-from jitb.jbgames.jbg_dict import get_prompt
 
 
 # pylint: disable = too-many-public-methods
