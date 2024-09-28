@@ -6,10 +6,19 @@ defined in the jitb.jbgames module.
 
 
 # Standard
+from typing import Dict, List
+import time
 # Third Party
+from selenium.common.exceptions import (ElementNotInteractableException, NoSuchElementException,
+                                        StaleElementReferenceException)
 from selenium.webdriver.common.by import By
+import selenium
 # Local
-from jitb.jitb_selenium import get_web_element_text
+from jitb.jitb_logger import Logger
+from jitb.jitb_misc import clean_up_string
+from jitb.jitb_openai import JitbAi
+from jitb.jitb_selenium import (get_buttons, get_web_element, get_web_element_int,
+                                get_web_element_text)
 
 
 # Public Module Functions
@@ -46,7 +55,7 @@ def click_a_button(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
     return clicked_it
 
 
-def get_button_choices(web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> Dict[str:str]:
+def get_button_choices(web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> Dict[str, str]:
     """Get a list of all the button text fields from web_driver starting at the root XPath.
 
     Args:
@@ -75,9 +84,12 @@ def get_button_choices(web_driver: selenium.webdriver.chrome.webdriver.WebDriver
             temp_text = enabled_button.text.strip('\n')
             button_choices[temp_text] = enabled_button.text
 
+    # DONE
+    return button_choices
+
 
 def get_char_limit(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
-                   element_name: str, element_type: selenium.webdriver.common.by.By,) -> int:
+                   element_name: str, element_type: str = By.CLASS_NAME) -> int:
     """Get the character limit for an input field.
 
     Searches web_driver for element_name using element_type and attemtps to convert the value
@@ -86,7 +98,7 @@ def get_char_limit(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
     Args:
         web_driver: The web driver to get the prompt from.
         element_name: The prompt's element name (e.g., charRemaining).
-        element_type: The prompt's element type (e.g., By.CLASS_NAME).
+        element_type: Optional; The prompt's element type (e.g., By.CLASS_NAME).
             See: help(selenium.webdriver.common.by.By).
 
     Returns:
@@ -104,17 +116,13 @@ def get_char_limit(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
     # GET LIMIT
     char_limit = get_web_element_int(web_driver=web_driver, by_arg=element_type, value=element_name)
 
-    # TESTING
-    # test_value = get_web_element_text(web_driver=web_driver, by_arg=By.CLASS_NAME,
-    #                                   value='charRemaining')
-
     # DONE
     return char_limit
 
 
 def get_prompt(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
-               element_name: str, element_type: selenium.webdriver.common.by.By,
-               prompt_clues: List[str] = None) -> str:
+               element_name: str, element_type: str = By.ID,
+               prompt_clues: List[str] = None, clean_string: bool = False) -> str:
     """Get the raw prompt text from the element_name web element using the By type of element_type.
 
     If non-standard characters are an issue, use a clean_*() function from jitb_misc.
@@ -122,12 +130,14 @@ def get_prompt(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
     Args:
         web_driver: The web driver to get the prompt from.
         element_name: The prompt's element name (e.g., prompt).
-        element_type: The prompt's element type (e.g., By.ID).
+        element_type: Optional; The prompt's element type (e.g., By.ID).
             See: help(selenium.webdriver.common.by.By).
         prompt_clues: Optional; A list of strings expected to be associated with element_name.
             These clues will be used by is_prompt_page() to positively identify web_driver as
             one of your specific prompt page examples.
             E.g., ['Write a definition', 'Write a synonym', 'Write a sentence']
+        clean_string: Optional; Call clean_up_string() on the text prior to vote_clue-evaluation.
+            (Sometimes, the strings have non-standard characters in them.)
 
     Returns:
         The prompt text for element_name as read from web_driver.
@@ -142,7 +152,8 @@ def get_prompt(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
 
     # INPUT VALIDATION
     if not is_prompt_page(web_driver=web_driver, element_name=element_name,
-                          element_type=element_type, prompt_clues=prompt_clues):
+                          element_type=element_type, prompt_clues=prompt_clues,
+                          clean_string=clean_string):
         raise RuntimeError('This is not a prompt page')
 
     # GET IT
@@ -157,14 +168,16 @@ def get_prompt(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
             raise RuntimeError(f'Unable to locate the {element_name} element value')
         if not prompt_text:
             raise RuntimeError(f'Did not detect any text using the {element_name} element value')
+        if clean_string:
+            prompt_text = clean_up_string(dirty_string=prompt_text)
 
     # DONE
     return prompt_text
 
 
 def get_vote_text(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
-                  element_name: str, element_type: selenium.webdriver.common.by.By,
-                  vote_clues: List[str] = None) -> str:
+                  element_name: str, element_type: str = By.ID,
+                  vote_clues: List[str] = None, clean_string: bool = False) -> str:
     """Get the raw vote text from the element_name web element using the By type of element_type.
 
     If non-standard characters are an issue, use a clean_*() function from jitb_misc.
@@ -172,12 +185,14 @@ def get_vote_text(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
     Args:
         web_driver: The web driver to get the vote prompt from.
         element_name: The vote prompt's element name (e.g., prompt).
-        element_type: The vote prompt's element type (e.g., By.ID).
+        element_type: Optional; The vote prompt's element type (e.g., By.ID).
             See: help(selenium.webdriver.common.by.By).
         vote_clues: Optional; A list of strings expected to be associated with element_name.
             These clues will be used by is_vote_page() to positively identify web_driver as
             one of your specific vote page examples.
             E.g., ['Vote your favorite definition', 'Vote your favorite synonym']
+        clean_string: Optional; Call clean_up_string() on the text prior to vote_clue-evaluation.
+            (Sometimes, the strings have non-standard characters in them.)
 
     Returns:
         The vote text for element_name as read from web_driver.
@@ -191,7 +206,9 @@ def get_vote_text(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
     vote_text = ''  # The full vote prompt
 
     # INPUT VALIDATION
-    if not is_vote_page(web_driver, check_needles=check_needles):
+    if not is_vote_page(web_driver=web_driver, element_name=element_name,
+                        element_type=element_type, vote_clues=vote_clues,
+                        clean_string=clean_string):
         raise RuntimeError('This is not a vote page')
 
     # GET THEM
@@ -212,19 +229,21 @@ def get_vote_text(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
 
 
 def is_prompt_page(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
-                   element_name: str, element_type: selenium.webdriver.common.by.By,
-                   prompt_clues: List[str] = None) -> bool:
+                   element_name: str, element_type: str = By.ID,
+                   prompt_clues: List[str] = None, clean_string: bool = False) -> bool:
     """Determine if web_driver is a prompt page.
 
     Args:
         web_driver: The web driver to get the prompt from.
         element_name: The prompt's element name (e.g., prompt).
-        element_type: The prompt's element type (e.g., By.ID).
+        element_type: Optional; The prompt's element type (e.g., By.ID).
             See: help(selenium.webdriver.common.by.By).
         prompt_clues: Optional; A list of strings expected to be associated with element_name.
             These clues will be used to positively identify web_driver as
             one of your specific prompt page examples.
             E.g., ['Write a definition', 'Write a synonym', 'Write a sentence']
+        clean_string: Optional; Call clean_up_string() on the text prior to vote_clue-evaluation.
+            (Sometimes, the strings have non-standard characters in them.)
 
     Returns:
         True if this is a regular prompt screen, False otherwise.
@@ -236,26 +255,28 @@ def is_prompt_page(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
 
     # IS IT?
     prompt_page = _is_page(web_driver=web_driver, element_name=element_name,
-                           element_type=element_type, clues=prompt_clues)
+                           element_type=element_type, clues=prompt_clues, clean_string=clean_string)
 
     # DONE
     return prompt_page
 
 
 def is_vote_page(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
-                 element_name: str, element_type: selenium.webdriver.common.by.By,
-                 vote_clues: List[str] = None) -> bool:
+                 element_name: str, element_type: str = By.ID,
+                 vote_clues: List[str] = None, clean_string: bool = False) -> bool:
     """Determine if web_driver is a vote page.
 
     Args:
         web_driver: The web driver to get the prompt from.
         element_name: The prompt's element name (e.g., prompt).
-        element_type: The prompt's element type (e.g., By.ID).
+        element_type: Optional; The prompt's element type (e.g., By.ID).
             See: help(selenium.webdriver.common.by.By).
         vote_clues: Optional; A list of strings expected to be associated with element_name.
             These clues will be used to positively identify web_driver as
             one of your specific vote page examples.
             E.g., ['Vote your favorite definition', 'Vote your favorite synonym']
+        clean_string: Optional; Call clean_up_string() on the text prior to vote_clue-evaluation.
+            (Sometimes, the strings have non-standard characters in them.)
 
     Returns:
         True if this is a regular prompt screen, False otherwise.
@@ -267,26 +288,32 @@ def is_vote_page(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
 
     # IS IT?
     vote_page = _is_page(web_driver=web_driver, element_name=element_name,
-                         element_type=element_type, clues=prompt_clues)
+                         element_type=element_type, clues=vote_clues, clean_string=clean_string)
 
     # DONE
     return vote_page
 
 
-def vote_answer(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
-                element_name: str, element_type: selenium.webdriver.common.by.By,
-                last_prompt: str, ai_obj: JitbAi, vote_clues: List[str] = None) -> str:
+def vote_answers(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
+                 last_prompt: str, ai_obj: JitbAi,
+                 element_name: str, element_type: str = By.ID, vote_clues: List[str] = None,
+                 clean_string: bool = False) -> str:
     """Generate votes for other players prompts.
 
     Args:
         web_driver: The web driver to get the vote prompt from.
+        last_prompt: The last prompt that was answered.  Helps this function avoid trying to
+            answer the same prompt twice.
+        ai_obj: The JitbAi object to use.
         element_name: The vote prompt's element name (e.g., prompt).
-        element_type: The vote prompt's element type (e.g., By.ID).
+        element_type: Optional; The vote prompt's element type (e.g., By.ID).
             See: help(selenium.webdriver.common.by.By).
         vote_clues: Optional; A list of strings expected to be associated with element_name.
             These clues will be used by is_vote_page() to positively identify web_driver as
             one of your specific vote page examples.
             E.g., ['Vote your favorite definition', 'Vote your favorite synonym']
+        clean_string: Optional; Call clean_up_string() on the text prior to vote_clue-evaluation.
+            (Sometimes, the strings have non-standard characters in them.)
 
     Returns:
         The prompt that was answered as a string.
@@ -312,7 +339,8 @@ def vote_answer(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
     for _ in range(num_loops):
         try:
             prompt_text = get_vote_text(web_driver=web_driver, element_name=element_name,
-                                        element_type=element_type, vote_clues=vote_clues)
+                                        element_type=element_type, vote_clues=vote_clues,
+                                        clean_string=clean_string)
             if prompt_text and prompt_text != last_prompt:
                 break  # Found a new one... let's vote it
             if not is_vote_page(web_driver=web_driver, element_name=element_name,
@@ -330,11 +358,12 @@ def vote_answer(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
     # ANSWER IT
     if prompt_text and prompt_text != last_prompt:
         button_dict = get_button_choices(web_driver=web_driver)
-        choice_list = [button for button in button_dict.keys() if button]
-        # Ask the AI
-        favorite = ai_obj.vote_favorite(prompt=prompt_text, answers=choice_list)
-        # Click it
-        clicked_it = click_a_button(web_driver=web_driver, button_str=button_dict[favorite])
+        if button_dict:
+            choice_list = [button for button in button_dict.keys() if button]
+            # Ask the AI
+            favorite = ai_obj.vote_favorite(prompt=prompt_text, answers=choice_list)
+            # Click it
+            clicked_it = click_a_button(web_driver=web_driver, button_str=button_dict[favorite])
     else:
         prompt_text = ''  # Nothing got answered
 
@@ -342,20 +371,20 @@ def vote_answer(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
     if prompt_text and prompt_text != last_prompt and not clicked_it:
         raise RuntimeError('Did not vote an answer')
     if clicked_it:
-        Logger.debug(f'Chose "{favorite}" for "{prompt_text.replace('\n', ' ')}"!')
+        temp_text = prompt_text.replace('\n', ' ')
+        Logger.debug(f'Chose "{favorite}" for "{temp_text}"!')
     return prompt_text
 
 
 def write_an_answer(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
-                    element_name: str, element_type: selenium.webdriver.common.by.By,
-                    submit_text: str) -> bool:
+                    submit_text: str, element_name: str, element_type: str = By.ID) -> bool:
     """Standardize the way keys are sent to text fields.
 
     Args:
         web_driver: The webdriver object to interact with.
-        element_name: The field's element name (e.g., input-text-textarea).
-        element_type: The field's element type (e.g., By.ID).
         submit_text: The text to enter into field_str.
+        element_name: The field's element name (e.g., input-text-textarea).
+        element_type: Optional; The field's element type (e.g., By.ID).
 
     Returns:
         True if successful, False otherwise.
@@ -385,8 +414,8 @@ def write_an_answer(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
 
 # Private Module Functions
 def _is_page(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
-             element_name: str, element_type: selenium.webdriver.common.by.By,
-             clues: List[str] = None) -> bool:
+             element_name: str, element_type: str = By.ID,
+             clues: List[str] = None, clean_string: bool = False) -> bool:
     """Determine if web_driver is the page you think it is.
 
     Args:
@@ -398,6 +427,8 @@ def _is_page(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
             If defined, these clues will be used to positively identify web_driver as
             one of your specific page examples.
             E.g., ['Write a definition', 'Write a synonym', 'Write a sentence']
+        clean_string: Optional; Call clean_up_string() on the text prior to vote_clue-evaluation.
+            (Sometimes, the strings have non-standard characters in them.)
 
     Returns:
         True if this is the screen you think it is, False otherwise.
@@ -410,12 +441,17 @@ def _is_page(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
     _validate_web_driver(web_driver=web_driver)
     _validate_string(element_name, 'element_name', may_be_empty=False)
     _validate_element_type(element_type=element_type)
-    _validate_prompt_clues(prompt_clues=clues)
+    _validate_clues(clues=clues)
+    if not isinstance(clean_string, bool):
+        raise TypeError('The clean_string argument must be a bool instead of type '
+                        f'{type(clean_string)}')
 
     # IS IT?
     try:
         temp_text = get_web_element_text(web_driver=web_driver, by_arg=element_type,
                                          value=element_name)
+        if clean_string:
+            temp_text = clean_up_string(dirty_string=temp_text)
         if temp_text:
             if isinstance(clues, list):
                 for clue in clues:
@@ -431,29 +467,40 @@ def _is_page(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
     return page
 
 
-def _validate_element_type(element_type: selenium.webdriver.common.by.By) -> None:
-    """Validate element_type arguments on behalf of this module."""
-    if not isinstance(element_type, selenium.webdriver.common.by.By):
-        raise TypeError(f'The element_type data type of {type(element_type)} is invalid')
-
-
-def _validate_prompt_clues(prompt_clues: List[str] = None) -> None:
-    """Validate prompt_clues arguments on behalf of this module.
+def _validate_bool(value: str, name: str) -> None:
+    """Validates boolean va on behalf of this module.
 
     Args:
-        prompt_clues: May be None.  May also be an empty list.  However, any entry in the list
+        string: The value of the string to check.
+        name: The name of the original arugment being validated (used in exception messages).
+        may_be_empty: Optional; If True, string may not be empty.
+    """
+    if not isinstance(string, str):
+        raise TypeError(f'The {name} value must be a string instead of type {type(string)}')
+
+
+def _validate_clues(clues: List[str] = None) -> None:
+    """Validate *_clues arguments on behalf of this module.
+
+    Args:
+        clues: May be None.  May also be an empty list.  However, any entry in the list
             must be a non-empty string.
 
     Raises:
         TypeError: Bad data type.
         ValueError: Invalid value.
     """
-    if isinstance(prompt_clues, list):
-        for prompt_clue in prompt_clues:
-            _validate_string(prompt_clue, 'prompt_clues list entry', may_be_empty=False)
-    elif prompt_clues:
-        raise TypeError(f'Invalid data type for prompt_clues: {prompt_clues} '
-                        f'(Type: {type(prompt_clues)})')
+    if isinstance(clues, list):
+        for clue in clues:
+            _validate_string(clue, 'clues list entry', may_be_empty=False)
+    elif clues:
+        raise TypeError(f'Invalid data type for prompt_clues: {clues} '
+                        f'(Type: {type(clues)})')
+
+
+def _validate_element_type(element_type: str) -> None:
+    """Validate element_type arguments on behalf of this module."""
+    _validate_string(element_type, 'element_type', may_be_empty=False)
 
 
 def _validate_string(string: str, name: str, may_be_empty: bool = False) -> None:
