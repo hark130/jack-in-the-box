@@ -294,6 +294,7 @@ def is_vote_page(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
     return vote_page
 
 
+# pylint: disable = too-many-arguments
 def vote_answers(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
                  last_prompt: str, ai_obj: JitbAi,
                  element_name: str, element_type: str = By.ID, vote_clues: List[str] = None,
@@ -375,6 +376,7 @@ def vote_answers(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
         temp_text = prompt_text.replace('\n', ' ')
         Logger.debug(f'Chose "{favorite}" for "{temp_text}"!')
     return prompt_text
+# pylint: enable = too-many-arguments
 
 
 def write_an_answer(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
