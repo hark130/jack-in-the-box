@@ -240,7 +240,7 @@ class JbgDict(JbgAbc):
 
     def is_waiting_likes_page(self,
                               web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> bool:
-        """Determine if this is this a award-likes-while-you-are-waiting page.
+        """Determine if this is an award-likes-while-you-are-waiting page.
 
         Returns:
             True if this is a 'distribute likes' waiting screen, False otherwise.
