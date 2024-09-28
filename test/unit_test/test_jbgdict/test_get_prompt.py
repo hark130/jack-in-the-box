@@ -12,14 +12,14 @@ Typical Usage:
 from pathlib import Path
 from typing import Any
 # Third Party Imports
-from test.unit_test.test_jackbox_games import TestJackboxGames
+from test.unit_test.test_jbgdict.test_jbgdict import TestJbgDict
 from tediousstart.tediousstart import execute_test_cases
 # Local Imports
 from jitb.jbgames.jbg_dict import get_prompt
 
 
 # pylint: disable = too-many-public-methods
-class TestJbgDictGetPrompt(TestJackboxGames):
+class TestJbgDictGetPrompt(TestJbgDict):
     """The jbg_jb.get_prompt() unit test class.
 
     This class provides base functionality to run NEBS unit tests for jbg_jb.get_prompt().
@@ -27,8 +27,7 @@ class TestJbgDictGetPrompt(TestJackboxGames):
 
     # CORE CLASS METHODS
     # Methods listed in call order
-    def create_wd_input(self, filename: str, check_needles: bool = True,
-                        use_kwarg: bool = False) -> None:
+    def create_wd_input(self, filename: str, use_kwarg: bool = False) -> None:
         """Translates file-based test input into a Selenium web driver for test case input.
 
         Calls self.create_web_driver() to create the web driver.  Then passes that web driver
@@ -45,9 +44,9 @@ class TestJbgDictGetPrompt(TestJackboxGames):
         # CREATE TEST INPUT
         self.web_driver.get(input_html.absolute().as_uri())
         if use_kwarg:
-            self.set_test_input(web_driver=self.web_driver, check_needles=check_needles)
+            self.set_test_input(web_driver=self.web_driver)
         else:
-            self.set_test_input(self.web_driver, check_needles)
+            self.set_test_input(self.web_driver)
 
     def call_callable(self) -> Any:
         """Calls jbg_jb.get_prompt().
@@ -63,7 +62,8 @@ class TestJbgDictGetPrompt(TestJackboxGames):
         Raises:
             Exceptions raised by jbg_jb.get_prompt() are bubbled up and handled by TediousUnitTest
         """
-        return get_prompt(*self._args, **self._kwargs)
+        jbg_dict_obj = self.setup_jbgdict_object()
+        return jbg_dict_obj.get_prompt(*self._args, **self._kwargs)
 
 
 class NormalTestJbgDictGetPrompt(TestJbgDictGetPrompt):
