@@ -17,6 +17,9 @@ from jitb.jitb_logger import Logger
 from jitb.jitb_misc import clean_up_string
 from jitb.jitb_openai import JitbAi
 from jitb.jitb_selenium import get_buttons, get_web_element, get_web_element_text
+from jitb.jitb_webdriver import (click_a_button, get_button_choices, get_char_limit, get_prompt,
+                                 get_vote_text, is_prompt_page, is_vote_page, vote_answers,
+                                 write_an_answer)
 
 
 DEFAULT_CHAR_LIMIT: Final[int] = 150  # Default maximum character limit
@@ -40,6 +43,8 @@ class JbgDict(JbgAbc):
         self._vote_clues = ['Vote for your favorite definition of',
                             'Vote for your favorite synonym',
                             'Vote for your favorite sentence using']
+        # Hints the page is on the Dictionarium-specific "distribute likes" page
+        self._wait_like_clues = ['distribute likes']
         # Update AI system: content message
         ai_obj.change_system_content('You are a witty person trying to win the Jackbox Game'
                                      'Dictionarium. When giving definitions or synonyms, do not '
@@ -103,7 +108,7 @@ class JbgDict(JbgAbc):
 
         # ANSWER THEM
         for _ in range(num_answers):
-            prompt_text = self._answer_prompt(web_driver=web_driver, last_prompt=prompt_text)
+            prompt_text = self.answer_prompt(web_driver=web_driver, last_prompt=prompt_text)
 
     def vote_answers(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> None:
         """Read other answers to a prompt from the web_driver, ask the AI, and submit the answer.
@@ -119,9 +124,10 @@ class JbgDict(JbgAbc):
 
         # VOTE IT
         while True:
-            prompt_text = vote_answer(web_driver=web_driver, element_name='prompt',
-                                      element_type=By.ID, last_prompt=prompt_text,
-                                      ai_obj=self._ai_obj, vote_clues=self._vote_clues)
+            prompt_text = vote_answers(web_driver=web_driver, last_prompt=prompt_text,
+                                       ai_obj=self._ai_obj, element_name='prompt',
+                                       element_type=By.ID, vote_clues=self._vote_clues,
+                                       clean_string=True)
             if not prompt_text:
                 break
             if not self.is_vote_page(web_driver=web_driver):
@@ -152,7 +158,7 @@ class JbgDict(JbgAbc):
             current_page = JbgPageIds.ANSWER
         elif self._is_login_page(web_driver=web_driver):
             current_page = JbgPageIds.LOGIN
-        elif _is_waiting_likes_page(web_driver=web_driver):
+        elif self.is_waiting_likes_page(web_driver=web_driver):
             current_page = JbgPageIds.DICT_WAIT_LIKE
 
         # DONE
@@ -162,7 +168,7 @@ class JbgDict(JbgAbc):
 
     # Public Methods (alphabetical order)
     def answer_prompt(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
-                       last_prompt: str) -> str:
+                      last_prompt: str) -> str:
         """Generating answers for prompts.
 
         Args:
@@ -217,7 +223,7 @@ class JbgDict(JbgAbc):
         # GET IT
         char_limit = get_char_limit(web_driver=web_driver, element_name='charRemaining',
                                     element_type=By.CLASS_NAME)
-        if char_limit is none:
+        if char_limit is None:
             char_limit = DEFAULT_CHAR_LIMIT
 
         # DONE
@@ -226,7 +232,7 @@ class JbgDict(JbgAbc):
     def get_prompt(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> str:
         """Wraps jitb_webdriver.get_prompt with game-specific details."""
         return get_prompt(web_driver=web_driver, element_name='prompt', element_type=By.ID,
-                          prompt_clues=self._prompt_clues)
+                          prompt_clues=self._prompt_clues, clean_string=True)
 
     def is_prompt_page(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> bool:
         """Wraps jitb_webdirver.is_prompt_page with game-specific details."""
@@ -236,7 +242,17 @@ class JbgDict(JbgAbc):
     def is_vote_page(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> bool:
         """Wraps jitb_webdirver.is_vote_page with game-specific details."""
         return is_vote_page(web_driver=web_driver, element_name='prompt', element_type=By.ID,
-                            prompt_clues=self._vote_clues)
+                            vote_clues=self._vote_clues, clean_string=True)
+
+    def is_waiting_likes_page(self,
+                              web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> bool:
+        """Determine if this is this a award-likes-while-you-are-waiting page.
+
+        Returns:
+            True if this is a 'distribute likes' waiting screen, False otherwise.
+        """
+        return is_prompt_page(web_driver=web_driver, element_name='prompt', element_type=By.ID,
+                              prompt_clues=self._wait_like_clues)
 
     def submit_an_answer(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
                         submit_text: str) -> bool:
@@ -267,8 +283,8 @@ class JbgDict(JbgAbc):
     def write_an_answer(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
                         submit_text: str) -> bool:
         """Wraps jitb_webdriver.write_an_answer with game-specific details."""
-        return write_an_answer(web_driver=web_driver, element_name='input-text-textarea',
-                               element_type=By.ID, submit_text=submit_text)
+        return write_an_answer(web_driver=web_driver, submit_text=submit_text,
+                               element_name='input-text-textarea', element_type=By.ID)
 
 
 # Public Functions (alphabetical order)
