@@ -27,7 +27,7 @@ DEFAULT_CHAR_LIMIT: Final[int] = 80  # Default maximum character limit
 KNOWN_JOKE_TOPICS: Final[List[str]] = ['A BRAND', 'AN OBJECT', 'A FOOD', 'A LOCATION',
                                        'A PLURAL NOUN', 'AN ANIMAL', 'A PERSON’S NAME']
 # Maximum number of Joke Topic requests
-MAX_JOKE_TOPIC_REQUESTS: Final[int] = 3
+MAX_JOKE_TOPIC_REQUESTS: Final[int] = 10
 
 
 # pylint: disable = too-many-instance-attributes
@@ -233,7 +233,10 @@ class JbgJb(JbgAbc):
                     break  # There's no more requests to be had
             if self._joke_topic_dict[temp_key]:
                 answer = self._joke_topic_dict[temp_key].pop()
-                if not self.submit_an_answer(web_driver=web_driver, submit_text=answer):
+                clicked_it = self.submit_an_answer(web_driver=web_driver, submit_text=answer)
+                if clicked_it:
+                    Logger.debug(f'Submitted {answer} for the {prompt_text} joke topic')
+                else:
                     Logger.debug(f'Failed to submit {answer} as a joke topic to {prompt_text}')
             else:
                 Logger.debug(f'The joke topic dictionary is missing entries for {temp_key}')
