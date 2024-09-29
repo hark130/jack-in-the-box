@@ -7,7 +7,7 @@ from typing import Final, List
 # Third Party
 from selenium.common.exceptions import (ElementClickInterceptedException,
                                         ElementNotInteractableException,
-                                        ElementNotVisibleException, NoSuchElementException,
+                                        ElementNotVisibleException,
                                         StaleElementReferenceException)
 from selenium.webdriver.common.by import By
 import selenium
@@ -18,8 +18,8 @@ from jitb.jitb_globals import JBG_QUIP3_CHAR_NAMES, JITB_POLL_RATE
 from jitb.jitb_logger import Logger
 from jitb.jitb_openai import JitbAi
 from jitb.jitb_selenium import get_buttons, get_web_element
-from jitb.jitb_webdriver import (click_a_button, get_button_choices, get_prompt, get_vote_text,
-                                 is_prompt_page, is_vote_page, vote_answers, write_an_answer)
+from jitb.jitb_webdriver import (click_a_button, get_prompt, get_vote_text, is_prompt_page,
+                                 is_vote_page, vote_answers, write_an_answer)
 
 
 DEFAULT_CHAR_LIMIT: Final[int] = 45  # Default maximum character limit

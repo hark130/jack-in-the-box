@@ -12,11 +12,9 @@ Typical Usage:
 from pathlib import Path
 from typing import Any
 # Third Party Imports
-from test.mocked_jitb_ai import MockedJitbAi
 from test.unit_test.test_jbgq3.test_jbgq3 import TestJbgQ3
 from tediousstart.tediousstart import execute_test_cases
 # Local Imports
-from jitb.jbgames.jbg_page_ids import JbgPageIds
 
 
 class TestJbgQ3GetVoteText(TestJbgQ3):
@@ -142,14 +140,12 @@ class ErrorTestJbgQ3GetVoteText(TestJbgQ3GetVoteText):
 
     def test_e01_bad_data_type_web_driver_none(self):
         """Bad input: web_driver; None."""
-        use_kwarg = False  # Tells the test framework how to pass in the input
         self.set_test_input(None)
         self.expect_exception(TypeError, 'Web driver can not be of type None')
         self.run_test()
 
     def test_e02_bad_data_type_web_driver_path(self):
         """Bad input: web_driver; Path."""
-        use_kwarg = False  # Tells the test framework how to pass in the input
         self.set_test_input(Path() / 'test' / 'test_input' / 'JackboxTV-login_start.html')
         self.expect_exception(TypeError, 'Invalid web_driver data type of ')
         self.run_test()
