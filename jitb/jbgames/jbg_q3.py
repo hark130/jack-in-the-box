@@ -5,8 +5,10 @@ import random
 import time
 from typing import Final, List
 # Third Party
-from selenium.common.exceptions import (NoSuchElementException, ElementClickInterceptedException,
-                                        ElementNotInteractableException, ElementNotVisibleException)
+from selenium.common.exceptions import (ElementClickInterceptedException,
+                                        ElementNotInteractableException,
+                                        ElementNotVisibleException, NoSuchElementException,
+                                        StaleElementReferenceException)
 from selenium.webdriver.common.by import By
 import selenium
 # Local
@@ -16,11 +18,13 @@ from jitb.jitb_globals import JBG_QUIP3_CHAR_NAMES, JITB_POLL_RATE
 from jitb.jitb_logger import Logger
 from jitb.jitb_openai import JitbAi
 from jitb.jitb_selenium import get_buttons, get_web_element
-from jitb.jitb_webdriver import (click_a_button, get_button_choices, get_prompt, is_prompt_page,
-                                 is_vote_page, write_an_answer)
+from jitb.jitb_webdriver import (click_a_button, get_button_choices, get_prompt, get_vote_text,
+                                 is_prompt_page, is_vote_page, write_an_answer)
 
 
 DEFAULT_CHAR_LIMIT: Final[int] = 45  # Default maximum character limit
+# Exception message used to indicate this is not the character selection page
+EXCEPT_MSG_CHAR_PAGE: Final[str] = 'This is not the character selection page.'
 
 
 class JbgQ3(JbgAbc):
@@ -65,8 +69,14 @@ class JbgQ3(JbgAbc):
             if self._current_page == JbgPageIds.LOGIN:
                 pass  # Wait for the page to change because the caller already logged in
             elif self._current_page == JbgPageIds.AVATAR and not self._avatar_chosen:
-                self.select_character(web_driver=web_driver)
-                self._avatar_chosen = True
+                try:
+                    self.select_character(web_driver=web_driver)
+                    self._avatar_chosen = True
+                except RuntimeError as err:
+                    if err.args[0] == EXCEPT_MSG_CHAR_PAGE:
+                        pass  # Sometimes, players get real 'clicky'
+                    else:
+                        raise err from err
             elif self._current_page == JbgPageIds.ANSWER:
                 self.answer_prompts(web_driver=web_driver)
             elif self._current_page == JbgPageIds.VOTE:
@@ -93,7 +103,7 @@ class JbgQ3(JbgAbc):
         # INPUT VALIDATION
         self.validate_status(web_driver=web_driver)
         if not self.is_char_selection_page(web_driver):
-            raise RuntimeError('This is not the character selection page.')
+            raise RuntimeError(EXCEPT_MSG_CHAR_PAGE)
 
         # SELECT IT
         button_list = [button for button in get_buttons(web_driver=web_driver)
@@ -110,13 +120,18 @@ class JbgQ3(JbgAbc):
                 Logger.debug('Tried to click the select character button '
                              f'{button_entry.accessible_name} but caught {repr(err)}')
                 button_list.remove(button_entry)  # Bad button; remove it and keep trying
+            except StaleElementReferenceException as err:
+                Logger.debug('Tried to click the select character button '
+                             f'{button_entry.accessible_name} but caught a '
+                             'StaleElementReferenceException exception.  Is this a race '
+                             'condition? Did someone click start before I clicked the button?')
             else:
                 clicked_it = True
                 break
 
         # DONE
         if not clicked_it:
-            raise RuntimeError('The JbgQ3.select_character() method failed to make a selection.')
+            Logger.debug('Failed to make a character selection.')
 
     def answer_prompts(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
                        num_answers: int = 2) -> None:
@@ -156,10 +171,10 @@ class JbgQ3(JbgAbc):
 
         # VOTE IT
         while True:
+            if not self.is_vote_page(web_driver):
+                break  # Must have already answered them all
             prompt_text = self.vote_answer(web_driver=web_driver, last_prompt=prompt_text)
             if not prompt_text:
-                break
-            if not self.is_vote_page(web_driver):
                 break
 
     def id_page(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> JbgPageIds:
@@ -190,6 +205,8 @@ class JbgQ3(JbgAbc):
             current_page = JbgPageIds.Q3_THRIP
 
         # DONE
+        if current_page != JbgPageIds.UNKNOWN:
+            Logger.debug(f'This is a(n) {current_page.name} page!')
         return current_page
 
     # Public Methods (alphabetical order)
@@ -212,7 +229,7 @@ class JbgQ3(JbgAbc):
             raise RuntimeError('This is not the Thriplash prompt page')
 
         # ANSWER THRIPLASH
-        prompt_text = self.get_prompt(web_driver=web_driver)[-1]
+        prompt_text = self.get_prompt(web_driver=web_driver, prompt_clues=self._prompt_clues)[-1]
         gen_answers = self._ai_obj.generate_thriplash(prompt_text)
         temp_answers = gen_answers[::-1]  # Reverse it so they can be pop()d
         input_fields = web_driver.find_elements(By.ID, 'input-text-textarea')
@@ -270,6 +287,16 @@ class JbgQ3(JbgAbc):
         return get_prompt(web_driver=web_driver, element_name='prompt', element_type=By.ID,
                           prompt_clues=prompt_clues, clean_string=clean_string).split('\n')
 
+    def get_vote_text(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
+                      vote_clues: List[str] = None, clean_string: bool = True) -> str:
+        """Wraps jitb_webdriver.get_vote_text with game-specific details.
+
+        Returns:
+            The prompt split into a list by newlines.
+        """
+        return get_vote_text(web_driver=web_driver, element_name='prompt', element_type=By.ID,
+                             vote_clues=vote_clues, clean_string=clean_string)
+
     def is_char_selection_page(self,
                                web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> bool:
         """Wraps jitb_webdirver.is_vote_page with game-specific details."""
@@ -324,7 +351,7 @@ class JbgQ3(JbgAbc):
         # WAIT FOR IT
         for _ in range(num_loops):
             try:
-                prompt_text = self.get_prompt(web_driver)[0]
+                prompt_text = self.get_vote_text(web_driver, vote_clues=self._vote_clues)
                 if prompt_text and prompt_text != last_prompt:
                     break
                 if not self.is_vote_page(web_driver):
