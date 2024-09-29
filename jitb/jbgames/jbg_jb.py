@@ -18,10 +18,6 @@ from jitb.jitb_webdriver import (click_a_button, get_char_limit, get_prompt, is_
                                  is_vote_page, vote_answers, write_an_answer)
 
 
-# # A 'needle' to help identify the catchphrase page
-# CATCHPHRASE_PROMPT_NEEDLE: Final[str] = 'catchphrase'
-# # A 'needle' to help identify the joke topic page
-# JOKE_TOPIC_PROMPT_NEEDLE: Final[str] = 'Write as many topics as you can'
 DEFAULT_CHAR_LIMIT: Final[int] = 80  # Default maximum character limit
 # Known joke topic prompts to use as keys in the dictionary of answers
 KNOWN_JOKE_TOPICS: Final[List[str]] = ['A BRAND', 'AN OBJECT', 'A FOOD', 'A LOCATION',
