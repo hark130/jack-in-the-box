@@ -15,7 +15,6 @@ from typing import Any
 from test.unit_test.test_jbgjb.test_jbgjb import TestJbgJb
 from tediousstart.tediousstart import execute_test_cases
 # Local Imports
-from jitb.jbgames.jbg_jb import get_prompt
 
 
 # pylint: disable = too-many-public-methods
@@ -27,7 +26,7 @@ class TestJbgJbGetPrompt(TestJbgJb):
 
     # CORE CLASS METHODS
     # Methods listed in call order
-    def create_gp_input(self, filename: str, use_kwarg: bool = False, *gp_opt_args: tuple) -> None:
+    def create_gp_input(self, filename: str, use_kwarg: bool, *gp_opt_args) -> None:
         """Translates file-based test input into a Selenium web driver for test case input.
 
         Args:
@@ -95,35 +94,44 @@ class NormalTestJbgJbGetPrompt(TestJbgJbGetPrompt):
 
     def test_n01_round_1_joke_1c_complete_punchline_clean_string(self):
         """Joke Boat Round 1 Joke 1c complete punchline page; Default optional args."""
-        self.create_gp_input('JackboxTV-JB-Round_1-Joke_1-C_Complete_your_punchline.html')
+        use_kwarg = False  # Tells the test framework how to pass in the input
+        self.create_gp_input('JackboxTV-JB-Round_1-Joke_1-C_Complete_your_punchline.html',
+                             use_kwarg)
         self.expect_return('Joke 1 (of 2) Write your punchline: my nickname is flip phone '
                            'because _______')
         self.run_test()
 
     def test_n02_round_1_joke_2c_complete_punchline_clean_string(self):
         """Joke Boat Round 1 Joke 2c complete punchline page; Default optional args."""
-        self.create_gp_input('JackboxTV-JB-Round_1-Joke_2-C_Complete_your_punchline.html')
+        use_kwarg = False  # Tells the test framework how to pass in the input
+        self.create_gp_input('JackboxTV-JB-Round_1-Joke_2-C_Complete_your_punchline.html',
+                             use_kwarg)
         self.expect_return('Joke 2 (of 2) Write your punchline: god created sporting events by '
                            '_______')
         self.run_test()
 
     def test_n03_round_2_joke_1c_complete_punchline_clean_string(self):
         """Joke Boat Round 2 Joke 1c complete punchline page; Default optional args."""
-        self.create_gp_input('JackboxTV-JB-Round_2-Joke_1-C_Complete_your_punchline.html')
+        use_kwarg = False  # Tells the test framework how to pass in the input
+        self.create_gp_input('JackboxTV-JB-Round_2-Joke_1-C_Complete_your_punchline.html',
+                             use_kwarg)
         self.expect_return('Joke 1 (of 2) Write your punchline: have you ever tried hoe-ing? '
                            "that's when you _______")
         self.run_test()
 
     def test_n04_round_2_joke_2c_complete_punchline_clean_string(self):
         """Joke Boat Round 2 Joke 2c complete punchline page; Default optional args."""
-        self.create_gp_input('JackboxTV-JB-Round_2-Joke_2-C_Complete_your_punchline.html')
+        use_kwarg = False  # Tells the test framework how to pass in the input
+        self.create_gp_input('JackboxTV-JB-Round_2-Joke_2-C_Complete_your_punchline.html',
+                             use_kwarg)
         self.expect_return('Joke 2 (of 2) Write your punchline: i have more fears than '
                            '_______')
         self.run_test()
 
     def test_n05_round_3b_rewrite_punchline(self):
         """Joke Boat Round 3b rewrite punchline; Default optional args."""
-        self.create_gp_input('JackboxTV-JB-Round_3-B_Rewrite_punchline.html')
+        use_kwarg = False  # Tells the test framework how to pass in the input
+        self.create_gp_input('JackboxTV-JB-Round_3-B_Rewrite_punchline.html', use_kwarg)
         self.expect_return('Write the punchline to this joke: you ever notice how zombies are '
                            'just a fancy version of _______?')
         self.run_test()
@@ -227,13 +235,16 @@ class ErrorTestJbgJbGetPrompt(TestJbgJbGetPrompt):
 
     def test_e01_bad_data_type_web_driver_none(self):
         """Bad input: web_driver; None."""
-        self.set_test_input(None)
+        use_kwarg = False  # Tells the test framework how to pass in the input
+        self.set_test_input(None, use_kwarg)
         self.expect_exception(TypeError, 'Web driver can not be of type None')
         self.run_test()
 
     def test_e02_bad_data_type_web_driver_path(self):
         """Bad input: web_driver; Path."""
-        self.set_test_input(Path() / 'test' / 'test_input' / 'JackboxTV-login_start.html')
+        use_kwarg = False  # Tells the test framework how to pass in the input
+        self.set_test_input(Path() / 'test' / 'test_input' / 'JackboxTV-login_start.html',
+                            use_kwarg)
         self.expect_exception(TypeError, 'Invalid web_driver data type of ')
         self.run_test()
 
@@ -282,31 +293,36 @@ class SpecialTestJbgJbGetPrompt(TestJbgJbGetPrompt):
 
     def test_s01_non_jackbox_game_page(self):
         """Non-Jackbox Games website."""
-        self.create_web_input('xkcd-Good_Code.html')
+        use_kwarg = False  # Tells the test framework how to pass in the input
+        self.create_web_input('xkcd-Good_Code.html', use_kwarg)
         self.expect_exception(RuntimeError, 'This is not a prompt page')
         self.run_test()
 
     def test_s02_login_page(self):
         """Jackbox.tv Login page."""
-        self.create_gp_input('JackboxTV-JB-Login_start.html')
+        use_kwarg = False  # Tells the test framework how to pass in the input
+        self.create_gp_input('JackboxTV-JB-Login_start.html', use_kwarg)
         self.expect_exception(RuntimeError, 'This is not a prompt page')
         self.run_test()
 
     def test_s03_choose_catchphrase(self):
         """Joke Boat select catchphrase; False positive without any clues."""
-        self.create_gp_input('JackboxTV-JB-Login_catchphrase_start.html')
+        use_kwarg = False  # Tells the test framework how to pass in the input
+        self.create_gp_input('JackboxTV-JB-Login_catchphrase_start.html', use_kwarg)
         self.expect_return("Select how to complete your catchphrase: i'm a little _____!")
         self.run_test()
 
     def test_s04_waiting_on_other_players(self):
         """Joke Boat waiting to start."""
-        self.create_gp_input('JackboxTV-JB-Login_waiting.html')
+        use_kwarg = False  # Tells the test framework how to pass in the input
+        self.create_gp_input('JackboxTV-JB-Login_waiting.html', use_kwarg)
         self.expect_exception(RuntimeError, 'This is not a prompt page')
         self.run_test()
 
     def test_s05_write_joke_topic_v1(self):
         """Joke Boat write joke topic page v1; False positive without any clues."""
-        self.create_gp_input('JackboxTV-JB-Write_joke_topic_v1.html')
+        use_kwarg = False  # Tells the test framework how to pass in the input
+        self.create_gp_input('JackboxTV-JB-Write_joke_topic_v1.html', use_kwarg)
         self.expect_return("Write as many topics as you can. A PERSON'S NAME")
         self.run_test()
 # pylint: enable = too-many-public-methods
