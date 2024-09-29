@@ -223,6 +223,8 @@ def get_vote_text(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
             raise RuntimeError(f'Unable to locate the {element_name} element value')
         if not vote_text:
             raise RuntimeError(f'Did not detect any text using the {element_name} element value')
+        if clean_string:
+            vote_text = clean_up_string(dirty_string=vote_text)
 
     # DONE
     return vote_text
@@ -494,7 +496,7 @@ def _validate_clues(clues: List[str] = None) -> None:
         for clue in clues:
             _validate_string(clue, 'clues list entry', may_be_empty=False)
     elif clues:
-        raise TypeError(f'Invalid data type for prompt_clues: {clues} '
+        raise TypeError(f'Invalid data type for clues: {clues} '
                         f'(Type: {type(clues)})')
 
 
