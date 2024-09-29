@@ -236,15 +236,14 @@ class ErrorTestJbgJbGetPrompt(TestJbgJbGetPrompt):
     def test_e01_bad_data_type_web_driver_none(self):
         """Bad input: web_driver; None."""
         use_kwarg = False  # Tells the test framework how to pass in the input
-        self.set_test_input(None, use_kwarg)
+        self.set_test_input(None)
         self.expect_exception(TypeError, 'Web driver can not be of type None')
         self.run_test()
 
     def test_e02_bad_data_type_web_driver_path(self):
         """Bad input: web_driver; Path."""
         use_kwarg = False  # Tells the test framework how to pass in the input
-        self.set_test_input(Path() / 'test' / 'test_input' / 'JackboxTV-login_start.html',
-                            use_kwarg)
+        self.set_test_input(Path() / 'test' / 'test_input' / 'JackboxTV-login_start.html')
         self.expect_exception(TypeError, 'Invalid web_driver data type of ')
         self.run_test()
 
@@ -252,14 +251,14 @@ class ErrorTestJbgJbGetPrompt(TestJbgJbGetPrompt):
         """Bad input: prompt_clues; string."""
         use_kwarg = False  # Tells the test framework how to pass in the input
         self.create_gp_input('JackboxTV-JB-Login_start.html', use_kwarg, 'BAD DATA TYPE', True)
-        self.expect_exception(TypeError, 'Invalid data type for prompt_clues')
+        self.expect_exception(TypeError, 'Invalid data type for clues')
         self.run_test()
 
     def test_e04_bad_data_type_prompt_clues_tuple(self):
         """Bad input: prompt_clues; tuple."""
         use_kwarg = False  # Tells the test framework how to pass in the input
         self.create_gp_input('JackboxTV-JB-Login_start.html', use_kwarg, ('BAD', 'INPUT'), True)
-        self.expect_exception(TypeError, 'Invalid data type for prompt_clues')
+        self.expect_exception(TypeError, 'Invalid data type for clues')
         self.run_test()
 
     def test_e05_bad_data_type_prompt_clues_entry(self):
