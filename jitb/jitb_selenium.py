@@ -178,11 +178,7 @@ def get_web_element_int(web_driver: selenium.webdriver.chrome.webdriver.WebDrive
         Logger.debug(f'get_web_element_int() getting {by_arg}:{value} raised {repr(err)}!')
     else:
         if elem_text:
-            try:
-                elem_int = int(elem_text)
-            except ValueError as err:
-                Logger.debug(f"get_web_element_int() converting {value}'s {elem_text} to an "
-                             f'integer raised {repr(err)}')
+            elem_int = convert_str_to_int(elem_text)
 
     # DONE
     return elem_int
