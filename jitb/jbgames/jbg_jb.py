@@ -130,20 +130,29 @@ class JbgJb(JbgAbc):
             web_driver: The webdriver object to interact with.
         """
         # LOCAL VARIABLES
-        prompt_text = ''  # The prompt text
+        element_name = 'prompt'  # The element name to get
+        prompt_text = ''         # The prompt text
 
         # INPUT VALIDATION
         self.validate_status(web_driver=web_driver)
 
         # VOTE IT
         while True:
-            prompt_text = vote_answers(web_driver=web_driver, last_prompt=prompt_text,
-                                       ai_obj=self._ai_obj, element_name='prompt',
-                                       element_type=By.ID, vote_clues=vote_clues,
-                                       clean_string=True)
-            if not prompt_text:
+            if not self.is_any_vote_page(web_driver=web_driver):
                 break
-            if not self.is_vote_page(web_driver=web_driver):
+            try:
+                prompt_text = vote_answers(web_driver=web_driver, last_prompt=prompt_text,
+                                           ai_obj=self._ai_obj, element_name=element_name,
+                                           element_type=By.ID, vote_clues=vote_clues,
+                                           clean_string=True)
+                Logger.debug(f'JbgJb.vote_answers() called vote_answer(element_name={element_name},'
+                             f' element_type={By.ID}, vote_clues={vote_clues}, '
+                             f'clean_string=True) which returned: {prompt_text}')
+            except RuntimeError as err:
+                if err.args[0] == f'Unable to locate the {element_name} element value':
+                    Logger.debug(f'vote_answers() raised {repr(err)} but it is being ignored')
+                    break  # Something went wrong so let's just leave this loop
+            if not prompt_text:
                 break
 
     def id_page(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> JbgPageIds:
@@ -261,6 +270,12 @@ class JbgJb(JbgAbc):
         """Wraps jitb_webdriver.get_prompt with game-specific details."""
         return get_prompt(web_driver=web_driver, element_name='prompt', element_type=By.ID,
                           prompt_clues=prompt_clues, clean_string=clean_string)
+
+    def is_any_vote_page(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> bool:
+        """Wraps jitb_webdirver.is_vote_page with game-specific details for vote & catchprhase."""
+        return is_vote_page(web_driver=web_driver, element_name='prompt', element_type=By.ID,
+                            vote_clues=self._vote_clues + self._chatchphrase_clues,
+                            clean_string=True)
 
     def is_catchphrase_page(self,
                             web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> bool:
