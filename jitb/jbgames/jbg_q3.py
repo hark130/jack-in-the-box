@@ -18,8 +18,8 @@ from jitb.jitb_globals import JBG_QUIP3_CHAR_NAMES, JITB_POLL_RATE
 from jitb.jitb_logger import Logger
 from jitb.jitb_openai import JitbAi
 from jitb.jitb_selenium import get_buttons, get_web_element
-from jitb.jitb_webdriver import (click_a_button, get_prompt, get_vote_text, is_prompt_page,
-                                 is_vote_page, vote_answers, write_an_answer)
+from jitb.jitb_webdriver import (click_a_button, get_char_limit_attr, get_prompt, get_vote_text,
+                                 is_prompt_page, is_vote_page, vote_answers, write_an_answer)
 
 
 DEFAULT_CHAR_LIMIT: Final[int] = 45  # Default maximum character limit
@@ -246,31 +246,16 @@ class JbgQ3(JbgAbc):
         Logger.debug(f'ANSWERED THRIPLASH {prompt_text} with: {", ".join(gen_answers)}!')
 
     def get_char_limit(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> int:
-        """Wraps jitb_webdriver.get_char_limit with game-specific details."""
+        """Wraps jitb_webdriver.get_char_limit_attr with game-specific details."""
         # LOCAL VARIABLES
         char_limit = None                   # Character limit for the prompt
-        char_string = ''                    # Attribute value
         field_id = 'quiplash-answer-input'  # By.ID name of the input field
         attr_name = 'maxlength'             # The attribute name to fetch from the field_id element
-        web_element = None                  # Input prompt web element
 
         # GET LIMIT
         # Get Web Element
-        try:
-            # Get the input field web element
-            web_element = get_web_element(web_driver=web_driver, by_arg=By.ID, value=field_id)
-            if web_element:
-                char_string = web_element.get_attribute(attr_name)
-        except (TypeError, ValueError) as err:
-            Logger.debug(f'Failed to read the {attr_name} attribute from the {field_id} field '
-                         f'with {repr(err)}')
-        # Convert Value
-        if char_string:
-            try:
-                char_limit = int(char_string)
-            except ValueError as err:
-                Logger.debug(f'Failed to conver the {field_id} element {attr_name} attribute of '
-                             f'{char_string} to an integer with {repr(err)}')
+        char_limit = get_char_limit_attr(web_driver=web_driver, element_name=field_id,
+                                         attr_name=attr_name, element_type=By.ID)
         # Did it work?  If not, use the default.
         if char_limit is None:
             char_limit = DEFAULT_CHAR_LIMIT
