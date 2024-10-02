@@ -8,7 +8,6 @@ import unidecode
 # Third Party
 # Local
 from jitb.jitb_globals import TEMP_DIR_DEF_NIX, TEMP_DIR_DEF_WIN, TEMP_DIR_ENV_VARS
-from jitb.jitb_logger import Logger
 
 
 def char_filter(dirty_str: str):
@@ -55,17 +54,17 @@ def convert_str_to_int(int_string: str) -> None:
         int_string: The string to convert to an integer.
 
     Returns:
-        An integer derived from int_string on success, None on failure.
+        An integer derived from int_string on success, None on failed conversion.
 
     Raises:
         TypeError: Bad data type.
-        ValueError: Bad value (e.g., empty string, inelible value for conversion).
+        ValueError: Bad value.
     """
     # LOCAL VARIABLES
     integer = None  # Converted integer from the int_string
 
     # INPUT VALIDATION
-    if not instance(int_string, str):
+    if not isinstance(int_string, str):
         raise TypeError(f'The int_string argument must be a string instead of a {type(int_string)}')
     if not int_string:
         raise ValueError('The int_string may not be empty')
@@ -73,8 +72,8 @@ def convert_str_to_int(int_string: str) -> None:
     # CONVERT IT
     try:
         integer = int(clean_up_string(dirty_string=int_string, replace_char=''))
-    except ValueError as err:
-            Logger.debug(f'Failed to convert {int_string} to an integer with {repr(err)}')
+    except ValueError:
+        pass  # Let it go and just return None
 
     # DONE
     return integer

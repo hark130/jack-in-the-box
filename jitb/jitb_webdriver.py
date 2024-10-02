@@ -16,7 +16,7 @@ import selenium
 # Local
 from jitb.jitb_globals import JITB_POLL_RATE
 from jitb.jitb_logger import Logger
-from jitb.jitb_misc import clean_up_string
+from jitb.jitb_misc import clean_up_string, convert_str_to_int
 from jitb.jitb_openai import JitbAi
 from jitb.jitb_selenium import (get_buttons, get_web_element, get_web_element_int,
                                 get_web_element_text)
@@ -159,6 +159,8 @@ def get_char_limit_attr(web_driver: selenium.webdriver.chrome.webdriver.WebDrive
     # GET LIMIT
     if attr_string:
         char_limit = convert_str_to_int(attr_string)
+        if char_limit is None:
+            Logger.debug(f'get_char_limit_attr() failed to convert {attr_string} to an int')
 
     # DONE
     return char_limit

@@ -8,6 +8,7 @@ from selenium.webdriver.common.by import By
 import selenium
 # Local
 from jitb.jitb_logger import Logger
+from jitb.jitb_misc import convert_str_to_int
 
 
 DEFAULT_BUTTON_BY: Final[str] = By.XPATH        # We find buttons by XPath, by default.
@@ -179,6 +180,8 @@ def get_web_element_int(web_driver: selenium.webdriver.chrome.webdriver.WebDrive
     else:
         if elem_text:
             elem_int = convert_str_to_int(elem_text)
+            if elem_int is None:
+                Logger.debug(f'get_web_element_int() failed to convert {elem_text} to an int')
 
     # DONE
     return elem_int

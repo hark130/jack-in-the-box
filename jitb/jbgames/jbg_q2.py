@@ -1,7 +1,7 @@
 """Defines the package's Jackbox Games Quiplash 2 class."""
 
 # Standard
-from typing import List
+from typing import Final, List
 import time
 # Third Party
 from selenium.webdriver.common.by import By

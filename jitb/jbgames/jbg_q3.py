@@ -17,7 +17,7 @@ from jitb.jbgames.jbg_page_ids import JbgPageIds
 from jitb.jitb_globals import JBG_QUIP3_CHAR_NAMES, JITB_POLL_RATE
 from jitb.jitb_logger import Logger
 from jitb.jitb_openai import JitbAi
-from jitb.jitb_selenium import get_buttons, get_web_element
+from jitb.jitb_selenium import get_buttons
 from jitb.jitb_webdriver import (click_a_button, get_char_limit_attr, get_prompt, get_vote_text,
                                  is_prompt_page, is_vote_page, vote_answers, write_an_answer)
 
