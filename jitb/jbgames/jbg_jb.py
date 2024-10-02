@@ -213,10 +213,11 @@ class JbgJb(JbgAbc):
             web_driver: The webdriver object to interact with.
         """
         # LOCAL VARIABLES
-        answer = ''         # AI answer
-        prompt_text = ''    # Input prompt
-        temp_key = ''       # Answer dict key
-        clicked_it = False  # Button has been clicked
+        answer = ''           # AI answer
+        prompt_text = ''      # Input prompt
+        temp_key = ''         # Answer dict key
+        clicked_it = False    # Button has been clicked
+        clicked_one = False   # At least one button was clicked
 
         # ENTER AS MANY TOPICS AS YOU CAN
         while self.is_joke_topic_page(web_driver=web_driver):
@@ -240,6 +241,7 @@ class JbgJb(JbgAbc):
                 answer = self._joke_topic_dict[temp_key].pop()
                 clicked_it = self.submit_an_answer(web_driver=web_driver, submit_text=answer)
                 if clicked_it:
+                    clicked_one = True
                     Logger.debug(f'Submitted {answer} for the {prompt_text} joke topic')
                 else:
                     Logger.debug(f'Failed to submit {answer} as a joke topic to {prompt_text}')
@@ -248,7 +250,7 @@ class JbgJb(JbgAbc):
             time.sleep(JITB_POLL_RATE)  # Give the page a chance to update
 
         # DONE
-        if not clicked_it and self._num_requests < MAX_JOKE_TOPIC_REQUESTS:
+        if not clicked_one:
             raise RuntimeError('Did not answer any vote topics')
 
     def get_char_limit(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> int:
