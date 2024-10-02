@@ -265,15 +265,6 @@ class JbgDict(JbgAbc):
         # DONE
         return clicked_it
 
-    def validate_status(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> None:
-        """Validates the web_driver and internal attributes.
-
-        Args:
-            web_driver: The webdriver object to interact with.
-        """
-        self._check_web_driver(web_driver=web_driver)
-        self._validate_core_attributes()
-
     def write_an_answer(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
                         submit_text: str) -> bool:
         """Wraps jitb_webdriver.write_an_answer with game-specific details."""

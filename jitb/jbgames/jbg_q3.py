@@ -305,11 +305,6 @@ class JbgQ3(JbgAbc):
         return is_vote_page(web_driver=web_driver, element_name='prompt', element_type=By.ID,
                             vote_clues=self._vote_clues, clean_string=True)
 
-    def validate_status(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> None:
-        """Validates the web_driver and internal attributes."""
-        self._check_web_driver(web_driver=web_driver)
-        self._validate_core_attributes()
-
     def submit_an_answer(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
                          submit_text: str) -> bool:
         """Write an answer and click the submit button.
