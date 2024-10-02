@@ -183,7 +183,6 @@ class JbgQ2(JbgAbc):
         # Get Web Element
         char_limit = get_char_limit_attr(web_driver=web_driver, element_name=field_id,
                                          attr_name=attr_name, element_type=By.ID)
-        print(f'THE CHAR LIMIT FOR THIS PAGE IS: {char_limit}')
         # Did it work?  If not, use the default.
         if char_limit is None:
             char_limit = DEFAULT_CHAR_LIMIT
