@@ -92,7 +92,7 @@ def get_char_limit(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
                    element_name: str, element_type: str = By.CLASS_NAME) -> int:
     """Get the character limit for an input field.
 
-    Searches web_driver for element_name using element_type and attemtps to convert the value
+    Searches web_driver for element_name using element_type and attempts to convert the value
     to an integer.
 
     Args:
@@ -115,6 +115,50 @@ def get_char_limit(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
 
     # GET LIMIT
     char_limit = get_web_element_int(web_driver=web_driver, by_arg=element_type, value=element_name)
+
+    # DONE
+    return char_limit
+
+
+def get_char_limit_attr(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
+                        element_name: str, attr_name: str, element_type: str = By.ID) -> int:
+    """Get the character limit for an input field from its attribute.
+
+    Searches web_driver for element_name using element_type, reads the given attribute,
+    and attempts to convert the value to an integer.
+
+    Args:
+        web_driver: The web driver to get the prompt from.
+        element_name: The prompt's element name (e.g., quiplash-answer-input).
+        attr_name: The attribute name to read from element name (e.g., maxlength).
+        element_type: Optional; The field's element type (e.g., By.ID).
+            See: help(selenium.webdriver.common.by.By).
+
+    Returns:
+        The integer value for element_name's attr_name attribute as read from web_driver on succes,
+        None on failure.
+
+    Raises:
+        TypeError: Bad data type.
+        ValueError: Invalid value.
+    """
+    # LOCAL VARIABLES
+    web_element = None  # The web element to read the attribute from
+    attr_string = None  # The attribute string read from web_element
+    char_limit = None   # Character limit read from the input prompt
+
+    # INPUT VALIDATION handled by get_web_element_int()
+
+    # GET IT
+    # Get Web Element
+    web_element = get_web_element(web_driver=web_driver, by_arg=element_type, value=element_name)
+    # Get Attribute
+    if web_element:
+        attr_string = web_element.get_attribute(attr_name)
+
+    # GET LIMIT
+    if attr_string:
+        char_limit = convert_str_to_int(attr_string)
 
     # DONE
     return char_limit
