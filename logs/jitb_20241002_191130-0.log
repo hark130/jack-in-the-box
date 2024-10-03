@@ -1,0 +1,17 @@
+[2024-10-02 19:11:35.050] DEBUGGING - This room code is a Dictionarium game
+[2024-10-02 19:11:41.307] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:11:43.367] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:11:43.386] DEBUGGING - This is a(n) LOGIN page!
+[2024-10-02 19:11:50.058] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:11:52.111] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:11:52.131] DEBUGGING - This is a(n) LOGIN page!
+[2024-10-02 19:11:58.800] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:12:00.858] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:12:00.879] DEBUGGING - This is a(n) LOGIN page!
+[2024-10-02 19:12:07.529] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:12:09.582] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:12:09.601] DEBUGGING - This is a(n) LOGIN page!
+[2024-10-02 19:12:16.266] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:12:18.315] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:12:18.335] DEBUGGING - This is a(n) LOGIN page!
+[2024-10-02 19:12:22.081] ERROR     - MaxRetryError("HTTPConnectionPool(host='localhost', port=36985): Max retries exceeded with url: /session/9eae12d380792385fe2c1a3ab1708c56/window (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x75108fbf5900>: Failed to establish a new connection: [Errno 111] Connection refused'))")
