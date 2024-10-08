@@ -222,6 +222,10 @@ class JbgQ2(JbgAbc):
         prompt_list = []                  # Use this to cleanup the text
 
         # INPUT VALIDATION
+        if not self.is_last_lash_page(web_driver=web_driver):
+            raise RuntimeError('This is not a Last Lash prompt page')
+
+        # GET IT
         prompt_text = get_prompt(web_driver=web_driver, element_name='state-answer-question',
                                  element_type=By.ID, prompt_clues=self._last_lash_clues)
 
