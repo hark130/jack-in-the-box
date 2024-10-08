@@ -16,9 +16,9 @@ from unittest import skip
 from test.unit_test.test_jbgq2.test_jbgq2 import TestJbgQ2
 from tediousstart.tediousstart import execute_test_cases
 # Local Imports
-from jitb.jbgames.jbg_q2 import get_vote_text
 
 
+# pylint: disable = protected-access
 class TestJbgQ2GetVoteText(TestJbgQ2):
     """The jbg_q2.get_vote_text() unit test class.
 
@@ -361,6 +361,7 @@ class SpecialTestJbgQ2GetVoteText(TestJbgQ2GetVoteText):
                            'THE OTHER QUESTIONS PROLLY GONNA SAY CORNHUB\n' +
                            'AVATAR THE LAST CORNBENDER')
         self.run_test()
+# pylint: enable = protected-access
 
 
 if __name__ == '__main__':

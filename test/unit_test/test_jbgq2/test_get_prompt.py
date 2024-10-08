@@ -10,14 +10,14 @@ Typical Usage:
 
 # Standard Imports
 from pathlib import Path
-from typing import Any, List
+from typing import Any
 # Third Party Imports
 from test.unit_test.test_jbgq2.test_jbgq2 import TestJbgQ2
 from tediousstart.tediousstart import execute_test_cases
 # Local Imports
-from jitb.jbgames.jbg_q2 import get_prompt
 
 
+# pylint: disable = protected-access
 class TestJbgQ2GetPrompt(TestJbgQ2):
     """The jbg_q2.get_prompt() unit test class.
 
@@ -258,6 +258,7 @@ class SpecialTestJbgQ2GetPrompt(TestJbgQ2GetPrompt):
                                self.jbg_q2_obj._normal_prompt_clues)
         self.expect_exception(RuntimeError, 'This is not a prompt page')
         self.run_test()
+# pylint: enable = protected-access
 
 
 if __name__ == '__main__':

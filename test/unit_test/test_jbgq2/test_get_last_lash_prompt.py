@@ -269,6 +269,7 @@ class SpecialTestJbgQ2GetPrompt(TestJbgQ2GetPrompt):
         self.create_test_input('JackboxTv-Q2-Round_2-Prompt_1.html')
         self.expect_exception(RuntimeError, 'This is not a Last Lash prompt page')
         self.run_test()
+# pylint: enable = protected-access
 
 
 if __name__ == '__main__':
