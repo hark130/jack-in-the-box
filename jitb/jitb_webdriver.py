@@ -45,7 +45,7 @@ def click_a_button(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
             # Click it
             try:
                 button.click()
-            except ElementNotInteractableException as err:
+            except (ElementNotInteractableException, StaleElementReferenceException) as err:
                 Logger.debug(f'Failed to click "{button.text}" with {repr(err)}')
             else:
                 clicked_it = True
