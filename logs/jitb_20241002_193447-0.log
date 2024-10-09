@@ -1,0 +1,168 @@
+[2024-10-02 19:34:53.388] DEBUGGING - This room code is a Quiplash 3 game
+[2024-10-02 19:34:59.663] DEBUGGING - This is a(n) AVATAR page!
+[2024-10-02 19:35:08.599] DEBUGGING - This is a(n) AVATAR page!
+[2024-10-02 19:35:17.293] DEBUGGING - _get_element() id:charactersPrompt raised NoSuchElementException()!
+[2024-10-02 19:35:19.347] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:35:21.396] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:35:23.443] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:35:32.129] DEBUGGING - _get_element() id:charactersPrompt raised NoSuchElementException()!
+[2024-10-02 19:35:34.175] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:35:36.237] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:35:38.298] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:35:47.034] DEBUGGING - _get_element() id:charactersPrompt raised NoSuchElementException()!
+[2024-10-02 19:35:49.088] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:35:51.143] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:35:53.198] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:36:01.899] DEBUGGING - _get_element() id:charactersPrompt raised NoSuchElementException()!
+[2024-10-02 19:36:02.740] DEBUGGING - This is a(n) ANSWER page!
+[2024-10-02 19:36:06.914] DEBUGGING - _get_element() id:quiplash-answer-input raised NoSuchElementException()!
+[2024-10-02 19:36:07.683] INFO      - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[2024-10-02 19:36:07.686] DEBUGGING - Polished "Bohemian Tootsody" from ""Bohemian Tootsody"" for this: "If you could fart to the melody of one song, it would be _______"
+[2024-10-02 19:36:07.844] DEBUGGING - Answered prompt "If you could fart to the melody of one song, it would be _______" with "Bohemian Tootsody"!
+[2024-10-02 19:36:10.464] DEBUGGING - _get_element() id:quiplash-answer-input raised NoSuchElementException()!
+[2024-10-02 19:36:10.840] INFO      - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[2024-10-02 19:36:10.843] DEBUGGING - Successfully cleaned "You know the lottery scratch-off ticket won’t pay out much when the goal is to get three _______" to "You know the lottery scratch-off ticket won't pay out much when the goal is to get three _______"
+[2024-10-02 19:36:10.843] DEBUGGING - Polished "grandmas in a row" from ""grandmas in a row"" for this: "You know the lottery scratch-off ticket won't pay out much when the goal is to get three _______"
+[2024-10-02 19:36:10.955] DEBUGGING - Answered prompt "You know the lottery scratch-off ticket won’t pay out much when the goal is to get three _______" with "grandmas in a row"!
+[2024-10-02 19:36:19.667] DEBUGGING - _get_element() id:charactersPrompt raised NoSuchElementException()!
+[2024-10-02 19:36:28.421] DEBUGGING - _get_element() id:charactersPrompt raised NoSuchElementException()!
+[2024-10-02 19:36:30.464] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:36:32.510] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:36:34.566] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:36:43.274] DEBUGGING - _get_element() id:charactersPrompt raised NoSuchElementException()!
+[2024-10-02 19:36:45.321] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:36:47.368] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:36:49.414] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:36:58.141] DEBUGGING - _get_element() id:charactersPrompt raised NoSuchElementException()!
+[2024-10-02 19:37:00.188] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:37:02.233] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:37:12.323] DEBUGGING - _get_element() id:charactersPrompt raised NoSuchElementException()!
+[2024-10-02 19:37:12.352] DEBUGGING - This is a(n) VOTE page!
+[2024-10-02 19:37:15.050] INFO      - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[2024-10-02 19:37:15.052] DEBUGGING - OpenAI added words but we extracted AI THERAPIST! from A. AI THERAPIST!
+[2024-10-02 19:37:15.114] DEBUGGING - Chose "AI THERAPIST!" for "The most popular job title in 2040  Vote for your favorite"!
+[2024-10-02 19:37:17.454] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:37:26.146] DEBUGGING - _get_element() id:charactersPrompt raised NoSuchElementException()!
+[2024-10-02 19:37:28.192] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:37:30.236] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:37:32.278] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:37:41.013] DEBUGGING - _get_element() id:charactersPrompt raised NoSuchElementException()!
+[2024-10-02 19:37:43.069] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:37:45.123] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:37:47.177] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:37:55.906] DEBUGGING - _get_element() id:charactersPrompt raised NoSuchElementException()!
+[2024-10-02 19:37:57.958] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:38:00.010] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:38:10.016] DEBUGGING - _get_element() id:charactersPrompt raised NoSuchElementException()!
+[2024-10-02 19:38:10.046] DEBUGGING - This is a(n) VOTE page!
+[2024-10-02 19:38:12.831] INFO      - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[2024-10-02 19:38:12.833] DEBUGGING - OpenAI went crazy with I choose B. WHEN CRABS START ASKING FOR SUNSCREEN. so RED AS A LOBSTER was chosen randomly
+[2024-10-02 19:38:12.889] DEBUGGING - Chose "RED AS A LOBSTER" for "A sign it’s time to wrap up your day at the beach  Vote for your favorite"!
+[2024-10-02 19:38:15.226] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:38:23.907] DEBUGGING - _get_element() id:charactersPrompt raised NoSuchElementException()!
+[2024-10-02 19:38:25.950] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:38:27.992] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:38:30.032] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:38:38.716] DEBUGGING - _get_element() id:charactersPrompt raised NoSuchElementException()!
+[2024-10-02 19:38:40.759] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:38:42.801] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:38:44.841] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:38:53.531] DEBUGGING - _get_element() id:charactersPrompt raised NoSuchElementException()!
+[2024-10-02 19:38:53.547] DEBUGGING - This is a(n) ANSWER page!
+[2024-10-02 19:38:57.686] DEBUGGING - _get_element() id:quiplash-answer-input raised NoSuchElementException()!
+[2024-10-02 19:38:58.223] INFO      - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[2024-10-02 19:38:58.225] DEBUGGING - Successfully cleaned "Want some attention? Go to a singles bar wearing a t-shirt that says “_______”" to "Want some attention? Go to a singles bar wearing a t-shirt that says "_______""
+[2024-10-02 19:38:58.225] DEBUGGING - Polished "Free Hugs (Terms and Conditions Apply" from ""Free Hugs (Terms and Conditions Apply)"" for this: "Want some attention? Go to a singles bar wearing a t-shirt that says "_______""
+[2024-10-02 19:38:58.374] DEBUGGING - Answered prompt "Want some attention? Go to a singles bar wearing a t-shirt that says “_______”" with "Free Hugs (Terms and Conditions Apply"!
+[2024-10-02 19:39:00.996] DEBUGGING - _get_element() id:quiplash-answer-input raised NoSuchElementException()!
+[2024-10-02 19:39:01.372] INFO      - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[2024-10-02 19:39:01.374] DEBUGGING - Successfully cleaned "An unexpected perk of being a magician’s assistant" to "An unexpected perk of being a magician's assistant"
+[2024-10-02 19:39:01.515] DEBUGGING - Answered prompt "An unexpected perk of being a magician’s assistant" with "Free disappearing acts at family gatherings"!
+[2024-10-02 19:39:10.247] DEBUGGING - _get_element() id:charactersPrompt raised NoSuchElementException()!
+[2024-10-02 19:39:12.296] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:39:14.345] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:39:16.396] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:39:25.115] DEBUGGING - _get_element() id:charactersPrompt raised NoSuchElementException()!
+[2024-10-02 19:39:27.165] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:39:29.215] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:39:31.262] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:39:39.949] DEBUGGING - _get_element() id:charactersPrompt raised NoSuchElementException()!
+[2024-10-02 19:39:42.003] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:39:44.051] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:39:46.100] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:39:54.826] DEBUGGING - _get_element() id:charactersPrompt raised NoSuchElementException()!
+[2024-10-02 19:39:54.857] DEBUGGING - This is a(n) VOTE page!
+[2024-10-02 19:39:57.471] INFO      - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[2024-10-02 19:39:57.473] DEBUGGING - OpenAI added words but we extracted A BEARD from B.
+[2024-10-02 19:39:57.541] DEBUGGING - Chose "A BEARD" for "Your bathroom isn’t dirty, but it has started growing _______  Vote for your favorite"!
+[2024-10-02 19:40:07.729] DEBUGGING - _get_element() id:charactersPrompt raised NoSuchElementException()!
+[2024-10-02 19:40:09.779] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:40:11.827] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:40:13.873] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:40:22.577] DEBUGGING - _get_element() id:charactersPrompt raised NoSuchElementException()!
+[2024-10-02 19:40:24.627] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:40:26.675] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:40:28.726] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:40:37.455] DEBUGGING - _get_element() id:charactersPrompt raised NoSuchElementException()!
+[2024-10-02 19:40:39.508] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:40:41.571] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:40:43.627] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:40:52.349] DEBUGGING - _get_element() id:charactersPrompt raised NoSuchElementException()!
+[2024-10-02 19:40:52.380] DEBUGGING - This is a(n) VOTE page!
+[2024-10-02 19:40:55.093] INFO      - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[2024-10-02 19:40:55.095] DEBUGGING - OpenAI went crazy with I choose B. UNSOLICITED FEEDBACK. so UNSOLICITED FEEDBACK was chosen randomly
+[2024-10-02 19:40:55.159] DEBUGGING - Chose "UNSOLICITED FEEDBACK" for "Passive-aggressive ghosts are always writing _______ on your wall in blood  Vote for your favorite"!
+[2024-10-02 19:40:57.500] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:41:06.245] DEBUGGING - _get_element() id:charactersPrompt raised NoSuchElementException()!
+[2024-10-02 19:41:08.303] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:41:10.353] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:41:12.402] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:41:21.108] DEBUGGING - _get_element() id:charactersPrompt raised NoSuchElementException()!
+[2024-10-02 19:41:23.155] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:41:25.203] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:41:27.252] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:41:35.981] DEBUGGING - _get_element() id:charactersPrompt raised NoSuchElementException()!
+[2024-10-02 19:41:38.031] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:41:38.445] DEBUGGING - This is a(n) Q3_THRIP page!
+[2024-10-02 19:41:41.233] INFO      - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[2024-10-02 19:41:41.535] DEBUGGING - ANSWERED THRIPLASH Final prompt The three things standing between you and becoming president with: My questionable search history, Lack of political experience  , Chronic dad jokes!
+[2024-10-02 19:41:50.241] DEBUGGING - _get_element() id:charactersPrompt raised NoSuchElementException()!
+[2024-10-02 19:41:58.989] DEBUGGING - _get_element() id:charactersPrompt raised NoSuchElementException()!
+[2024-10-02 19:42:07.732] DEBUGGING - _get_element() id:charactersPrompt raised NoSuchElementException()!
+[2024-10-02 19:42:16.464] DEBUGGING - _get_element() id:charactersPrompt raised NoSuchElementException()!
+[2024-10-02 19:42:25.218] DEBUGGING - _get_element() id:charactersPrompt raised NoSuchElementException()!
+[2024-10-02 19:42:33.951] DEBUGGING - _get_element() id:charactersPrompt raised NoSuchElementException()!
+[2024-10-02 19:42:35.998] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:42:38.050] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:42:40.106] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:42:48.824] DEBUGGING - _get_element() id:charactersPrompt raised NoSuchElementException()!
+[2024-10-02 19:42:50.871] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:42:52.918] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:42:54.969] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:43:03.698] DEBUGGING - _get_element() id:charactersPrompt raised NoSuchElementException()!
+[2024-10-02 19:43:03.728] DEBUGGING - This is a(n) VOTE page!
+[2024-10-02 19:43:06.349] INFO      - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[2024-10-02 19:43:06.351] DEBUGGING - OpenAI followed instructions and SEXY TOILET
+,
+SEXY TRASH BAG
+,
+SEXY SPONGEBOB
+, was chosen
+[2024-10-02 19:43:06.424] DEBUGGING - Chose "SEXY TOILET
+,
+SEXY TRASH BAG
+,
+SEXY SPONGEBOB
+," for "The three worst Halloween costumes to make “sexy” Vote for your favorite"!
+[2024-10-02 19:43:16.596] DEBUGGING - _get_element() id:charactersPrompt raised NoSuchElementException()!
+[2024-10-02 19:43:18.655] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:43:20.705] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:43:22.754] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:43:31.453] DEBUGGING - _get_element() id:charactersPrompt raised NoSuchElementException()!
+[2024-10-02 19:43:33.504] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:43:35.552] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:43:37.601] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:43:46.332] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:43:48.383] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:43:50.431] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-02 19:43:51.151] ERROR     - RuntimeError('The room was disconnected')

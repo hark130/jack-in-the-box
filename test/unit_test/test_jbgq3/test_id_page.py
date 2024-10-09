@@ -97,6 +97,36 @@ class NormalTestJbgQ3IdPage(TestJbgQ3IdPage):
         self.expect_return(JbgPageIds.VOTE)
         self.run_test()
 
+    def test_n08_round_2_prompt_1(self):
+        """Quiplash 3 Round 2 Prompt 1 page."""
+        self.create_test_input('JackboxTv-Q3-Round_2-Prompt_1.html')
+        self.expect_return(JbgPageIds.ANSWER)
+        self.run_test()
+
+    def test_n09_round_2_prompt_2(self):
+        """Quiplash 3 Round 2 Prompt 2 page."""
+        self.create_test_input('JackboxTv-Q3-Round_2-Prompt_2.html')
+        self.expect_return(JbgPageIds.ANSWER)
+        self.run_test()
+
+    def test_n10_round_2_vote_1(self):
+        """Quiplash 3 Round 2 Vote 1 page."""
+        self.create_test_input('JackboxTv-Q3-Round_2-Vote_1-start.html')
+        self.expect_return(JbgPageIds.VOTE)
+        self.run_test()
+
+    def test_n11_round_3_prompt_1(self):
+        """Quiplash 3 Round 3 Prompt 1 page."""
+        self.create_test_input('JackboxTv-Q3-Round_3-Prompt_1.html')
+        self.expect_return(JbgPageIds.Q3_THRIP)
+        self.run_test()
+
+    def test_n12_round_3_vote_1(self):
+        """Quiplash 3 Round 3 Vote 1 page."""
+        self.create_test_input('JackboxTv-Q3-Round_3-Vote_1.html')
+        self.expect_return(JbgPageIds.VOTE)
+        self.run_test()
+
 
 class ErrorTestJbgQ3IdPage(TestJbgQ3IdPage):
     """Error Test Cases.

@@ -44,7 +44,9 @@ class MockedJitbAi(JitbAi):
         """Get three response from generate_answer()."""
         answer_list = []
         for _ in range(3):
-            answer_list.append(self.generate_answer(length_limit=length_limit))
+            answer_list.append(self.generate_answer(prompt=prompt, length_limit=length_limit,
+                                                    min_len=min_len))
+        return answer_list
 
     def vote_favorite(self, prompt: str, answers: list) -> str:
         """Randomly choose an answer."""
