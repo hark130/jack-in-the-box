@@ -1,0 +1,184 @@
+[2024-10-08 19:45:00.980] DEBUGGING - This room code is a Joke Boat game
+[2024-10-08 19:45:05.247] DEBUGGING - This is a(n) JB_CATCH page!
+[2024-10-08 19:45:06.093] INFO      - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[2024-10-08 19:45:06.096] DEBUGGING - Successfully cleaned "Give me one example each for each of these, with no other commentary or explanation, in a comma-separated list: A BRAND, AN OBJECT, A FOOD, A LOCATION, A PLURAL NOUN, AN ANIMAL, A PERSON’S NAME" to "Give me one example each for each of these, with no other commentary or explanation, in a comma-separated list: A BRAND, AN OBJECT, A FOOD, A LOCATION, A PLURAL NOUN, AN ANIMAL, A PERSON'S NAME"
+[2024-10-08 19:45:06.096] DEBUGGING - Polished "McDonald's, Rubber Duck, Pizza, Hawaii, Socks, Monkey, Bob" from "McDonald's, Rubber Duck, Pizza, Hawaii, Socks, Monkey, Bob." for this: "Give me one example each for each of these, with no other commentary or explanation, in a comma-separated list: A BRAND, AN OBJECT, A FOOD, A LOCATION, A PLURAL NOUN, AN ANIMAL, A PERSON'S NAME"
+[2024-10-08 19:45:06.096] DEBUGGING - JitbAi answered "Give me one example each for each of these, with no other commentary or explanation, in a comma-separated list: A BRAND, AN OBJECT, A FOOD, A LOCATION, A PLURAL NOUN, AN ANIMAL, A PERSON’S NAME" with "McDonald's, Rubber Duck, Pizza, Hawaii, Socks, Monkey, Bob"
+[2024-10-08 19:45:06.096] DEBUGGING - Adding A BRAND : ["McDonald's"] to self._joke_topic_dict
+[2024-10-08 19:45:06.096] DEBUGGING - Adding AN OBJECT : ['Rubber Duck'] to self._joke_topic_dict
+[2024-10-08 19:45:06.096] DEBUGGING - Adding A FOOD : ['Pizza'] to self._joke_topic_dict
+[2024-10-08 19:45:06.096] DEBUGGING - Adding A LOCATION : ['Hawaii'] to self._joke_topic_dict
+[2024-10-08 19:45:06.096] DEBUGGING - Adding A PLURAL NOUN : ['Socks'] to self._joke_topic_dict
+[2024-10-08 19:45:06.097] DEBUGGING - Adding AN ANIMAL : ['Monkey'] to self._joke_topic_dict
+[2024-10-08 19:45:06.097] DEBUGGING - Adding A PERSON’S NAME : ['Bob'] to self._joke_topic_dict
+[2024-10-08 19:45:08.746] INFO      - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[2024-10-08 19:45:08.748] DEBUGGING - OpenAI went crazy with I choose B. hoverboard. so biscuit was chosen randomly
+[2024-10-08 19:45:08.819] DEBUGGING - Chose "biscuit" for "Select how to complete your catchphrase: no way, no _____!"!
+[2024-10-08 19:45:08.819] DEBUGGING - JbgJb.vote_answers() called vote_answer(element_name=prompt, element_type=id, vote_clues=['catchphrase'], clean_string=True) which returned: Select how to complete your catchphrase: no way, no _____!
+[2024-10-08 19:45:11.163] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-08 19:45:11.163] DEBUGGING - JbgJb.vote_answers() called vote_answer(element_name=prompt, element_type=id, vote_clues=['catchphrase'], clean_string=True) which returned: 
+[2024-10-08 19:45:17.836] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-08 19:45:19.889] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-08 19:45:21.944] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-08 19:45:24.004] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-08 19:45:26.064] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-08 19:45:34.751] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-08 19:45:36.802] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-08 19:45:38.855] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-08 19:45:40.903] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-08 19:45:42.943] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-08 19:45:51.669] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-08 19:45:53.735] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-08 19:45:55.797] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-08 19:45:57.851] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-08 19:45:59.912] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-08 19:46:08.648] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-08 19:46:10.695] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-08 19:46:12.738] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-08 19:46:14.787] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-08 19:46:16.831] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-08 19:46:25.517] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-08 19:46:27.561] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-08 19:46:29.608] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-08 19:46:31.653] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-08 19:46:33.701] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-08 19:46:42.391] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-08 19:46:44.435] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-08 19:46:46.483] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-08 19:46:48.532] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-08 19:46:50.581] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-08 19:46:59.268] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-08 19:47:01.315] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-08 19:47:03.358] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-08 19:47:05.400] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-08 19:47:07.449] DEBUGGING - _get_element() id:prompt raised NoSuchElementException()!
+[2024-10-08 19:47:14.117] DEBUGGING - This is a(n) JB_TOPIC page!
+[2024-10-08 19:47:14.311] DEBUGGING - Submitted Rubber Duck for the Write as many topics as you can.
+AN OBJECT joke topic
+[2024-10-08 19:47:14.940] DEBUGGING - Submitted Monkey for the Write as many topics as you can.
+AN ANIMAL joke topic
+[2024-10-08 19:47:15.579] DEBUGGING - Submitted Socks for the Write as many topics as you can.
+A PLURAL NOUN joke topic
+[2024-10-08 19:47:16.223] DEBUGGING - Submitted McDonald's for the Write as many topics as you can.
+A BRAND joke topic
+[2024-10-08 19:47:16.864] DEBUGGING - Submitted Pizza for the Write as many topics as you can.
+A FOOD joke topic
+[2024-10-08 19:47:17.504] DEBUGGING - Submitted Hawaii for the Write as many topics as you can.
+A LOCATION joke topic
+[2024-10-08 19:47:18.153] DEBUGGING - Submitted Bob for the Write as many topics as you can.
+A PERSON’S NAME joke topic
+[2024-10-08 19:47:18.706] DEBUGGING - AN OBJECT was requested as a vote topic but not present
+[2024-10-08 19:47:19.677] INFO      - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[2024-10-08 19:47:19.679] DEBUGGING - JitbAi generated "['Coffee mug', 'Laptop', 'Desk lamp', 'Notebook', 'Backpack', 'Sunglasses', 'Water bottle', 'Alarm clock', 'Pencil case', 'Phone charger']" as bulk joke topics for the key "AN OBJECT"
+[2024-10-08 19:47:19.680] DEBUGGING - Adding AN OBJECT : ['Coffee mug', 'Laptop', 'Desk lamp', 'Notebook', 'Backpack', 'Sunglasses', 'Water bottle', 'Alarm clock', 'Pencil case', 'Phone charger'] to self._joke_topic_dict
+[2024-10-08 19:47:19.804] DEBUGGING - Submitted Phone charger for the Write as many topics as you can.
+AN OBJECT joke topic
+[2024-10-08 19:47:20.352] DEBUGGING - A BRAND was requested as a vote topic but not present
+[2024-10-08 19:47:21.117] INFO      - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[2024-10-08 19:47:21.119] DEBUGGING - JitbAi generated "['Coca-Cola', 'Apple', 'Nike', "McDonald's", 'Amazon', 'Walmart', 'Google', 'Disney', 'Microsoft', 'Toyota']" as bulk joke topics for the key "A BRAND"
+[2024-10-08 19:47:21.119] DEBUGGING - Adding A BRAND : ['Coca-Cola', 'Apple', 'Nike', "McDonald's", 'Amazon', 'Walmart', 'Google', 'Disney', 'Microsoft', 'Toyota'] to self._joke_topic_dict
+[2024-10-08 19:47:21.219] DEBUGGING - Submitted Toyota for the Write as many topics as you can.
+A BRAND joke topic
+[2024-10-08 19:47:21.767] DEBUGGING - A PERSON’S NAME was requested as a vote topic but not present
+[2024-10-08 19:47:22.666] INFO      - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[2024-10-08 19:47:22.668] DEBUGGING - JitbAi generated "['Jackson Stone', 'Luna Martinez', 'Oliver Banks', 'Harper Cruz', 'Mason Reynolds', 'Peyton Foster', 'Dakota Lane', 'Willow Grey', 'Sawyer Brooks', 'Ruby West']" as bulk joke topics for the key "A PERSON’S NAME"
+[2024-10-08 19:47:22.668] DEBUGGING - Adding A PERSON’S NAME : ['Jackson Stone', 'Luna Martinez', 'Oliver Banks', 'Harper Cruz', 'Mason Reynolds', 'Peyton Foster', 'Dakota Lane', 'Willow Grey', 'Sawyer Brooks', 'Ruby West'] to self._joke_topic_dict
+[2024-10-08 19:47:22.770] DEBUGGING - Submitted Ruby West for the Write as many topics as you can.
+A PERSON’S NAME joke topic
+[2024-10-08 19:47:23.319] DEBUGGING - A PLURAL NOUN was requested as a vote topic but not present
+[2024-10-08 19:47:24.259] INFO      - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[2024-10-08 19:47:24.261] DEBUGGING - JitbAi generated "['Cats', 'Dogs', 'Books', 'Trees', 'Computers', 'Stars', 'Shoes', 'Cars', 'Mountains', 'Friends']" as bulk joke topics for the key "A PLURAL NOUN"
+[2024-10-08 19:47:24.261] DEBUGGING - Adding A PLURAL NOUN : ['Cats', 'Dogs', 'Books', 'Trees', 'Computers', 'Stars', 'Shoes', 'Cars', 'Mountains', 'Friends'] to self._joke_topic_dict
+[2024-10-08 19:47:24.365] DEBUGGING - Submitted Friends for the Write as many topics as you can.
+A PLURAL NOUN joke topic
+[2024-10-08 19:47:24.913] DEBUGGING - A FOOD was requested as a vote topic but not present
+[2024-10-08 19:47:25.811] INFO      - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[2024-10-08 19:47:25.813] DEBUGGING - JitbAi generated "['Sushi burritos', 'Cauliflower rice', 'Acai bowls', 'Jackfruit', 'Avocado toast', 'Kombucha', 'Plant-based burgers', 'Poke bowls', 'Kimchi', 'Quinoa salad']" as bulk joke topics for the key "A FOOD"
+[2024-10-08 19:47:25.813] DEBUGGING - Adding A FOOD : ['Sushi burritos', 'Cauliflower rice', 'Acai bowls', 'Jackfruit', 'Avocado toast', 'Kombucha', 'Plant-based burgers', 'Poke bowls', 'Kimchi', 'Quinoa salad'] to self._joke_topic_dict
+[2024-10-08 19:47:25.920] DEBUGGING - Submitted Quinoa salad for the Write as many topics as you can.
+A FOOD joke topic
+[2024-10-08 19:47:26.468] DEBUGGING - AN ANIMAL was requested as a vote topic but not present
+[2024-10-08 19:47:28.588] INFO      - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[2024-10-08 19:47:28.590] DEBUGGING - JitbAi generated "['Lion', 'Octopus', 'Giraffe', 'Eagle', 'Panda', 'Dolphin', 'Rhino', 'Arctic Fox', 'Komodo Dragon', 'Sloth']" as bulk joke topics for the key "AN ANIMAL"
+[2024-10-08 19:47:28.590] DEBUGGING - Adding AN ANIMAL : ['Lion', 'Octopus', 'Giraffe', 'Eagle', 'Panda', 'Dolphin', 'Rhino', 'Arctic Fox', 'Komodo Dragon', 'Sloth'] to self._joke_topic_dict
+[2024-10-08 19:47:28.691] DEBUGGING - Submitted Sloth for the Write as many topics as you can.
+AN ANIMAL joke topic
+[2024-10-08 19:47:29.244] DEBUGGING - A LOCATION was requested as a vote topic but not present
+[2024-10-08 19:47:30.198] INFO      - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[2024-10-08 19:47:30.212] DEBUGGING - JitbAi generated "['Mount Everest', 'Eiffel Tower', 'Grand Canyon', 'Great Barrier Reef', 'Machu Picchu', 'Dubai', 'Sydney Opera House', 'Amazon Rainforest', 'Taj Mahal', 'Great Wall of China']" as bulk joke topics for the key "A LOCATION"
+[2024-10-08 19:47:30.212] DEBUGGING - Adding A LOCATION : ['Mount Everest', 'Eiffel Tower', 'Grand Canyon', 'Great Barrier Reef', 'Machu Picchu', 'Dubai', 'Sydney Opera House', 'Amazon Rainforest', 'Taj Mahal', 'Great Wall of China'] to self._joke_topic_dict
+[2024-10-08 19:47:30.338] DEBUGGING - Submitted Great Wall of China for the Write as many topics as you can.
+A LOCATION joke topic
+[2024-10-08 19:47:30.991] DEBUGGING - Submitted Pencil case for the Write as many topics as you can.
+AN OBJECT joke topic
+[2024-10-08 19:47:31.646] DEBUGGING - Submitted Mountains for the Write as many topics as you can.
+A PLURAL NOUN joke topic
+[2024-10-08 19:47:32.299] DEBUGGING - Submitted Microsoft for the Write as many topics as you can.
+A BRAND joke topic
+[2024-10-08 19:47:32.953] DEBUGGING - Submitted Komodo Dragon for the Write as many topics as you can.
+AN ANIMAL joke topic
+[2024-10-08 19:47:33.599] DEBUGGING - Submitted Kimchi for the Write as many topics as you can.
+A FOOD joke topic
+[2024-10-08 19:47:34.256] DEBUGGING - Submitted Taj Mahal for the Write as many topics as you can.
+A LOCATION joke topic
+[2024-10-08 19:47:34.911] DEBUGGING - Submitted Sawyer Brooks for the Write as many topics as you can.
+A PERSON’S NAME joke topic
+[2024-10-08 19:47:35.561] DEBUGGING - Submitted Poke bowls for the Write as many topics as you can.
+A FOOD joke topic
+[2024-10-08 19:47:36.200] DEBUGGING - Submitted Cars for the Write as many topics as you can.
+A PLURAL NOUN joke topic
+[2024-10-08 19:47:36.846] DEBUGGING - Submitted Willow Grey for the Write as many topics as you can.
+A PERSON’S NAME joke topic
+[2024-10-08 19:47:37.499] DEBUGGING - Submitted Amazon Rainforest for the Write as many topics as you can.
+A LOCATION joke topic
+[2024-10-08 19:47:38.155] DEBUGGING - Submitted Arctic Fox for the Write as many topics as you can.
+AN ANIMAL joke topic
+[2024-10-08 19:47:38.802] DEBUGGING - Submitted Alarm clock for the Write as many topics as you can.
+AN OBJECT joke topic
+[2024-10-08 19:47:39.448] DEBUGGING - Submitted Disney for the Write as many topics as you can.
+A BRAND joke topic
+[2024-10-08 19:47:40.091] DEBUGGING - Submitted Google for the Write as many topics as you can.
+A BRAND joke topic
+[2024-10-08 19:47:40.733] DEBUGGING - Submitted Shoes for the Write as many topics as you can.
+A PLURAL NOUN joke topic
+[2024-10-08 19:47:41.387] DEBUGGING - Submitted Dakota Lane for the Write as many topics as you can.
+A PERSON’S NAME joke topic
+[2024-10-08 19:47:42.053] DEBUGGING - Submitted Sydney Opera House for the Write as many topics as you can.
+A LOCATION joke topic
+[2024-10-08 19:47:42.692] DEBUGGING - Submitted Rhino for the Write as many topics as you can.
+AN ANIMAL joke topic
+[2024-10-08 19:47:43.346] DEBUGGING - Submitted Plant-based burgers for the Write as many topics as you can.
+A FOOD joke topic
+[2024-10-08 19:47:43.995] DEBUGGING - Submitted Water bottle for the Write as many topics as you can.
+AN OBJECT joke topic
+[2024-10-08 19:47:44.640] DEBUGGING - Submitted Dolphin for the Write as many topics as you can.
+AN ANIMAL joke topic
+[2024-10-08 19:47:45.278] DEBUGGING - Submitted Kombucha for the Write as many topics as you can.
+A FOOD joke topic
+[2024-10-08 19:47:45.919] DEBUGGING - Submitted Stars for the Write as many topics as you can.
+A PLURAL NOUN joke topic
+[2024-10-08 19:47:46.558] DEBUGGING - Submitted Sunglasses for the Write as many topics as you can.
+AN OBJECT joke topic
+[2024-10-08 19:47:47.194] DEBUGGING - Submitted Dubai for the Write as many topics as you can.
+A LOCATION joke topic
+[2024-10-08 19:47:47.846] DEBUGGING - Submitted Peyton Foster for the Write as many topics as you can.
+A PERSON’S NAME joke topic
+[2024-10-08 19:47:48.491] DEBUGGING - Submitted Walmart for the Write as many topics as you can.
+A BRAND joke topic
+[2024-10-08 19:47:49.144] DEBUGGING - Submitted Backpack for the Write as many topics as you can.
+AN OBJECT joke topic
+[2024-10-08 19:47:49.809] DEBUGGING - Submitted Machu Picchu for the Write as many topics as you can.
+A LOCATION joke topic
+[2024-10-08 19:47:50.454] DEBUGGING - Submitted Amazon for the Write as many topics as you can.
+A BRAND joke topic
+[2024-10-08 19:47:51.102] DEBUGGING - Submitted Panda for the Write as many topics as you can.
+AN ANIMAL joke topic
+[2024-10-08 19:47:51.753] DEBUGGING - Submitted Mason Reynolds for the Write as many topics as you can.
+A PERSON’S NAME joke topic
+[2024-10-08 19:47:52.405] DEBUGGING - Submitted Avocado toast for the Write as many topics as you can.
+A FOOD joke topic
+[2024-10-08 19:47:53.049] DEBUGGING - Submitted Computers for the Write as many topics as you can.
+A PLURAL NOUN joke topic
+[2024-10-08 19:47:53.701] DEBUGGING - Submitted Eagle for the Write as many topics as you can.
+AN ANIMAL joke topic
+[2024-10-08 19:47:54.461] ERROR     - StaleElementReferenceException()
