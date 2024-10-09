@@ -452,7 +452,7 @@ def write_an_answer(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
     if prompt_input:
         try:
             prompt_input.send_keys(submit_text)
-        except ElementNotInteractableException as err:
+        except (ElementNotInteractableException, StaleElementReferenceException) as err:
             Logger.debug(f'Failed to submit "{submit_text}" into "{element_name}" with {repr(err)}')
         else:
             wrote_it = True
