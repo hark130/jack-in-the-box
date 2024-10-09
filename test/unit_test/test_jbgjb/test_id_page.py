@@ -41,8 +41,8 @@ class TestJbgJbIdPage(TestJbgJb):
         Raises:
             Exceptions raised by JbgJb.id_page() are bubbled up and handled by TediousUnitTest
         """
-        jbg_q2_obj = self.setup_jbgjb_object()
-        return jbg_q2_obj.id_page(*self._args, **self._kwargs)
+        jbg_jb_obj = self.setup_jbgjb_object()
+        return jbg_jb_obj.id_page(*self._args, **self._kwargs)
 
 
 class NormalTestJbgJbIdPage(TestJbgJbIdPage):

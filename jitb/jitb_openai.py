@@ -148,7 +148,7 @@ class JitbAi:
         return answer
 
     def generate_thriplash(self, prompt: str, length_limit: int = 30,
-                           min_len: int = MIN_FITB_LEN) -> list:
+                           min_len: int = MIN_FITB_LEN) -> List[str]:
         """Prompt OpenAI to generate three separate answers for the given Thriplash prompt.
 
         Args:
@@ -157,7 +157,7 @@ class JitbAi:
             min_len: Optional; Min length of repeating undescores to be considered a fitb prompt.
 
         Returns:
-            A tuple of length 3 which contains three strings.  One or more of the three strings
+            A list of length 3 which contains three strings.  One or more of the three strings
             may be empty.
         """
         # LOCAL VARIABLES

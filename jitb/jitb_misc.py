@@ -33,8 +33,8 @@ def clean_string(dirty_str: str) -> str:
     return "".join(char_filter(dirty_str))
 
 
-def clean_up_string(dirty_string: str) -> str:
-    """Normalize the characters and replace newlines with spaces.
+def clean_up_string(dirty_string: str, replace_char: str = ' ') -> str:
+    """Normalize the characters and replace newlines with replace_char.
 
     Args:
         dirty_str: A potentially dirty string to normalize and strip.
@@ -43,8 +43,40 @@ def clean_up_string(dirty_string: str) -> str:
         A clean version of dirty_str, sans newline characters.
     """
     clean_str = clean_string(dirty_string)
-    clean_str = clean_str.replace('\n', ' ')
+    clean_str = clean_str.replace('\n', replace_char)
     return clean_str
+
+
+def convert_str_to_int(int_string: str) -> None:
+    """Convert the string representation of an integeter to an actual integer.
+
+    Args:
+        int_string: The string to convert to an integer.
+
+    Returns:
+        An integer derived from int_string on success, None on failed conversion.
+
+    Raises:
+        TypeError: Bad data type.
+        ValueError: Bad value.
+    """
+    # LOCAL VARIABLES
+    integer = None  # Converted integer from the int_string
+
+    # INPUT VALIDATION
+    if not isinstance(int_string, str):
+        raise TypeError(f'The int_string argument must be a string instead of a {type(int_string)}')
+    if not int_string:
+        raise ValueError('The int_string may not be empty')
+
+    # CONVERT IT
+    try:
+        integer = int(clean_up_string(dirty_string=int_string, replace_char=''))
+    except ValueError:
+        pass  # Let it go and just return None
+
+    # DONE
+    return integer
 
 
 def determine_tmp_dir() -> str:

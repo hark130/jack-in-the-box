@@ -99,7 +99,6 @@ class TestJackboxGames(TediousUnitTest):
             filename: Path object to convert to a web driver and use as file-based test input.
             use_kwarg: Optional; Will call the function using keyword arguments.
         """
-        # LOCAL VARIABLES
         self.create_web_driver(filename=filename)  # Unit test input
         if use_kwarg:
             self.set_test_input(web_driver=self.web_driver)
