@@ -4,6 +4,8 @@
 from typing import Final, List
 import time
 # Third Party
+from selenium.common.exceptions import (ElementNotInteractableException,
+                                        StaleElementReferenceException)
 from selenium.webdriver.common.by import By
 import selenium
 # Local
@@ -124,19 +126,20 @@ class JbgQ2(JbgAbc):
 
         # INPUT VALIDATION
         self.validate_status(web_driver=web_driver)
-        if not self.is_vote_page(web_driver=web_driver):
-            raise RuntimeError('This is not a voting page.')
 
         # VOTE IT
         while True:
-            if not self.is_vote_page(web_driver):
-                break
-            prompt_text = vote_answers(web_driver=web_driver, last_prompt=prompt_text,
-                                       ai_obj=self._ai_obj, element_name='vote-text',
-                                       element_type=By.ID, vote_clues=self._vote_clues,
-                                       clean_string=True)
+            try:
+                prompt_text = vote_answers(web_driver=web_driver, last_prompt=prompt_text,
+                                           ai_obj=self._ai_obj, element_name='vote-text',
+                                           element_type=By.ID, vote_clues=self._vote_clues,
+                                           clean_string=True)
+            except (ElementNotInteractableException, RuntimeError,
+                    StaleElementReferenceException) as err:
+                Logger.error(f'Failed to vote answers with {repr(err)}')
+                break  # Something went wrong so let's just leave this loop
             if not prompt_text:
-                break
+                break  # Nothing got answered
 
     def id_page(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> JbgPageIds:
         """Determine what type of Jackbox Games webpage web_driver is.
@@ -320,8 +323,20 @@ class JbgQ2(JbgAbc):
     def write_an_answer(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
                         submit_text: str) -> bool:
         """Wraps jitb_webdriver.write_an_answer with game-specific details."""
-        return write_an_answer(web_driver=web_driver, submit_text=submit_text,
-                               element_name='quiplash-answer-input', element_type=By.ID)
+        # LOCAL VARIABLES
+        element_name = 'quiplash-answer-input'  # The field's element name
+        element_type = By.ID                    # The field's element type
+        # Success or failure off sending the submit_text to the element_name
+        wrote_it = write_an_answer(web_driver=web_driver, submit_text=submit_text,
+                                   element_name=element_name, element_type=element_type)
+
+        # RESPONSE
+        if not wrote_it:
+            Logger.error(f'Failed to write the answer "{submit_text}" for element '
+                         f'"{element_name}" (of type "{element_type}")')
+
+        # DONE
+        return wrote_it
 
     # Private Methods (alphabetical order)
     def _answer_last_lash(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> None:

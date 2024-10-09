@@ -6,6 +6,8 @@ from typing import Final, List
 import random
 import time
 # Third Party
+from selenium.common.exceptions import (ElementNotInteractableException,
+                                        StaleElementReferenceException)
 from selenium.webdriver.common.by import By
 import selenium
 # Local
@@ -138,8 +140,6 @@ class JbgJb(JbgAbc):
 
         # VOTE IT
         while True:
-            if not self.is_any_vote_page(web_driver=web_driver):
-                break
             try:
                 prompt_text = vote_answers(web_driver=web_driver, last_prompt=prompt_text,
                                            ai_obj=self._ai_obj, element_name=element_name,
@@ -148,12 +148,12 @@ class JbgJb(JbgAbc):
                 Logger.debug(f'JbgJb.vote_answers() called vote_answer(element_name={element_name},'
                              f' element_type={By.ID}, vote_clues={vote_clues}, '
                              f'clean_string=True) which returned: {prompt_text}')
-            except RuntimeError as err:
-                if err.args[0] == f'Unable to locate the {element_name} element value':
-                    Logger.debug(f'vote_answers() raised {repr(err)} but it is being ignored')
-                    break  # Something went wrong so let's just leave this loop
+            except (ElementNotInteractableException, RuntimeError,
+                    StaleElementReferenceException) as err:
+                Logger.error(f'Failed to vote answers with {repr(err)}')
+                break  # Something went wrong so let's just leave this loop
             if not prompt_text:
-                break
+                break  # Nothing got answered
 
     def id_page(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> JbgPageIds:
         """Determine what type of Jackbox Games webpage web_driver is.
@@ -342,8 +342,20 @@ class JbgJb(JbgAbc):
     def write_an_answer(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
                         submit_text: str) -> bool:
         """Wraps jitb_webdriver.write_an_answer with game-specific details."""
-        return write_an_answer(web_driver=web_driver, submit_text=submit_text,
-                               element_name='input-text-textarea', element_type=By.ID)
+        # LOCAL VARIABLES
+        element_name = 'input-text-textarea'  # The field's element name
+        element_type = By.ID                  # The field's element type
+        # Success or failure off sending the submit_text to the element_name
+        wrote_it = write_an_answer(web_driver=web_driver, submit_text=submit_text,
+                                   element_name=element_name, element_type=element_type)
+
+        # RESPONSE
+        if not wrote_it:
+            Logger.error(f'Failed to write the answer "{submit_text}" for element '
+                         f'"{element_name}" (of type "{element_type}")')
+
+        # DONE
+        return wrote_it
 
     # Private Methods (alphabetical order)
     def _add_to_joke_topic_dict(self, key: str, value: List[str]) -> None:
