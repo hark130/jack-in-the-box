@@ -100,8 +100,8 @@ class NormalTestJbgQ3GetVoteText(TestJbgQ3GetVoteText):
 
     def test_n02_q3_round_1_vote_1_clean_string_true(self):
         """Quiplash 3 Round 1 Vote 1; clean_string == True."""
-        use_kwarg = False     # Tells the test framework how to pass in the input
-        vote_clues = None     # Vote page clues
+        use_kwarg = False    # Tells the test framework how to pass in the input
+        vote_clues = None    # Vote page clues
         clean_string = True  # Clean string
         self.create_test_input('JackboxTv-Q3-Round_1-Vote_1-start.html', use_kwarg,
                                vote_clues, clean_string)
@@ -128,6 +128,50 @@ class NormalTestJbgQ3GetVoteText(TestJbgQ3GetVoteText):
         self.create_test_input('JackboxTv-Q3-Round_1-Vote_1-start.html', use_kwarg,
                                vote_clues, clean_string)
         self.expect_return('The weirdest thing your Uber driver could offer you\n\n'
+                           'Vote for your favorite')
+        self.run_test()
+
+    def test_n05_q3_round_2_vote_1_clean_string_true(self):
+        """Quiplash 3 Round 2 Vote 1; clean_string == True."""
+        use_kwarg = False    # Tells the test framework how to pass in the input
+        vote_clues = None    # Vote page clues
+        clean_string = True  # Clean string
+        self.create_test_input('JackboxTv-Q3-Round_2-Vote_1-start.html', use_kwarg,
+                               vote_clues, clean_string)
+        self.expect_return('The discontinued Nobel Prize: the Nobel Prize in _______  '
+                           'Vote for your favorite')
+        self.run_test()
+
+    def test_n06_q3_round_2_vote_1_clean_string_false(self):
+        """Quiplash 3 Round 2 Vote 1; clean_string == False."""
+        use_kwarg = False     # Tells the test framework how to pass in the input
+        vote_clues = None     # Vote page clues
+        clean_string = False  # Clean string
+        self.create_test_input('JackboxTv-Q3-Round_2-Vote_1-start.html', use_kwarg,
+                               vote_clues, clean_string)
+        self.expect_return('The discontinued Nobel Prize: the Nobel Prize in _______\n\n'
+                           'Vote for your favorite')
+        self.run_test()
+
+    def test_n07_q3_round_3_vote_1_clean_string_true(self):
+        """Quiplash 3 Round 3 Vote 1; clean_string == True."""
+        use_kwarg = False    # Tells the test framework how to pass in the input
+        vote_clues = None    # Vote page clues
+        clean_string = True  # Clean string
+        self.create_test_input('JackboxTv-Q3-Round_3-Vote_1.html', use_kwarg,
+                               vote_clues, clean_string)
+        self.expect_return("Three Zoom backgrounds nobody's asking for "
+                           'Vote for your favorite')
+        self.run_test()
+
+    def test_n08_q3_round_3_vote_1_clean_string_false(self):
+        """Quiplash 3 Round 3 Vote 1; clean_string == False."""
+        use_kwarg = False     # Tells the test framework how to pass in the input
+        vote_clues = None     # Vote page clues
+        clean_string = False  # Clean string
+        self.create_test_input('JackboxTv-Q3-Round_3-Vote_1.html', use_kwarg,
+                               vote_clues, clean_string)
+        self.expect_return('Three Zoom backgrounds nobody’s asking for\n'
                            'Vote for your favorite')
         self.run_test()
 
@@ -232,7 +276,15 @@ class SpecialTestJbgQ3GetVoteText(TestJbgQ3GetVoteText):
         """Quiplash 3 Round 1 Prompt 1 page."""
         use_kwarg = False                        # Tells the test framework how to pass in the input
         vote_clues = ['Vote for your favorite']  # Vote page clues
-        self.create_test_input('JackboxTv-Q3-Round_1-Prompt_1.html', use_kwarg, vote_clues)
+        self.create_test_input('JackboxTv-Q3-Round_2-Prompt_1.html', use_kwarg, vote_clues)
+        self.expect_exception(RuntimeError, 'This is not a vote page')
+        self.run_test()
+
+    def test_s07_q3_round_2_prompt_1(self):
+        """Quiplash 3 Round 2 Prompt 1 page."""
+        use_kwarg = False                        # Tells the test framework how to pass in the input
+        vote_clues = ['Vote for your favorite']  # Vote page clues
+        self.create_test_input('JackboxTv-Q3-Round_2-Prompt_2.html', use_kwarg, vote_clues)
         self.expect_exception(RuntimeError, 'This is not a vote page')
         self.run_test()
 
