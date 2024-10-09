@@ -24,31 +24,6 @@ class TestJbgQ3AnswerThriplash(TestJbgQ3):
     """
     # CORE CLASS METHODS
     # Methods listed in call order
-    def create_test_input(self, filename: str, use_kwarg: bool) -> None:
-        """Translates file-based test input into a Selenium web driver for test case input.
-
-        Args:
-            filename: The file-based test input to create the web driver with.
-            use_kwarg: Optional; If True, convert all arguments into keyword arguments.
-
-        Calls self.create_web_driver() to create the web driver.  Then passes that web driver
-        to self.set_test_input().
-        """
-        # LOCAL VARIABLES
-        input_html = Path() / 'test' / 'test_input' / filename   # File-based test input
-
-        # CREATE WEB DRIVER
-        self.create_web_driver(filename=filename)
-        if not self.web_driver:
-            self.fail_test_case('Failed to create a web driver')
-
-        # CREATE TEST INPUT
-        self.web_driver.get(input_html.absolute().as_uri())
-        if use_kwarg:
-            self.set_test_input(web_driver=self.web_driver)
-        else:
-            self.set_test_input(self.web_driver)
-
     def call_callable(self) -> Any:
         """Calls JbgQ3.answer_thriplash().
 
@@ -61,7 +36,8 @@ class TestJbgQ3AnswerThriplash(TestJbgQ3):
             Return value of JbgQ3.answer_thriplash()
 
         Raises:
-            Exceptions raised by JbgQ3.answer_thriplash() are bubbled up and handled by TediousUnitTest
+            Exceptions raised by JbgQ3.answer_thriplash() are bubbled up and handled by
+            TediousUnitTest
         """
         jbg_q3_obj = self.setup_jbgq3_object()
         return jbg_q3_obj.answer_thriplash(*self._args, **self._kwargs)
