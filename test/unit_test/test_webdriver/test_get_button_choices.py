@@ -47,9 +47,6 @@ class TestJitbWebdriverGetButtonChoices(TestJackboxGames):
 
         Overrides the parent method.  Defines the way to call jitb_webdriver.get_button_choices().
 
-        Args:
-            None
-
         Returns:
             Return value of jitb_webdriver.get_button_choices()
 
@@ -67,12 +64,6 @@ class TestJitbWebdriverGetButtonChoices(TestJackboxGames):
         Args:
             return_value: The data to check against what the test author defined as the expected
                 return value.
-
-        Returns:
-            None
-
-        Raises:
-            None
         """
         # Type
         if not isinstance(return_value, dict):
