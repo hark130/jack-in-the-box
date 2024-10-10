@@ -340,6 +340,20 @@ class SpecialTestJitbWebdriverGetButtonChoices(TestJitbWebdriverGetButtonChoices
         self.expect_return(['hoe', 'lasso'])
         self.run_test()
 
+    def test_s14_round_1_vote_1_exclude_case_insensitive_1(self):
+        """Quiplash 2 Round 1 Vote 1 page."""
+        filename = 'JackboxTv-Q2-Round_1-Vote_1.html'  # File-based test input
+        self.set_buttons_input(filename, ['scrapple'])
+        self.expect_return(['BUTTE, MONTANA'])
+        self.run_test()
+
+    def test_s15_round_1_vote_1_exclude_case_insensitive_1(self):
+        """Quiplash 2 Round 1 Vote 1 page."""
+        filename = 'JackboxTv-Q2-Round_1-Vote_1.html'  # File-based test input
+        self.set_buttons_input(filename, ['BUTTE, MONTANA'.lower()])
+        self.expect_return(['SCRAPPLE'])
+        self.run_test()
+
 
 if __name__ == '__main__':
     execute_test_cases()
