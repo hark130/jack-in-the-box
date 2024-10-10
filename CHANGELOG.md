@@ -36,6 +36,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Removed some stale comments
 - Fixed a BUG(?) in `jitb_webdriver.click_a_button()`
 - Made `jitb_webdriver.get_prompt()` more robust
+- An edge case BUG in the `JbgJb.choose_catchphrase()` logic/call-chain that allowed the "Reset my choices" button to be selected
 
 ### Removed
 
