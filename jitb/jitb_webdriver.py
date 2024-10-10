@@ -35,23 +35,36 @@ def click_a_button(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
         True if a button was clicked, false otherwise.
     """
     # LOCAL VARIABLES
-    buttons = get_buttons(web_driver=web_driver)  # All the buttons from web_driver
-    clicked_it = False                            # Return value
+    buttons = []          # All the buttons from web_driver
+    clicked_it = False    # Return value
+    attempted_it = False  # Determine whether a matching button was found
+    temp_text = ''        # Temp button text
+
+    # GET BUTTONS
+    try:
+        buttons = get_buttons(web_driver=web_driver)
+    except StaleElementReferenceException as err:
+        Logger.debug(f'Failed to get buttons with {repr(err)}')
 
     # CLICK IT
     for button in buttons:
-        # Find it
-        if button_str.lower() in button.text.lower() and button.is_enabled():
-            # Click it
-            try:
-                button.click()
-            except (ElementNotInteractableException, StaleElementReferenceException) as err:
-                Logger.debug(f'Failed to click "{button.text}" with {repr(err)}')
+        try:
+            temp_text = button.text  # Get the button name
+            # Find it
+            if temp_text and button_str.lower() in temp_text.lower() and button.is_enabled():
+                attempted_it = True  # About to try and click on
+                button.click()  # Click it
             else:
-                clicked_it = True
+                continue
+        except (ElementNotInteractableException, StaleElementReferenceException) as err:
+            Logger.error(f'Failed to click button "{temp_text}" with {repr(err)}')
+        else:
+            clicked_it = True
             break
 
     # DONE
+    if not attempted_it:
+        Logger.debug(f'Unable to find an enabled button matching "{button_str}"')
     return clicked_it
 
 
@@ -206,7 +219,7 @@ def get_prompt(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
     try:
         prompt_text = get_web_element_text(web_driver=web_driver, by_arg=element_type,
                                            value=element_name)
-    except (RuntimeError, TypeError, ValueError) as err:
+    except (RuntimeError, StaleElementReferenceException, TypeError, ValueError) as err:
         raise RuntimeError(f'The call to get_web_element_text() for the {element_name} element '
                            f'value failed with {repr(err)}') from err
     else:

@@ -24,7 +24,7 @@ BASE_MSG_CONTENT_KEY: Final[str] = 'content'  # Key value for JitbAi base messag
 class JitbAi:
     """Implements the interface to the OpenAI API."""
 
-    def __init__(self, model: str = 'gpt-3.5-turbo', temperature: float = 1.0) -> None:
+    def __init__(self, model: str = 'gpt-4o-mini', temperature: float = 1.0) -> None:
         """Class ctor.
 
         Args:
