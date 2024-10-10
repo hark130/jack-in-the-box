@@ -127,7 +127,7 @@ class TestJackboxGames(TediousUnitTest):
             self.set_test_input(self.web_driver)
 
     def validate_return_value(self, return_value: Any) -> None:
-        """Validate JbgQ3.id_page() return value.
+        """Validate return value.
 
         Overrides the parent method.  Defines how the test framework validates the return value
         of a completed call.  Calls self._validate_return_value() method under the hood.
@@ -136,11 +136,5 @@ class TestJackboxGames(TediousUnitTest):
             return_value: The data to check against what the test author defined as the expected
                 return value.  The intended practice is to use the return value of the
                 call_callable() method.
-
-        Returns:
-            None
-
-        Raises:
-            None
         """
         self._validate_return_value(return_value=return_value)
