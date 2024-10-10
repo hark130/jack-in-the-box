@@ -25,6 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Moved the `validate_status()` method up to the `jitb/jbgames/jbg_abc.py` abstract class
 - Refactored all legacy Jackbox Game classes (`JbgDict`, `JbgJb`, `JbgQ2`, `JbgQ3`) to utilize new common-use `jitb/jitb_webdriver.py` functionality
 - Relaxed `JbgQ3`'s requirement to select an Avatar (failed race conditions no longer raise Exceptions)
+- Made the legacy Jackbox Game classes more robust by relaxing Exceptions in lieu of debug logging and errors
 
 ### Deprecated
 
@@ -33,6 +34,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `--debug` log file location is now (reasonably) OS-agnostic
 - Fixed some docstring typos
 - Removed some stale comments
+- Fixed a BUG(?) in `jitb_webdriver.click_a_button()`
+- Made `jitb_webdriver.get_prompt()` more robust
 
 ### Removed
 
