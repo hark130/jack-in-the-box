@@ -145,9 +145,6 @@ class JbgJb(JbgAbc):
                                            ai_obj=self._ai_obj, element_name=element_name,
                                            element_type=By.ID, vote_clues=vote_clues,
                                            clean_string=True)
-                Logger.debug(f'JbgJb.vote_answers() called vote_answer(element_name={element_name},'
-                             f' element_type={By.ID}, vote_clues={vote_clues}, '
-                             f'clean_string=True) which returned: {prompt_text}')
             except (ElementNotInteractableException, RuntimeError,
                     StaleElementReferenceException) as err:
                 Logger.error(f'Failed to vote answers with {repr(err)}')
@@ -245,6 +242,7 @@ class JbgJb(JbgAbc):
                     Logger.debug(f'Submitted {answer} for the {prompt_text} joke topic')
                 else:
                     Logger.debug(f'Failed to submit {answer} as a joke topic to {prompt_text}')
+                    break  # Something went wrong so let's stop looping
             else:
                 Logger.debug(f'The joke topic dictionary is missing entries for {temp_key}')
             time.sleep(JITB_POLL_RATE)  # Give the page a chance to update
