@@ -76,8 +76,7 @@ def get_button_choices(web_driver: selenium.webdriver.chrome.webdriver.WebDriver
     Args:
         web_driver: Selenium web driver to search for buttons.
         exclude: Optional; A list of button text strings to exclude from the button list.
-            The default option of None will actually result in ['Reset my choices'] being used.
-            To override this, pass in an empty list.
+            Disable this check with a value of None.
 
     Returns:
         A dictionary of all button text fields on success.  Each dict key is the sanitized button
@@ -91,13 +90,11 @@ def get_button_choices(web_driver: selenium.webdriver.chrome.webdriver.WebDriver
 
     # INPUT VALIDATION
     _validate_web_driver(web_driver=web_driver)
-    if exclude is None:
-        exclude = ['Reset my choices']
-    if exclude:
+    if exclude is not None:
         validate_list(validate_this=exclude, param_name='exclude', can_be_empty=False)
-    for exclusion in exclude:
-        validate_string(exclusion, 'exclude list entry', can_be_empty=False)
-        local_exclude.append(exclusion.lower())
+        for exclusion in exclude:
+            validate_string(exclusion, 'exclude list entry', can_be_empty=False)
+            local_exclude.append(exclusion.lower())
 
     # GET CHOICES
     # Get Buttons
@@ -368,11 +365,11 @@ def is_vote_page(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
     return vote_page
 
 
-# pylint: disable = too-many-arguments
+# pylint: disable = too-many-arguments, too-many-locals
 def vote_answers(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
                  last_prompt: str, ai_obj: JitbAi,
                  element_name: str, element_type: str = By.ID, vote_clues: List[str] = None,
-                 clean_string: bool = False) -> str:
+                 clean_string: bool = False, exclude: List[str] = None) -> str:
     """Generate votes for other players prompts.
 
     Args:
@@ -389,6 +386,8 @@ def vote_answers(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
             E.g., ['Vote your favorite definition', 'Vote your favorite synonym']
         clean_string: Optional; Call clean_up_string() on the text prior to vote_clue-evaluation.
             (Sometimes, the strings have non-standard characters in them.)
+        exclude: Optional; A list of button text strings to exclude from the button list.
+            Disable this check with a value of None.
 
     Returns:
         The prompt that was answered as a string.
@@ -433,7 +432,7 @@ def vote_answers(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
 
     # ANSWER IT
     if prompt_text and prompt_text != last_prompt:
-        button_dict = get_button_choices(web_driver=web_driver)
+        button_dict = get_button_choices(web_driver=web_driver, exclude=exclude)
         if button_dict:
             choice_list = [button for button, _ in button_dict.items() if button]
             # Ask the AI
@@ -450,7 +449,7 @@ def vote_answers(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
         temp_text = prompt_text.replace('\n', ' ')
         Logger.debug(f'Chose "{favorite}" for "{temp_text}"!')
     return prompt_text
-# pylint: enable = too-many-arguments
+# pylint: enable = too-many-arguments, too-many-locals
 
 
 def write_an_answer(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
