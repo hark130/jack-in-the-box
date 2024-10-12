@@ -83,7 +83,8 @@ class JbgJb(JbgAbc):
             if self._last_page == JbgPageIds.JB_TOPIC:
                 self._num_requests = 0  # Reset the count in case there's another game
             if self._current_page == JbgPageIds.VOTE:
-                self.vote_answers(web_driver=web_driver, vote_clues=self._vote_clues)
+                self.vote_answers(web_driver=web_driver, vote_clues=self._vote_clues,
+                                  exclude=self._exclude)
             elif self._current_page == JbgPageIds.JB_TOPIC:
                 self.enter_vote_topics(web_driver=web_driver)
             elif self._current_page == JbgPageIds.ANSWER:
