@@ -57,6 +57,8 @@ class JbgJb(JbgAbc):
         # Pass these values as vote_clues arguments to jitb_webdriver functions
         self._vote_clues = ['Choose a joke set-up', 'Complete your set-up',
                             'Pick your favorite joke', 'Pick the joke you want to compete against']
+        # Exclude these button names from voting catchphrases
+        self._exclude = ['Reset my choices']
 
     # Parent Class Abstract Methods
     def play(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> None:
@@ -89,7 +91,7 @@ class JbgJb(JbgAbc):
             elif self._current_page == JbgPageIds.JB_PERFORM:
                 self.skip_perform(web_driver=web_driver)
             elif self._current_page == JbgPageIds.JB_CATCH:
-                self.choose_catchphrase(web_driver=web_driver)
+                self.choose_catchphrase(web_driver=web_driver, exclude=self._exclude)
 
     def select_character(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> None:
         """Randomize an avatar selection from the available list.
@@ -125,11 +127,14 @@ class JbgJb(JbgAbc):
             prompt_text = self._answer_prompt(web_driver=web_driver, last_prompt=prompt_text)
 
     def vote_answers(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
-                     vote_clues: List[str] = None) -> None:
+                     vote_clues: List[str] = None, exclude: List[str] = None) -> None:
         """Read other answers to a prompt from the web_driver, ask the AI, and submit the answer.
 
         Args:
             web_driver: The webdriver object to interact with.
+            vote_clues: Optional; A list of strings to help verify the web_driver is the right page.
+            exclude: Optional; A list of button text strings to exclude from the button list.
+                Disable this check with a value of None.
         """
         # LOCAL VARIABLES
         element_name = 'prompt'  # The element name to get
@@ -144,7 +149,7 @@ class JbgJb(JbgAbc):
                 prompt_text = vote_answers(web_driver=web_driver, last_prompt=prompt_text,
                                            ai_obj=self._ai_obj, element_name=element_name,
                                            element_type=By.ID, vote_clues=vote_clues,
-                                           clean_string=True)
+                                           clean_string=True, exclude=exclude)
             except (ElementNotInteractableException, RuntimeError,
                     StaleElementReferenceException) as err:
                 Logger.error(f'Failed to vote answers with {repr(err)}')
@@ -190,18 +195,22 @@ class JbgJb(JbgAbc):
         return current_page
 
     # Public Methods (alphabetical order)
-    def choose_catchphrase(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> None:
+    def choose_catchphrase(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
+                           exclude: List[str] = None) -> None:
         """Choose the catchphrase for the game.
 
         Args:
             web_driver: The webdriver object to interact with.
+            exclude: Optional; A list of button text strings to exclude from the button list.
+                Disable this check with a value of None.
         """
         # INPUT VALIDATION
         if not self.is_catchphrase_page(web_driver=web_driver):
             raise RuntimeError('This is not the catchphrase page')
 
         # CHOOSE IT
-        self.vote_answers(web_driver=web_driver, vote_clues=self._chatchphrase_clues)
+        self.vote_answers(web_driver=web_driver, vote_clues=self._chatchphrase_clues,
+                          exclude=exclude)
 
     def enter_vote_topics(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> None:
         """Enter some topics until you can't anymore.
