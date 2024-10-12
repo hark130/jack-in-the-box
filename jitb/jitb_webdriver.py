@@ -9,6 +9,7 @@ defined in the jitb.jbgames module.
 from typing import Dict, List
 import time
 # Third Party
+from hobo.validation import validate_list, validate_string
 from selenium.common.exceptions import (ElementNotInteractableException, NoSuchElementException,
                                         StaleElementReferenceException)
 from selenium.webdriver.common.by import By
@@ -68,11 +69,14 @@ def click_a_button(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
     return clicked_it
 
 
-def get_button_choices(web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> Dict[str, str]:
+def get_button_choices(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
+                       exclude: List[str] = None) -> Dict[str, str]:
     """Get a list of all the button text fields from web_driver starting at the root XPath.
 
     Args:
         web_driver: Selenium web driver to search for buttons.
+        exclude: Optional; A list of button text strings to exclude from the button list.
+            Disable this check with a value of None.
 
     Returns:
         A dictionary of all button text fields on success.  Each dict key is the sanitized button
@@ -82,9 +86,15 @@ def get_button_choices(web_driver: selenium.webdriver.chrome.webdriver.WebDriver
     button_elements = []  # List of button web elements extracted from web_driver
     enabled_buttons = []  # List of enabled button web elements extracted from button_elements
     button_choices = {}   # Dictionary of button_names:button_text extracted from enabled_buttons
+    local_exclude = []    # Lower case conversion from exclude
 
     # INPUT VALIDATION
     _validate_web_driver(web_driver=web_driver)
+    if exclude is not None:
+        validate_list(validate_this=exclude, param_name='exclude', can_be_empty=False)
+        for exclusion in exclude:
+            validate_string(exclusion, 'exclude list entry', can_be_empty=False)
+            local_exclude.append(exclusion.lower())
 
     # GET CHOICES
     # Get Buttons
@@ -93,7 +103,7 @@ def get_button_choices(web_driver: selenium.webdriver.chrome.webdriver.WebDriver
     enabled_buttons = [button for button in button_elements if button.is_enabled()]
     # Extract Text
     for enabled_button in enabled_buttons:
-        if enabled_button.text:
+        if enabled_button.text and enabled_button.text.lower() not in local_exclude:
             temp_text = enabled_button.text.strip('\n')
             button_choices[temp_text] = enabled_button.text
 
@@ -355,11 +365,11 @@ def is_vote_page(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
     return vote_page
 
 
-# pylint: disable = too-many-arguments
+# pylint: disable = too-many-arguments, too-many-locals
 def vote_answers(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
                  last_prompt: str, ai_obj: JitbAi,
                  element_name: str, element_type: str = By.ID, vote_clues: List[str] = None,
-                 clean_string: bool = False) -> str:
+                 clean_string: bool = False, exclude: List[str] = None) -> str:
     """Generate votes for other players prompts.
 
     Args:
@@ -376,6 +386,8 @@ def vote_answers(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
             E.g., ['Vote your favorite definition', 'Vote your favorite synonym']
         clean_string: Optional; Call clean_up_string() on the text prior to vote_clue-evaluation.
             (Sometimes, the strings have non-standard characters in them.)
+        exclude: Optional; A list of button text strings to exclude from the button list.
+            Disable this check with a value of None.
 
     Returns:
         The prompt that was answered as a string.
@@ -420,7 +432,7 @@ def vote_answers(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
 
     # ANSWER IT
     if prompt_text and prompt_text != last_prompt:
-        button_dict = get_button_choices(web_driver=web_driver)
+        button_dict = get_button_choices(web_driver=web_driver, exclude=exclude)
         if button_dict:
             choice_list = [button for button, _ in button_dict.items() if button]
             # Ask the AI
@@ -437,7 +449,7 @@ def vote_answers(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
         temp_text = prompt_text.replace('\n', ' ')
         Logger.debug(f'Chose "{favorite}" for "{temp_text}"!')
     return prompt_text
-# pylint: enable = too-many-arguments
+# pylint: enable = too-many-arguments, too-many-locals
 
 
 def write_an_answer(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,

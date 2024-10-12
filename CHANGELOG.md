@@ -26,6 +26,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Refactored all legacy Jackbox Game classes (`JbgDict`, `JbgJb`, `JbgQ2`, `JbgQ3`) to utilize new common-use `jitb/jitb_webdriver.py` functionality
 - Relaxed `JbgQ3`'s requirement to select an Avatar (failed race conditions no longer raise Exceptions)
 - Made the legacy Jackbox Game classes more robust by relaxing Exceptions in lieu of debug logging and errors
+- Added an optional `exclude` argument to `jitb_webdriver.get_button_choices()` to ignore certain button names
+- Refactored `jitb_webdriver.vote_answers()` to take, and pass down, the `exclude` argument
+- Refactored the entire `jbg_jb.choose_catchphrase()` call chain to utilize the new `exclude` argument to avoid choosing the "Reset my choices" button
 
 ### Deprecated
 
@@ -36,6 +39,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Removed some stale comments
 - Fixed a BUG(?) in `jitb_webdriver.click_a_button()`
 - Made `jitb_webdriver.get_prompt()` more robust
+- An edge case BUG in the `JbgJb.choose_catchphrase()` logic/call-chain that allowed the "Reset my choices" button to be selected
 
 ### Removed
 
