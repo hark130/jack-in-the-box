@@ -41,12 +41,18 @@ def validate_game(game: str, games: Dict[str, Any]) -> None:
     Raises:
         RuntimeError: This game is not supported.
     """
+    # LOCAL VARIABLES
+    game_list = None  # List of the keys from the games dictionary
+
     # INPUT VALIDATION
     validate_string(game, 'game')
     validate_type(games, 'games', dict)
+    game_list = list(games.keys())
+    for game_entry in game_list:
+        validate_string(game_entry, 'games dict key entry', can_be_empty=False)
 
     # VALIDATE GAME
-    if game not in list(games.keys()):
+    if game not in game_list:
         raise RuntimeError(f'JITB does not yet support {game}')
 
 
