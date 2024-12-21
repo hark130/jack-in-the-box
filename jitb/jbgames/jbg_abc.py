@@ -14,7 +14,7 @@ from jitb.jitb_openai import JitbAi
 
 
 # List of observed errors reported by Jackbox Games html
-ERROR_LIST: Final[List] = ['Room not found']
+ERROR_LIST: Final[List] = ['Room not found', 'GAME REQUIRES TWITCH LOGIN']
 
 
 class JbgAbc(ABC):
@@ -161,7 +161,7 @@ class JbgAbc(ABC):
             raise TypeError(f'Invalid data type of {type(web_driver)} for the web_driver')
         # Check for errors
         for error in ERROR_LIST:
-            if error in web_driver.page_source:
+            if error.lower() in web_driver.page_source.lower():
                 raise RuntimeError(error)
         # Verify not disconnected
         try:
