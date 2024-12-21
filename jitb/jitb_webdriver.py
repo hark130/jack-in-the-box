@@ -9,7 +9,7 @@ defined in the jitb.jbgames module.
 from typing import Dict, List
 import time
 # Third Party
-from hobo.validation import validate_list, validate_string
+from hobo.validation import validate_list, validate_string, validate_type
 from selenium.common.exceptions import (ElementNotInteractableException, NoSuchElementException,
                                         StaleElementReferenceException)
 from selenium.webdriver.common.by import By
@@ -21,8 +21,7 @@ from jitb.jitb_misc import clean_up_string, convert_str_to_int
 from jitb.jitb_openai import JitbAi
 from jitb.jitb_selenium import (get_buttons, get_web_element, get_web_element_int,
                                 get_web_element_text)
-from jitb.jitb_validation import (validate_bool, validate_element_type, validate_string,
-                                  validate_web_driver)
+from jitb.jitb_validation import validate_bool, validate_element_type, validate_web_driver
 
 
 # Public Module Functions
@@ -409,8 +408,7 @@ def vote_answers(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
     # INPUT VALIDATION
     # All other arguments validated by calls to other module functions
     validate_string(string=last_prompt, name='last_prompt', may_be_empty=True)
-    if not isinstance(ai_obj, JitbAi):
-        raise TypeError(f'Invalid type of {type(ai_obj)} for ai_obj argument')
+    validate_type(ai_obj, 'ai_obj', JitbAi)
 
     # WAIT FOR IT
     for _ in range(num_loops):
@@ -554,9 +552,7 @@ def _validate_clues(clues: List[str] = None) -> None:
         TypeError: Bad data type.
         ValueError: Invalid value.
     """
-    if isinstance(clues, list):
+    if clues is not None:
+        validate_list(clues, 'clues', can_be_empty=True)
         for clue in clues:
             validate_string(clue, 'clues list entry', may_be_empty=False)
-    elif clues:
-        raise TypeError(f'Invalid data type for clues: {clues} '
-                        f'(Type: {type(clues)})')

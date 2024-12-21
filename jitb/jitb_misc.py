@@ -6,9 +6,9 @@ import re
 import unicodedata
 import unidecode
 # Third Party
+from hobo.validation import validate_string
 # Local
 from jitb.jitb_globals import TEMP_DIR_DEF_NIX, TEMP_DIR_DEF_WIN, TEMP_DIR_ENV_VARS
-from jitb.jitb_validation import validate_string
 
 
 def char_filter(dirty_str: str):
