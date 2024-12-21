@@ -22,3 +22,5 @@ class JbgPageIds(Enum):
     JB_TOPIC = auto()        # Joke Boat write joke topics
     JB_PERFORM = auto()      # Joke Boat 'your turn' perform page
     DICT_WAIT_LIKE = auto()  # Dictionarium waiting page with likes
+    BR_SECRET = auto()       # Blather Round Choose Secret Prompt page
+    BR_DESCRIBE = auto()     # Blather Round 'Describe _____' page
