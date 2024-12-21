@@ -7,16 +7,14 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 import selenium
 # Local
-from jitb.jbgames.jbg_abc import ERROR_LIST
-from jitb.jitb_globals import JITB_POLL_RATE
-from jitb.jitb_logger import Logger
-from jitb.jitb_openai import JitbAi
-from jitb.jbgames.jbg_abc import JbgAbc
+from jitb.jbgames.jbg_abc import ERROR_LIST, JbgAbc
 from jitb.jbgames.jbg_dict import JbgDict
 from jitb.jbgames.jbg_jb import JbgJb
 from jitb.jbgames.jbg_q2 import JbgQ2
 from jitb.jbgames.jbg_q3 import JbgQ3
-
+from jitb.jitb_globals import JITB_POLL_RATE
+from jitb.jitb_logger import Logger
+from jitb.jitb_openai import JitbAi
 
 # List of Jackbox Games that JITB supports
 JITB_SUPPORTED_GAMES: Final[Dict[str, JbgAbc]] = {'Dictionarium': JbgDict, 'Joke Boat': JbgJb,
@@ -29,7 +27,7 @@ def join_room(room_code: str,
 
     Args:
         room_code:  The room code to join.
-        username:  The screen name to use during the game.
+        username:  The screen name to use during the game.  May be None for manual logins.
 
     Returns:
         The a tuple containing the game type (e.g., Quiplash 3) and the webdriver object on success.
@@ -45,10 +43,11 @@ def join_room(room_code: str,
     room_code_box.send_keys(room_code)
     game = _verify_room_code(driver)
     _validate_game(game=game)
-    username_box = driver.find_element(By.ID, 'username')
-    username_box.send_keys(username)
-    play_button = driver.find_element(By.ID, 'button-join')
-    play_button.click()
+    if username:
+        username_box = driver.find_element(By.ID, 'username')
+        username_box.send_keys(username)
+        play_button = driver.find_element(By.ID, 'button-join')
+        play_button.click()
 
     # DONE
     return tuple((game, driver))
@@ -70,6 +69,9 @@ def play_the_game(room_code: str, username: str, ai_obj: JitbAi) -> None:
 
     # PLAY IT
     try:
+        if not username:
+            Logger.info(f'It appears you must login to play {game}.  '
+                        'JITB will take over once it has detected a login.')
         while True:
             jbg_obj.play(web_driver=web_driver)
             time.sleep(JITB_POLL_RATE)  # Zzzzz...

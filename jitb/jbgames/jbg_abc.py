@@ -14,7 +14,7 @@ from jitb.jitb_openai import JitbAi
 
 
 # List of observed errors reported by Jackbox Games html
-ERROR_LIST: Final[List] = ['Room not found']
+ERROR_LIST: Final[List] = ['Room not found', 'GAME REQUIRES TWITCH LOGIN']
 
 
 class JbgAbc(ABC):
@@ -35,11 +35,11 @@ class JbgAbc(ABC):
 
         Args:
             ai_obj:  OpenAI API interface to use in this game.
-            username:  The screen name used in this game.
+            username:  The screen name used in this game.  May be None (for manual games).
         """
         self._ai_obj = ai_obj                    # OpenAI API interface to use in this game
         self._avatar_chosen = False              # Only choose one avatar
-        self._username = username                # The screen name used in this game
+        self._username = username                # The screen name used for auto commands
         self._last_page = JbgPageIds.UNKNOWN     # The last page processed
         self._current_page = JbgPageIds.UNKNOWN  # The current page being processed
 
@@ -114,7 +114,7 @@ class JbgAbc(ABC):
             local_ai_obj = self._ai_obj
 
         # CHECK THE PROMPT
-        if self._username.upper() in prompt.upper():
+        if self._username and self._username.upper() in prompt.upper():
             local_prompt = local_prompt + '  For context, you are playing as ' \
                            + f'username {self._username.upper()}'
 
@@ -161,7 +161,7 @@ class JbgAbc(ABC):
             raise TypeError(f'Invalid data type of {type(web_driver)} for the web_driver')
         # Check for errors
         for error in ERROR_LIST:
-            if error in web_driver.page_source:
+            if error.lower() in web_driver.page_source.lower():
                 raise RuntimeError(error)
         # Verify not disconnected
         try:
@@ -214,10 +214,11 @@ class JbgAbc(ABC):
         if not isinstance(self._avatar_chosen, bool):
             raise TypeError(f'Invalid data type of {type(self._avatar_chosen)} for "avatar chosen"')
         # Username
-        if not isinstance(self._username, str):
-            raise TypeError(f'Invalid data type of {type(self._username)} for the username')
-        if not self._username:
-            raise ValueError('The username may not be blank')
+        if self._username is not None:
+            if not isinstance(self._username, str):
+                raise TypeError(f'Invalid data type of {type(self._username)} for the username')
+            if not self._username:
+                raise ValueError('The username may not be blank')
         # Last page
         _validate_page_id(page_id=self._last_page, var_name='last page')
         # Current page
