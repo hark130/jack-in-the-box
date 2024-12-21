@@ -165,6 +165,18 @@ class SpecialTestJbgQ3IdPage(TestJbgQ3IdPage):
         self.expect_return(JbgPageIds.LOGIN)
         self.run_test()
 
+    def test_s03_login_page_twitch(self):
+        """Jackbox.tv Login page that is Twitch enabled."""
+        self.create_test_input('JackboxTV-Q3-Login-Twitch_required-login.html')
+        self.expect_return(JbgPageIds.LOGIN)
+        self.run_test()
+
+    def test_s04_login_page_auto_twitch(self):
+        """Jackbox.tv Login page that is Twitch enabled but an automatic login was attempted."""
+        self.create_test_input('JackboxTV-Q3-Login-Twitch_required-error.html')
+        self.expect_exception(RuntimeError, 'GAME REQUIRES TWITCH LOGIN')
+        self.run_test()
+
 
 if __name__ == '__main__':
     execute_test_cases()
