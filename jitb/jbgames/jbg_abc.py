@@ -12,7 +12,7 @@ import selenium
 from jitb.jbgames.jbg_page_ids import JbgPageIds
 from jitb.jitb_logger import Logger
 from jitb.jitb_openai import JitbAi
-from jitb.jitb_validation import validate_bool
+from jitb.jitb_validation import validate_bool, validate_web_driver
 
 
 # List of observed errors reported by Jackbox Games html
