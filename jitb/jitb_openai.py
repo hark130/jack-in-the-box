@@ -9,7 +9,7 @@ import random
 import string
 import sys
 # Third Party
-from hobo.validation import validate_list, validate_string
+from hobo.validation import validate_list, validate_string, validate_type
 from openai import OpenAI
 # Local
 from jitb.jitb_globals import DEFAULT_SYSTEM_CONTENT, OPENAI_KEY_ENV_VAR
