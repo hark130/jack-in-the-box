@@ -4,6 +4,7 @@
 from abc import ABC, abstractmethod
 from typing import Final, List
 # Third Party
+from hobo.validation import validate_string, validate_type
 from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException
 from selenium.webdriver.common.by import By
 import selenium
@@ -11,6 +12,7 @@ import selenium
 from jitb.jbgames.jbg_page_ids import JbgPageIds
 from jitb.jitb_logger import Logger
 from jitb.jitb_openai import JitbAi
+from jitb.jitb_validation import validate_bool
 
 
 # List of observed errors reported by Jackbox Games html
@@ -157,8 +159,7 @@ class JbgAbc(ABC):
         temp_we = None  # Temp web element object
 
         # CHECK IT
-        if not isinstance(web_driver, selenium.webdriver.chrome.webdriver.WebDriver):
-            raise TypeError(f'Invalid data type of {type(web_driver)} for the web_driver')
+        validate_web_driver(web_driver=web_driver)
         # Check for errors
         for error in ERROR_LIST:
             if error.lower() in web_driver.page_source.lower():
@@ -208,17 +209,12 @@ class JbgAbc(ABC):
             ValueError: An internal attribute contains an invalid value.
         """
         # JitbAi
-        if not isinstance(self._ai_obj, JitbAi):
-            raise TypeError(f'Invalid data type of {type(self._ai_obj)} for the AI object')
+        validate_type(self._ai_obj, 'ai_obj', JitbAi)
         # Avatar Chosen
-        if not isinstance(self._avatar_chosen, bool):
-            raise TypeError(f'Invalid data type of {type(self._avatar_chosen)} for "avatar chosen"')
+        validate_bool(self._avatar_chosen, 'Internal attribute _avatar_chosen')
         # Username
         if self._username is not None:
-            if not isinstance(self._username, str):
-                raise TypeError(f'Invalid data type of {type(self._username)} for the username')
-            if not self._username:
-                raise ValueError('The username may not be blank')
+            validate_string(self._username, 'username', can_be_empty=False)
         # Last page
         _validate_page_id(page_id=self._last_page, var_name='last page')
         # Current page
@@ -232,5 +228,4 @@ def _validate_page_id(page_id: JbgPageIds, var_name: str) -> None:
     Raises:
         TypeError: page_id is the wrong data type.
     """
-    if not isinstance(page_id, JbgPageIds):
-        raise TypeError(f'JbgPageIds "{var_name}" is an invalid data type of {type(page_id)}')
+    validate_type(page_id, 'page_id', JbgPageIds)
