@@ -228,4 +228,4 @@ def _validate_page_id(page_id: JbgPageIds, var_name: str) -> None:
     Raises:
         TypeError: page_id is the wrong data type.
     """
-    validate_type(page_id, 'page_id', JbgPageIds)
+    validate_type(page_id, var_name, JbgPageIds)
