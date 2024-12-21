@@ -10,14 +10,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Support for manual login (e.g., Twitch-enabled games)
+- New `jitb_validation` module to standardize JITB-specific input validation
 
 ### Changed
 
 - Argument parser now utilizes commands: automatic, manual
+- Extricated module-local, private validation functions into `jitb_validation` as appropriate
+- All JITB validation is either handled by `hobo.validation` or `jitb_validation`
+- Many of the "bad input" exception messages have changed now input validation has changed
 
 ### Deprecated
 
 ### Fixed
+
+- Exception message on `jitb_webdriver._validate_bool()` when it got promoted to `jitb_validation.validate_bool()`
 
 ### Removed
 
