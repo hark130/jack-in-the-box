@@ -283,13 +283,13 @@ class ErrorTestJbgDictIdPage(TestJbgDictIdPage):
     def test_e01_bad_data_type_none(self):
         """Bad Data Type: None."""
         self.set_test_input(None)
-        self.expect_exception(TypeError, 'Invalid data type')
+        self.expect_exception(TypeError, 'expected type')
         self.run_test()
 
     def test_e02_bad_data_type_path(self):
         """Bad Data Type: Path object."""
         self.set_test_input(Path() / 'test' / 'test_input' / 'JackboxTV-login_start.html')
-        self.expect_exception(TypeError, 'Invalid data type')
+        self.expect_exception(TypeError, 'expected type')
         self.run_test()
 
 
