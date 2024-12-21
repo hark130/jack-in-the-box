@@ -195,13 +195,13 @@ class ErrorTestJitbSeleniumGetElement(TestJitbSeleniumGetElement):
     def test_e01_bad_data_type_web_element_none(self):
         """Bad data type: web_element == None."""
         self.set_test_input(web_element=None)
-        self.expect_exception(TypeError, 'Web element may not be None')
+        self.expect_exception(TypeError, 'expected type')
         self.run_test()
 
     def test_e02_bad_data_type_web_element_path(self):
         """Bad data type: web_element == Path()."""
         self.set_test_input(web_element=Path() / 'test/test_input/JackboxTV-login_start.html')
-        self.expect_exception(TypeError, 'Invalid data type')
+        self.expect_exception(TypeError, 'expected type')
         self.run_test()
 
     def test_e03_bad_data_type_by_none(self):
@@ -209,7 +209,7 @@ class ErrorTestJitbSeleniumGetElement(TestJitbSeleniumGetElement):
         self.set_test_input(
             web_element=self.get_element_input(filename='JackboxTV-login_start.html',
                                                value='app'), by_arg=None)
-        self.expect_exception(TypeError, 'Invalid data type')
+        self.expect_exception(TypeError, 'expected type')
         self.run_test()
 
     def test_e04_bad_data_type_by_package_enum(self):
@@ -217,7 +217,7 @@ class ErrorTestJitbSeleniumGetElement(TestJitbSeleniumGetElement):
         self.set_test_input(
             web_element=self.get_element_input(filename='JackboxTV-login_start.html',
                                                value='app'), by_arg=By)
-        self.expect_exception(TypeError, 'Invalid data type')
+        self.expect_exception(TypeError, 'expected type')
         self.run_test()
 
     def test_e05_bad_data_type_by_enum_literal(self):
@@ -234,7 +234,7 @@ class ErrorTestJitbSeleniumGetElement(TestJitbSeleniumGetElement):
         self.set_test_input(
             web_element=self.get_element_input(filename='JackboxTV-login_start.html',
                                                value='app'), value=[])
-        self.expect_exception(TypeError, 'Invalid data type')
+        self.expect_exception(TypeError, 'expected type')
         self.run_test()
 
     def test_e07_bad_data_type_value_bytes(self):
@@ -242,7 +242,7 @@ class ErrorTestJitbSeleniumGetElement(TestJitbSeleniumGetElement):
         self.set_test_input(
             web_element=self.get_element_input(filename='JackboxTV-login_start.html',
                                                value='app'), value=b'find-this')
-        self.expect_exception(TypeError, 'Invalid data type')
+        self.expect_exception(TypeError, 'expected type')
         self.run_test()
 
 

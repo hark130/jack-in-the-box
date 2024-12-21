@@ -26,7 +26,6 @@ JITB uses this [OpenAi API](https://platform.openai.com/docs/guides/text-generat
 	- `jitb auto --user JITB --room <ROOM_CODE>` (v2 or later)
 1. Start the game
 
-
 ## USAGE
 
 `jitb --help`

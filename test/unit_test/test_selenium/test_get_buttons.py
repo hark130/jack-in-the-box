@@ -170,13 +170,13 @@ class ErrorTestJitbSeleniumGetButtons(TestJitbSeleniumGetButtons):
     def test_e01_bad_data_type_web_element_none(self):
         """Bad data type: web_driver == None."""
         self.set_test_input(web_driver=None)
-        self.expect_exception(TypeError, 'Web driver may not be None')
+        self.expect_exception(TypeError, 'expected type')
         self.run_test()
 
     def test_e02_bad_data_type_web_element_path(self):
         """Bad data type: web_driver == Path()."""
         self.set_test_input(web_driver=Path() / 'test/test_input/JackboxTV-login_start.html')
-        self.expect_exception(TypeError, 'Invalid data type')
+        self.expect_exception(TypeError, 'expected type')
         self.run_test()
 
 

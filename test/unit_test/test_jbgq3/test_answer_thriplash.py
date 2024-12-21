@@ -66,13 +66,13 @@ class ErrorTestJbgQ3AnswerThriplash(TestJbgQ3AnswerThriplash):
     def test_e01_bad_data_type_web_driver_none(self):
         """Bad input: web_driver; None."""
         self.set_test_input(None)
-        self.expect_exception(TypeError, 'Invalid data type of ')
+        self.expect_exception(TypeError, 'expected type')
         self.run_test()
 
     def test_e02_bad_data_type_web_driver_path(self):
         """Bad input: web_driver; Path."""
         self.set_test_input(Path() / 'test' / 'test_input' / 'JackboxTV-login_start.html')
-        self.expect_exception(TypeError, 'Invalid data type of ')
+        self.expect_exception(TypeError, 'expected type')
         self.run_test()
 
 

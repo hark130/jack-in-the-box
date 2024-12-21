@@ -9,11 +9,13 @@ import random
 import string
 import sys
 # Third Party
+from hobo.validation import validate_list, validate_string, validate_type
 from openai import OpenAI
 # Local
 from jitb.jitb_globals import DEFAULT_SYSTEM_CONTENT, OPENAI_KEY_ENV_VAR
 from jitb.jitb_logger import Logger
 from jitb.jitb_misc import clean_up_string
+from jitb.jitb_validation import validate_pos_int
 
 
 # Minimum number of underscores to be considered a fill-in-the-blank
@@ -83,8 +85,7 @@ class JitbAi:
             new_content: New 'content' entry.
         """
         # INPUT VALIDATION
-        if not isinstance(new_content, str):
-            raise TypeError(f'Invalid new_content data type of {type(new_content)}')
+        validate_string(new_content, 'new_content', can_be_empty=True)
 
         # CHANGE IT
         self._base_messages[0][BASE_MSG_CONTENT_KEY] = new_content
@@ -346,13 +347,11 @@ class JitbAi:
         new_answers = answers  # Shiny, newly polished strings
 
         # INPUT VALIDATION
-        if not isinstance(answers, list):
-            raise TypeError('answers is not a list')
+        validate_list(answers, 'answers', can_be_empty=False)
         if len(answers) > 3 or not answers:
             raise ValueError('answers list is the wrong size')
         for answer in answers:
-            if not isinstance(answer, str):
-                raise TypeError('Found a non-string inside answers list')
+            validate_string(answer, 'answers list entry')
 
         # POLISH IT
         # Polish the format
@@ -416,14 +415,13 @@ def polish_answer(prompt: str, answer: str, length_limit: int, original_answer: 
     final_run = False    # Final call in the recursive call stack
 
     # INPUT VALIDATION
-    _validate_string(prompt, 'prompt')
-    _validate_string(answer, 'answer')
-    if not isinstance(length_limit, int):
-        raise TypeError(f'The length_limit argument must be an int instead of {type(length_limit)}')
+    validate_string(prompt, 'prompt')
+    validate_string(answer, 'answer')
+    validate_type(length_limit, 'length_limit', int)
     if length_limit < 1:
         raise ValueError(f'The length_limit must be a positive number instead of {length_limit}')
     if original_answer:
-        _validate_string(original_answer, 'original_answer')
+        validate_string(original_answer, 'original_answer')
     else:
         original_answer = answer  # This is the first call
 
@@ -483,9 +481,9 @@ def remove_answer_overlap(prompt: str, answer: str, min_len: int = MIN_FITB_LEN)
     regex_pattern = r''  # Use this regex split the prompt
 
     # INPUT VALIDATION
-    _validate_string(prompt, 'prompt')
-    _validate_string(answer, 'answer')
-    _validate_pos_int(min_len, 'min_len')
+    validate_string(prompt, 'prompt')
+    validate_string(answer, 'answer')
+    validate_pos_int(min_len, 'min_len')
 
     # SPLIT IT
     # Matches on any min_len number of underscores anywhere
@@ -545,8 +543,8 @@ def remove_punctuation(prompt: str, answer: str, min_len: int = MIN_FITB_LEN) ->
     blank = '_' * min_len  # Fill-in-the-blank substring
 
     # INPUT VALIDATION
-    _validate_string(prompt, 'prompt')
-    _validate_string(answer, 'answer')
+    validate_string(prompt, 'prompt')
+    validate_string(answer, 'answer')
 
     # REMOVE IT
     if not answer.endswith('!') and not prompt.endswith(blank):
@@ -621,37 +619,3 @@ def _match_phrase(needle: str, haystack: str, threshold: float = 0.75) -> bool:
 def _randomize_choice(choices: dict) -> str:
     """Randomize one of the values from choices."""
     return random.choice(list(choices.values()))
-
-
-def _validate_pos_int(in_int: int, name: str) -> None:
-    """Validate input on behalf of this module's API functions.
-
-    Args:
-        in_int: Input to validate.
-        name: Name of the original variable to us in crafting the Exception message.
-
-    Raises:
-        TypeError: Bad data type.
-        ValueError: Integer not positive.
-    """
-    if not isinstance(in_int, int):
-        raise TypeError(f'Invalid data type for {name} argument: {type(in_int)}')
-    if in_int < 1:
-        raise ValueError(f'{name.capitalize()} must be positive')
-
-
-def _validate_string(in_str: str, name: str) -> None:
-    """Validate input on behalf of this module's API functions.
-
-    Args:
-        in_str: Input to validate.
-        name: Name of the original variable to us in crafting the Exception message.
-
-    Raises:
-        TypeError: Bad data type.
-        ValueError: Empty string.
-    """
-    if not isinstance(in_str, str):
-        raise TypeError(f'Invalid data type for {name} argument: {type(in_str)}')
-    if not in_str:
-        raise ValueError(f'{name.capitalize()} may not be empty')

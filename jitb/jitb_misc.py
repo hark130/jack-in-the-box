@@ -6,6 +6,7 @@ import re
 import unicodedata
 import unidecode
 # Third Party
+from hobo.validation import validate_string
 # Local
 from jitb.jitb_globals import TEMP_DIR_DEF_NIX, TEMP_DIR_DEF_WIN, TEMP_DIR_ENV_VARS
 
@@ -30,7 +31,7 @@ def clean_string(dirty_str: str) -> str:
     Returns:
         A clean version of dirty_str.
     """
-    return "".join(char_filter(dirty_str))
+    return ''.join(char_filter(dirty_str))
 
 
 def clean_up_string(dirty_string: str, replace_char: str = ' ') -> str:
@@ -64,10 +65,7 @@ def convert_str_to_int(int_string: str) -> None:
     integer = None  # Converted integer from the int_string
 
     # INPUT VALIDATION
-    if not isinstance(int_string, str):
-        raise TypeError(f'The int_string argument must be a string instead of a {type(int_string)}')
-    if not int_string:
-        raise ValueError('The int_string may not be empty')
+    validate_string(int_string, 'int_string', can_be_empty=False)
 
     # CONVERT IT
     try:

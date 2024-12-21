@@ -3,12 +3,14 @@
 # Standard
 from typing import Any, Final, List
 # Third Party
+from hobo.validation import validate_string, validate_type
 from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException
 from selenium.webdriver.common.by import By
 import selenium
 # Local
 from jitb.jitb_logger import Logger
 from jitb.jitb_misc import convert_str_to_int
+from jitb.jitb_validation import validate_web_driver
 
 
 DEFAULT_BUTTON_BY: Final[str] = By.XPATH        # We find buttons by XPath, by default.
@@ -294,14 +296,13 @@ def _validate_common_args(by_arg: str, value: str) -> None:
     """Validate the cross-section of this module's API functions."""
     # INPUT VALIDATION
     # by_arg
-    if not isinstance(by_arg, str):
-        raise TypeError(f'Invalid data type of {type(by_arg)} for the by_arg')
+    validate_string(by_arg, 'by_arg', can_be_empty=False)
     if not hasattr(By, by_arg.replace(' ', '_').upper()):
         raise ValueError(f'Invalid by_arg value of {by_arg}.  Use By value from '
                          'the selenium.webdriver.common.by module')
     # value
-    if not isinstance(value, str) and value is not None:
-        raise TypeError(f'Invalid data type of {type(value)} for the value')
+    if value is not None:
+        validate_string(value, 'value', can_be_empty=True)
 
 
 def _validate_wd_input(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
@@ -309,10 +310,7 @@ def _validate_wd_input(web_driver: selenium.webdriver.chrome.webdriver.WebDriver
     """Validate the input on behalf of API functions in this module."""
     # INPUT VALIDATION
     # web_driver
-    if not web_driver:
-        raise TypeError('Web driver may not be None')
-    if not isinstance(web_driver, selenium.webdriver.chrome.webdriver.WebDriver):
-        raise TypeError(f'Invalid data type of {type(web_driver)} for the web_driver')
+    validate_web_driver(web_driver=web_driver)
     _validate_common_args(by_arg=by_arg, value=value)
 
 
@@ -321,8 +319,5 @@ def _validate_we_input(web_element: selenium.webdriver.remote.webelement.WebElem
     """Validate the input on behalf of API functions in this module."""
     # INPUT VALIDATION
     # web_element
-    if not web_element:
-        raise TypeError('Web element may not be None')
-    if not isinstance(web_element, selenium.webdriver.remote.webelement.WebElement):
-        raise TypeError(f'Invalid data type of {type(web_element)} for the web_element')
+    validate_type(web_element, 'web_element', selenium.webdriver.remote.webelement.WebElement)
     _validate_common_args(by_arg=by_arg, value=value)

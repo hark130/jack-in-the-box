@@ -400,8 +400,7 @@ class ErrorTestJitbOpenaiPolishAnswer(TestJitbOpenaiPolishAnswer):
         in_answer = 'None'  # Test input for the answer argument
         in_limit = 45       # Test input for the length_limit argument
         self.set_test_input(prompt=in_prompt, answer=in_answer, length_limit=in_limit)
-        self.expect_exception(TypeError,
-                              "Invalid data type for prompt argument: <class 'NoneType'>")
+        self.expect_exception(TypeError, 'expected type')
         self.run_test()
 
     def test_e02_bad_data_type_prompt_list(self):
@@ -410,7 +409,7 @@ class ErrorTestJitbOpenaiPolishAnswer(TestJitbOpenaiPolishAnswer):
         in_answer = 'None'                               # Test input for the answer argument
         in_limit = 45                                    # Test input for the length_limit argument
         self.set_test_input(prompt=in_prompt, answer=in_answer, length_limit=in_limit)
-        self.expect_exception(TypeError, 'Invalid data type')
+        self.expect_exception(TypeError, 'expected type')
         self.run_test()
 
     def test_e03_bad_data_type_answer_none(self):
@@ -419,8 +418,7 @@ class ErrorTestJitbOpenaiPolishAnswer(TestJitbOpenaiPolishAnswer):
         in_answer = None    # Test input for the answer argument
         in_limit = 45       # Test input for the length_limit argument
         self.set_test_input(prompt=in_prompt, answer=in_answer, length_limit=in_limit)
-        self.expect_exception(TypeError,
-                              "Invalid data type for answer argument: <class 'NoneType'>")
+        self.expect_exception(TypeError, 'expected type')
         self.run_test()
 
     def test_e04_bad_data_type_answer_list(self):
@@ -429,7 +427,7 @@ class ErrorTestJitbOpenaiPolishAnswer(TestJitbOpenaiPolishAnswer):
         in_answer = ['Something']              # Test input for the answer argument
         in_limit = 45                          # Test input for the length_limit argument
         self.set_test_input(prompt=in_prompt, answer=in_answer, length_limit=in_limit)
-        self.expect_exception(TypeError, 'Invalid data type')
+        self.expect_exception(TypeError, 'expected type')
         self.run_test()
 
     def test_e05_bad_data_type_length_limit_none(self):
@@ -438,8 +436,7 @@ class ErrorTestJitbOpenaiPolishAnswer(TestJitbOpenaiPolishAnswer):
         in_answer = 'N'     # Test input for the answer argument
         in_limit = None     # Test input for the length_limit argument
         self.set_test_input(prompt=in_prompt, answer=in_answer, length_limit=in_limit)
-        self.expect_exception(TypeError,
-                              'The length_limit argument must be an int')
+        self.expect_exception(TypeError, 'expected type')
         self.run_test()
 
     def test_e06_bad_data_type_length_limit_str(self):
@@ -448,7 +445,7 @@ class ErrorTestJitbOpenaiPolishAnswer(TestJitbOpenaiPolishAnswer):
         in_answer = 'Something'                # Test input for the answer argument
         in_limit = '45'                        # Test input for the length_limit argument
         self.set_test_input(prompt=in_prompt, answer=in_answer, length_limit=in_limit)
-        self.expect_exception(TypeError, 'The length_limit argument must be an int')
+        self.expect_exception(TypeError, 'expected type')
         self.run_test()
 
     def test_e07_bad_value_prompt_empty(self):
@@ -457,7 +454,7 @@ class ErrorTestJitbOpenaiPolishAnswer(TestJitbOpenaiPolishAnswer):
         in_answer = 'Empty'  # Test input for the answer argument
         in_limit = 45        # Test input for the length_limit argument
         self.set_test_input(prompt=in_prompt, answer=in_answer, length_limit=in_limit)
-        self.expect_exception(ValueError, 'Prompt may not be empty')
+        self.expect_exception(ValueError, '"prompt" can not be empty')
         self.run_test()
 
     def test_e08_bad_value_answer_empty(self):
@@ -466,7 +463,7 @@ class ErrorTestJitbOpenaiPolishAnswer(TestJitbOpenaiPolishAnswer):
         in_answer = ''       # Test input for the answer argument
         in_limit = 45        # Test input for the length_limit argument
         self.set_test_input(prompt=in_prompt, answer=in_answer, length_limit=in_limit)
-        self.expect_exception(ValueError, 'Answer may not be empty')
+        self.expect_exception(ValueError, '"answer" can not be empty')
         self.run_test()
 
     def test_e09_bad_value_length_limit_negative(self):

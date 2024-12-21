@@ -244,13 +244,13 @@ class ErrorTestJbgQ2GetVoteText(TestJbgQ2GetVoteText):
     def test_e01_bad_data_type_none(self):
         """Error input that's expected to fail."""
         self.set_test_input(None)
-        self.expect_exception(TypeError, 'Web driver can not be of type None')
+        self.expect_exception(TypeError, 'expected type')
         self.run_test()
 
     def test_e02_bad_data_type_path(self):
         """Error input that's expected to fail."""
         self.set_test_input(Path() / 'test' / 'test_input' / 'JackboxTV-login_start.html')
-        self.expect_exception(TypeError, 'Invalid web_driver data type of ')
+        self.expect_exception(TypeError, 'expected type')
         self.run_test()
 
 

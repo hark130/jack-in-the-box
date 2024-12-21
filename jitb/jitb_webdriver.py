@@ -9,7 +9,7 @@ defined in the jitb.jbgames module.
 from typing import Dict, List
 import time
 # Third Party
-from hobo.validation import validate_list, validate_string
+from hobo.validation import validate_list, validate_string, validate_type
 from selenium.common.exceptions import (ElementNotInteractableException, NoSuchElementException,
                                         StaleElementReferenceException)
 from selenium.webdriver.common.by import By
@@ -21,6 +21,7 @@ from jitb.jitb_misc import clean_up_string, convert_str_to_int
 from jitb.jitb_openai import JitbAi
 from jitb.jitb_selenium import (get_buttons, get_web_element, get_web_element_int,
                                 get_web_element_text)
+from jitb.jitb_validation import validate_bool, validate_element_type, validate_web_driver
 
 
 # Public Module Functions
@@ -89,7 +90,7 @@ def get_button_choices(web_driver: selenium.webdriver.chrome.webdriver.WebDriver
     local_exclude = []    # Lower case conversion from exclude
 
     # INPUT VALIDATION
-    _validate_web_driver(web_driver=web_driver)
+    validate_web_driver(web_driver=web_driver)
     if exclude is not None:
         validate_list(validate_this=exclude, param_name='exclude', can_be_empty=False)
         for exclusion in exclude:
@@ -406,9 +407,8 @@ def vote_answers(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
 
     # INPUT VALIDATION
     # All other arguments validated by calls to other module functions
-    _validate_string(string=last_prompt, name='last_prompt', may_be_empty=True)
-    if not isinstance(ai_obj, JitbAi):
-        raise TypeError(f'Invalid type of {type(ai_obj)} for ai_obj argument')
+    validate_string(last_prompt, 'last_prompt', can_be_empty=True)
+    validate_type(ai_obj, 'ai_obj', JitbAi)
 
     # WAIT FOR IT
     for _ in range(num_loops):
@@ -514,11 +514,11 @@ def _is_page(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
     temp_text = ''  # Text from the web element
 
     # INPUT VALIDATION
-    _validate_web_driver(web_driver=web_driver)
-    _validate_string(element_name, 'element_name', may_be_empty=False)
-    _validate_element_type(element_type=element_type)
+    validate_web_driver(web_driver=web_driver)
+    validate_string(element_name, 'element_name', can_be_empty=False)
+    validate_element_type(element_type=element_type)
     _validate_clues(clues=clues)
-    _validate_bool(clean_string, 'clean_string')
+    validate_bool(clean_string, 'clean_string')
 
     # IS IT?
     try:
@@ -541,17 +541,6 @@ def _is_page(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
     return page
 
 
-def _validate_bool(value: str, name: str) -> None:
-    """Validates boolean values on behalf of this module.
-
-    Args:
-        value: The variable to check.
-        name: The name of the original arugment being validated (used in exception messages).
-    """
-    if not isinstance(value, bool):
-        raise TypeError(f'The {name} value must be a string instead of type {type(value)}')
-
-
 def _validate_clues(clues: List[str] = None) -> None:
     """Validate *_clues arguments on behalf of this module.
 
@@ -563,36 +552,7 @@ def _validate_clues(clues: List[str] = None) -> None:
         TypeError: Bad data type.
         ValueError: Invalid value.
     """
-    if isinstance(clues, list):
+    if clues is not None:
+        validate_list(clues, 'clues', can_be_empty=True)
         for clue in clues:
-            _validate_string(clue, 'clues list entry', may_be_empty=False)
-    elif clues:
-        raise TypeError(f'Invalid data type for clues: {clues} '
-                        f'(Type: {type(clues)})')
-
-
-def _validate_element_type(element_type: str) -> None:
-    """Validate element_type arguments on behalf of this module."""
-    _validate_string(element_type, 'element_type', may_be_empty=False)
-
-
-def _validate_string(string: str, name: str, may_be_empty: bool = False) -> None:
-    """Validates strings on behalf of this module.
-
-    Args:
-        string: The value of the string to check.
-        name: The name of the original arugment being validated (used in exception messages).
-        may_be_empty: Optional; If True, string may not be empty.
-    """
-    if not isinstance(string, str):
-        raise TypeError(f'The {name} value must be a string instead of type {type(string)}')
-    if not string and not may_be_empty:
-        raise ValueError(f'The {name} may not be empty')
-
-
-def _validate_web_driver(web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> None:
-    """Validate a web driver."""
-    if not web_driver:
-        raise TypeError('Web driver can not be of type None')
-    if not isinstance(web_driver, selenium.webdriver.chrome.webdriver.WebDriver):
-        raise TypeError(f'Invalid web_driver data type of {type(web_driver)}')
+            validate_string(clue, 'clues list entry', can_be_empty=False)
