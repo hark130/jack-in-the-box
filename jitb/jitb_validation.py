@@ -1,9 +1,12 @@
-"""Defines standard validation for the package."""
+"""Defines standard validation for the package.
+
+See help(hobo.validation) for basic validation functionality.
+"""
 
 # Standard
 from typing import Any, Dict
 # Third Party
-from hobo.validation import validate_type
+from hobo.validation import validate_string, validate_type
 import selenium
 # Local
 
@@ -15,8 +18,7 @@ def validate_bool(value: str, name: str) -> None:
         value: The variable to check.
         name: The name of the original arugment being validated (used in exception messages).
     """
-    if not isinstance(value, bool):
-        raise TypeError(f'The {name} value must be a string instead of type {type(value)}')
+    validate_type(value, name, bool)
 
 
 def validate_element_type(element_type: str) -> None:
@@ -47,18 +49,20 @@ def validate_game(game: str, games: Dict[str, Any]) -> None:
         raise RuntimeError(f'JITB does not yet support {game}')
 
 
-def validate_string(string: str, name: str, may_be_empty: bool = False) -> None:
-    """Validates strings on behalf of this module.
+def validate_pos_int(in_int: int, name: str) -> None:
+    """Validate input on behalf of this module's API functions.
 
     Args:
-        string: The value of the string to check.
-        name: The name of the original arugment being validated (used in exception messages).
-        may_be_empty: Optional; If True, string may not be empty.
+        in_int: Input to validate.
+        name: Name of the original variable to us in crafting the Exception message.
+
+    Raises:
+        TypeError: Bad data type.
+        ValueError: Integer not positive.
     """
-    if not isinstance(string, str):
-        raise TypeError(f'The {name} value must be a string instead of type {type(string)}')
-    if not string and not may_be_empty:
-        raise ValueError(f'The {name} may not be empty')
+    validate_type(in_int, name, int)
+    if in_int < 1:
+        raise ValueError(f'{name.capitalize()} must be positive')
 
 
 def validate_web_driver(web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> None:
