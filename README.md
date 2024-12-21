@@ -22,7 +22,7 @@ JITB uses this [OpenAi API](https://platform.openai.com/docs/guides/text-generat
 1. Start a supported [Jackbox Game](https://www.jackboxgames.com/)
 1. Get one human signed in (JITB will not function as the VIP)
 1. `jitb --help`
-	- `jitb --user JITB --room <ROOM_CODE>` (v1)
+	- `jitb --user JITB --room <ROOM_CODE>` (v1.1.0)
 	- `jitb auto --user JITB --room <ROOM_CODE>` (v2 or later)
 1. Start the game
 
