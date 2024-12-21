@@ -9,6 +9,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+### Changed
+
+### Deprecated
+
+### Fixed
+
+### Removed
+
+### Security
+
+## [1.1.0] - 2024-12-20
+
+### Added
+
 - Support for Jackbox Party Pack 6 - Dictionarium
 - `JitbAi.change_system_content()` to allow game-specific AI content control
 - The user may control the `--debug` log file directory using the `TMPDIR` environment variable
@@ -30,8 +44,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Refactored `jitb_webdriver.vote_answers()` to take, and pass down, the `exclude` argument
 - Refactored the entire `jbg_jb.choose_catchphrase()` call chain to utilize the new `exclude` argument to avoid choosing the "Reset my choices" button
 
-### Deprecated
-
 ### Fixed
 
 - `--debug` log file location is now (reasonably) OS-agnostic
@@ -42,8 +54,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - An edge case BUG in the `JbgJb.choose_catchphrase()` logic/call-chain that allowed the "Reset my choices" button to be selected
 
 ### Removed
-
-### Security
 
 ## [1.0.0] - 2024-09-25
 

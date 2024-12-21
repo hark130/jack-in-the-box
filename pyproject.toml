@@ -10,7 +10,7 @@ build-backend = 'setuptools.build_meta'
 
 [project]
 name = 'jitb'
-version = '1.0.0'
+version = '1.1.0'
 authors = [
     { name='Joseph Harkleroad', email='hark130@yahoo.com' },
 ]
