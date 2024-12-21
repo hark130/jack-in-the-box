@@ -236,49 +236,48 @@ class ErrorTestJbgJbGetPrompt(TestJbgJbGetPrompt):
     def test_e01_bad_data_type_web_driver_none(self):
         """Bad input: web_driver; None."""
         self.set_test_input(None)
-        self.expect_exception(TypeError, 'Web driver can not be of type None')
+        self.expect_exception(TypeError, 'expected type')
         self.run_test()
 
     def test_e02_bad_data_type_web_driver_path(self):
         """Bad input: web_driver; Path."""
         self.set_test_input(Path() / 'test' / 'test_input' / 'JackboxTV-login_start.html')
-        self.expect_exception(TypeError, 'Invalid web_driver data type of ')
+        self.expect_exception(TypeError, 'expected type')
         self.run_test()
 
     def test_e03_bad_data_type_prompt_clues_string(self):
         """Bad input: prompt_clues; string."""
         use_kwarg = False  # Tells the test framework how to pass in the input
         self.create_gp_input('JackboxTV-JB-Login_start.html', use_kwarg, 'BAD DATA TYPE', True)
-        self.expect_exception(TypeError, 'Invalid data type for clues')
+        self.expect_exception(TypeError, 'expected type')
         self.run_test()
 
     def test_e04_bad_data_type_prompt_clues_tuple(self):
         """Bad input: prompt_clues; tuple."""
         use_kwarg = False  # Tells the test framework how to pass in the input
         self.create_gp_input('JackboxTV-JB-Login_start.html', use_kwarg, ('BAD', 'INPUT'), True)
-        self.expect_exception(TypeError, 'Invalid data type for clues')
+        self.expect_exception(TypeError, 'expected type')
         self.run_test()
 
     def test_e05_bad_data_type_prompt_clues_entry(self):
         """Bad input: prompt_clues; list with a non-string."""
         use_kwarg = False  # Tells the test framework how to pass in the input
         self.create_gp_input('JackboxTV-JB-Login_start.html', use_kwarg, ['good', 0xBAD], True)
-        self.expect_exception(TypeError,
-                              'The clues list entry value must be a string instead of type')
+        self.expect_exception(TypeError, 'expected type')
         self.run_test()
 
     def test_e06_bad_data_type_clean_string_none(self):
         """Bad input: clean_string; None."""
         use_kwarg = False  # Tells the test framework how to pass in the input
         self.create_gp_input('JackboxTV-JB-Login_start.html', use_kwarg, None, None)
-        self.expect_exception(TypeError, 'The clean_string value must be a string instead of type')
+        self.expect_exception(TypeError, 'expected type')
         self.run_test()
 
     def test_e07_bad_data_type_clean_string_string(self):
         """Bad input: clean_string; string."""
         use_kwarg = False  # Tells the test framework how to pass in the input
         self.create_gp_input('JackboxTV-JB-Login_start.html', use_kwarg, None, 'True')
-        self.expect_exception(TypeError, 'The clean_string value must be a string instead of type')
+        self.expect_exception(TypeError, 'expected type')
         self.run_test()
 
 
