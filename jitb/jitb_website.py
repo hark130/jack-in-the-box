@@ -15,6 +15,7 @@ from jitb.jbgames.jbg_q3 import JbgQ3
 from jitb.jitb_globals import JITB_POLL_RATE
 from jitb.jitb_logger import Logger
 from jitb.jitb_openai import JitbAi
+from jitb.jitb_validation import validate_game
 
 # List of Jackbox Games that JITB supports
 JITB_SUPPORTED_GAMES: Final[Dict[str, JbgAbc]] = {'Dictionarium': JbgDict, 'Joke Boat': JbgJb,
@@ -42,7 +43,7 @@ def join_room(room_code: str,
     room_code_box = driver.find_element(By.ID, 'roomcode')
     room_code_box.send_keys(room_code)
     game = _verify_room_code(driver)
-    _validate_game(game=game)
+    validate_game(game=game, games=JITB_SUPPORTED_GAMES)
     if username:
         username_box = driver.find_element(By.ID, 'username')
         username_box.send_keys(username)
@@ -64,7 +65,7 @@ def play_the_game(room_code: str, username: str, ai_obj: JitbAi) -> None:
     game, web_driver = join_room(room_code=room_code, username=username)
 
     # SETUP
-    _validate_game(game=game)
+    validate_game(game=game, games=JITB_SUPPORTED_GAMES)
     jbg_obj = JITB_SUPPORTED_GAMES[game](ai_obj=ai_obj, username=username)
 
     # PLAY IT
@@ -78,16 +79,6 @@ def play_the_game(room_code: str, username: str, ai_obj: JitbAi) -> None:
     finally:
         if web_driver:
             web_driver.close()
-
-
-def _validate_game(game: str) -> None:
-    """Validate the game against the dictionary of support games.
-
-    Raises:
-        RuntimeError: This game is not supported.
-    """
-    if game not in JITB_SUPPORTED_GAMES:
-        raise RuntimeError(f'JITB does not yet support {game}')
 
 
 def _verify_room_code(web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> str:
