@@ -407,7 +407,7 @@ def vote_answers(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
 
     # INPUT VALIDATION
     # All other arguments validated by calls to other module functions
-    validate_string(string=last_prompt, name='last_prompt', can_be_empty=True)
+    validate_string(last_prompt, 'last_prompt', can_be_empty=True)
     validate_type(ai_obj, 'ai_obj', JitbAi)
 
     # WAIT FOR IT
