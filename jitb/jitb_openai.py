@@ -85,7 +85,7 @@ class JitbAi:
             new_content: New 'content' entry.
         """
         # INPUT VALIDATION
-        validate_string(new_content, 'new_content', may_be_empty=True)
+        validate_string(new_content, 'new_content', can_be_empty=True)
 
         # CHANGE IT
         self._base_messages[0][BASE_MSG_CONTENT_KEY] = new_content

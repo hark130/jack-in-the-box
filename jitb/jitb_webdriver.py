@@ -407,7 +407,7 @@ def vote_answers(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
 
     # INPUT VALIDATION
     # All other arguments validated by calls to other module functions
-    validate_string(string=last_prompt, name='last_prompt', may_be_empty=True)
+    validate_string(string=last_prompt, name='last_prompt', can_be_empty=True)
     validate_type(ai_obj, 'ai_obj', JitbAi)
 
     # WAIT FOR IT
@@ -515,7 +515,7 @@ def _is_page(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
 
     # INPUT VALIDATION
     validate_web_driver(web_driver=web_driver)
-    validate_string(element_name, 'element_name', may_be_empty=False)
+    validate_string(element_name, 'element_name', can_be_empty=False)
     validate_element_type(element_type=element_type)
     _validate_clues(clues=clues)
     validate_bool(clean_string, 'clean_string')
@@ -555,4 +555,4 @@ def _validate_clues(clues: List[str] = None) -> None:
     if clues is not None:
         validate_list(clues, 'clues', can_be_empty=True)
         for clue in clues:
-            validate_string(clue, 'clues list entry', may_be_empty=False)
+            validate_string(clue, 'clues list entry', can_be_empty=False)

@@ -8,6 +8,7 @@ from typing import Any, Dict
 # Third Party
 from hobo.validation import validate_string, validate_type
 import selenium
+import selenium.webdriver
 # Local
 
 
@@ -23,7 +24,7 @@ def validate_bool(value: str, name: str) -> None:
 
 def validate_element_type(element_type: str) -> None:
     """Validate element_type arguments on behalf of this module."""
-    validate_string(element_type, 'element_type', may_be_empty=False)
+    validate_string(element_type, 'element_type', can_be_empty=False)
 
 
 def validate_game(game: str, games: Dict[str, Any]) -> None:

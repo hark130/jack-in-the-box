@@ -65,7 +65,7 @@ def convert_str_to_int(int_string: str) -> None:
     integer = None  # Converted integer from the int_string
 
     # INPUT VALIDATION
-    validate_string(int_string, 'int_string', may_be_empty=False)
+    validate_string(int_string, 'int_string', can_be_empty=False)
 
     # CONVERT IT
     try:
