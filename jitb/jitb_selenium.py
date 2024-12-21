@@ -10,6 +10,7 @@ import selenium
 # Local
 from jitb.jitb_logger import Logger
 from jitb.jitb_misc import convert_str_to_int
+from jitb.jitb_validation import validate_web_driver
 
 
 DEFAULT_BUTTON_BY: Final[str] = By.XPATH        # We find buttons by XPath, by default.
@@ -309,7 +310,7 @@ def _validate_wd_input(web_driver: selenium.webdriver.chrome.webdriver.WebDriver
     """Validate the input on behalf of API functions in this module."""
     # INPUT VALIDATION
     # web_driver
-    validate_type(web_driver, 'webdriver', selenium.webdriver.chrome.webdriver.WebDriver)
+    validate_web_driver(web_driver=web_driver)
     _validate_common_args(by_arg=by_arg, value=value)
 
 
