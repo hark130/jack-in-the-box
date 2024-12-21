@@ -11,18 +11,20 @@ import sys
 # Third Party
 from openai import OpenAI
 # Local
-from jitb.jitb_globals import OPENAI_KEY_ENV_VAR
+from jitb.jitb_globals import DEFAULT_SYSTEM_CONTENT, OPENAI_KEY_ENV_VAR
 from jitb.jitb_logger import Logger
 from jitb.jitb_misc import clean_up_string
 
 
-MIN_FITB_LEN: Final[int] = 4  # Minimum number of underscores to be considered a fill-in-the-blank
+# Minimum number of underscores to be considered a fill-in-the-blank
+MIN_FITB_LEN: Final[int] = 4                  # Minimum fill-in-the-blank underscores
+BASE_MSG_CONTENT_KEY: Final[str] = 'content'  # Key value for JitbAi base messages
 
 
 class JitbAi:
     """Implements the interface to the OpenAI API."""
 
-    def __init__(self, model: str = 'gpt-3.5-turbo', temperature: float = 1.0) -> None:
+    def __init__(self, model: str = 'gpt-4o-mini', temperature: float = 1.0) -> None:
         """Class ctor.
 
         Args:
@@ -35,8 +37,7 @@ class JitbAi:
         self._model = model            # OpenAI model
         self._base_temp = temperature  # Temperature (see: help(OpenAI().chat.completions.create))
         self._base_messages = [
-            {'role': 'system',
-             'content': 'You are a funny person trying to win Jackbox Games.'},
+            {'role': 'system', BASE_MSG_CONTENT_KEY: DEFAULT_SYSTEM_CONTENT},
         ]
         # Content message indications the OpenAI did not answer a query
         self._failure_content = [
@@ -74,6 +75,19 @@ class JitbAi:
         if self._client:
             self._client.close()
             self._client = None
+
+    def change_system_content(self, new_content: str) -> None:
+        """Overrides the default role:sytem content:_____ communicated to the OpenAI API.
+
+        Args:
+            new_content: New 'content' entry.
+        """
+        # INPUT VALIDATION
+        if not isinstance(new_content, str):
+            raise TypeError(f'Invalid new_content data type of {type(new_content)}')
+
+        # CHANGE IT
+        self._base_messages[0][BASE_MSG_CONTENT_KEY] = new_content
 
     def create_content(self, messages: List, add_base_msgs: bool = True,
                        max_tokens: int = 50) -> str:
@@ -134,7 +148,7 @@ class JitbAi:
         return answer
 
     def generate_thriplash(self, prompt: str, length_limit: int = 30,
-                           min_len: int = MIN_FITB_LEN) -> list:
+                           min_len: int = MIN_FITB_LEN) -> List[str]:
         """Prompt OpenAI to generate three separate answers for the given Thriplash prompt.
 
         Args:
@@ -143,7 +157,7 @@ class JitbAi:
             min_len: Optional; Min length of repeating undescores to be considered a fitb prompt.
 
         Returns:
-            A tuple of length 3 which contains three strings.  One or more of the three strings
+            A list of length 3 which contains three strings.  One or more of the three strings
             may be empty.
         """
         # LOCAL VARIABLES

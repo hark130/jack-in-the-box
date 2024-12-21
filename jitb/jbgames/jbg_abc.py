@@ -68,6 +68,11 @@ class JbgAbc(ABC):
             ValueError: An internal attribute contains an invalid value.
         """
 
+    def validate_status(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> None:
+        """Validates the web_driver and internal attributes."""
+        self._check_web_driver(web_driver=web_driver)
+        self._validate_core_attributes()
+
     @abstractmethod
     def select_character(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> None:
         """Randomize an avatar selection from the available list.

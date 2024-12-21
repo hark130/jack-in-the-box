@@ -8,6 +8,7 @@ from selenium.webdriver.common.by import By
 import selenium
 # Local
 from jitb.jitb_logger import Logger
+from jitb.jitb_misc import convert_str_to_int
 
 
 DEFAULT_BUTTON_BY: Final[str] = By.XPATH        # We find buttons by XPath, by default.
@@ -144,6 +145,46 @@ def get_web_element(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
 
     # DONE
     return element
+
+
+def get_web_element_int(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
+                        by_arg: str = By.ID, value: str = None) -> int:
+    """Convert the text from the value element, of type by_arg, from web_driver to an int.
+
+    Take care to investigate the return value as 'not None' in case the return value is zero (0).
+
+    Args:
+        web_driver: Selenium web driver to search for an element.
+        by_arg: Optional; See: help(selenium.webdriver.common.by.By).
+        value: Optional; Value of the by_arg-type of web element.
+
+    Returns:
+        An integer converted from the string, if found.  If a string isn't found or the
+        conversion fails, return None.
+
+    Raises:
+        TypeError: Bad data type.
+        ValueError: Invalid by_arg value.
+    """
+    # LOCAL VARIABLES
+    elem_text = None  # Text extracted from element
+    elem_int = None   # Integer converted from elem_text
+
+    # INPUT VALIDATION handled by get_web_element_text()
+
+    # GET IT
+    try:
+        elem_text = get_web_element_text(web_driver=web_driver, by_arg=by_arg, value=value)
+    except (NoSuchElementException, StaleElementReferenceException) as err:
+        Logger.debug(f'get_web_element_int() getting {by_arg}:{value} raised {repr(err)}!')
+    else:
+        if elem_text:
+            elem_int = convert_str_to_int(elem_text)
+            if elem_int is None:
+                Logger.debug(f'get_web_element_int() failed to convert {elem_text} to an int')
+
+    # DONE
+    return elem_int
 
 
 def get_web_element_text(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
