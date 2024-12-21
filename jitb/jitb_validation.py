@@ -68,7 +68,4 @@ def validate_pos_int(in_int: int, name: str) -> None:
 
 def validate_web_driver(web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> None:
     """Validate a web driver."""
-    if not web_driver:
-        raise TypeError('Web driver can not be of type None')
-    if not isinstance(web_driver, selenium.webdriver.chrome.webdriver.WebDriver):
-        raise TypeError(f'Invalid web_driver data type of {type(web_driver)}')
+    validate_type(web_driver, 'web_driver', selenium.webdriver.chrome.webdriver.WebDriver)
