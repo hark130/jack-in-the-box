@@ -133,27 +133,27 @@ class ErrorTestJitbSeleniumGetWebElement(TestJitbSeleniumGetWebElement):
     def test_e01_bad_data_type_web_element_none(self):
         """Bad data type: web_driver == None."""
         self.set_test_input(web_driver=None)
-        self.expect_exception(TypeError, 'Web driver may not be None')
+        self.expect_exception(TypeError, 'expected type')
         self.run_test()
 
     def test_e02_bad_data_type_web_element_path(self):
         """Bad data type: web_driver == Path()."""
         self.set_test_input(web_driver=Path() / 'test/test_input/JackboxTV-login_start.html')
-        self.expect_exception(TypeError, 'Invalid data type')
+        self.expect_exception(TypeError, 'expected type')
         self.run_test()
 
     def test_e03_bad_data_type_by_none(self):
         """Bad data type: by == None."""
         self.create_web_driver(filename='JackboxTV-login_start.html')
         self.set_test_input(web_driver=self.web_driver, by_arg=None)
-        self.expect_exception(TypeError, 'Invalid data type')
+        self.expect_exception(TypeError, 'expected type')
         self.run_test()
 
     def test_e04_bad_data_type_by_package_enum(self):
         """Bad data type: by == By."""
         self.create_web_driver(filename='JackboxTV-login_start.html')
         self.set_test_input(web_driver=self.web_driver, by_arg=By)
-        self.expect_exception(TypeError, 'Invalid data type')
+        self.expect_exception(TypeError, 'expected type')
         self.run_test()
 
     def test_e05_bad_data_type_by_enum_literal(self):
@@ -168,14 +168,14 @@ class ErrorTestJitbSeleniumGetWebElement(TestJitbSeleniumGetWebElement):
         """Bad data type: value == []."""
         self.create_web_driver(filename='JackboxTV-login_start.html')
         self.set_test_input(web_driver=self.web_driver, value=[])
-        self.expect_exception(TypeError, 'Invalid data type')
+        self.expect_exception(TypeError, 'expected type')
         self.run_test()
 
     def test_e07_bad_data_type_value_bytes(self):
         """Bad data type: value == b''."""
         self.create_web_driver(filename='JackboxTV-login_start.html')
         self.set_test_input(web_driver=self.web_driver, value=b'find-this')
-        self.expect_exception(TypeError, 'Invalid data type')
+        self.expect_exception(TypeError, 'expected type')
         self.run_test()
 
 

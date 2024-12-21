@@ -234,25 +234,25 @@ class ErrorTestJitbSeleniumGetSubButtons(TestJitbSeleniumGetSubButtons):
     def test_e01_bad_data_type_web_element_none(self):
         """Bad data type: web_driver == None."""
         self.set_test_input(web_driver=None)
-        self.expect_exception(TypeError, 'Web driver may not be None')
+        self.expect_exception(TypeError, 'expected type')
         self.run_test()
 
     def test_e02_bad_data_type_web_element_path(self):
         """Bad data type: web_driver == Path()."""
         self.set_test_input(web_driver=Path() / 'test/test_input/JackboxTV-login_start.html')
-        self.expect_exception(TypeError, 'Invalid data type')
+        self.expect_exception(TypeError, 'expected type')
         self.run_test()
 
     def test_e03_bad_data_type_by_none(self):
         """Bad data type: sub_by == None."""
         self.set_buttons_input(filename='JackboxTV-login_start.html', in_by=None)
-        self.expect_exception(TypeError, 'Invalid data type')
+        self.expect_exception(TypeError, 'expected type')
         self.run_test()
 
     def test_e04_bad_data_type_by_package_enum(self):
         """Bad data type: sub_by == By."""
         self.set_buttons_input(filename='JackboxTV-login_start.html', in_by=By)
-        self.expect_exception(TypeError, 'Invalid data type')
+        self.expect_exception(TypeError, 'expected type')
         self.run_test()
 
     def test_e05_bad_data_type_by_enum_literal(self):
@@ -265,13 +265,13 @@ class ErrorTestJitbSeleniumGetSubButtons(TestJitbSeleniumGetSubButtons):
     def test_e06_bad_data_type_value_list(self):
         """Bad data type: sub_value == []."""
         self.set_buttons_input(filename='JackboxTV-login_start.html', in_value=[])
-        self.expect_exception(TypeError, 'Invalid data type')
+        self.expect_exception(TypeError, 'expected type')
         self.run_test()
 
     def test_e07_bad_data_type_value_bytes(self):
         """Bad data type: sub_value == b''."""
         self.set_buttons_input(filename='JackboxTV-login_start.html', in_value=b'find-this')
-        self.expect_exception(TypeError, 'Invalid data type')
+        self.expect_exception(TypeError, 'expected type')
         self.run_test()
 
 
@@ -289,25 +289,25 @@ class SpecialTestJitbSeleniumGetSubButtons(TestJitbSeleniumGetSubButtons):
     def test_s01_bad_data_type_web_element_none(self):
         """Bad data type: web_driver == None."""
         self.set_test_input(web_driver=None)
-        self.expect_exception(TypeError, 'Web driver may not be None')
+        self.expect_exception(TypeError, 'expected type')
         self.run_test()
 
     def test_s02_bad_data_type_web_element_path(self):
         """Bad data type: web_driver == Path()."""
         self.set_test_input(web_driver=Path() / 'test/test_input/JackboxTV-login_start.html')
-        self.expect_exception(TypeError, 'Invalid data type')
+        self.expect_exception(TypeError, 'expected type')
         self.run_test()
 
     def test_s03_bad_data_type_by_none(self):
         """Bad data type: sub_by == None."""
         self.set_buttons_input_kwargs(filename='JackboxTV-login_start.html', in_by=None)
-        self.expect_exception(TypeError, 'Invalid data type')
+        self.expect_exception(TypeError, 'expected type')
         self.run_test()
 
     def test_s04_bad_data_type_by_package_enum(self):
         """Bad data type: sub_by == By."""
         self.set_buttons_input_kwargs(filename='JackboxTV-login_start.html', in_by=By)
-        self.expect_exception(TypeError, 'Invalid data type')
+        self.expect_exception(TypeError, 'expected type')
         self.run_test()
 
     def test_s05_bad_data_type_by_enum_literal(self):
@@ -320,13 +320,13 @@ class SpecialTestJitbSeleniumGetSubButtons(TestJitbSeleniumGetSubButtons):
     def test_s06_bad_data_type_value_list(self):
         """Bad data type: sub_value == []."""
         self.set_buttons_input_kwargs(filename='JackboxTV-login_start.html', in_value=[])
-        self.expect_exception(TypeError, 'Invalid data type')
+        self.expect_exception(TypeError, 'expected type')
         self.run_test()
 
     def test_s07_bad_data_type_value_bytes(self):
         """Bad data type: sub_value == b''."""
         self.set_buttons_input_kwargs(filename='JackboxTV-login_start.html', in_value=b'find-this')
-        self.expect_exception(TypeError, 'Invalid data type')
+        self.expect_exception(TypeError, 'expected type')
         self.run_test()
 
 
