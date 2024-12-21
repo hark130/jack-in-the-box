@@ -181,8 +181,7 @@ class ErrorTestJitbOpenaiRemoveAnswerOverlap(TestJitbOpenaiRemoveAnswerOverlap):
         in_prompt = None    # Test input for the prompt argument
         in_answer = 'None'  # Test input for the answer argument
         self.set_test_input(prompt=in_prompt, answer=in_answer)
-        self.expect_exception(TypeError,
-                              "Invalid data type for prompt argument: <class 'NoneType'>")
+        self.expect_exception(TypeError, 'expected type')
         self.run_test()
 
     def test_e02_bad_data_type_prompt_list(self):
@@ -190,7 +189,7 @@ class ErrorTestJitbOpenaiRemoveAnswerOverlap(TestJitbOpenaiRemoveAnswerOverlap):
         in_prompt = ['Something', ' ________ ', 'else']  # Test input for the prompt argument
         in_answer = 'None'                               # Test input for the answer argument
         self.set_test_input(prompt=in_prompt, answer=in_answer)
-        self.expect_exception(TypeError, 'Invalid data type')
+        self.expect_exception(TypeError, 'expected type')
         self.run_test()
 
     def test_e03_bad_data_type_answer_none(self):
@@ -198,8 +197,7 @@ class ErrorTestJitbOpenaiRemoveAnswerOverlap(TestJitbOpenaiRemoveAnswerOverlap):
         in_prompt = 'None'  # Test input for the prompt argument
         in_answer = None    # Test input for the answer argument
         self.set_test_input(prompt=in_prompt, answer=in_answer)
-        self.expect_exception(TypeError,
-                              "Invalid data type for answer argument: <class 'NoneType'>")
+        self.expect_exception(TypeError, 'expected type')
         self.run_test()
 
     def test_e04_bad_data_type_answer_list(self):
@@ -207,7 +205,7 @@ class ErrorTestJitbOpenaiRemoveAnswerOverlap(TestJitbOpenaiRemoveAnswerOverlap):
         in_prompt = 'Something ________ else'  # Test input for the prompt argument
         in_answer = ['Something']              # Test input for the answer argument
         self.set_test_input(prompt=in_prompt, answer=in_answer)
-        self.expect_exception(TypeError, 'Invalid data type')
+        self.expect_exception(TypeError, 'expected type')
         self.run_test()
 
     def test_e05_bad_value_prompt_empty(self):
@@ -215,7 +213,7 @@ class ErrorTestJitbOpenaiRemoveAnswerOverlap(TestJitbOpenaiRemoveAnswerOverlap):
         in_prompt = ''       # Test input for the prompt argument
         in_answer = 'Empty'  # Test input for the answer argument
         self.set_test_input(prompt=in_prompt, answer=in_answer)
-        self.expect_exception(ValueError, 'Prompt may not be empty')
+        self.expect_exception(ValueError, '"prompt" can not be empty')
         self.run_test()
 
     def test_e06_bad_value_answer_empty(self):
@@ -223,7 +221,7 @@ class ErrorTestJitbOpenaiRemoveAnswerOverlap(TestJitbOpenaiRemoveAnswerOverlap):
         in_prompt = 'Empty'  # Test input for the prompt argument
         in_answer = ''       # Test input for the answer argument
         self.set_test_input(prompt=in_prompt, answer=in_answer)
-        self.expect_exception(ValueError, 'Answer may not be empty')
+        self.expect_exception(ValueError, '"answer" can not be empty')
         self.run_test()
 
     def test_e07_bad_data_type_min_len_none(self):
@@ -232,8 +230,7 @@ class ErrorTestJitbOpenaiRemoveAnswerOverlap(TestJitbOpenaiRemoveAnswerOverlap):
         in_answer = 'None'                     # Test input for the answer argument
         in_min_len = None                      # Test input for the min_len argument
         self.set_test_input(prompt=in_prompt, answer=in_answer, min_len=in_min_len)
-        self.expect_exception(TypeError,
-                              "Invalid data type for min_len argument: <class 'NoneType'>")
+        self.expect_exception(TypeError, 'expected type')
         self.run_test()
 
     def test_e08_bad_data_type_min_len_str(self):
@@ -242,7 +239,7 @@ class ErrorTestJitbOpenaiRemoveAnswerOverlap(TestJitbOpenaiRemoveAnswerOverlap):
         in_answer = 'None'                     # Test input for the answer argument
         in_min_len = '4'                       # Test input for the min_len argument
         self.set_test_input(prompt=in_prompt, answer=in_answer, min_len=in_min_len)
-        self.expect_exception(TypeError, 'Invalid data type')
+        self.expect_exception(TypeError, 'expected type')
         self.run_test()
 
     def test_e09_bad_value_min_len_zero(self):
