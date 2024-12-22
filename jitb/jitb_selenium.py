@@ -250,7 +250,9 @@ def _get_element(web_thing: Any, by_arg: str = By.ID, value: str = None) \
         if callable(get_it):
             try:
                 element = get_it(by=by_arg, value=value)
-            except (NoSuchElementException, StaleElementReferenceException) as err:
+            except NoSuchElementException:
+                pass  # Too verbose in the debug log
+            except StaleElementReferenceException as err:
                 Logger.debug(f'_get_element() {by_arg}:{value} raised {repr(err)}!')
 
     # DONE
