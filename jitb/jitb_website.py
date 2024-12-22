@@ -8,6 +8,7 @@ from selenium.webdriver.common.by import By
 import selenium
 # Local
 from jitb.jbgames.jbg_abc import ERROR_LIST, JbgAbc
+from jitb.jbgames.jbg_br import JbgBr
 from jitb.jbgames.jbg_dict import JbgDict
 from jitb.jbgames.jbg_jb import JbgJb
 from jitb.jbgames.jbg_q2 import JbgQ2
@@ -18,8 +19,9 @@ from jitb.jitb_openai import JitbAi
 from jitb.jitb_validation import validate_game
 
 # List of Jackbox Games that JITB supports
-JITB_SUPPORTED_GAMES: Final[Dict[str, JbgAbc]] = {'Dictionarium': JbgDict, 'Joke Boat': JbgJb,
-                                                  'Quiplash 2': JbgQ2, 'Quiplash 3': JbgQ3}
+JITB_SUPPORTED_GAMES: Final[Dict[str, JbgAbc]] = {"Blather 'Round": JbgBr, 'Dictionarium': JbgDict,
+                                                  'Joke Boat': JbgJb, 'Quiplash 2': JbgQ2,
+                                                  'Quiplash 3': JbgQ3}
 
 
 def join_room(room_code: str,
