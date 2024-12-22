@@ -25,6 +25,11 @@ class TestJbgBr(TestJackboxGames):
         jbg_br_obj = JbgBr(ai_obj=ai_obj, username=self.username)  # JbgBr object
         return jbg_br_obj
 
+    def expect_type_exception(self, var_name: str, expected: type, received: type) -> None:
+        """Single point of truth (SPOT) for 'wrong page' exception messages."""
+        self.expect_exception(TypeError, f'{var_name} expected type {expected}, '
+                              f'instead received type {received}')
+
     def call_callable(self) -> Any:
         """Child class defines test case callable.
 
