@@ -1,4 +1,4 @@
-"""Unit test module for JbgJb.get_prompt().
+"""Unit test module for JbgDict.get_prompt().
 
 Typical Usage:
     python -m test                                                # Run *all* the test cases
@@ -19,9 +19,9 @@ from tediousstart.tediousstart import execute_test_cases
 
 # pylint: disable = too-many-public-methods
 class TestJbgDictGetPrompt(TestJbgDict):
-    """The jbg_jb.get_prompt() unit test class.
+    """The jgb_dict.get_prompt() unit test class.
 
-    This class provides base functionality to run NEBS unit tests for jbg_jb.get_prompt().
+    This class provides base functionality to run NEBS unit tests for jgb_dict.get_prompt().
     """
 
     # CORE CLASS METHODS
@@ -48,18 +48,18 @@ class TestJbgDictGetPrompt(TestJbgDict):
             self.set_test_input(self.web_driver)
 
     def call_callable(self) -> Any:
-        """Calls jbg_jb.get_prompt().
+        """Calls jgb_dict.get_prompt().
 
-        Overrides the parent method.  Defines the way to call jbg_jb.get_prompt().
+        Overrides the parent method.  Defines the way to call jgb_dict.get_prompt().
 
         Args:
             None
 
         Returns:
-            Return value of jbg_jb.get_prompt()
+            Return value of jgb_dict.get_prompt()
 
         Raises:
-            Exceptions raised by jbg_jb.get_prompt() are bubbled up and handled by TediousUnitTest
+            Exceptions raised by jgb_dict.get_prompt() are bubbled up and handled by TediousUnitTest
         """
         jbg_dict_obj = self.setup_jbgdict_object()
         return jbg_dict_obj.get_prompt(*self._args, **self._kwargs)
