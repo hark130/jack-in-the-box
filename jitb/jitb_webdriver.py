@@ -62,6 +62,7 @@ def click_a_button(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
             Logger.error(f'Failed to click button "{temp_text}" with {repr(err)}')
         else:
             clicked_it = True
+            Logger.debug(f'Clicked the "{button_str}" button')
             break
 
     # DONE
