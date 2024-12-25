@@ -573,7 +573,7 @@ class JbgBr(JbgAbc):
                                web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> None:
         """Assert that web_driver is a 'describe' page."""
         if not self.is_describe_page(web_driver=web_driver):
-            raise RuntimeError("This is not a Blather 'Round describe page")            
+            raise RuntimeError("This is not a Blather 'Round describe page")
 
     def write_an_answer(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
                         submit_text: str) -> bool:
