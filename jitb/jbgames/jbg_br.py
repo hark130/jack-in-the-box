@@ -171,9 +171,6 @@ class JbgBr(JbgAbc):
             else:
                 if not prompt_text or prompt_text == last_prompt:
                     num_unk += 1  # Nothing got answered
-            # print(f'PROMPT TEXT: {prompt_text}')  # DEBUGGING
-            # print(f'LAST PROMPT: {last_prompt}')  # DEBUGGING
-            # print(f'UNKNOWN COUNT: {num_unk}')  # DEBUGGING
             time.sleep(JITB_POLL_RATE)  # Give the page a second to update
         Logger.debug('Done describing the secret prompt')
 
@@ -330,9 +327,7 @@ class JbgBr(JbgAbc):
         # Submit
         if clicked_them:
             extracted_sentence = _extract_sentence(web_driver=web_driver)
-            print(f'STORING PREVIOUS DESCRIPTION: {extracted_sentence}')  # DEBUGGING
             self._prev_descr.append(_extract_sentence(web_driver=web_driver))  # Store it
-            print(f'PREVIOUS DESCRIPTIONS: {self._prev_descr}')  # DEBUGGING
             if click_a_button(web_driver=web_driver, button_str=submit_text):
                 Logger.debug(f'Submitted the description with the "{submit_text}" button')
             else:
@@ -389,12 +384,8 @@ class JbgBr(JbgAbc):
             html_list = [tag_html.get_attribute('innerHTML') for tag_html in tag_list]
         # 4. Find the final "is presenting a" entry
         if html_list:
-            # print(f'HTML LIST: {html_list}')  # DEBUGGING
             for i in range(len(html_list) - 1, -1, -1):
-                # print(f'LOOKING AT {i} INDEX WHICH IS {html_list[i]}')  # DEBUGGING
                 if needle.lower() in html_list[i].lower():
-                    # print(f'HERE')  # DEBUGGING
-                    # print(f'FOUND {needle} in {html_list[i]}')  # DEBUGGING
                     html_list = html_list[i:]  # Slice out preceding entries
                     html_list[0] = _cleanup_context(html_list[0])  # Cleanup the first line
                     break  # Found it
@@ -464,14 +455,10 @@ class JbgBr(JbgAbc):
         # GET IT
         prompt = self.get_prompt(web_driver=web_driver, clues=self._describe_clues)
         prompt = prompt.capitalize()
-        # print(f'GET DESCRIBE PROMPT GOT A PROMPT: {prompt}')  # DEBUGGING
         if prompt:
             sentence = _extract_sentence(web_driver=web_driver)
             try:
-                # print(f'GET DESCRIBE PROMPT GOT A SENTENCE: {sentence}')  # DEBUGGING
                 (buttons_left, buttons_right) = self.get_describe_buttons(web_driver=web_driver)
-                # print(f'GET DESCRIBE PROMPT GOT LEFT BUTTONS: {buttons_left}')  # DEBUGGING
-                # print(f'GET DESCRIBE PROMPT GOT RIGHT BUTTONS: {buttons_right}')  # DEBUGGING
 
                 # FORM IT
                 full_prompt = _construct_full_describe_prompt(prompt, sentence, buttons_left,
@@ -503,7 +490,6 @@ class JbgBr(JbgAbc):
 
         # GET IT
         context = self.get_context(web_driver=web_driver)
-        # print(f'JbgBr.get_guess_prompt() found some context: {context}')  # DEBUGGING
         if context:
             prompt = self.get_prompt(web_driver=web_driver, clues=self._guess_clues)
             if prompt:
@@ -511,7 +497,6 @@ class JbgBr(JbgAbc):
                     bad_guesses = ' The following guesses were already made and are wrong: ' \
                                   + f'{", ".join(self._wrong_guesses)}.'
                 prompt = prompt.capitalize()  # It comes through lowercase for some reason.
-                # print(f'JbgBr.get_guess_prompt() fetched a prompt: {prompt}')  # DEBUGGING
                 full_prompt = context + bad_guesses + ' Answer the following in one or two ' \
                     + 'words without adding adjectives or adverbs... ' + prompt
 
@@ -771,7 +756,6 @@ def _reformat_sentence(sentence_elem: selenium.webdriver.remote.webelement.WebEl
         if blank_str in sentence:
             sentence = sentence.replace(blank_str, JITB_FITB_STR)
     sentence = sentence.capitalize()
-    # print(f'EXTRACTED SENTENCE: {sentence}')  # DEBUGGING
 
     # DONE
     return sentence
@@ -792,7 +776,6 @@ def _strip_quotes(quote: str) -> str:
             if new_quote.startswith(quote_entry) and new_quote.endswith(quote_entry):
                 new_quote = new_quote[:-1].replace(quote_entry, '', 1)
         if new_quote != quote:
-            print(f'STILL STRIPPING... GOT {new_quote} FROM {quote}')  # DEBUGGING
             new_quote = _strip_quotes(quote=new_quote)
 
     # DONE
