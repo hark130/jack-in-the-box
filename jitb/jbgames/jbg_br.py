@@ -679,7 +679,7 @@ def _construct_full_describe_prompt(prompt: str, sentence: str, buttons_left: Li
     full_prompt = None  # Constructed prompt
     previous = ''       # Dynamically formulated previous descriptions
     # Use this format string if there are any previous descriptions
-    prev_format = 'You have already provded the following descriptions: {previous}.'
+    prev_format = 'You have already provided the following descriptions: {previous}.'
     # Use this format string if there is one fill-in-the-blank entry in sentence
     single_list = 'Fill in the blank of this sentence by choosing one word from the provided ' \
                   + 'list and providing your answer in this exact format: "word_from_list". ' \
