@@ -164,9 +164,9 @@ class JbgBr(JbgAbc):
             else:
                 if not prompt_text or prompt_text == last_prompt:
                     num_unk += 1  # Nothing got answered
-            print(f'PROMPT TEXT: {prompt_text}')  # DEBUGGING
-            print(f'LAST PROMPT: {last_prompt}')  # DEBUGGING
-            print(f'UNKNOWN COUNT: {num_unk}')  # DEBUGGING
+            # print(f'PROMPT TEXT: {prompt_text}')  # DEBUGGING
+            # print(f'LAST PROMPT: {last_prompt}')  # DEBUGGING
+            # print(f'UNKNOWN COUNT: {num_unk}')  # DEBUGGING
             time.sleep(JITB_POLL_RATE)  # Give the page a second to update
         Logger.debug('Done describing the secret prompt')
 
@@ -724,7 +724,7 @@ def _extract_sentence(sentence_elem: selenium.webdriver.remote.webelement.WebEle
         if blank_str in sentence:
             sentence = sentence.replace(blank_str, JITB_FITB_STR)
     sentence = sentence.capitalize()
-    print(f'EXTRACTED SENTENCE: {sentence}')  # DEBUGGING
+    # print(f'EXTRACTED SENTENCE: {sentence}')  # DEBUGGING
 
     # DONE
     return sentence
