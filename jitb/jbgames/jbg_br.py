@@ -46,8 +46,10 @@ class JbgBr(JbgAbc):
         self._secret_clues = ['Choose your secret prompt']
         # Exclude these button names from selecting secret prompts
         self._exclude = ['Get 3 New Prompts', 'Skip']
-        # Wrong guesses for another players' secret prompt
+        # Wrong guesses for another player's secret prompt
         self._wrong_guesses = []
+        # Previous descriptions for this player's secret prompt
+        self._prev_descr = []
         # Update AI system: content message
         ai_obj.change_system_content('You are a smart person trying to win the Jackbox Game '
                                      "Blather 'Round. Do not add extra context "
@@ -78,8 +80,9 @@ class JbgBr(JbgAbc):
             if self._current_page == JbgPageIds.ANSWER:
                 self._wrong_guesses.clear()  # Empty the list
                 self.answer_prompts(web_driver=web_driver, timeout=10)
-            # elif self._current_page == JbgPageIds.BR_DESCRIBE:
-            #     self.vote_answers(web_driver=web_driver)
+            elif self._current_page == JbgPageIds.BR_DESCRIBE:
+                self._prev_descr.clear()  # Empty the list
+                self.vote_answers(web_driver=web_driver)
             elif self._current_page == JbgPageIds.BR_SECRET:
                 self.choose_secret(web_driver=web_driver)
         elif self._current_page == JbgPageIds.BR_DESCRIBE:
@@ -305,6 +308,7 @@ class JbgBr(JbgAbc):
                 Logger.error(f'Failed to click the "{button_entry}" button')
         # Submit
         if clicked_them:
+            self._prev_descr.append(_extract_sentence(web_driver=web_driver))  # Store it
             if click_a_button(web_driver=web_driver, button_str=submit_text):
                 Logger.debug(f'Submitted the description with the "{submit_text}" button')
             else:
@@ -438,21 +442,18 @@ class JbgBr(JbgAbc):
         prompt = prompt.capitalize()
         # print(f'GET DESCRIBE PROMPT GOT A PROMPT: {prompt}')  # DEBUGGING
         if prompt:
-            sentence_web_elem = get_web_element(web_driver=web_driver, by_arg=By.CLASS_NAME,
-                                                value='sentence-words')
-            if sentence_web_elem:
-                sentence = _extract_sentence(sentence_web_elem)
-                try:
-                    # print(f'GET DESCRIBE PROMPT GOT A SENTENCE: {sentence}')  # DEBUGGING
-                    (buttons_left, buttons_right) = self.get_describe_buttons(web_driver=web_driver)
-                    # print(f'GET DESCRIBE PROMPT GOT LEFT BUTTONS: {buttons_left}')  # DEBUGGING
-                    # print(f'GET DESCRIBE PROMPT GOT RIGHT BUTTONS: {buttons_right}')  # DEBUGGING
+            sentence = _extract_sentence(web_driver=web_driver)
+            try:
+                # print(f'GET DESCRIBE PROMPT GOT A SENTENCE: {sentence}')  # DEBUGGING
+                (buttons_left, buttons_right) = self.get_describe_buttons(web_driver=web_driver)
+                # print(f'GET DESCRIBE PROMPT GOT LEFT BUTTONS: {buttons_left}')  # DEBUGGING
+                # print(f'GET DESCRIBE PROMPT GOT RIGHT BUTTONS: {buttons_right}')  # DEBUGGING
 
-                    # FORM IT
-                    full_prompt = _construct_full_describe_prompt(prompt, sentence, buttons_left,
-                                                                  buttons_right)
-                except TypeError as err:
-                    Logger.error(f'"Get describe prompt" encountered a type error of {repr(err)}')
+                # FORM IT
+                full_prompt = _construct_full_describe_prompt(prompt, sentence, buttons_left,
+                                                              buttons_right)
+            except TypeError as err:
+                Logger.error(f'"Get describe prompt" encountered a type error of {repr(err)}')
 
         # DONE
         return full_prompt
@@ -622,7 +623,8 @@ def _cleanup_context(context: str) -> str:
 
 
 def _construct_full_describe_prompt(prompt: str, sentence: str, buttons_left: List[str],
-                                    buttons_right: List[str] = None) -> str:
+                                    buttons_right: List[str] = None,
+                                    prev_descr: List[str] = None) -> str:
     """Form the full describe prompt based on extracted data.
 
     Args:
@@ -633,6 +635,7 @@ def _construct_full_describe_prompt(prompt: str, sentence: str, buttons_left: Li
         buttons_right: Optional; Not necessary if sentence only has one blank.
             E.g., ['human', 'place', 'thing', 'circumstance', 'obstacle',
                    'character', 'adventure', 'power', 'duo']
+        prev_descr: Optional; Previous descriptions that were already provided.
 
     Returns:
         A fully formed, AI-engineered, prompt that should be fool-proof (if that's even possible).
@@ -645,20 +648,23 @@ def _construct_full_describe_prompt(prompt: str, sentence: str, buttons_left: Li
     # LOCAL VARIABLES
     count = 0           # Number of JITB_FITB_STR found in sentence
     full_prompt = None  # Constructed prompt
+    previous = ''       # Dynamically formulated previous descriptions
+    # Use this format string if there are any previous descriptions
+    prev_format = 'You have already provded the following descriptions: {previous}.'
     # Use this format string if there is one fill-in-the-blank entry in sentence
-    single_list = 'Fill in the blank of this sentence by choosing one word from the provided list and ' \
-                  + 'providing your answer in this exact format: "word_from_list". ' \
+    single_list = 'Fill in the blank of this sentence by choosing one word from the provided ' \
+                  + 'list and providing your answer in this exact format: "word_from_list". ' \
                   + 'Sentence: "{prompt} by filling in the blank of ' \
-                  + 'this sentence: {sentence}" List of choices: {buttons_left}. ' \
+                  + 'this sentence: {sentence}" {previous} List of choices: {buttons_left}. ' \
                   + 'Provide your answer in this exact format: "word_from_list".' \
                   + 'For example: "{b_l_choice_1}.'
     # Use this format string if there are two fill-in-the-blank entries in sentence
     double_list = 'Fill in the blanks of this sentence by choosing one word from each list and ' \
                   + 'providing your answer in the format "word_from_first_list, ' \
                   + 'word_from_second_list". Sentence: "{prompt} by filling in the blanks of ' \
-                  + 'this sentence: {sentence}" List for the first blank: {buttons_left}. ' \
-                  + 'List for the second blank: {buttons_right}. Provide your answer in this ' \
-                  + 'exact format: "word_from_first_list, word_from_second_list". ' \
+                  + 'this sentence: {sentence}" {previous} List for the first blank: ' \
+                  + f'{buttons_left}. List for the second blank: {buttons_right}. Provide your ' \
+                  + 'answer in this exact format: "word_from_first_list, word_from_second_list". ' \
                   + 'For example: "{b_l_choice_1}, {b_r_choice_1}" or ' \
                   + '"{b_l_choice_2}, {b_r_choice_2}".'
 
@@ -672,6 +678,11 @@ def _construct_full_describe_prompt(prompt: str, sentence: str, buttons_left: Li
         validate_list(buttons_right, 'buttons_right', can_be_empty=False)
         for right_button in buttons_right:
             validate_string(right_button, 'buttons_right entry', can_be_empty=False)
+    if prev_descr:
+        validate_list(prev_descr, 'prev_descr', can_be_empty=False)
+        for previous in prev_descr:
+            validate_string(previous, 'prev_descr entry', can_be_empty=False)
+        previous = prev_format.format(previous=', '.join(prev_descr))
 
     # CONSTRUCT IT
     # Validate the fill-in-the-blanks match the defined button lists
@@ -681,11 +692,12 @@ def _construct_full_describe_prompt(prompt: str, sentence: str, buttons_left: Li
     # completes).
     if 1 == count:
         full_prompt = single_list.format(prompt=prompt.capitalize(), sentence=sentence.capitalize(),
-                                         buttons_left=buttons_left,
+                                         previous=previous, buttons_left=buttons_left,
                                          b_l_choice_1=buttons_left[0])
     elif 2 == count:
         full_prompt = double_list.format(prompt=prompt.capitalize(), sentence=sentence.capitalize(),
-                                         buttons_left=buttons_left, buttons_right=buttons_right,
+                                         previous=previous, buttons_left=buttons_left,
+                                         buttons_right=buttons_right,
                                          b_l_choice_1=buttons_left[0],
                                          b_r_choice_1=buttons_right[-1],
                                          b_l_choice_2=buttons_left[-1],
@@ -702,7 +714,23 @@ def _convert_button_text(button_elem: selenium.webdriver.remote.webelement.WebEl
     return button_elem.text.split('\n')
 
 
-def _extract_sentence(sentence_elem: selenium.webdriver.remote.webelement.WebElement) -> str:
+def _extract_sentence(web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> str:
+    """"""
+    # LOCAL VARIABLES
+    sentence = ''  # Extracted sentence
+    # The sentence web element
+    sentence_web_elem = get_web_element(web_driver=web_driver, by_arg=By.CLASS_NAME,
+                                        value='sentence-words')
+
+    # EXTRACT IT
+    if sentence_web_elem:
+        sentence = _reformat_sentence(sentence_web_elem)
+
+    # DONE
+    return sentence
+
+
+def _reformat_sentence(sentence_elem: selenium.webdriver.remote.webelement.WebElement) -> str:
     """Extract the 'describe' sentence from its web element."""
     # LOCAL VARIABLES
     blank_strs = ['blanky', 'blank', 'something']  # String literals Blather 'Round uses for blanks
