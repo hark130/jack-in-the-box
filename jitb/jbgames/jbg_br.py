@@ -38,6 +38,8 @@ class JbgBr(JbgAbc):
             ai_obj:  OpenAI API interface to use in this game.
             username:  The screen name used in this game.
         """
+        # Hints the page is on the Blather 'Round-specific "assign blame" page
+        self._blame_clues = ['Do you think that you should']
         # Pass these values as prompt_clues arguments to jitb_webdriver functions
         self._describe_clues = ['Describe ']
         # Pass these values as vote_clues arguments to jitb_webdriver functions
@@ -85,6 +87,8 @@ class JbgBr(JbgAbc):
                 self.vote_answers(web_driver=web_driver)
             elif self._current_page == JbgPageIds.BR_SECRET:
                 self.choose_secret(web_driver=web_driver)
+            elif self._current_page == JbgPageIds.BR_FAULT:
+                self.assign_blame(web_driver=web_driver)
         elif self._current_page == JbgPageIds.BR_DESCRIBE:
             self.vote_answers(web_driver=web_driver)  # Always try to describe a prompt
 
@@ -195,12 +199,12 @@ class JbgBr(JbgAbc):
             current_page = JbgPageIds.BR_DESCRIBE
         elif self.is_secret_page(web_driver=web_driver):
             current_page = JbgPageIds.BR_SECRET
+        elif self.is_blame_page(web_driver=web_driver):
+            current_page = JbgPageIds.BR_FAULT
         elif self._is_login_page(web_driver=web_driver):
             current_page = JbgPageIds.LOGIN
 
         # DONE
-        # if current_page != JbgPageIds.UNKNOWN:
-        #     Logger.debug(f'This is a(n) {current_page.name} page!')
         return current_page
 
     # Public Methods (alphabetical order)
@@ -247,6 +251,23 @@ class JbgBr(JbgAbc):
         # DONE
         if not clicked_it:
             raise RuntimeError('Did not answer the prompt')
+
+    def assign_blame(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> None:
+        """Let the AI decide who is at fault."""
+        # LOCAL VARAIBLES
+        element_name = 'prompt'  # The element name to get
+        answered_prompt = ''     # The prompt answered by vote_answers()
+
+        # INPUT VALIDATION
+        if self.is_blame_page(web_driver=web_driver):
+            # ASSIGN IT
+            try:
+                answered_prompt = vote_answers(web_driver=web_driver, last_prompt='',
+                                               ai_obj=self._ai_obj, element_name=element_name,
+                                               element_type=By.ID, vote_clues=self._blame_clues,
+                                               clean_string=True, exclude=None)
+            except RuntimeError as err:
+                Logger.debug(f'Failed to assign blame with {repr(err)} but continuing on')
 
     def choose_secret(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> None:
         """Ask the AI to choose a secret prompt.
@@ -510,6 +531,11 @@ class JbgBr(JbgAbc):
             clues = self._guess_clues
         return get_prompt(web_driver=web_driver, element_name='prompt', element_type=By.ID,
                           prompt_clues=clues, clean_string=True)
+
+    def is_blame_page(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> bool:
+        """Wraps jitb_webdirver.is_prompt_page with game-specific details to assign blame."""
+        return is_prompt_page(web_driver=web_driver, element_name='prompt', element_type=By.ID,
+                              prompt_clues=self._blame_clues)
 
     def is_describe_page(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> bool:
         """Wraps jitb_webdirver.is_prompt_page with game-specific details to describe a secret."""
