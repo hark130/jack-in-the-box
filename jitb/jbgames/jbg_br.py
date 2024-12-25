@@ -308,7 +308,10 @@ class JbgBr(JbgAbc):
                 Logger.error(f'Failed to click the "{button_entry}" button')
         # Submit
         if clicked_them:
+            extracted_sentence = _extract_sentence(web_driver=web_driver)
+            print(f'STORING PREVIOUS DESCRIPTION: {extracted_sentence}')  # DEBUGGING
             self._prev_descr.append(_extract_sentence(web_driver=web_driver))  # Store it
+            print(f'PREVIOUS DESCRIPTIONS: {self._prev_descr}')  # DEBUGGING
             if click_a_button(web_driver=web_driver, button_str=submit_text):
                 Logger.debug(f'Submitted the description with the "{submit_text}" button')
             else:
@@ -451,7 +454,7 @@ class JbgBr(JbgAbc):
 
                 # FORM IT
                 full_prompt = _construct_full_describe_prompt(prompt, sentence, buttons_left,
-                                                              buttons_right)
+                                                              buttons_right, self._prev_descr)
             except TypeError as err:
                 Logger.error(f'"Get describe prompt" encountered a type error of {repr(err)}')
 
@@ -656,8 +659,8 @@ def _construct_full_describe_prompt(prompt: str, sentence: str, buttons_left: Li
                   + 'list and providing your answer in this exact format: "word_from_list". ' \
                   + 'Sentence: "{prompt} by filling in the blank of ' \
                   + 'this sentence: {sentence}" {previous} List of choices: {buttons_left}. ' \
-                  + 'Provide your answer in this exact format: "word_from_list".' \
-                  + 'For example: "{b_l_choice_1}.'
+                  + 'Provide your answer in this exact format: "word_from_list". ' \
+                  + 'For example: "{b_l_choice_1}".'
     # Use this format string if there are two fill-in-the-blank entries in sentence
     double_list = 'Fill in the blanks of this sentence by choosing one word from each list and ' \
                   + 'providing your answer in the format "word_from_first_list, ' \
@@ -762,6 +765,9 @@ def _strip_quotes(quote: str) -> str:
         for quote_entry in quote_list:
             if new_quote.startswith(quote_entry) and new_quote.endswith(quote_entry):
                 new_quote = new_quote[:-1].replace(quote_entry, '', 1)
+        if new_quote != quote:
+            print(f'STILL STRIPPING... GOT {new_quote} FROM {quote}')  # DEBUGGING
+            new_quote = _strip_quotes(quote=new_quote)
 
     # DONE
     return new_quote
