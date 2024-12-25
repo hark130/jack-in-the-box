@@ -296,7 +296,7 @@ class JbgBr(JbgAbc):
 
         # CLICK THEM
         # Parse the answer
-        button_list = [button_text for button_text in answer.split(', ') if
+        button_list = [_strip_quotes(button_text) for button_text in answer.split(', ') if
                        isinstance(button_text, str)]
         # Start clicking buttons
         for button_entry in button_list:
@@ -676,31 +676,21 @@ def _construct_full_describe_prompt(prompt: str, sentence: str, buttons_left: Li
     # CONSTRUCT IT
     # Validate the fill-in-the-blanks match the defined button lists
     count = sentence.count(JITB_FITB_STR)
-    if 0 == count:
-        # raise ValueError(f'The sentence does not have any {JITB_FITB_STR}s')
-        Logger.error(f'The sentence does not have any {JITB_FITB_STR}s')  # TEMP DISABLE EXCEPTION
-    elif 1 == count:
-        if buttons_right:
-            # raise RuntimeError(f'Only one {JITB_FITB_STR} was found but two button lists '
-            #                    'are defined')
-            Logger.error(f'Only one {JITB_FITB_STR} was found but two button lists '
-                         f'are defined for prompt "{prompt}"" and sentence "{sentence}"')  # TEMP DISABLE EXCEPTION
+    # NOTE: I removed Exception-based reporting in lieu of race-conditions in which a prompt
+    # was partially answered or the game was paused (which means the 'submit' click never
+    # completes).
+    if 1 == count:
         full_prompt = single_list.format(prompt=prompt.capitalize(), sentence=sentence.capitalize(),
                                          buttons_left=buttons_left,
                                          b_l_choice_1=buttons_left[0])
     elif 2 == count:
-        if not buttons_right:
-            # raise RuntimeError(f'Two {JITB_FITB_STR}s were found but only one button list was '
-            #                    'given')
-            Logger.error(f'Two {JITB_FITB_STR}s were found but only one button list was '
-                         f'given for prompt "{prompt}"" and sentence "{sentence}"')  # TEMP DISABLE EXCEPTION
         full_prompt = double_list.format(prompt=prompt.capitalize(), sentence=sentence.capitalize(),
                                          buttons_left=buttons_left, buttons_right=buttons_right,
                                          b_l_choice_1=buttons_left[0],
                                          b_r_choice_1=buttons_right[-1],
                                          b_l_choice_2=buttons_left[-1],
                                          b_r_choice_2=buttons_right[0])
-    else:
+    elif count > 2:
         raise ValueError(f'The sentence argument "{sentence}" has too many {JITB_FITB_STR}s')
 
     # DONE
@@ -728,3 +718,22 @@ def _extract_sentence(sentence_elem: selenium.webdriver.remote.webelement.WebEle
 
     # DONE
     return sentence
+
+
+def _strip_quotes(quote: str) -> str:
+    """Strip matched leading and trailing quotes from a string."""
+    # LOCAL VARIABLES
+    new_quote = quote        # Newly cleaned up quote
+    quote_list = ['"', "'"]  # Quotes to remove
+
+    # INPUT VALIDATION
+    validate_string(quote, 'quote', can_be_empty=True)
+
+    # STRIP IT
+    if quote:
+        for quote_entry in quote_list:
+            if new_quote.startswith(quote_entry) and new_quote.endswith(quote_entry):
+                new_quote = new_quote[:-1].replace(quote_entry, '', 1)
+
+    # DONE
+    return new_quote
