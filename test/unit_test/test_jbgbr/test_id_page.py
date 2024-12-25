@@ -225,6 +225,18 @@ class NormalTestJbgBrIdPage(TestJbgBrIdPage):
         self.expect_return(JbgPageIds.ANSWER)
         self.run_test()
 
+    def test_n30_br_assign_blame_1(self):
+        """Blather Round Do you think that you should have gotten this right? example 1."""
+        self.create_test_input('JackboxTV-BR-8-Whose_fault_is_it.html')
+        self.expect_return(JbgPageIds.BR_FAULT)
+        self.run_test()
+
+    def test_n31_br_assign_blame_2(self):
+        """Blather Round Do you think that you should have gotten this right? example 2."""
+        self.create_test_input('JackboxTV-BR-9-Whose_fault_is_it.html')
+        self.expect_return(JbgPageIds.BR_FAULT)
+        self.run_test()
+
 
 class ErrorTestJbgBrIdPage(TestJbgBrIdPage):
     """Error Test Cases.
