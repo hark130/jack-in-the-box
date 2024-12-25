@@ -705,8 +705,8 @@ def _convert_button_text(button_elem: selenium.webdriver.remote.webelement.WebEl
 def _extract_sentence(sentence_elem: selenium.webdriver.remote.webelement.WebElement) -> str:
     """Extract the 'describe' sentence from its web element."""
     # LOCAL VARIABLES
-    blank_strs = ['blanky', 'blank']  # List of string literals Blather 'Round uses for blanks
-    sentence = None                   # The extracted sentence
+    blank_strs = ['blanky', 'blank', 'something']  # String literals Blather 'Round uses for blanks
+    sentence = None                                # The extracted sentence
 
     # EXTRACT IT
     sentence = sentence_elem.text.replace('\n', ' ')  # The extracted sentence
