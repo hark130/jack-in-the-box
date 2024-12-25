@@ -74,13 +74,16 @@ class JbgBr(JbgAbc):
 
         # PLAY
         if self._last_page != self._current_page:
+            Logger.debug(f'Now viewing a(n) {self._current_page.name} page!')
             if self._current_page == JbgPageIds.ANSWER:
                 self._wrong_guesses.clear()  # Empty the list
                 self.answer_prompts(web_driver=web_driver, timeout=10)
-            elif self._current_page == JbgPageIds.BR_DESCRIBE:
-                self.vote_answers(web_driver=web_driver)
+            # elif self._current_page == JbgPageIds.BR_DESCRIBE:
+            #     self.vote_answers(web_driver=web_driver)
             elif self._current_page == JbgPageIds.BR_SECRET:
                 self.choose_secret(web_driver=web_driver)
+        elif self._current_page == JbgPageIds.BR_DESCRIBE:
+            self.vote_answers(web_driver=web_driver)  # Always try to describe a prompt
 
     def select_character(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> None:
         """Randomize an avatar selection from the available list.
@@ -130,8 +133,7 @@ class JbgBr(JbgAbc):
         last_prompt = ''  # The last prompt
         answer = ''       # JitbAi's answer to the prompt text
         num_unk = 0       # Number of concurrent UNKNOWN pages
-        # timeout = 10      # Number of non-vote pages before we give up
-        timeout = 1000      # FOR TESTING
+        timeout = 10      # Number of non-vote pages before we give up
 
         # INPUT VALIDATION
         self.validate_status(web_driver=web_driver)
@@ -147,42 +149,26 @@ class JbgBr(JbgAbc):
                     # Ask the AI
                     answer = self._ask_openai(prompt_text)
                     Logger.debug(f'JitbAi answered "{prompt_text}" with "{answer}"')
-                    # Click it
-                    # clicked_it = click_a_button(web_driver=web_driver, button_str=button_dict[favorite])
+                    if answer:
+                        # Click the buttons
+                        if self.click_describe_buttons(web_driver=web_driver, answer=answer):
+                            num_unk = 0  # We answered one so reset the count
+                            time.sleep(9)  # Don't spam the game
+                        else:
+                            num_unk += 1  # Something failed
             except RuntimeError:
                 num_unk += 1
             except (ElementNotInteractableException, StaleElementReferenceException) as err:
                 Logger.error(f'Failed to vote answers with {repr(err)}')
                 break  # Something went wrong so let's just leave this loop
-            if not prompt_text or prompt_text == last_prompt:
-                num_unk += 1  # Nothing got answered
+            else:
+                if not prompt_text or prompt_text == last_prompt:
+                    num_unk += 1  # Nothing got answered
+            print(f'PROMPT TEXT: {prompt_text}')  # DEBUGGING
+            print(f'LAST PROMPT: {last_prompt}')  # DEBUGGING
+            print(f'UNKNOWN COUNT: {num_unk}')  # DEBUGGING
             time.sleep(JITB_POLL_RATE)  # Give the page a second to update
-        Logger.debug('Done voting answers')
-
-        # num_unk = 0         # Number of concurrent UNKNOWN pages
-
-        # # WAIT FOR IT
-        # while num_unk < timeout:
-        #     if answer:
-        #         self._wrong_guesses.append(answer)  # If we're here, the answer was wrong
-        #     try:
-        #         prompt_text = self.get_guess_prompt(web_driver=web_driver)
-        #         if prompt_text:
-        #             num_unk = 0  # Reset the counter
-        #             answer = self.generate_ai_answer(prompt_text, self._ai_obj,
-        #                                              self.get_char_limit(web_driver=web_driver))
-        #             Logger.debug(f'Answered prompt "{prompt_text}" with "{answer}"!')
-        #             if self.submit_an_answer(web_driver=web_driver, submit_text=answer):
-        #                 clicked_it = True  # It's fine as long as we submitted at least one answer
-        #         else:
-        #             num_unk += 1
-        #     except RuntimeError as err:
-        #         num_unk += 1
-        #     time.sleep(10)  # Don't spam the game
-
-        # # DONE
-        # if not clicked_it:
-        #     raise RuntimeError('Did not answer the prompt')
+        Logger.debug('Done describing the secret prompt')
 
     def id_page(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> JbgPageIds:
         """Determine what type of Jackbox Games webpage web_driver is.
@@ -210,8 +196,8 @@ class JbgBr(JbgAbc):
             current_page = JbgPageIds.LOGIN
 
         # DONE
-        if current_page != JbgPageIds.UNKNOWN:
-            Logger.debug(f'This is a(n) {current_page.name} page!')
+        # if current_page != JbgPageIds.UNKNOWN:
+        #     Logger.debug(f'This is a(n) {current_page.name} page!')
         return current_page
 
     # Public Methods (alphabetical order)
@@ -247,11 +233,13 @@ class JbgBr(JbgAbc):
                     Logger.debug(f'Answered prompt "{prompt_text}" with "{answer}"!')
                     if self.submit_an_answer(web_driver=web_driver, submit_text=answer):
                         clicked_it = True  # As long as we submitted at least one answer, it's fine
+                        time.sleep(10)  # Don't spam the game
                 else:
                     num_unk += 1
+                    time.sleep(JITB_POLL_RATE)
             except RuntimeError as err:
                 num_unk += 1
-            time.sleep(10)  # Don't spam the game
+                time.sleep(JITB_POLL_RATE)
 
         # DONE
         if not clicked_it:
@@ -284,6 +272,55 @@ class JbgBr(JbgAbc):
                 break  # Something went wrong so let's just leave this loop
             if not prompt_text:
                 break  # Nothing got answered
+
+    def click_describe_buttons(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
+                               answer: str) -> bool:
+        """Translate JitbAi's describe answer into buttons clicked.
+
+        Args:
+            web_driver: The webdriver object to interact with.
+            answer: A single button to click (e.g., 'sticky') or a comma-separated list of two
+                buttons to click (e.g., 'fun, family')
+
+        Returns
+            True if all buttons were successfully clicked, false otherwise.
+        """
+        # LOCAL VARIABLES
+        clicked_them = True     # Prove this wrong
+        button_list = None      # List of buttons to click
+        submit_text = 'Submit'  # The text of the Submit button
+
+        # INPUT VALIDATION
+        self.validate_describe_page(web_driver=web_driver)
+        validate_string(answer, 'answer', can_be_empty=False)
+
+        # CLICK THEM
+        # Parse the answer
+        button_list = [button_text for button_text in answer.split(', ') if
+                       isinstance(button_text, str)]
+        # Start clicking buttons
+        for button_entry in button_list:
+            if not click_a_button(web_driver=web_driver, button_str=button_entry):
+                clicked_them = False  # Didn't click one
+                Logger.error(f'Failed to click the "{button_entry}" button')
+        # Submit
+        if clicked_them:
+            if click_a_button(web_driver=web_driver, button_str=submit_text):
+                Logger.debug(f'Submitted the description with the "{submit_text}" button')
+            else:
+                Logger.debug('Failed, but will try again, to submit the description with the '
+                             f'"{submit_text}" button')
+                time.sleep(JITB_POLL_RATE)  # Give the page a second to update
+                # Give it one last shot
+                clicked_them = click_a_button(web_driver=web_driver, button_str=submit_text)
+
+        # DONE
+        if not clicked_them:
+            Logger.error('Failed to click the describe buttons')
+            # Try to skip this page
+            if click_a_button(web_driver=web_driver, button_str='Skip'):
+                Logger.debug('Skipping this page')
+        return clicked_them
 
     def get_char_limit(self, web_driver: selenium.webdriver.chrome.webdriver.WebDriver) -> int:
         """Wraps jitb_webdriver.get_char_limit with game-specific details."""
@@ -405,14 +442,17 @@ class JbgBr(JbgAbc):
                                                 value='sentence-words')
             if sentence_web_elem:
                 sentence = _extract_sentence(sentence_web_elem)
-                # print(f'GET DESCRIBE PROMPT GOT A SENTENCE: {sentence}')  # DEBUGGING
-                (buttons_left, buttons_right) = self.get_describe_buttons(web_driver=web_driver)
-                # print(f'GET DESCRIBE PROMPT GOT LEFT BUTTONS: {buttons_left}')  # DEBUGGING
-                # print(f'GET DESCRIBE PROMPT GOT RIGHT BUTTONS: {buttons_right}')  # DEBUGGING
+                try:
+                    # print(f'GET DESCRIBE PROMPT GOT A SENTENCE: {sentence}')  # DEBUGGING
+                    (buttons_left, buttons_right) = self.get_describe_buttons(web_driver=web_driver)
+                    # print(f'GET DESCRIBE PROMPT GOT LEFT BUTTONS: {buttons_left}')  # DEBUGGING
+                    # print(f'GET DESCRIBE PROMPT GOT RIGHT BUTTONS: {buttons_right}')  # DEBUGGING
 
-                # FORM IT
-                full_prompt = _construct_full_describe_prompt(prompt, sentence, buttons_left,
-                                                              buttons_right)
+                    # FORM IT
+                    full_prompt = _construct_full_describe_prompt(prompt, sentence, buttons_left,
+                                                                  buttons_right)
+                except TypeError as err:
+                    Logger.error(f'"Get describe prompt" encountered a type error of {repr(err)}')
 
         # DONE
         return full_prompt
@@ -546,7 +586,7 @@ class JbgBr(JbgAbc):
 
 def _add_missing_punctuation(raw_str: str, mark: str = '.') -> str:
     """Add a missing punctuation mark to raw_str."""
-    if raw_str[-1] not in string.puncutation:
+    if raw_str[-1] not in string.punctuation:
         raw_str = raw_str + mark
     return raw_str
 
@@ -644,7 +684,7 @@ def _construct_full_describe_prompt(prompt: str, sentence: str, buttons_left: Li
             # raise RuntimeError(f'Only one {JITB_FITB_STR} was found but two button lists '
             #                    'are defined')
             Logger.error(f'Only one {JITB_FITB_STR} was found but two button lists '
-                         'are defined')  # TEMP DISABLE EXCEPTION
+                         f'are defined for prompt "{prompt}"" and sentence "{sentence}"')  # TEMP DISABLE EXCEPTION
         full_prompt = single_list.format(prompt=prompt.capitalize(), sentence=sentence.capitalize(),
                                          buttons_left=buttons_left,
                                          b_l_choice_1=buttons_left[0])
@@ -653,7 +693,7 @@ def _construct_full_describe_prompt(prompt: str, sentence: str, buttons_left: Li
             # raise RuntimeError(f'Two {JITB_FITB_STR}s were found but only one button list was '
             #                    'given')
             Logger.error(f'Two {JITB_FITB_STR}s were found but only one button list was '
-                         'given')  # TEMP DISABLE EXCEPTION
+                         f'given for prompt "{prompt}"" and sentence "{sentence}"')  # TEMP DISABLE EXCEPTION
         full_prompt = double_list.format(prompt=prompt.capitalize(), sentence=sentence.capitalize(),
                                          buttons_left=buttons_left, buttons_right=buttons_right,
                                          b_l_choice_1=buttons_left[0],
