@@ -17,6 +17,7 @@ from jitb.jitb_openai import JitbAi
 from jitb.jitb_webdriver import (click_a_button, get_char_limit, get_prompt,
                                  is_prompt_page, is_vote_page, vote_answers,
                                  write_an_answer)
+from jitb.jitb_validation import validate_pos_int
 
 
 DEFAULT_CHAR_LIMIT: Final[int] = 150  # Default maximum character limit
@@ -98,10 +99,7 @@ class JbgDict(JbgAbc):
 
         # INPUT VALIDATION
         self.validate_status(web_driver=web_driver)
-        if not isinstance(num_answers, int):
-            raise TypeError(f'Invalid data type of {type(num_answers)} for the num_answers')
-        if num_answers < 1:
-            raise ValueError(f'Invalid value of {num_answers} detected for num_answers')
+        validate_pos_int(num_answers, 'num_answers')
 
         # ANSWER THEM
         for _ in range(num_answers):

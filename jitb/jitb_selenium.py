@@ -149,6 +149,39 @@ def get_web_element(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
     return element
 
 
+def get_web_elements(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
+                     by_arg: str = By.ID, value: str = None) \
+        -> List[selenium.webdriver.remote.webelement.WebElement]:
+    """Get the value elements, of type by_arg, from web_driver.
+
+    Args:
+        web_driver: Selenium web driver to search for an element.
+        by_arg: Optional; See: help(selenium.webdriver.common.by.By).
+        value: Optional; Value of the by_arg-type of web element.
+
+    Returns:
+        A WebElement if found, None otherwise.
+
+    Raises:
+        TypeError: Bad data type.
+        ValueError: Invalid by_arg value.
+    """
+    # LOCAL VARIABLES
+    elem_list = None  # Found list of selenium.webdriver.remote.webelement.WebElements
+
+    # INPUT VALIDATION
+    _validate_wd_input(web_driver=web_driver, by_arg=by_arg, value=value)
+
+    # GET IT
+    try:
+        elem_list = _get_elements(web_thing=web_driver, by_arg=by_arg, value=value)
+    except (NoSuchElementException, StaleElementReferenceException) as err:
+        Logger.debug(f'get_web_elements() getting {by_arg}:{value} raised {repr(err)}!')
+
+    # DONE
+    return elem_list
+
+
 def get_web_element_int(web_driver: selenium.webdriver.chrome.webdriver.WebDriver,
                         by_arg: str = By.ID, value: str = None) -> int:
     """Convert the text from the value element, of type by_arg, from web_driver to an int.
@@ -250,7 +283,9 @@ def _get_element(web_thing: Any, by_arg: str = By.ID, value: str = None) \
         if callable(get_it):
             try:
                 element = get_it(by=by_arg, value=value)
-            except (NoSuchElementException, StaleElementReferenceException) as err:
+            except NoSuchElementException:
+                pass  # Too verbose in the debug log
+            except StaleElementReferenceException as err:
                 Logger.debug(f'_get_element() {by_arg}:{value} raised {repr(err)}!')
 
     # DONE

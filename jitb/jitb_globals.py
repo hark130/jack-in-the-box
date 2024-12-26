@@ -11,7 +11,9 @@ DEFAULT_SYSTEM_CONTENT: Final[str] = 'You are a funny person trying to win Jackb
 JITB_ARG_CMDS_AUTO: Final[List[str]] = ['automatic', 'auto']              # Auto commands
 JITB_ARG_CMDS_MAN: Final[List[str]] = ['manual', 'man']                   # Man commands
 JITB_ARG_CMDS: Final[List[str]] = JITB_ARG_CMDS_AUTO + JITB_ARG_CMDS_MAN  # All commands
-JITB_POLL_RATE: Final[float] = 0.5  # Rate, in seconds, JITB will parse page content
+
+JITB_POLL_RATE: Final[float] = 0.5   # Rate, in seconds, JITB will parse page content
+JITB_FITB_STR: Final[str] = '_____'  # Default string to use as a fill-in-the-blank placeholder
 
 # List of Character accessible names for the Jackbox Games Quiplash 3 avatars
 # buttons = test.find_elements(By.XPATH, '//button')

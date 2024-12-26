@@ -11,14 +11,19 @@ class JbgPageIds(Enum):
 
     Use these values as return values, dictionary keys, etc.
     """
+    # Common Use
     UNKNOWN = 0              # Who knows... transition page maybe?
-    LOGIN = auto()           # Standard jackbox.tv login page
-    AVATAR = auto()          # Standard jackbox.tv 'select an avatar' page
     ANSWER = auto()          # Answer a prompt
+    AVATAR = auto()          # Standard jackbox.tv 'select an avatar' page
+    LOGIN = auto()           # Standard jackbox.tv login page
     VOTE = auto()            # Vote other answers to a prompt
-    Q2_LAST = auto()         # Quiplash 2 Last Lash prompt
-    Q3_THRIP = auto()        # Quiplash 3 Thriplash prompt
+    # Game-Specific
+    BR_FAULT = auto()        # Whose fault was it?
+    BR_DESCRIBE = auto()     # Blather Round 'Describe _____' page
+    BR_SECRET = auto()       # Blather Round Choose Secret Prompt page
+    DICT_WAIT_LIKE = auto()  # Dictionarium waiting page with likes
     JB_CATCH = auto()        # Joke Boat catchphrase selection
     JB_TOPIC = auto()        # Joke Boat write joke topics
     JB_PERFORM = auto()      # Joke Boat 'your turn' perform page
-    DICT_WAIT_LIKE = auto()  # Dictionarium waiting page with likes
+    Q2_LAST = auto()         # Quiplash 2 Last Lash prompt
+    Q3_THRIP = auto()        # Quiplash 3 Thriplash prompt
