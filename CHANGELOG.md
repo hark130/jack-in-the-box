@@ -11,6 +11,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Support for manual login (e.g., Twitch-enabled games)
 - New `jitb_validation` module to standardize JITB-specific input validation
+- Added support for Blather 'Round
+- Added `get_web_elements()` to `jitb_selenium`
+- Added debug logging for `jitb_webdriver`'s `click_a_button()`
 
 ### Changed
 
@@ -18,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Extricated module-local, private validation functions into `jitb_validation` as appropriate
 - All JITB validation is either handled by `hobo.validation` or `jitb_validation`
 - Many of the "bad input" exception messages have changed now input validation has changed
+- Dialed back on debug logging for `jitb_selenium`'s underlying functionality to "get an element"
 
 ### Deprecated
 
