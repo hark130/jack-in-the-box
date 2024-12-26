@@ -2,7 +2,6 @@
 
 # Standard
 from typing import Final, List, Tuple
-import random
 import string
 import time
 # Third Party
@@ -18,15 +17,15 @@ from jitb.jitb_globals import JITB_FITB_STR, JITB_POLL_RATE
 from jitb.jitb_logger import Logger
 from jitb.jitb_openai import JitbAi
 from jitb.jitb_selenium import get_web_element, get_web_elements
-from jitb.jitb_webdriver import (click_a_button, get_button_choices, get_char_limit, get_prompt,
-                                 get_vote_text, is_prompt_page, is_vote_page, vote_answers,
-                                 write_an_answer)
+from jitb.jitb_webdriver import (click_a_button, get_char_limit, get_prompt, is_prompt_page,
+                                 vote_answers, write_an_answer)
 from jitb.jitb_validation import validate_pos_int
 
 
 DEFAULT_CHAR_LIMIT: Final[int] = 40  # Default maximum character limit
 
 
+# pylint: disable = too-many-instance-attributes, too-many-public-methods
 class JbgBr(JbgAbc):
     """Jackbox Games (JBG) Blather 'Round (Br) class."""
 
@@ -114,9 +113,6 @@ class JbgBr(JbgAbc):
                 indication someone has guessed the secret prompt is an exceptionally long
                 'waiting' (AKA JbgPagIds.UNKNOWN) page.
         """
-        # LOCAL VARIABLES
-        prompt_text = ''  # Input prompt
-
         # INPUT VALIDATION
         self.validate_status(web_driver=web_driver)
         validate_pos_int(timeout, 'timeout')
@@ -241,7 +237,7 @@ class JbgBr(JbgAbc):
                 else:
                     num_unk += 1
                     time.sleep(JITB_POLL_RATE)
-            except RuntimeError as err:
+            except RuntimeError:
                 num_unk += 1
                 time.sleep(JITB_POLL_RATE)
 
@@ -253,16 +249,14 @@ class JbgBr(JbgAbc):
         """Let the AI decide who is at fault."""
         # LOCAL VARAIBLES
         element_name = 'prompt'  # The element name to get
-        answered_prompt = ''     # The prompt answered by vote_answers()
 
         # INPUT VALIDATION
         if self.is_blame_page(web_driver=web_driver):
             # ASSIGN IT
             try:
-                answered_prompt = vote_answers(web_driver=web_driver, last_prompt='',
-                                               ai_obj=self._ai_obj, element_name=element_name,
-                                               element_type=By.ID, vote_clues=self._blame_clues,
-                                               clean_string=True, exclude=None)
+                vote_answers(web_driver=web_driver, last_prompt='', ai_obj=self._ai_obj,
+                             element_name=element_name, element_type=By.ID,
+                             vote_clues=self._blame_clues, clean_string=True, exclude=None)
             except RuntimeError as err:
                 Logger.debug(f'Failed to assign blame with {repr(err)} but continuing on')
 
@@ -307,9 +301,10 @@ class JbgBr(JbgAbc):
             True if all buttons were successfully clicked, false otherwise.
         """
         # LOCAL VARIABLES
-        clicked_them = True     # Prove this wrong
-        button_list = None      # List of buttons to click
-        submit_text = 'Submit'  # The text of the Submit button
+        clicked_them = True      # Prove this wrong
+        button_list = None       # List of buttons to click
+        submit_text = 'Submit'   # The text of the Submit button
+        extracted_sentence = ''  # Completed sentence to store in previous descriptions
 
         # INPUT VALIDATION
         self.validate_describe_page(web_driver=web_driver)
@@ -327,15 +322,16 @@ class JbgBr(JbgAbc):
         # Submit
         if clicked_them:
             extracted_sentence = _extract_sentence(web_driver=web_driver)
-            self._prev_descr.append(_extract_sentence(web_driver=web_driver))  # Store it
-            if click_a_button(web_driver=web_driver, button_str=submit_text):
-                Logger.debug(f'Submitted the description with the "{submit_text}" button')
-            else:
-                Logger.debug('Failed, but will try again, to submit the description with the '
-                             f'"{submit_text}" button')
-                time.sleep(JITB_POLL_RATE)  # Give the page a second to update
-                # Give it one last shot
-                clicked_them = click_a_button(web_driver=web_driver, button_str=submit_text)
+            if extracted_sentence:
+                self._prev_descr.append(extracted_sentence)  # Store it
+                if click_a_button(web_driver=web_driver, button_str=submit_text):
+                    Logger.debug(f'Submitted the description with the "{submit_text}" button')
+                else:
+                    Logger.debug('Failed, but will try again, to submit the description with the '
+                                 f'"{submit_text}" button')
+                    time.sleep(JITB_POLL_RATE)  # Give the page a second to update
+                    # Give it one last shot
+                    clicked_them = click_a_button(web_driver=web_driver, button_str=submit_text)
 
         # DONE
         if not clicked_them:
@@ -444,7 +440,6 @@ class JbgBr(JbgAbc):
         # LOCAL VARIABLES
         prompt = ''               # Describe your secret prompt
         full_prompt = None        # Prompt, sentence, and button choices
-        sentence_web_elem = None  # Sentence words web element
         sentence = ''             # The blanky blank sentence to fill in
         buttons_left = None       # List of buttons on the left
         buttons_right = None      # List of buttons on the right

@@ -11,10 +11,10 @@ Typical Usage:
 # Standard Imports
 from pathlib import Path
 from typing import Any
-import selenium
 # Third Party Imports
 from test.unit_test.test_jbgbr.test_jbgbr import TestJbgBr
 from tediousstart.tediousstart import execute_test_cases
+import selenium
 # Local Imports
 
 
